@@ -1,0 +1,37 @@
+export type Difficulty = "beginner" | "intermediate" | "advanced";
+
+export type Category = {
+  slug: string;
+  name: string;
+  description: string;
+  icon: string;
+  count: number;
+};
+
+export type Prompt = {
+  slug: string;
+  title: string;
+  category: string;
+  categoryName: string;
+  tags: string[];
+  difficulty: Difficulty;
+  tools: string[];
+  author: string;
+  useCase: string;
+  whenToUse: string;
+  prompt: string;
+  outputExample?: string;
+  notes?: string;
+  upvotes: number;
+  commentCount: number;
+  createdAt: string;
+};
+
+export type Comment = {
+  id: string;
+  author: string;
+  avatar: string;
+  content: string;
+  createdAt: string;
+  upvotes: number;
+};
