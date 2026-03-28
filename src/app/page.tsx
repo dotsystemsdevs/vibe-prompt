@@ -1,142 +1,91 @@
 import Link from "next/link";
-import { PromptCard } from "@/components/prompts/prompt-card";
-import { CATEGORIES, TRENDING_PROMPTS } from "@/lib/mock-data";
+import { TopList } from "@/components/prompts/top-list";
+import { HeroSearch } from "@/components/hero-search";
+import { getPromptLibrary } from "@/lib/prompt-library";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { prompts, categories } = await getPromptLibrary();
+
   return (
-    <div>
+    <div className="pt-12">
       {/* Hero */}
-      <section className="border-b border-border px-6 pb-20 pt-16">
-        <div className="mx-auto max-w-6xl">
-          <p className="mb-8 text-xs uppercase tracking-widest text-muted-foreground">
+      <section className="relative overflow-hidden px-6 pb-24 pt-20 border-b border-border">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.18]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "250px 250px",
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl">
+          <p className="mb-6 text-xs text-muted-foreground tracking-widest uppercase">
             Open source · GitHub-powered
           </p>
-          <h1 className="max-w-3xl text-[clamp(3rem,8vw,6rem)] font-bold leading-[0.95] tracking-tight text-foreground">
-            Save the prompts
+          <h1 className="text-[clamp(2.8rem,7vw,5.5rem)] font-bold leading-[1] tracking-tight">
+            Prompts for
             <br />
-            that actually
-            <br />
-            work.
+            builders who vibe.
           </h1>
-          <div className="mt-10 flex items-start gap-16">
-            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-              The open prompt library for builders. Browse, save, and contribute the prompts that ship real products.
-            </p>
-            <div className="flex items-center gap-4 pt-1">
-              <Link
-                href="/browse"
-                className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/80"
-              >
-                Browse prompts →
-              </Link>
-              <a
-                href="https://github.com/vibeprompt/vibeprompt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-              >
-                Contribute on GitHub
-              </a>
-            </div>
+          <HeroSearch />
+          <div className="mt-5 flex items-center gap-6">
+            <Link href="/browse" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Browse all prompts →
+            </Link>
+            <a
+              href="https://github.com/dotsystemsdevs/VibePrompt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Contribute on GitHub ↗
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Stats strip */}
-      <div className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="flex divide-x divide-border">
+      {/* Stats */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-3 divide-x divide-border">
             {[
-              { n: "500+", label: "Prompts" },
-              { n: "8", label: "Categories" },
+              { n: String(prompts.length), label: "Prompts" },
+              { n: String(categories.length), label: "Categories" },
               { n: "100%", label: "Open source" },
             ].map((s) => (
-              <div key={s.label} className="flex-1 py-6 pr-8 first:pl-0">
-                <div className="text-2xl font-bold">{s.n}</div>
-                <div className="mt-0.5 text-xs uppercase tracking-widest text-muted-foreground">{s.label}</div>
+              <div key={s.label} className="px-6 py-8">
+                <div className="text-3xl font-bold tabular-nums">{s.n}</div>
+                <div className="mt-1 text-xs text-muted-foreground uppercase tracking-widest">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Categories */}
-      <section className="border-b border-border px-6 py-16">
+      {/* Top list */}
+      <section className="border-b border-border">
         <div className="mx-auto max-w-6xl">
-          <div className="mb-10 flex items-end justify-between border-b border-border pb-4">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Categories</p>
-            <Link href="/categories" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              View all →
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 gap-px bg-border sm:grid-cols-3 lg:grid-cols-4">
-            {CATEGORIES.map((category) => (
-              <Link
-                key={category.slug}
-                href={`/categories/${category.slug}`}
-                className="group flex flex-col bg-background p-6 transition-colors hover:bg-muted"
-              >
-                <span className="mb-4 text-xl">{category.icon}</span>
-                <span className="text-sm font-semibold">{category.name}</span>
-                <span className="mt-1.5 text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                  {category.description}
-                </span>
-                <span className="mt-4 text-xs text-muted-foreground">
-                  {category.count} prompts
-                </span>
-              </Link>
-            ))}
-          </div>
+          <TopList prompts={prompts} />
         </div>
       </section>
 
-      {/* Trending */}
-      <section className="border-b border-border px-6 py-16">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-10 flex items-end justify-between border-b border-border pb-4">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">Trending</p>
-            <Link href="/browse" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-              Browse all →
-            </Link>
-          </div>
-
-          <div className="grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-4">
-            {TRENDING_PROMPTS.map((prompt) => (
-              <PromptCard key={prompt.slug} prompt={prompt} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
+{/* CTA */}
       <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
-                Have a prompt
-                <br />
-                that ships?
-              </h2>
-              <p className="mt-3 max-w-sm text-sm text-muted-foreground leading-relaxed">
-                Everything lives on GitHub — open, transparent, and community-owned. Submit a PR and help other builders ship faster.
-              </p>
-            </div>
-            <div className="flex items-center gap-4 shrink-0">
-              <a
-                href="https://github.com/vibeprompt/vibeprompt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background hover:bg-foreground/80 transition-colors"
-              >
-                Submit on GitHub →
-              </a>
-              <Link href="/library" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
-                Sign up free
-              </Link>
-            </div>
-          </div>
+        <div className="mx-auto max-w-6xl flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+            Have a prompt
+            <br />
+            that ships?
+          </h2>
+          <a
+            href="https://github.com/dotsystemsdevs/VibePrompt"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center gap-2 border border-foreground/20 px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-foreground hover:text-background"
+          >
+            Submit on GitHub →
+          </a>
         </div>
       </section>
     </div>

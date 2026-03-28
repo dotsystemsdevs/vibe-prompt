@@ -14,10 +14,33 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const getMetadataBase = () => {
+  const fallback = "https://vibeprompt.dev";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? fallback;
+  try {
+    return new URL(raw);
+  } catch {
+    return new URL(fallback);
+  }
+};
+
 export const metadata: Metadata = {
   title: "VibePrompt — The open prompt library for builders",
   description:
     "Browse, save, and contribute the prompts that actually ship products. Curated by vibe coders. Powered by GitHub.",
+  metadataBase: getMetadataBase(),
+  openGraph: {
+    title: "VibePrompt — The open prompt library for builders",
+    description:
+      "Browse, save, and contribute the prompts that actually ship products. Curated by vibe coders. Powered by GitHub.",
+    siteName: "VibePrompt",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VibePrompt — The open prompt library for builders",
+    description: "Prompt library and AI workflow playbooks for builders.",
+  },
 };
 
 export default function RootLayout({

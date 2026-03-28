@@ -16,7 +16,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --radius: 0.25rem;
+  --radius: 0rem;
 }
 
 :root {
@@ -25,15 +25,15 @@
   --card: oklch(0.11 0 0);
   --card-foreground: oklch(0.95 0 0);
   --muted: oklch(0.13 0 0);
-  --muted-foreground: oklch(0.45 0 0);
-  --border: oklch(1 0 0 / 0.07);
+  --muted-foreground: oklch(0.65 0 0);
+  --border: oklch(1 0 0 / 0.30);
   --input: oklch(1 0 0 / 0.07);
   --primary: oklch(0.95 0 0);
   --primary-foreground: oklch(0.08 0 0);
   --secondary: oklch(0.13 0 0);
   --secondary-foreground: oklch(0.95 0 0);
   --ring: oklch(0.95 0 0);
-  --radius: 0.25rem;
+  --radius: 0rem;
 }
 
 @layer base {
@@ -41,5 +41,16 @@
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .hero-display {
+    @apply font-bold leading-[1] tracking-tight;
+    font-size: clamp(2.2rem, 6vw, 4.4rem);
+  }
+
+  .hero-kicker {
+    @apply text-xs uppercase tracking-widest text-muted-foreground;
   }
 }

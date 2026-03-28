@@ -16,7 +16,8 @@ export function Navbar() {
         <nav className="hidden items-center gap-8 md:flex">
           {[
             { href: "/browse", label: "Browse" },
-            { href: "/categories", label: "Categories" },
+            { href: "/workflow", label: "Workflow" },
+            { href: "/articles", label: "Articles" },
             { href: "/library", label: "Library" },
           ].map((l) => (
             <Link key={l.href} href={l.href} className="text-xs text-muted-foreground transition-colors hover:text-foreground">
@@ -27,19 +28,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com/vibeprompt/vibeprompt"
+            href="https://github.com/dotsystemsdevs/VibePrompt"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden text-xs text-muted-foreground transition-colors hover:text-foreground md:block"
+            className="border border-foreground/20 px-4 py-1.5 text-xs font-medium transition-all hover:bg-foreground hover:text-background"
           >
-            GitHub ↗
+            Submit to GitHub
           </a>
-          <Link
-            href="/library"
-            className="rounded-full border border-foreground/20 px-4 py-1.5 text-xs font-medium transition-all hover:bg-foreground hover:text-background"
-          >
-            Get started
-          </Link>
           <button className="md:hidden text-muted-foreground" onClick={() => setOpen(!open)}>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {open
@@ -54,9 +49,10 @@ export function Navbar() {
         <div className="border-t border-border px-6 pb-5 pt-4 md:hidden">
           <div className="flex flex-col gap-4 text-xs text-muted-foreground">
             <Link href="/browse" className="hover:text-foreground">Browse</Link>
-            <Link href="/categories" className="hover:text-foreground">Categories</Link>
+            <Link href="/workflow" className="hover:text-foreground">Workflow</Link>
+            <Link href="/articles" className="hover:text-foreground">Articles</Link>
             <Link href="/library" className="hover:text-foreground">Library</Link>
-            <a href="https://github.com/vibeprompt/vibeprompt" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">GitHub ↗</a>
+            <a href="https://github.com/dotsystemsdevs/VibePrompt" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">GitHub ↗</a>
           </div>
         </div>
       )}

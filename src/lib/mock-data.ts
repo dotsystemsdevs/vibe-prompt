@@ -1,5 +1,16 @@
 import { Category, Comment, Prompt } from "./types";
 
+export const CATEGORY_COLORS: Record<string, string> = {
+  "app-store":    "#3b82f6",
+  "play-store":   "#22c55e",
+  "aso":          "#f59e0b",
+  "landing-page": "#f97316",
+  "ui-ux":        "#ec4899",
+  "mvp-docs":     "#06b6d4",
+  "api-backend":  "#8b5cf6",
+  "testing":      "#ef4444",
+};
+
 export const CATEGORIES: Category[] = [
   {
     slug: "app-store",

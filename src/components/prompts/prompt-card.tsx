@@ -1,63 +1,50 @@
 import Link from "next/link";
 import { Prompt } from "@/lib/types";
+import { CATEGORY_COLOR_MAP } from "@/lib/categories";
 
 interface PromptCardProps {
   prompt: Prompt;
 }
 
-const difficultyConfig = {
-  beginner: "text-foreground",
-  intermediate: "text-foreground",
-  advanced: "text-foreground",
-};
-
 export function PromptCard({ prompt }: PromptCardProps) {
+  const color = CATEGORY_COLOR_MAP[prompt.category] ?? "#6b7280";
+
   return (
-    <Link href={`/prompts/${prompt.slug}`} className="group block bg-background">
-      <div className="flex h-full flex-col p-6 transition-colors group-hover:bg-muted">
-        {/* Top */}
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground">
+    <div className="group relative bg-background transition-colors hover:bg-card">
+      <Link href={`/prompts/${prompt.slug}`} className="absolute inset-0" aria-label={prompt.title} />
+      <div className="px-6 py-8">
+        <div className="mb-3 flex items-center justify-between">
+          <Link
+            href={`/browse?category=${prompt.category}`}
+            className="relative z-10 inline-flex items-center gap-1.5 text-xs text-muted-foreground uppercase tracking-widest transition-colors hover:text-foreground"
+          >
+            <span className="h-1.5 w-1.5 rounded-full shrink-0" style={{ backgroundColor: color }} />
             {prompt.categoryName}
-          </span>
-          <span className="text-xs text-muted-foreground">{prompt.difficulty}</span>
+          </Link>
+          <span className="text-xs text-muted-foreground tabular-nums">{prompt.upvotes} ↑</span>
         </div>
 
-        {/* Title */}
-        <h3 className="mb-2 text-sm font-semibold leading-snug">
+        <h3 className="text-sm font-semibold leading-snug transition-colors group-hover:text-foreground">
           {prompt.title}
         </h3>
-
-        {/* Use case */}
-        <p className="mb-6 flex-1 text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+        <p className="mt-2 text-xs line-clamp-2 leading-relaxed text-muted-foreground transition-colors group-hover:text-foreground">
           {prompt.useCase}
         </p>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between border-t border-border pt-4">
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 15l7-7 7 7" />
-              </svg>
-              {prompt.upvotes}
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              {prompt.commentCount}
-            </span>
-          </div>
-          <div className="flex gap-1.5">
-            {prompt.tools.slice(0, 2).map((tool) => (
-              <span key={tool} className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                {tool}
+        <div className="mt-5 flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {prompt.tags.slice(0, 3).map((t) => (
+              <span
+                key={t}
+                className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/90"
+              >
+                #{t}
               </span>
             ))}
           </div>
+          <span className="opacity-0 transition-opacity group-hover:opacity-100">→</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
