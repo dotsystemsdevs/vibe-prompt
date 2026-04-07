@@ -23,7 +23,10 @@ export function PromptCard({ prompt, number }: PromptCardProps) {
         </div>
 
         <h3 className="text-sm font-semibold leading-snug text-foreground/90 transition-colors group-hover:text-foreground">
-          {prompt.title}
+          {(() => {
+            const [first, ...rest] = prompt.title.split(" ");
+            return <><span style={{ color: "var(--accent-blue)" }}>{first}</span>{rest.length ? " " + rest.join(" ") : ""}</>;
+          })()}
         </h3>
         <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
           {prompt.useCase}
