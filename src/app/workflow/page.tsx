@@ -453,7 +453,7 @@ export default function WorkflowPage() {
             <article key={s.step} id={`step-${s.step}`} className="border border-foreground/20 overflow-hidden">
 
               {/* Header */}
-              <div className="relative border-b border-foreground/20 bg-foreground/[0.03] px-8 py-8">
+              <div className="relative border-b border-foreground/20 bg-foreground/[0.03] px-4 py-6 sm:px-8 sm:py-8">
                 <span className="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 select-none text-[8rem] font-bold leading-none text-foreground/5">
                   {s.step}
                 </span>
@@ -468,7 +468,7 @@ export default function WorkflowPage() {
               </div>
 
               {/* What to do */}
-              <div className="border-b border-foreground/20 px-8 py-6">
+              <div className="border-b border-foreground/20 px-4 py-6 sm:px-8">
                 <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-foreground/40">What to do</p>
                 <ol className="space-y-3">
                   {s.tasks.map((t, i) => (
@@ -484,7 +484,7 @@ export default function WorkflowPage() {
 
               {/* Mistakes + Done */}
               <div className="grid grid-cols-1 border-b border-foreground/20 sm:grid-cols-2">
-                <div className="border-b border-foreground/20 px-8 py-6 sm:border-b-0 sm:border-r">
+                <div className="border-b border-foreground/20 px-4 py-6 sm:border-b-0 sm:border-r sm:px-8">
                   <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-red-400/80">Common mistakes</p>
                   <ul className="space-y-3">
                     {s.commonMistakes.map((m, i) => (
@@ -509,7 +509,7 @@ export default function WorkflowPage() {
               </div>
 
               {/* Resources */}
-              <div className="px-8 py-6">
+              <div className="px-4 py-6 sm:px-8">
                 <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-foreground/40">Resources — use like this</p>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {s.resources.map((r) => {

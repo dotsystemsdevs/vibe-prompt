@@ -63,7 +63,7 @@ export default async function PromptPage({ params }: PageProps) {
         <article className="overflow-hidden border border-foreground/20">
 
           {/* Header */}
-          <div className="border-b border-foreground/20 bg-foreground/[0.03] px-8 py-10">
+          <div className="border-b border-foreground/20 bg-foreground/[0.03] px-4 py-8 sm:px-8 sm:py-10">
             <div className="mb-4 flex items-center gap-2 text-[10px]">
               <Link href="/browse" className="text-foreground/35 transition-colors hover:text-foreground">
                 Browse
@@ -92,7 +92,7 @@ export default async function PromptPage({ params }: PageProps) {
 
           {/* Prompt section — label + copy in same row */}
           <div>
-            <div className="flex items-center justify-between border-b border-foreground/20 px-8 py-3">
+            <div className="flex items-center justify-between border-b border-foreground/20 px-4 py-3 sm:px-8">
               <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">
                 Prompt
               </span>
@@ -107,7 +107,7 @@ export default async function PromptPage({ params }: PageProps) {
             {sections ? (
               <div className="divide-y divide-foreground/[0.06]">
                 {sections.map((s, i) => (
-                  <div key={i} className="px-8 py-6">
+                  <div key={i} className="px-4 py-6 sm:px-8">
                     {s.title && (
                       <p className="mb-3 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--accent-blue)" }}>
                         {s.title}
@@ -120,7 +120,7 @@ export default async function PromptPage({ params }: PageProps) {
                 ))}
               </div>
             ) : (
-              <div className="px-8 py-6">
+              <div className="px-4 py-6 sm:px-8">
                 <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed text-foreground/75">
                   <HighlightPlaceholders text={prompt.prompt} />
                 </pre>

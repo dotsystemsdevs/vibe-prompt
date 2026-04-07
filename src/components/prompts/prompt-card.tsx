@@ -34,7 +34,7 @@ export function PromptCard({ prompt, number }: PromptCardProps) {
             {prompt.tags.slice(0, 3).map((t) => (
               <span
                 key={t}
-                className="border-2 border-foreground/25 px-1.5 py-0.5 text-[9px] uppercase tracking-wide text-muted-foreground/70"
+                className="border border-foreground/20 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground/60"
               >
                 {t}
               </span>

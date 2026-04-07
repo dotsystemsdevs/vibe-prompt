@@ -131,11 +131,11 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-6 px-6 py-4 transition-colors hover:bg-card"
+              className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-card"
             >
-              <div className="flex items-center gap-5 min-w-0">
-                <Favicon href={item.href} emoji={item.catEmoji} />
-                <p className="w-40 shrink-0 text-sm font-semibold text-foreground">{item.name}</p>
+              <Favicon href={item.href} emoji={item.catEmoji} />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-foreground">{item.name}</p>
                 <p className="truncate text-xs text-muted-foreground">{item.description}</p>
               </div>
             </a>
