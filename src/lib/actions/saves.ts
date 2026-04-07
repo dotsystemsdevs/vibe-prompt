@@ -1,25 +1,25 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 export async function toggleSave(slug: string): Promise<{ saved: boolean; error?: string }> {
   const { userId } = await auth();
   if (!userId) return { saved: false, error: "unauthenticated" };
 
-  const { data: existing } = await supabase
+  const { data: existing } = (await getSupabase()
     .from("saves")
     .select("id")
     .eq("user_id", userId)
     .eq("prompt_slug", slug)
-    .maybeSingle();
+    .maybeSingle()) as unknown as { data: { id: string } | null };
 
   if (existing) {
-    await supabase.from("saves").delete().eq("id", existing.id);
+    await getSupabase().from("saves").delete().eq("id", existing.id);
     return { saved: false };
   }
 
-  await supabase.from("saves").insert({ user_id: userId, prompt_slug: slug });
+  await getSupabase().from("saves").insert({ user_id: userId, prompt_slug: slug });
   return { saved: true };
 }
 
@@ -27,19 +27,19 @@ export async function getSavedSlugs(): Promise<string[]> {
   const { userId } = await auth();
   if (!userId) return [];
 
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("saves")
     .select("prompt_slug")
     .eq("user_id", userId);
 
-  return (data ?? []).map((r) => r.prompt_slug);
+  return ((data ?? []) as { prompt_slug: string }[]).map((r) => r.prompt_slug);
 }
 
 export async function isSaved(slug: string): Promise<boolean> {
   const { userId } = await auth();
   if (!userId) return false;
 
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("saves")
     .select("id")
     .eq("user_id", userId)
@@ -53,7 +53,7 @@ export async function getPromptSaveCounts(slugs: string[]): Promise<Record<strin
   const unique = Array.from(new Set(slugs.filter(Boolean)));
   if (unique.length === 0) return {};
 
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("saves")
     .select("prompt_slug")
     .in("prompt_slug", unique);

@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 const AWESOME_PREFIX = "awesome:";
 
@@ -25,19 +25,19 @@ export async function toggleAwesomeSave(href: string): Promise<{ saved: boolean;
 
   const key = toKey(href);
 
-  const { data: existing } = await supabase
+  const { data: existing } = (await getSupabase()
     .from("saves")
     .select("id")
     .eq("user_id", userId)
     .eq("prompt_slug", key)
-    .maybeSingle();
+    .maybeSingle()) as unknown as { data: { id: string } | null };
 
   if (existing) {
-    await supabase.from("saves").delete().eq("id", existing.id);
+    await getSupabase().from("saves").delete().eq("id", existing.id);
     return { saved: false };
   }
 
-  await supabase.from("saves").insert({ user_id: userId, prompt_slug: key });
+  await getSupabase().from("saves").insert({ user_id: userId, prompt_slug: key });
   return { saved: true };
 }
 
@@ -45,13 +45,13 @@ export async function getSavedAwesomeHrefs(): Promise<string[]> {
   const { userId } = await auth();
   if (!userId) return [];
 
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("saves")
     .select("prompt_slug")
     .eq("user_id", userId)
     .like("prompt_slug", `${AWESOME_PREFIX}%`);
 
-  return (data ?? [])
+  return ((data ?? []) as { prompt_slug: string }[])
     .map((r) => fromKey(r.prompt_slug))
     .filter((v): v is string => typeof v === "string" && v.length > 0);
 }
@@ -61,13 +61,13 @@ export async function getAwesomeSaveCounts(hrefs: string[]): Promise<Record<stri
   if (unique.length === 0) return {};
 
   const keys = unique.map(toKey);
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("saves")
     .select("prompt_slug")
     .in("prompt_slug", keys);
 
   const countsByKey: Record<string, number> = {};
-  for (const row of data ?? []) {
+  for (const row of (data ?? []) as { prompt_slug: string }[]) {
     countsByKey[row.prompt_slug] = (countsByKey[row.prompt_slug] ?? 0) + 1;
   }
 
