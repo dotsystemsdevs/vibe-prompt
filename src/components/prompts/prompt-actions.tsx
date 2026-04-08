@@ -1,35 +1,45 @@
 "use client";
 
 import { useState } from "react";
+import { incrementCopyCount } from "@/lib/actions/copies";
 
 interface PromptActionsProps {
   slug: string;
   promptText: string;
   initialUpvotes: number;
+  initialCopyCount?: number;
   initialSaved?: boolean;
   color?: string;
   sidebar?: boolean;
   inline?: boolean;
 }
 
-export function PromptActions({ promptText, sidebar, inline }: PromptActionsProps) {
+export function PromptActions({ slug, promptText, initialCopyCount = 0, sidebar, inline }: PromptActionsProps) {
   const [copied, setCopied] = useState(false);
+  const [copyCount, setCopyCount] = useState(initialCopyCount);
 
   function copy() {
     navigator.clipboard.writeText(promptText);
     setCopied(true);
+    setCopyCount((n) => n + 1);
     setTimeout(() => setCopied(false), 2000);
+    incrementCopyCount(slug).catch(() => {});
   }
 
   if (inline) {
     return (
-      <button
-        onClick={copy}
-        className="px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-white transition-opacity hover:opacity-85"
-        style={{ backgroundColor: copied ? "#16a34a" : "var(--accent-blue)" }}
-      >
-        {copied ? "Copied ✓" : "Copy"}
-      </button>
+      <div className="flex items-center gap-3">
+        {copyCount > 0 && (
+          <span className="text-[10px] tabular-nums text-foreground/30">{copyCount.toLocaleString()} copies</span>
+        )}
+        <button
+          onClick={copy}
+          className="px-3 py-1 text-[10px] font-medium uppercase tracking-widest text-white transition-opacity hover:opacity-85"
+          style={{ backgroundColor: copied ? "#16a34a" : "var(--accent-blue)" }}
+        >
+          {copied ? "Copied ✓" : "Copy"}
+        </button>
+      </div>
     );
   }
 

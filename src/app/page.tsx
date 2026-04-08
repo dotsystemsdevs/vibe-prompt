@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { getPromptLibrary } from "@/lib/prompt-library";
+import { FeaturedPrompt } from "@/components/home/featured-prompt";
+import { Contributors } from "@/components/home/contributors";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/VibePrompt";
 
@@ -31,81 +34,97 @@ const FEATURES = [
 ];
 
 export default async function HomePage() {
-  await getPromptLibrary();
+  const { prompts, categories } = await getPromptLibrary();
 
   return (
-    <div className="flex h-svh flex-col pt-12">
+    <div className="pt-12">
 
-      {/* Hero */}
-      <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-        <p className="mb-6 text-[10px] uppercase tracking-[0.22em] text-foreground/35">
-          Open source · Community built
-        </p>
+      {/* Hero — full viewport */}
+      <div className="flex h-[calc(100svh-3rem)] flex-col">
+        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+          <div className="mb-6 flex items-center gap-4 text-[10px] uppercase tracking-[0.22em] text-foreground/35">
+            <span>{prompts.length} prompts</span>
+            <span className="text-foreground/15">·</span>
+            <span>{categories.length} categories</span>
+            <span className="text-foreground/15">·</span>
+            <span>Open source</span>
+          </div>
 
-        <h1
-          className="font-bold leading-[1.02] tracking-[-0.04em]"
-          style={{
-            fontFamily: "var(--font-geist-sans)",
-            fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)",
-          }}
-        >
-          Everything you need<br />to ship with AI.
-        </h1>
-
-        <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-foreground/45">
-          Prompts, workflow, and tools, the complete kit for vibe coders who build real products.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
-          <Link
-            href="/browse"
-            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-85"
-            style={{ backgroundColor: "var(--accent-blue)" }}
+          <h1
+            className="font-bold leading-[1.02] tracking-[-0.04em]"
+            style={{
+              fontFamily: "var(--font-geist-sans)",
+              fontSize: "clamp(2.4rem, 6.5vw, 5.5rem)",
+            }}
           >
-            Get started →
-          </Link>
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-foreground/40 transition-colors hover:text-foreground"
-          >
-            Contribute a prompt ↗
-          </a>
-        </div>
-      </div>
+            Everything you need<br />to ship with AI.
+          </h1>
 
-      {/* Value cards */}
-      <div className="px-6 pb-12">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-4">
-          {FEATURES.map(({ label, body, icon, soon }) => (
-            <div
-              key={label}
-              className="relative flex flex-col justify-between border border-foreground/15 bg-foreground/[0.04] px-6 py-6"
+          <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-foreground/45">
+            Prompts, workflow, and tools, the complete kit for vibe coders who build real products.
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-5">
+            <Link
+              href="/browse"
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-85"
+              style={{ backgroundColor: "var(--accent-blue)" }}
             >
-              {soon && (
-                <span className="absolute right-3 top-3 border border-foreground/15 px-1.5 py-0.5 text-[8px] uppercase tracking-widest text-foreground/30">
-                  Coming soon
-                </span>
-              )}
-              <svg
-                className="mb-5 h-5 w-5 text-foreground/80"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-                aria-hidden
+              Get started →
+            </Link>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-foreground/40 transition-colors hover:text-foreground"
+            >
+              Contribute a prompt ↗
+            </a>
+          </div>
+        </div>
+
+        {/* Value cards */}
+        <div className="px-6 pb-12">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-4">
+            {FEATURES.map(({ label, body, icon, soon }) => (
+              <div
+                key={label}
+                className="relative flex flex-col justify-between border border-foreground/15 bg-foreground/[0.04] px-6 py-6"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
-              </svg>
-              <div>
-                <p className="text-sm font-semibold text-foreground/90">{label}</p>
-                <p className="mt-2 text-xs leading-relaxed text-foreground/40">{body}</p>
+                {soon && (
+                  <span className="absolute right-3 top-3 border border-foreground/15 px-1.5 py-0.5 text-[8px] uppercase tracking-widest text-foreground/30">
+                    Coming soon
+                  </span>
+                )}
+                <svg
+                  className="mb-5 h-5 w-5 text-foreground/80"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                  aria-hidden
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d={icon} />
+                </svg>
+                <div>
+                  <p className="text-sm font-semibold text-foreground/90">{label}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-foreground/40">{body}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Featured prompt of the week */}
+      <Suspense fallback={null}>
+        <FeaturedPrompt />
+      </Suspense>
+
+      {/* Contributors */}
+      <Suspense fallback={null}>
+        <Contributors />
+      </Suspense>
 
     </div>
   );

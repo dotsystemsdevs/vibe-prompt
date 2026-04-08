@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getPromptBySlug } from "@/lib/prompt-library";
 import { PromptActions } from "@/components/prompts/prompt-actions";
+import { getCopyCount } from "@/lib/actions/copies";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -44,7 +45,10 @@ function parseMultiSection(text: string): { title: string; body: string }[] | nu
 
 export default async function PromptPage({ params }: PageProps) {
   const { slug } = await params;
-  const prompt = await getPromptBySlug(slug);
+  const [prompt, copyCount] = await Promise.all([
+    getPromptBySlug(slug),
+    getCopyCount(slug),
+  ]);
   if (!prompt) notFound();
 
   const sections = parseMultiSection(prompt.prompt);
@@ -100,6 +104,7 @@ export default async function PromptPage({ params }: PageProps) {
                 slug={prompt.slug}
                 promptText={prompt.prompt}
                 initialUpvotes={prompt.upvotes}
+                initialCopyCount={copyCount}
                 inline
               />
             </div>
