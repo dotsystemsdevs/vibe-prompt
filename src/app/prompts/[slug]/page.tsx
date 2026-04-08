@@ -90,7 +90,7 @@ export default async function PromptPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Prompt section — label + copy in same row */}
+          {/* Prompt section, label + copy in same row */}
           <div>
             <div className="flex items-center justify-between border-b border-foreground/20 px-4 py-3 sm:px-8">
               <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">

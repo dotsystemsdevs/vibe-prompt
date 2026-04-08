@@ -12,7 +12,7 @@ const FEATURES = [
   },
   {
     label: "Stage by stage",
-    body: "From agent setup to post-launch ops — every phase of the vibe coding workflow covered.",
+    body: "From agent setup to post-launch ops, every phase of the vibe coding workflow covered.",
     icon: "M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5",
     soon: false,
   },
@@ -53,7 +53,7 @@ export default async function HomePage() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-md text-sm leading-relaxed text-foreground/45">
-          Prompts, workflow, and tools — the complete kit for vibe coders who build real products.
+          Prompts, workflow, and tools, the complete kit for vibe coders who build real products.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-5">

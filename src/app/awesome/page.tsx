@@ -4,7 +4,7 @@ import { GithubCta } from "@/components/cta/github-cta";
 import { Hero } from "@/components/hero/hero";
 
 export const metadata = {
-  title: "Awesome Vibe Coding — VibePrompt",
+  title: "Awesome Vibe Coding | VibePrompt",
   description: "A curated list of tools, platforms, and resources for AI-first builders.",
 };
 
@@ -16,7 +16,7 @@ export default function AwesomePage() {
       {/* Header */}
       <Hero
         title={"Tools that\nvibe coders actually use."}
-        description={`${totalItems} curated tools, platforms, and resources — no bloat, no affiliates.`}
+        description={`${totalItems} curated tools, platforms, and resources, no bloat, no affiliates.`}
         accent="#ffffff"
       />
 

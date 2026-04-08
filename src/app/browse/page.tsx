@@ -13,7 +13,7 @@ export default async function BrowsePage() {
     <div className="pt-12">
       <Hero
         title={"Prompts that\nactually ship."}
-        description={`${prompts.length} battle-tested prompts — organized by stage, ready to copy.`}
+        description={`${prompts.length} battle-tested prompts, organized by stage, ready to copy.`}
         accent="#ffffff"
       />
       <div className="mx-auto max-w-6xl pt-6">

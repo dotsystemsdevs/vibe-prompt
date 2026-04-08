@@ -11,7 +11,7 @@ const STEPS = [
     items: [
       "Code editor installed and open",
       "GitHub account created and first repo ready",
-      "Node.js installed — node -v returns a version number",
+      "Node.js installed, node -v returns a version number",
       "One project running locally",
     ],
   },
@@ -44,7 +44,7 @@ const STEPS = [
     emoji: "🎨",
     items: [
       "Framework and UI system chosen and written in TechDesign.md",
-      "Database and auth provider chosen — no open decisions",
+      "Database and auth provider chosen, no open decisions",
       "Deployment target connected and working",
       "All dependency versions pinned in package.json",
     ],
@@ -75,7 +75,7 @@ const STEPS = [
     title: "Quality Gates",
     emoji: "🛡️",
     items: [
-      "All changed files reviewed against PRD — no undocumented features",
+      "All changed files reviewed against PRD, no undocumented features",
       "No secrets in code or git history",
       "TypeScript build passes with zero errors",
       "At least one E2E test passes on the primary flow",
@@ -97,7 +97,7 @@ const STEPS = [
     title: "Iterate",
     emoji: "🔁",
     items: [
-      "3 friction points identified from session data — not assumptions",
+      "3 friction points identified from session data, not assumptions",
       "PRD updated to reflect new scope",
       "Update shipped and live",
       "Specific metric checked to confirm improvement",

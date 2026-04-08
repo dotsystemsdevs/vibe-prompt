@@ -13,7 +13,7 @@ const SECTION_HEADERS = [
   "Input",
   "Instructions",
   "Variants",
-  // legacy — kept for backward compat with existing prompts
+  // legacy, kept for backward compat with existing prompts
   "Purpose",
   "Output Format",
   "Quality Criteria",
@@ -225,7 +225,7 @@ function hashString(input: string): number {
 function buildPromptText(content: string): string {
   const body = stripFrontmatter(content);
 
-  // Explicit ## Prompt section takes priority — this is the copyable prompt text
+  // Explicit ## Prompt section takes priority, this is the copyable prompt text
   const promptSection = extractSection(body, "Prompt");
   if (promptSection) return stripOuterCodeFence(promptSection);
 

@@ -32,7 +32,7 @@ export const CATEGORIES: Category[] = [
     slug: "aso",
     name: "ASO",
     shortName: "ASO",
-    description: "App Store Optimization — keywords, titles, subtitles",
+    description: "App Store Optimization, keywords, titles, subtitles",
     icon: "📈",
     count: 15,
   },
@@ -109,12 +109,12 @@ Output format:
 2. Main body with benefits
 3. Feature list (bullets)
 4. CTA paragraph`,
-    outputExample: `Tired of forgetting your best ideas? PromptVault saves the prompts that actually work — so you can stop searching and start shipping.
+    outputExample: `Tired of forgetting your best ideas? PromptVault saves the prompts that actually work, so you can stop searching and start shipping.
 
 Built for builders and indie hackers who live inside AI tools. Find proven prompts, save your favorites, and build your own prompt stack.
 
 ✦ 500+ curated prompts for builders
-✦ Personal library — save what works for you
+✦ Personal library, save what works for you
 ✦ Organized by category: ASO, UI/UX, MVP, and more
 ✦ Open source, GitHub-powered
 ✦ New prompts added weekly by the community
@@ -151,7 +151,7 @@ Rules:
 
 Output: 5 numbered variations, with a note on the strategy used for each.`,
     outputExample: `1. "Track habits that actually stick. Simple, fast, no noise." (benefit-first)
-2. "Build routines that last — 2M users can't be wrong." (social proof)
+2. "Build routines that last, 2M users can't be wrong." (social proof)
 3. "Your daily habits, finally under control." (pain point)
 4. "Habit tracker built for people who hate habit trackers." (contrarian)
 5. "Small steps. Big results. Start your streak today." (motivational)`,
@@ -224,12 +224,12 @@ CTA: See for yourself →`,
 [PASTE SCREENSHOT OR DESCRIBE THE SCREEN]
 
 Analyze:
-1. **Visual hierarchy** — does the eye know where to go first?
-2. **CTA clarity** — is the primary action obvious?
-3. **Cognitive load** — how many decisions does the user have to make?
-4. **Touch targets** — are interactive elements large enough (min 44x44pt)?
-5. **Whitespace** — is there enough breathing room?
-6. **Consistency** — does it match platform conventions (iOS/Android)?
+1. **Visual hierarchy**, does the eye know where to go first?
+2. **CTA clarity**, is the primary action obvious?
+3. **Cognitive load**, how many decisions does the user have to make?
+4. **Touch targets**, are interactive elements large enough (min 44x44pt)?
+5. **Whitespace**, is there enough breathing room?
+6. **Consistency**, does it match platform conventions (iOS/Android)?
 
 Output format:
 - Rating 1-10 per area
@@ -270,10 +270,10 @@ What you're building and why it's the right approach.
 Who specifically. Include a one-line persona.
 
 ## MVP Scope (what's IN)
-Bullet list — max 5 items.
+Bullet list, max 5 items.
 
 ## Out of Scope (what's NOT in MVP)
-Bullet list — what you're explicitly not building yet.
+Bullet list, what you're explicitly not building yet.
 
 ## Success Metrics
 3 metrics that tell you if it's working.
@@ -283,7 +283,7 @@ Bullet list — what you're explicitly not building yet.
 
 Keep the whole thing under 400 words.`,
     outputExample: `## Problem
-Builders collect great prompts in notes, chats, and bookmarks — and then can't find them when they need them. There's no structured, searchable place built for the builder workflow.
+Builders collect great prompts in notes, chats, and bookmarks, and then can't find them when they need them. There's no structured, searchable place built for the builder workflow.
 
 ## Solution
 An open, GitHub-powered prompt library where builders browse, save, and contribute prompts. The personal library feature turns a directory into a tool you actually come back to.
@@ -310,7 +310,7 @@ Indie hackers and vibe coders who ship apps using AI tools. Persona: "Alex, buil
 
 ## Open Questions
 - Do we need auth for browsing, or just for saving?
-- GitHub PR flow vs. submission form — which gets more contributions?`,
+- GitHub PR flow vs. submission form, which gets more contributions?`,
     upvotes: 178,
     commentCount: 14,
     createdAt: "2024-12-10",
@@ -333,11 +333,11 @@ Stack: [YOUR STACK, e.g. Next.js + Supabase]
 Auth: [HOW USERS ARE AUTHENTICATED]
 
 Output:
-1. **Endpoints** — list all routes with method, path, description
-2. **Request/Response** — example JSON for each endpoint
-3. **Error codes** — what errors can each endpoint return
-4. **Auth requirements** — which endpoints require auth
-5. **Rate limiting** — any endpoints that need rate limits
+1. **Endpoints**, list all routes with method, path, description
+2. **Request/Response**, example JSON for each endpoint
+3. **Error codes**, what errors can each endpoint return
+4. **Auth requirements**, which endpoints require auth
+5. **Rate limiting**, any endpoints that need rate limits
 
 Follow REST conventions:
 - Use nouns, not verbs in paths
@@ -372,7 +372,7 @@ export const MOCK_COMMENTS: Comment[] = [
     id: "3",
     author: "vikramdev",
     avatar: "VD",
-    content: "Solid starting point. I usually do 2 rounds — first pass for structure, second for tone.",
+    content: "Solid starting point. I usually do 2 rounds, first pass for structure, second for tone.",
     createdAt: "2024-12-15",
     upvotes: 9,
   },

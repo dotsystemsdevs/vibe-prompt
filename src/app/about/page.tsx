@@ -2,7 +2,7 @@ import { Hero } from "@/components/hero/hero";
 import { GithubCta } from "@/components/cta/github-cta";
 
 export const metadata = {
-  title: "About — VibePrompt",
+  title: "About | VibePrompt",
   description: "VibePrompt is an open-source prompt library and toolkit for vibe coders who ship.",
 };
 
@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="pt-12">
       <Hero
         title={"Built for builders\nwho ship."}
-        description="VibePrompt is an open-source toolkit for vibe coders — the people who use AI to build and launch real products."
+        description="VibePrompt is an open-source toolkit for vibe coders, the people who use AI to build and launch real products."
         accent="#ffffff"
       />
 
@@ -20,7 +20,7 @@ export default function AboutPage() {
           <div className="max-w-2xl space-y-4 text-sm leading-[1.9] text-foreground/55">
             <p>
               Solo project. Built because I kept rewriting the same prompts every time I started something new.
-              Open source — contribute via GitHub PR.
+              Open source, contribute via GitHub PR.
             </p>
             <a
               href="mailto:dot.systems@proton.me"
@@ -33,7 +33,7 @@ export default function AboutPage() {
 
         <GithubCta
           title={"Want to\ncontribute?"}
-          description="Open a pull request. New prompts, workflow improvements, tool additions — all welcome."
+          description="Open a pull request. New prompts, workflow improvements, tool additions, all welcome."
           primaryHref="https://github.com/dotsystemsdevs/VibePrompt"
           primaryLabel="Open a PR on GitHub"
         />

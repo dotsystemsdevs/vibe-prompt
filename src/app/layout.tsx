@@ -15,12 +15,12 @@ const getMetadataBase = () => {
 };
 
 export const metadata: Metadata = {
-  title: "VibePrompt — Open-source prompt library",
+  title: "VibePrompt, Open-source prompt library",
   description:
     "Curated prompts, a shipping workflow, and an awesome tool list for AI-first builders. Browse, save, and contribute on GitHub.",
   metadataBase: getMetadataBase(),
   openGraph: {
-    title: "VibePrompt — Open-source prompt library",
+    title: "VibePrompt, Open-source prompt library",
     description:
       "Curated prompts, a shipping workflow, and an awesome tool list for AI-first builders. Browse, save, and contribute on GitHub.",
     siteName: "VibePrompt",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "VibePrompt — Open-source prompt library",
+    title: "VibePrompt, Open-source prompt library",
     description:
       "Curated prompts, a shipping workflow, and an awesome tool list for AI-first builders.",
   },
