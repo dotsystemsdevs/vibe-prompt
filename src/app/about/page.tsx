@@ -16,7 +16,7 @@ export default function AboutPage() {
       />
 
       <div className="mx-auto max-w-6xl px-6">
-        <section className="border-t border-foreground/20 py-16">
+        <section className="border-t border-foreground/20 py-12 sm:py-16">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-[160px_1fr]">
             <p className="text-[10px] uppercase tracking-[0.2em] text-foreground/35 md:pt-0.5">Why</p>
             <div className="max-w-2xl space-y-5 text-sm leading-[1.9] text-foreground/55">

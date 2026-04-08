@@ -25,7 +25,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-foreground"
-              style={{ color: "var(--lilac)" }}
+              style={{ color: "var(--accent-blue)" }}
             >
               GitHub ↗
             </a>

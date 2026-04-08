@@ -31,8 +31,8 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-xs transition-colors hover:text-foreground"
-                style={{ color: active ? "var(--lilac)" : "var(--muted-foreground)" }}
+                className={`text-xs transition-colors hover:text-foreground ${active ? "" : "text-muted-foreground"}`}
+                style={{ color: active ? "var(--accent-blue)" : undefined }}
               >
                 {l.label}
               </Link>
@@ -69,8 +69,8 @@ export function Navbar() {
                 <Link
                   key={l.href}
                   href={l.href}
-                  className="transition-colors hover:text-foreground"
-                  style={{ color: active ? "var(--lilac)" : "var(--muted-foreground)" }}
+                  className={`transition-colors hover:text-foreground ${active ? "" : "text-muted-foreground"}`}
+                  style={{ color: active ? "var(--accent-blue)" : undefined }}
                   onClick={() => setOpen(false)}
                 >
                   {l.label}

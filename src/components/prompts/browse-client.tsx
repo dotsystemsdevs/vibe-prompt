@@ -103,7 +103,7 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
       {results.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2">
           {results.map((prompt, i) => (
-            <div key={prompt.slug} className="border-b border-r border-foreground/20">
+            <div key={prompt.slug} className={`border-b border-foreground/20 ${i % 2 === 0 ? "sm:border-r sm:border-foreground/20" : ""}`}>
               <PromptCard prompt={prompt} number={i + 1} />
             </div>
           ))}

@@ -32,10 +32,10 @@ html {
   --foreground: #EDEDED;
   --font-geist-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --card: rgba(237, 237, 237, 0.03);
+  --card: rgba(237, 237, 237, 0.05);
   --card-foreground: #EDEDED;
   --muted: rgba(237, 237, 237, 0.04);
-  --muted-foreground: rgba(237, 237, 237, 0.85);
+  --muted-foreground: rgba(237, 237, 237, 0.50);
   --border: rgba(237, 237, 237, 0.22);
   --input: rgba(237, 237, 237, 0.22);
   --primary: #EDEDED;
@@ -67,7 +67,7 @@ html {
   .hero-display {
     @apply font-bold leading-[1.05];
     font-family: var(--font-geist-sans);
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
     letter-spacing: -0.04em;
   }
 
