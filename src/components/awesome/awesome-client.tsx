@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { AwesomeCategory } from "@/lib/awesome-data";
+import { AwesomeSaveButton } from "@/components/awesome/awesome-save-button";
 
 function Favicon({ href, emoji }: { href: string; emoji: string }) {
   const domain = new URL(href).hostname;
@@ -23,7 +24,7 @@ function Favicon({ href, emoji }: { href: string; emoji: string }) {
   );
 }
 
-export function AwesomeClient({ categories }: { categories: readonly AwesomeCategory[] }) {
+export function AwesomeClient({ categories, savedHrefs = [] }: { categories: readonly AwesomeCategory[]; savedHrefs?: string[] }) {
   const [activeSlug, setActiveSlug] = useState("all");
   const [query, setQuery] = useState("");
 
@@ -138,6 +139,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
                 <p className="text-sm font-semibold text-foreground">{item.name}</p>
                 <p className="truncate text-xs text-muted-foreground">{item.description}</p>
               </div>
+              <AwesomeSaveButton href={item.href} initialSaved={savedHrefs.includes(item.href)} />
             </a>
           ))}
         </div>

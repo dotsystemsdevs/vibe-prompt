@@ -22,10 +22,12 @@ export default async function BrowsePage() {
         </Suspense>
         <GithubCta
           title={"Got a prompt\nthat ships?"}
-          description="Submit a pull request. If it's battle-tested and useful, it gets in."
+          description="Used a prompt that actually worked? Submit it. If it's battle-tested, it gets in."
           accent="#ffffff"
-          primaryHref="https://github.com/dotsystemsdevs/VibePrompt"
-          primaryLabel="Submit on GitHub"
+          primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new?template=suggest-prompt.yml"
+          primaryLabel="Suggest a prompt"
+          secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+          secondaryLabel="Submit a PR instead"
         />
       </div>
     </div>

@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { auth } from "@clerk/nextjs/server";
 import { getPromptBySlug } from "@/lib/prompt-library";
 import { PromptActions } from "@/components/prompts/prompt-actions";
+import { SaveButton } from "@/components/prompts/save-button";
 import { getCopyCount } from "@/lib/actions/copies";
+import { isSaved } from "@/lib/actions/saves";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -45,9 +48,11 @@ function parseMultiSection(text: string): { title: string; body: string }[] | nu
 
 export default async function PromptPage({ params }: PageProps) {
   const { slug } = await params;
-  const [prompt, copyCount] = await Promise.all([
+  const { userId } = await auth();
+  const [prompt, copyCount, savedState] = await Promise.all([
     getPromptBySlug(slug),
     getCopyCount(slug),
+    userId ? isSaved(slug) : Promise.resolve(false),
   ]);
   if (!prompt) notFound();
 
@@ -100,13 +105,16 @@ export default async function PromptPage({ params }: PageProps) {
               <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">
                 Prompt
               </span>
-              <PromptActions
-                slug={prompt.slug}
-                promptText={prompt.prompt}
-                initialUpvotes={prompt.upvotes}
-                initialCopyCount={copyCount}
-                inline
-              />
+              <div className="flex items-center gap-2">
+                <SaveButton slug={prompt.slug} initialSaved={savedState} />
+                <PromptActions
+                  slug={prompt.slug}
+                  promptText={prompt.prompt}
+                  initialUpvotes={prompt.upvotes}
+                  initialCopyCount={copyCount}
+                  inline
+                />
+              </div>
             </div>
 
             {sections ? (

@@ -1,0 +1,52 @@
+name: Suggest a prompt
+description: Submit a prompt you've actually used in a real project
+labels: ["prompt-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Only submit prompts you've used in a real project. No theoretical prompts.
+
+  - type: input
+    id: title
+    attributes:
+      label: Prompt title
+      description: Short, action-oriented. E.g. "Generate a typed API client from OpenAPI spec"
+      placeholder: "Generate a..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Agent Setup
+        - Idea Validation
+        - Planning
+        - Architecture
+        - Build & Ship
+        - Prompting
+        - Testing & QA
+        - Launch & Growth
+        - Scaling
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt
+    attributes:
+      label: The prompt
+      description: Paste the full prompt. Use [brackets] for variables.
+      placeholder: "You are a..."
+    validations:
+      required: true
+
+  - type: input
+    id: use_case
+    attributes:
+      label: When do you use this?
+      description: One sentence.
+      placeholder: "When I need to..."
+    validations:
+      required: true

@@ -4,9 +4,10 @@ import { Prompt } from "@/lib/types";
 interface PromptCardProps {
   prompt: Prompt;
   number?: number;
+  copyCount?: number;
 }
 
-export function PromptCard({ prompt, number }: PromptCardProps) {
+export function PromptCard({ prompt, number, copyCount }: PromptCardProps) {
   return (
     <div className="group relative flex h-full min-h-[200px] flex-col bg-background transition-colors hover:bg-card">
       <Link href={`/prompts/${prompt.slug}`} className="absolute inset-0 z-10" aria-label={prompt.title} prefetch={false} />
@@ -15,11 +16,13 @@ export function PromptCard({ prompt, number }: PromptCardProps) {
           <span className="inline-flex items-center text-[10px] uppercase tracking-widest text-muted-foreground">
             {prompt.categoryName}
           </span>
-          {number !== undefined && (
+          {copyCount !== undefined && copyCount > 0 ? (
+            <span className="text-[10px] tabular-nums text-muted-foreground/50">{copyCount} copies</span>
+          ) : number !== undefined ? (
             <span className="text-[10px] tabular-nums text-muted-foreground/60">
               {String(number).padStart(2, "0")}
             </span>
-          )}
+          ) : null}
         </div>
 
         <h3 className="text-sm font-semibold leading-snug text-foreground/90 transition-colors group-hover:text-foreground">
