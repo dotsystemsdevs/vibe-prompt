@@ -1,0 +1,56 @@
+name: Suggest a workflow improvement
+description: Suggest a change or addition to the vibe coding workflow
+labels: ["workflow-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest a task, resource, common mistake, or entire step you think is missing.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: What are you suggesting?
+      options:
+        - New task inside an existing step
+        - New resource inside an existing step
+        - Common mistake to add
+        - Entirely new workflow step
+        - Fix something that's wrong
+    validations:
+      required: true
+
+  - type: dropdown
+    id: step
+    attributes:
+      label: Which step? (if applicable)
+      options:
+        - "00 - Setup"
+        - "01 - Validate"
+        - "02 - Specify"
+        - "03 - Stack"
+        - "04 - Context"
+        - "05 - Build"
+        - "06 - Quality"
+        - "07 - Ship"
+        - "08 - Iterate"
+        - "New step"
+        - "Not applicable"
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Your suggestion
+      description: What should be added, changed, or removed? Be specific.
+    validations:
+      required: true
+
+  - type: input
+    id: why
+    attributes:
+      label: Why?
+      placeholder: "This matters because..."
+    validations:
+      required: true

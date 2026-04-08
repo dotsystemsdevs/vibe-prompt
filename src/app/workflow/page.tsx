@@ -551,10 +551,12 @@ export default function WorkflowPage() {
         </section>
         <GithubCta
           title={"Something\nmissing?"}
-          description="Open a PR and improve the workflow for every builder who comes after you."
+          description="Suggest a step, task, resource, or fix. If it makes the workflow better, it goes in."
           accent="#ffffff"
-          primaryHref="https://github.com/dotsystemsdevs/VibePrompt"
-          primaryLabel="Submit on GitHub"
+          primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new?template=suggest-workflow.yml"
+          primaryLabel="Suggest an improvement"
+          secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+          secondaryLabel="Submit a PR instead"
         />
       </div>
 

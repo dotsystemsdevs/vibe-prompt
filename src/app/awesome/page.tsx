@@ -27,10 +27,12 @@ export default async function AwesomePage() {
         <AwesomeClient categories={AWESOME_CATEGORIES} savedHrefs={savedHrefs} />
         <GithubCta
           title={"Know a tool\nwe're missing?"}
-          description="Open a PR. If it belongs here, it goes in."
+          description="Suggest it in two minutes. If it belongs here, it goes in."
           accent="#ffffff"
-          primaryHref="https://github.com/dotsystemsdevs/VibePrompt"
-          primaryLabel="Submit on GitHub"
+          primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new?template=suggest-tool.yml"
+          primaryLabel="Suggest a tool"
+          secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+          secondaryLabel="Submit a PR instead"
         />
       </div>
     </div>

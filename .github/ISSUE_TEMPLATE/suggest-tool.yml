@@ -1,0 +1,56 @@
+name: Suggest a tool
+description: Suggest a tool for the Awesome Vibe Coding list
+labels: ["tool-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Only suggest tools you actually use. No affiliate links.
+
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+      placeholder: "e.g. Resend"
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      placeholder: "https://"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - AI Coding Editors
+        - Deployment & Hosting
+        - Auth & Payments
+        - Database & Backend
+        - Analytics & Monitoring
+        - Design & UI
+        - Productivity
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: description
+    attributes:
+      label: One-line description
+      placeholder: "Transactional email for developers"
+    validations:
+      required: true
+
+  - type: input
+    id: why
+    attributes:
+      label: Why does it belong here?
+      placeholder: "I use it in every project because..."
+    validations:
+      required: true
