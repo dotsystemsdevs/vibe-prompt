@@ -15,6 +15,10 @@ const getMetadataBase = () => {
 };
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
   title: "VibePrompt - AI Prompts, Workflow & Tools for Builders",
   description:
     "36+ battle-tested prompts for AI development. Free prompt library with workflows and tools for shipping with AI. Copy in one click, no login needed. Join the community of vibe coders.",
