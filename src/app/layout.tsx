@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { Analytics } from "@vercel/analytics/next";
 
 const getMetadataBase = () => {
   const fallback = "https://vibeprompt.tech";
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex min-h-0 flex-1 flex-col">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
