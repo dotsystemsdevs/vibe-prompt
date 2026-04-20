@@ -51,7 +51,7 @@ export default function OGImage() {
             <span style={{ color: "#2563EB" }}>to ship with AI.</span>
           </div>
           <div style={{ color: "#71717a", fontSize: "24px", fontWeight: "400" }}>
-            39 prompts · 9-step workflow · tools — free &amp; open source
+            40 prompts · 9-step workflow · tools — free &amp; open source
           </div>
         </div>
 

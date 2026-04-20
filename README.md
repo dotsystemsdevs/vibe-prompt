@@ -85,7 +85,7 @@ VibePrompt/
 │     └─ types.ts           # Shared TypeScript types
 ├─ content/
 │  └─ prompts/              # Markdown prompt source files (one per prompt)
-├─ prompt-library/          # Standalone prompt playbook (39 prompts, 9 categories)
+├─ prompt-library/          # Standalone prompt playbook (40 prompts, 9 categories)
 │  ├─ Agent Setup/          # → "Context" on site
 │  ├─ Architecture Stack/   # → "Stack" on site
 │  ├─ Build Ship/           # → "Build" on site
@@ -154,7 +154,7 @@ npm run build
 
 ## Prompt Library
 
-The `prompt-library/` directory contains 39 standalone markdown prompt files organized by workflow stage. These are the source of truth for prompts shown in the app. Each file follows this format:
+The `prompt-library/` directory contains 40 standalone markdown prompt files organized by workflow stage. These are the source of truth for prompts shown in the app. Each file follows this format:
 
 ```markdown
 ---

@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   },
   title: "VibePrompt - AI Prompts, Workflow & Tools for Builders",
   description:
-    "39 battle-tested prompts for AI development. Free prompt library with workflows and tools for shipping with AI. Copy in one click, no login needed.",
+    "40 battle-tested prompts for AI development. Free prompt library with workflows and tools for shipping with AI. Copy in one click, no login needed.",
   keywords: "AI prompts, prompt engineering, AI tools, vibe coding, open source prompts",
   metadataBase: getMetadataBase(),
   openGraph: {
     title: "VibePrompt - Everything You Need to Ship with AI",
     description:
-      "Free open-source prompt library with 39 tested prompts, workflows, and tools for AI developers.",
+      "Free open-source prompt library with 40 tested prompts, workflows, and tools for AI developers.",
     siteName: "VibePrompt",
     type: "website",
     url: "https://vibeprompt.tech",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "VibePrompt - AI Prompts for Builders",
     description:
-      "39 battle-tested prompts for shipping with AI. Free, open-source, no login required.",
+      "40 battle-tested prompts for shipping with AI. Free, open-source, no login required.",
   },
 };
 
