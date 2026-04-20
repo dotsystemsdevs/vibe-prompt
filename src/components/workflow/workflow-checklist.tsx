@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useSyncExternalStore } from "react";
-import type { TaskGroup, TaskItem, TaskLink } from "./workflow-stepper";
+import type { TaskGroup, TaskItem } from "./workflow-stepper";
 
 const STORAGE_KEY_STEP = "vibeprompt-step-done-v1";
 
@@ -33,39 +33,6 @@ function getFavicon(href: string) {
   } catch { return null; }
 }
 
-function TextWithLinks({ text, links }: { text: string; links?: TaskLink[] }) {
-  if (!links || links.length === 0) return <>{text}</>;
-  let parts: React.ReactNode[] = [text];
-  for (const link of links) {
-    const favicon = getFavicon(link.href);
-    const next: React.ReactNode[] = [];
-    for (const part of parts) {
-      if (typeof part !== "string") { next.push(part); continue; }
-      const idx = part.indexOf(link.label);
-      if (idx === -1) { next.push(part); continue; }
-      if (idx > 0) next.push(part.slice(0, idx));
-      next.push(
-        <a
-          key={link.href}
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-0.5 text-foreground/80 underline decoration-foreground/20 underline-offset-2 hover:text-foreground"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {favicon && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={favicon} alt="" width={12} height={12} className="inline h-3 w-3 rounded-sm opacity-70" />
-          )}
-          {link.label}
-        </a>
-      );
-      if (idx + link.label.length < part.length) next.push(part.slice(idx + link.label.length));
-    }
-    parts = next;
-  }
-  return <>{parts}</>;
-}
 
 
 function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
@@ -98,11 +65,15 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
   // Auto-open next section when it becomes active
   useEffect(() => {
     if (activeSectionIdx < items.length) {
-      setOpen((prev) => ({ ...prev, [activeSectionIdx]: true }));
+      const id = setTimeout(() => setOpen((prev) => ({ ...prev, [activeSectionIdx]: true })), 0);
+      return () => clearTimeout(id);
     }
   }, [activeSectionIdx, items.length]);
 
-  let docIdx = startIndex;
+  const groupStarts = items.reduce<number[]>((acc, group, i) => {
+    acc.push(i === 0 ? startIndex : acc[i - 1] + items[i - 1].items.length);
+    return acc;
+  }, []);
 
   return (
     <div className="overflow-hidden border border-foreground/12">
@@ -119,8 +90,7 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
 
       {/* Sections */}
       {items.map((group, gi) => {
-        const groupStart = docIdx;
-        docIdx += group.items.length;
+        const groupStart = groupStarts[gi];
         const doneInGroup = group.items.filter((_, ii) => !!checked[stepItemKey(step, groupStart + ii)]).length;
         const groupTotal = group.items.length;
         const sectionDone = doneInGroup === groupTotal && groupTotal > 0;
@@ -273,7 +243,6 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
 
   // SSR skeleton
   if (!mounted) {
-    let idx = 0;
     return (
       <div className="space-y-4">
         {items.map((group, gi) => (
@@ -312,12 +281,14 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
 
 
   // ── Card variant (default) ───────────────────────────────────────────────────
-  let flatIdx = startIndex;
+  const flatStarts = items.reduce<number[]>((acc, group, i) => {
+    acc.push(i === 0 ? startIndex : acc[i - 1] + items[i - 1].items.length);
+    return acc;
+  }, []);
   return (
     <div>
       {items.map((group, gi) => {
-        const groupStart = flatIdx;
-        flatIdx += group.items.length;
+        const groupStart = flatStarts[gi];
 
         return (
           <div key={gi}>

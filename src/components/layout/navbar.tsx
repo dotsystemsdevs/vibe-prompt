@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -20,7 +21,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-foreground/12 bg-background/95 backdrop-blur-md">
       <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-70">
-          <img src="/favicon.svg" alt="" width={20} height={20} className="rounded-sm" />
+          <Image src="/favicon.svg" alt="" width={20} height={20} className="rounded-sm" />
           <span className="text-sm font-semibold tracking-tight text-foreground">vibeprompt</span>
         </Link>
 

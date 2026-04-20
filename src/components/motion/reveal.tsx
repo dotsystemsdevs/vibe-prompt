@@ -11,19 +11,15 @@ type RevealProps = {
 
 export function Reveal({ children, className = "", threshold = 0.18 }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() =>
+    typeof window !== "undefined" &&
+    !!window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches
+  );
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    if (reduce) {
-      setVisible(true);
-      return;
-    }
+    if (visible) return;
 
     const obs = new IntersectionObserver(
       (entries) => {
@@ -39,7 +35,7 @@ export function Reveal({ children, className = "", threshold = 0.18 }: RevealPro
 
     obs.observe(el);
     return () => obs.disconnect();
-  }, [threshold]);
+  }, [threshold, visible]);
 
   return (
     <div
