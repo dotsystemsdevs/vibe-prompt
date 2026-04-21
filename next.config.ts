@@ -4,7 +4,7 @@ const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.com https://*.clerk.accounts.dev https://va.vercel-scripts.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://avatars.githubusercontent.com https://www.google.com https://icons.duckduckgo.com https://img.clerk.com https://*.clerk.com",
+  "img-src 'self' data: blob: https://avatars.githubusercontent.com https://www.google.com https://icons.duckduckgo.com https://images.unsplash.com https://img.clerk.com https://*.clerk.com",
   "font-src 'self' data:",
   "connect-src 'self' https://api.github.com https://vitals.vercel-insights.com https://*.supabase.co wss://*.supabase.co https://*.clerk.com https://*.clerk.accounts.dev wss://*.clerk.com",
   "frame-src 'none' https://*.clerk.com https://*.clerk.accounts.dev",
@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
       { protocol: "https", hostname: "www.google.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
   async headers() {

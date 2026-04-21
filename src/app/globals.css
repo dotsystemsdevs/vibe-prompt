@@ -102,4 +102,20 @@ html {
       transition: none;
     }
   }
+
+  /* Article prose */
+  .prose-article { color: var(--foreground); }
+  .prose-article p { font-size: 0.9375rem; line-height: 1.75; margin-bottom: 1.25rem; color: color-mix(in srgb, var(--foreground) 80%, transparent); }
+  .prose-article h2 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--foreground); }
+  .prose-article h3 { font-size: 1rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.5rem; color: var(--foreground); }
+  .prose-article hr { border: none; border-top: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent); margin: 2rem 0; }
+  .prose-article strong { font-weight: 600; color: var(--foreground); }
+  .prose-article ul { list-style: none; padding: 0; margin-bottom: 1.25rem; }
+  .prose-article ul li { padding-left: 1.25rem; position: relative; font-size: 0.9375rem; line-height: 1.75; margin-bottom: 0.375rem; color: color-mix(in srgb, var(--foreground) 80%, transparent); }
+  .prose-article ul li::before { content: "—"; position: absolute; left: 0; color: color-mix(in srgb, var(--foreground) 25%, transparent); }
+  .prose-article ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+  .prose-article ol li { font-size: 0.9375rem; line-height: 1.75; margin-bottom: 0.375rem; color: color-mix(in srgb, var(--foreground) 80%, transparent); }
+  .prose-article code { font-family: monospace; font-size: 0.85em; background: color-mix(in srgb, var(--foreground) 6%, transparent); padding: 0.15em 0.4em; border-radius: 2px; }
+  .prose-article a { color: var(--foreground); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent); }
+  .prose-article a:hover { text-decoration-color: var(--foreground); }
 }
