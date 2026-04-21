@@ -362,13 +362,13 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                     onKeyDown={(e) => e.key === " " && toggle(k)}
                     className={`group flex cursor-pointer items-start gap-4 px-4 py-4 sm:px-6 sm:py-3.5 transition-colors ${done ? "opacity-30" : "hover:bg-foreground/[0.03]"}`}
                   >
-                    <span className={`mt-0.5 shrink-0 flex h-3.5 w-3.5 items-center justify-center border transition-colors ${
+                    <span className={`mt-0.5 shrink-0 flex h-4.5 w-4.5 sm:h-3.5 sm:w-3.5 items-center justify-center border transition-colors ${
                       done ? "border-foreground/15 bg-foreground/10" : "border-foreground/20 group-hover:border-foreground/45"
                     }`}>
                       {done && <svg width="7" height="5" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm leading-snug transition-colors ${done ? "text-foreground/30 line-through" : "text-foreground/90 group-hover:text-foreground"}`}>
+                      <p className={`text-sm leading-normal sm:leading-snug transition-colors ${done ? "text-foreground/30 line-through" : "text-foreground/90 group-hover:text-foreground"}`}>
                         <InlineText text={label} />
                       </p>
                       {item.detail && !done && (
@@ -388,7 +388,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="inline-flex items-center gap-1 border border-foreground/[0.15] px-2 py-0.5 text-[10px] text-foreground/55 transition-colors hover:border-foreground/30 hover:text-foreground/90"
+                                className="inline-flex items-center gap-1 border border-foreground/[0.15] px-2.5 py-1 sm:px-2 sm:py-0.5 text-[11px] sm:text-[10px] text-foreground/55 transition-colors hover:border-foreground/30 hover:text-foreground/90"
                               >
                                 {fav && (
                                   // eslint-disable-next-line @next/next/no-img-element
