@@ -607,7 +607,8 @@ function calcGrade(score: number): string {
 
 function runAudit(page: ParsedPage, url: string): AuditResult {
   const findings = RULES.filter((r) => r.check(page)).map(
-    ({ check: _check, ...rest }) => rest as Finding
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ({ check, ...rest }) => rest as Finding
   );
 
   const categories = ALL_CATEGORIES.reduce((acc, cat) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { AuditResult, Finding } from "@/app/api/audit/route";
 
 type State =
@@ -16,31 +16,28 @@ const CAT_LABEL: Record<string, string> = {
   seo: "SEO", conversion: "Conversion", trust: "Trust", structure: "Structure",
   performance: "Performance", security: "Security", aeo: "AI / AEO",
 };
-const EFFORT_LABEL: Record<string, string> = { quick: "< 1h", moderate: "< 1 day", involved: "> 1 day" };
-const EFFORT_COLOR: Record<string, string> = { quick: "#22c55e", moderate: "#eab308", involved: "#f97316" };
 
 function scoreColor(s: number) { return s >= 75 ? "#3b82f6" : s >= 50 ? "#f97316" : "#ef4444"; }
 
 export function CountUp({ target }: { target: number }) {
   const [display, setDisplay] = useState(0);
-  const raf = useRef<number>(0);
-  const start = useRef<number | null>(null);
-
-  const tick = useCallback((ts: number) => {
-    if (!start.current) start.current = ts;
-    const elapsed = ts - start.current;
-    const duration = Math.min(1200 + target * 0.4, 2400);
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    setDisplay(Math.round(eased * target));
-    if (progress < 1) raf.current = requestAnimationFrame(tick);
-  }, [target]);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (target <= 0) return;
-    raf.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf.current);
-  }, [target, tick]);
+    const start = { t: 0 };
+    function tick(ts: number) {
+      if (!start.t) start.t = ts;
+      const elapsed = ts - start.t;
+      const duration = Math.min(1200 + target * 0.4, 2400);
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(Math.round(eased * target));
+      if (progress < 1) rafRef.current = requestAnimationFrame(tick);
+    }
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [target]);
 
   return <span className="font-mono tabular-nums">{display.toLocaleString()}</span>;
 }
@@ -68,7 +65,7 @@ function FindingRow({ f, activeFilter }: { f: Finding; isQuickWin: boolean; acti
 
 // ── Result panel ─────────────────────────────────────────────────────────────
 
-function ResultPanel({ data, onReset }: { data: AuditResult; onReset: () => void }) {
+function ResultPanel({ data }: { data: AuditResult }) {
   const [filter, setFilter] = useState<FilterKey>("all");
 
   const hostname = (() => { try { return new URL(data.url).hostname; } catch { return data.url; } })();
@@ -256,7 +253,7 @@ function DemoPanel() {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export function AuditClient({ scanCount = 0 }: { scanCount?: number }) {
+export function AuditClient() {
   const [state, setState] = useState<State>({ status: "idle" });
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -276,8 +273,8 @@ export function AuditClient({ scanCount = 0 }: { scanCount?: number }) {
 
   useEffect(() => {
     const u = new URLSearchParams(window.location.search).get("url");
-    if (u) runScan(u);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (u) runScan(u); // eslint-disable-line react-hooks/set-state-in-effect
+  }, []);
 
   async function handleScan(e: React.FormEvent) {
     e.preventDefault();
@@ -351,7 +348,7 @@ export function AuditClient({ scanCount = 0 }: { scanCount?: number }) {
         </div>
       )}
 
-      {state.status === "result" && <ResultPanel data={state.data} onReset={reset} />}
+      {state.status === "result" && <ResultPanel data={state.data} />}
       {state.status === "idle" && <DemoPanel />}
     </div>
   );

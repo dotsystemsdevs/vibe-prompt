@@ -31,7 +31,7 @@ export default async function AuditPage() {
         }
         accent="#ffffff"
       />
-      <AuditClient scanCount={scanCount} />
+      <AuditClient />
     </div>
   );
 }
