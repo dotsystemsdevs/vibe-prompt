@@ -31,7 +31,7 @@ export default async function HomePage() {
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-12">
 
         {/* ── Desktop: split ── */}
-        <div className="mx-auto hidden w-full max-w-6xl flex-1 items-center gap-20 px-12 xl:px-16 lg:flex">
+        <div className="mx-auto hidden w-full max-w-6xl items-center gap-20 px-12 xl:px-16 lg:flex py-16 xl:py-20">
 
           {/* Left */}
           <div className="flex flex-1 flex-col">
@@ -111,14 +111,10 @@ export default async function HomePage() {
             <div className="border border-foreground/20 bg-[#0a0a0a]">
 
               <div className="flex items-center justify-between border-b border-foreground/12 px-4 py-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                </div>
-                <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/25">
-                  vibe-coding-workflow
+                <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/30">
+                  Vibe coding workflow
                 </span>
+                <span className="text-[9px] text-foreground/20">{WORKFLOW_STEPS.length} steps</span>
               </div>
 
               <div className="divide-y divide-foreground/[0.06]">
@@ -188,12 +184,8 @@ export default async function HomePage() {
           {/* Workflow card */}
           <div className="mt-8 border border-foreground/20">
             <div className="flex items-center justify-between border-b border-foreground/12 px-4 py-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-                <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
-                <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-              </div>
-              <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/25">vibe-coding-workflow</span>
+              <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/30">Vibe coding workflow</span>
+              <span className="text-[9px] text-foreground/20">{WORKFLOW_STEPS.length} steps</span>
             </div>
             <div className="divide-y divide-foreground/[0.06]">
               {WORKFLOW_STEPS.map(({ step, title }) => (
