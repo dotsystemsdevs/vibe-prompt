@@ -12,7 +12,7 @@ function Favicon({ href, emoji }: { href: string; emoji: string }) {
 
   return (
     <Image
-      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+      src={`https://icons.duckduckgo.com/ip3/${domain}.ico`}
       alt=""
       width={20}
       height={20}
@@ -91,8 +91,9 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
             <button
               key={cat.slug}
               onClick={() => setActiveSlug(cat.slug)}
-              className={`shrink-0 border-b-2 px-3 py-3.5 text-xs transition-colors ${activeSlug === cat.slug ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}
+              className={`shrink-0 flex items-center gap-1.5 border-b-2 px-3 py-3.5 text-xs transition-colors ${activeSlug === cat.slug ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}
             >
+              <span className="text-sm leading-none">{cat.emoji}</span>
               {cat.title}
             </button>
           ))}
