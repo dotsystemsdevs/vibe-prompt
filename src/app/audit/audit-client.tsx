@@ -190,15 +190,18 @@ function ResultPanel({ data, onReset }: { data: AuditResult; onReset: () => void
 
 // ── Demo panel ────────────────────────────────────────────────────────────────
 
-const DEMO = [
-  { id: "d1", sev: "high", cat: "conversion", effort: "quick", title: "No CTA above the fold", fix: "Add a prominent button with action-oriented copy like 'Start for free'." },
-  { id: "d2", sev: "medium", cat: "seo", effort: "quick", title: "Missing meta description", fix: "Write a 140–160 char description with your core value proposition." },
-  { id: "d3", sev: "medium", cat: "security", effort: "quick", title: "Missing Strict-Transport-Security", fix: "Add HSTS header: max-age=31536000; includeSubDomains" },
-  { id: "d4", sev: "low", cat: "aeo", effort: "moderate", title: "No llms.txt file", fix: "Create /llms.txt describing your site for AI search engines." },
+const DEMO_CATS = [
+  { label: "SEO", score: 70 }, { label: "Conversion", score: 48 },
+  { label: "Security", score: 55 }, { label: "AI / AEO", score: 40 },
+];
+const DEMO_FINDINGS = [
+  { id: "d1", sev: "high" as const, cat: "conversion", title: "No CTA above the fold", fix: "Add a prominent button with action-oriented copy like 'Start for free'." },
+  { id: "d2", sev: "medium" as const, cat: "seo", title: "Missing meta description", fix: "Write a 140–160 char description with your core value proposition." },
+  { id: "d3", sev: "medium" as const, cat: "security", title: "Missing Strict-Transport-Security", fix: "Add HSTS header: max-age=31536000; includeSubDomains" },
+  { id: "d4", sev: "low" as const, cat: "aeo", title: "No llms.txt file", fix: "Create /llms.txt describing your site for AI search engines." },
 ];
 
 function DemoPanel() {
-  const sc = "#f97316";
   return (
     <div className="mt-10 select-none pointer-events-none opacity-40">
       <div className="flex items-center gap-3 mb-5">
@@ -207,56 +210,42 @@ function DemoPanel() {
         <div className="h-px flex-1 bg-foreground/8" />
       </div>
 
-      {/* Score card */}
+      {/* Score card — matches real ResultPanel */}
       <div className="border border-foreground/10 overflow-hidden">
-        <div className="flex items-center gap-2 px-5 py-3 border-b border-foreground/8">
-          <span className="text-[11px] font-medium text-foreground/30">yoursite.com</span>
-        </div>
-        <div className="grid grid-cols-[80px_1fr] sm:grid-cols-[100px_1fr]">
-          <div className="flex flex-col items-center justify-center border-r border-foreground/8 py-6 px-3 gap-0.5">
-            <span className="text-4xl font-black text-foreground/30">62</span>
-            <span className="text-[9px] uppercase tracking-widest text-foreground/15 mt-1">score</span>
+        <div className="flex items-center gap-2.5 px-5 py-3.5 border-b border-foreground/8">
+          <div className="w-4 h-4 rounded-sm bg-foreground/15 shrink-0" />
+          <span className="flex-1 text-sm font-semibold text-foreground/30 truncate">yoursite.com</span>
+          <div className="flex items-baseline gap-1 shrink-0">
+            <span className="text-2xl font-black tabular-nums leading-none text-foreground/30">62</span>
+            <span className="text-[10px] text-foreground/15 font-medium">/100</span>
           </div>
-          <div className="divide-y divide-foreground/[0.04]">
-            {[["SEO", 70], ["Conversion", 48], ["Security", 55], ["AI / AEO", 40]].map(([label, score]) => (
-              <div key={label} className="flex items-center gap-3 px-4 py-2.5">
-                <span className="w-20 sm:w-24 shrink-0 text-[9px] uppercase tracking-wider text-foreground/20">{label}</span>
-                <div className="flex-1 h-[3px] rounded-full bg-foreground/8">
-                  <div className="h-full rounded-full bg-foreground/20" style={{ width: `${score}%` }} />
-                </div>
-                <span className="w-7 text-right font-mono text-[11px] text-foreground/20">{score}</span>
+        </div>
+        <div className="divide-y divide-foreground/[0.04]">
+          {DEMO_CATS.map(({ label, score }) => (
+            <div key={label} className="flex items-center gap-4 px-5 py-2">
+              <span className="w-24 shrink-0 text-[10px] text-foreground/25">{label}</span>
+              <div className="flex-1 h-[3px] rounded-full bg-foreground/8">
+                <div className="h-full rounded-full bg-foreground/20" style={{ width: `${score}%` }} />
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Fix prompt preview */}
-      <div className="mt-4 bg-foreground/[0.02] border border-foreground/8">
-        <div className="flex items-center justify-between px-4 py-2 border-b border-foreground/8">
-          <span className="text-[9px] uppercase tracking-wider text-foreground/20">Fix with Claude Code or Cursor</span>
-          <span className="text-[9px] text-foreground/15">copy prompt →</span>
-        </div>
-        <div className="px-4 py-3 space-y-2 font-mono">
-          {DEMO.slice(0, 3).map((f, i) => (
-            <div key={f.id} className="flex gap-3">
-              <span className="text-[10px] text-foreground/15 shrink-0">{i + 1}.</span>
-              <span className="text-[11px] text-foreground/25">{f.title} — {f.fix}</span>
+              <span className="w-6 text-right font-mono text-[11px] text-foreground/20">{score}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Findings preview */}
-      <div className="mt-4 border-l border-foreground/8">
-        {DEMO.map((f) => (
-          <div key={f.id} className="flex gap-0 py-3 border-b border-foreground/6 last:border-0" style={{ borderLeft: `2px solid ${SEV_COLOR[f.sev]}25` }}>
-            <div className="pl-3.5 flex-1">
+      {/* Findings — matches real FindingRow */}
+      <div className="mt-4">
+        {DEMO_FINDINGS.map((f) => (
+          <div key={f.id} className="flex gap-3 py-2.5 border-b border-foreground/6 last:border-0">
+            <div className="pt-[6px] shrink-0">
+              <div className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
+            </div>
+            <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2">
-                <p className="text-[13px] font-medium text-foreground/40">{f.title}</p>
+                <p className="text-[12px] font-medium text-foreground/35">{f.title}</p>
+                <span className="text-[9px] text-foreground/15">{CAT_LABEL[f.cat]}</span>
               </div>
-              <p className="mt-0.5 text-[9px] text-foreground/20">{CAT_LABEL[f.cat]} · <span style={{ color: EFFORT_COLOR[f.effort] + "60" }}>{EFFORT_LABEL[f.effort]}</span></p>
-              <p className="mt-1 text-[11px] text-foreground/20 leading-relaxed">{f.fix}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-foreground/20">{f.fix}</p>
             </div>
           </div>
         ))}
