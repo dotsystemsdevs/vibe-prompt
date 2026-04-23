@@ -2,8 +2,8 @@
 title: "Context Is Everything: How to Set Up Your AI Agent for a New Project"
 description: "Bad context is why your AI writes generic code. Here's the exact setup that makes Claude, Cursor, and every other agent actually understand your project."
 date: "2026-04-23"
-image: "https://images.unsplash.com/photo-1686191129012-a2b6a8de4395?w=1200&q=80"
-imageAlt: "AI neural network abstract visualization"
+image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"
+imageAlt: "Colorful code on screen"
 author: "VibePrompt"
 ---
 
