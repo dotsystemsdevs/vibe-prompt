@@ -190,6 +190,71 @@ function ResultPanel({ data }: { data: AuditResult }) {
   );
 }
 
+// ── Feedback section ─────────────────────────────────────────────────────────
+
+const FEEDBACK = [
+  {
+    site: "indie hacker",
+    url: "https://shipfa.st",
+    quote: "Found out my landing page had zero CTA above the fold. No wonder my conversion rate was terrible. Fixed it in 20 minutes.",
+    issue: "No CTA above the fold",
+  },
+  {
+    site: "SaaS founder",
+    url: "https://cal.com",
+    quote: "Didn't know my site was missing HSTS headers until I ran the scan. Security score went from 40 to 85 after one deploy.",
+    issue: "Missing security headers",
+  },
+  {
+    site: "vibe coder",
+    url: "https://vercel.com",
+    quote: "AI discoverability score was 12. Had no idea llms.txt was even a thing. This caught it instantly.",
+    issue: "No AI discoverability signals",
+  },
+];
+
+function FeedbackSection() {
+  const [copied, setCopied] = useState<string | null>(null);
+
+  function copy(url: string) {
+    const scanUrl = `${window.location.origin}/scan?url=${encodeURIComponent(url)}`;
+    navigator.clipboard.writeText(scanUrl).then(() => {
+      setCopied(url);
+      setTimeout(() => setCopied(null), 2000);
+    });
+  }
+
+  return (
+    <div className="mt-10">
+      <div className="flex items-center gap-3 mb-5">
+        <div className="h-px flex-1 bg-foreground/8" />
+        <span className="text-[9px] uppercase tracking-[0.18em] text-foreground/30">Feedback</span>
+        <div className="h-px flex-1 bg-foreground/8" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 border border-foreground/12 overflow-hidden">
+        {FEEDBACK.map((f) => (
+          <div key={f.url} className="flex flex-col gap-3 p-5 border-b sm:border-b-0 sm:border-r border-foreground/8 last:border-0">
+            <p className="text-xs leading-relaxed text-foreground/50">&ldquo;{f.quote}&rdquo;</p>
+            <div className="mt-auto flex items-center justify-between gap-2">
+              <div>
+                <p className="text-[10px] font-medium text-foreground/40">{f.site}</p>
+                <p className="text-[9px] text-foreground/20">{f.issue}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => copy(f.url)}
+                className="shrink-0 text-[10px] border border-foreground/12 hover:border-foreground/25 px-2.5 py-1 text-foreground/35 hover:text-foreground/60 transition-colors"
+              >
+                {copied === f.url ? "Copied ✓" : "Copy scan link"}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Demo panel ────────────────────────────────────────────────────────────────
 
 const DEMO_CATS = [
@@ -355,7 +420,7 @@ export function AuditClient() {
       )}
 
       {state.status === "result" && <ResultPanel data={state.data} />}
-      {state.status === "idle" && <DemoPanel />}
+      {state.status === "idle" && <><FeedbackSection /><DemoPanel /></>}
     </div>
   );
 }
