@@ -215,12 +215,6 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
 
   return (
     <div className="mt-10">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="h-px flex-1 bg-foreground/8" />
-        <span className="text-[9px] uppercase tracking-[0.18em] text-foreground/30">Feedback</span>
-        <div className="h-px flex-1 bg-foreground/8" />
-      </div>
-
       <div className="border border-foreground/12 overflow-hidden">
         <div className="px-5 py-4 min-h-[80px]">
           {feedbackText ? (
