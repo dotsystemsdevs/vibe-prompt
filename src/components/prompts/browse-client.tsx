@@ -52,14 +52,30 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
         </div>
       </div>
 
-      {/* Category tabs */}
-      <div className="relative border-b border-foreground/12">
-        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-background to-transparent" />
-        <div className="flex items-center overflow-x-auto no-scrollbar px-4">
-          <button onClick={() => setCategory("all")} className={`shrink-0 border-b-2 px-3 py-3.5 text-xs transition-colors ${category === "all" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}>All</button>
-          {categories.map((c) => (
-            <button key={c.slug} onClick={() => setCategory(c.slug)} className={`shrink-0 border-b-2 px-3 py-3.5 text-xs transition-colors ${category === c.slug ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}>{c.name}</button>
-          ))}
+      {/* Category filter — select on mobile, tabs on desktop */}
+      <div className="border-b border-foreground/12">
+        {/* Mobile */}
+        <div className="sm:hidden px-4 py-3">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full bg-background border border-foreground/15 text-xs text-foreground/70 outline-none cursor-pointer px-3 py-2.5 appearance-none"
+          >
+            <option value="all">All categories</option>
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>{c.name}</option>
+            ))}
+          </select>
+        </div>
+        {/* Desktop */}
+        <div className="relative hidden sm:block">
+          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-background to-transparent" />
+          <div className="flex items-center overflow-x-auto no-scrollbar px-4">
+            <button onClick={() => setCategory("all")} className={`shrink-0 border-b-2 px-3 py-3.5 text-xs transition-colors ${category === "all" ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}>All</button>
+            {categories.map((c) => (
+              <button key={c.slug} onClick={() => setCategory(c.slug)} className={`shrink-0 border-b-2 px-3 py-3.5 text-xs transition-colors ${category === c.slug ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"}`}>{c.name}</button>
+            ))}
+          </div>
         </div>
       </div>
 
