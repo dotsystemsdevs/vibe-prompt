@@ -239,9 +239,13 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
     <>
       {/* Header */}
       <div className="flex items-center gap-2.5 px-5 py-3 border-b border-foreground/8">
-        <svg className="w-4 h-4 text-blue-400 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2a1 1 0 0 1 1 1v1h2a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h2V3a1 1 0 0 1 1-1ZM9 9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-5 5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4Z" />
-          <path d="M5 10a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0v-4ZM21 10a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0v-4Z" />
+        <svg className="w-4 h-4 text-blue-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="10" rx="2" />
+          <circle cx="12" cy="5" r="2" />
+          <path d="M12 7v4" />
+          <line x1="8" y1="16" x2="8" y2="16" strokeWidth={3} />
+          <line x1="16" y1="16" x2="16" y2="16" strokeWidth={3} />
+          <path d="M10 19h4" />
         </svg>
         <span className="text-[9px] uppercase tracking-[0.18em] text-foreground/30">Feedback</span>
         <div className="ml-auto">
