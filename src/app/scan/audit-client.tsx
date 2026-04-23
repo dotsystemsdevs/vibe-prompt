@@ -296,7 +296,8 @@ export function AuditClient() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-6 pb-20">
+    <div className="mx-auto max-w-6xl px-6 pb-20">
+      <div className="max-w-2xl">
       <form onSubmit={handleScan} className="flex">
         <input
           ref={inputRef}
@@ -356,6 +357,7 @@ export function AuditClient() {
 
       {state.status === "result" && <ResultPanel data={state.data} />}
       {state.status === "idle" && <DemoPanel />}
+      </div>
     </div>
   );
 }

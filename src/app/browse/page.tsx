@@ -33,7 +33,7 @@ export default async function BrowsePage() {
           accent="#ffffff"
         />
       </Reveal>
-      <div className="mx-auto max-w-6xl pt-6">
+      <div className="mx-auto max-w-6xl px-6 pt-6">
         <Suspense fallback={<div className="border border-foreground/20 overflow-hidden" style={{ minHeight: "640px" }} />}>
           <BrowseClient categories={categories} prompts={prompts} />
         </Suspense>

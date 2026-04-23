@@ -627,7 +627,7 @@ export default function WorkflowPage() {
           accent="#ffffff"
         />
       </Reveal>
-      <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-0">
+      <div className="mx-auto max-w-6xl px-6 pt-6">
         <WorkflowStepper steps={STEPS} />
         <Reveal>
           <GithubCta

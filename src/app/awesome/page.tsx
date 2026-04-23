@@ -28,7 +28,7 @@ export default async function AwesomePage() {
         />
       </Reveal>
 
-      <div className="mx-auto max-w-6xl pt-6">
+      <div className="mx-auto max-w-6xl px-6 pt-6">
         <AwesomeClient categories={AWESOME_CATEGORIES} />
         <Reveal>
           <GithubCta

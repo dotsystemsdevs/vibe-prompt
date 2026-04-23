@@ -30,7 +30,7 @@ export default async function ArticlesPage() {
         />
       </Reveal>
 
-      <div className="mx-auto max-w-6xl pt-6">
+      <div className="mx-auto max-w-6xl px-6 pt-6">
         {articles.length === 0 ? (
           <div className="border border-foreground/20 px-8 py-20 text-center">
             <p className="text-sm text-muted-foreground">No articles yet.</p>
