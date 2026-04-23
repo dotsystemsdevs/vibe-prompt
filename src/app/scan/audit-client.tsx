@@ -186,6 +186,8 @@ function ResultPanel({ data }: { data: AuditResult }) {
 <p className="text-[9px] text-foreground/20">
         Scanned {new Date(data.scannedAt).toLocaleString()} · Static HTML only
       </p>
+
+      <FeedbackCopyCard data={data} />
     </div>
   );
 }
@@ -403,7 +405,6 @@ export function AuditClient() {
 
       {state.status === "result" && <ResultPanel data={state.data} />}
       {state.status === "idle" && <DemoPanel />}
-      <FeedbackCopyCard data={state.status === "result" ? state.data : undefined} />
     </div>
   );
 }
