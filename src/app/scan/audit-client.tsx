@@ -196,10 +196,12 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
   const [copied, setCopied] = useState(false);
 
   const feedbackText = data ? (() => {
-    const origin = typeof window !== "undefined" ? window.location.origin : "https://vibeprompt.com";
-    const scanUrl = `${origin}/scan?url=${encodeURIComponent(data.url)}`;
-    const topIssues = data.findings.slice(0, 3).map((f) => `- ${f.title} (${CAT_LABEL[f.category] ?? f.category})`).join("\n");
-    return `ran your site through a landing page scanner, scored ${data.score}/100\n\nmain issues:\n${topIssues}\n\nfull breakdown: ${scanUrl}`;
+    const scanUrl = `https://vibeprompt.com/scan?url=${encodeURIComponent(data.url)}`;
+    const best = Object.entries(data.categories).sort((a, b) => b[1].score - a[1].score)[0];
+    const topIssues = data.findings.slice(0, 3).map((f) => `- ${f.title}`).join("\n");
+    const score = data.score;
+    const feel = score >= 75 ? "pretty solid overall" : score >= 50 ? "decent foundation, some things to tighten up" : "a few things worth addressing";
+    return `took a quick look at your landing page — ${feel}, scored ${score}/100\n\n${best[1].label} looks great (${best[1].score}/100)\n\na few things worth fixing:\n${topIssues}\n\nfull breakdown: ${scanUrl}`;
   })() : null;
 
   function copy() {
