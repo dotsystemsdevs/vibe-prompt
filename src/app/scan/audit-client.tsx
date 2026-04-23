@@ -111,6 +111,8 @@ function ResultPanel({ data }: { data: AuditResult }) {
           </div>
         </div>
 
+        <FeedbackCopyCard data={data} />
+
         {/* Category rows, clickable to filter */}
         <div className="divide-y divide-foreground/[0.05]">
           {(Object.entries(data.categories) as [string, { score: number; label: string }][]).map(([key, cat]) => {
@@ -139,8 +141,6 @@ function ResultPanel({ data }: { data: AuditResult }) {
           })}
         </div>
       </div>
-
-      <FeedbackCopyCard data={data} />
 
       {/* ── Findings card ── */}
       {data.findings.length > 0 && (
@@ -220,28 +220,24 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
   }, [fullText]);
 
   return (
-    <div>
-      <div className="border border-foreground/12 overflow-hidden">
-        <div className="px-5 py-5 flex items-start gap-4">
-          <div className="shrink-0 mt-0.5 w-7 h-7 rounded-sm border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
-            <svg className="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-              <path d="M12 2v3M9 5h6" strokeLinecap="round" />
-              <rect x="4" y="8" width="16" height="11" rx="2" />
-              <rect x="7" y="11" width="3" height="3" rx="0.5" fill="currentColor" stroke="none" />
-              <rect x="14" y="11" width="3" height="3" rx="0.5" fill="currentColor" stroke="none" />
-              <path d="M9 17.5h6" strokeLinecap="round" />
-              <path d="M2 12h2M20 12h2" strokeLinecap="round" />
-            </svg>
-          </div>
-          {fullText ? (
-            <p className="text-xs leading-relaxed text-foreground/50 whitespace-pre-line">
-              {displayed}{!done && <span className="animate-pulse">▌</span>}
-            </p>
-          ) : (
-            <p className="text-xs text-foreground/20">Scan a site above to generate a feedback summary.</p>
-          )}
-        </div>
+    <div className="flex items-start gap-3 px-5 py-4 border-b border-foreground/8">
+      <div className="shrink-0 mt-0.5 w-6 h-6 rounded-sm border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
+        <svg className="w-3.5 h-3.5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+          <path d="M12 2v3M9 5h6" strokeLinecap="round" />
+          <rect x="4" y="8" width="16" height="11" rx="2" />
+          <rect x="7" y="11" width="3" height="3" rx="0.5" fill="currentColor" stroke="none" />
+          <rect x="14" y="11" width="3" height="3" rx="0.5" fill="currentColor" stroke="none" />
+          <path d="M9 17.5h6" strokeLinecap="round" />
+          <path d="M2 12h2M20 12h2" strokeLinecap="round" />
+        </svg>
       </div>
+      {fullText ? (
+        <p className="text-xs leading-relaxed text-foreground/40 whitespace-pre-line">
+          {displayed}{!done && <span className="animate-pulse">▌</span>}
+        </p>
+      ) : (
+        <p className="text-xs text-foreground/20">Scan a site to generate feedback.</p>
+      )}
     </div>
   );
 }
