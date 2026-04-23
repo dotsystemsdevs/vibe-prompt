@@ -202,7 +202,7 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
   const [copied, setCopied] = useState(false);
 
   const textData = data ? (() => {
-    const scanUrl = `https://vibeprompt.com/scan?url=${encodeURIComponent(data.url)}`;
+    const scanUrl = `https://vibeprompt.tech/scan?url=${encodeURIComponent(data.url)}`;
     const best = Object.entries(data.categories).sort((a, b) => b[1].score - a[1].score)[0];
     const catSuffix: Record<string, string> = {
       conversion: "kills conversion", seo: "hurts search visibility",
@@ -211,9 +211,9 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
       aeo: "blocks AI search engines",
     };
     const topIssues = data.findings.slice(0, 3).map((f) => `- ${f.title}, ${catSuffix[f.category] ?? "worth fixing"}`).join("\n");
-    const praise = data.score >= 75 ? "really strong, worth keeping" : "holding up well";
-    const visible = `your ${best[1].label} is ${praise}\n\na few things that could be better:\n${topIssues}`;
-    const hidden = `\n\nscored ${data.score}/100, full breakdown: ${scanUrl}`;
+    const praise = data.score >= 75 ? "really strong" : "solid";
+    const visible = `your ${best[1].label} is ${praise}, a few things that could be better:\n${topIssues}`;
+    const hidden = `\nscored ${data.score}/100, full breakdown:\n${scanUrl}`;
     return { visible, full: visible + hidden };
   })() : null;
 
