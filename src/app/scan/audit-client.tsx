@@ -44,12 +44,17 @@ export function CountUp({ target }: { target: number }) {
 
 // ── Finding row ──────────────────────────────────────────────────────────────
 
+const SEV_LABEL: Record<string, string> = { high: "High", medium: "Med", low: "Low" };
+
 function FindingRow({ f, activeFilter }: { f: Finding; isQuickWin: boolean; activeFilter: FilterKey }) {
   return (
-    <div className="flex gap-3 py-2.5 border-b border-foreground/6 last:border-0">
-      <div className="pt-[6px] shrink-0">
-        <div className="w-1.5 h-1.5 rounded-full" style={{ background: SEV_COLOR[f.severity] }} />
-      </div>
+    <div className="flex gap-3 px-5 py-3 border-b border-foreground/6 last:border-0">
+      <span
+        className="shrink-0 mt-[3px] text-[9px] font-semibold uppercase tracking-wide w-7"
+        style={{ color: SEV_COLOR[f.severity] }}
+      >
+        {SEV_LABEL[f.severity]}
+      </span>
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2">
           <p className="text-[12px] font-medium text-foreground/75 leading-snug">{f.title}</p>
@@ -135,11 +140,11 @@ function ResultPanel({ data }: { data: AuditResult }) {
         </div>
       </div>
 
-      {/* ── Findings ── */}
+      {/* ── Findings card ── */}
       {data.findings.length > 0 && (
-        <div>
+        <div className="border border-foreground/12 overflow-hidden">
           {/* Tab bar */}
-          <div className="flex border-b border-foreground/8 mb-5 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex border-b border-foreground/8 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {tabs.map((tab) => {
               const active = filter === tab.key;
               return (
@@ -147,7 +152,7 @@ function ResultPanel({ data }: { data: AuditResult }) {
                   key={tab.key}
                   type="button"
                   onClick={() => setFilter(tab.key)}
-                  className={`shrink-0 flex items-center gap-1.5 px-3 py-2 text-[11px] border-b-2 -mb-px transition-colors ${
+                  className={`shrink-0 flex items-center gap-1.5 px-4 py-3 text-[11px] border-b-2 -mb-px transition-colors ${
                     active
                       ? "border-foreground/50 text-foreground/75 font-medium"
                       : "border-transparent text-foreground/30 hover:text-foreground/55"
@@ -164,7 +169,7 @@ function ResultPanel({ data }: { data: AuditResult }) {
 
           <div>
             {filtered.length === 0
-              ? <p className="py-6 text-center text-xs text-foreground/25">No findings in this category.</p>
+              ? <p className="py-8 text-center text-xs text-foreground/25">No findings in this category.</p>
               : filtered.map((f) => <FindingRow key={f.id} f={f} isQuickWin={quickWinIds.has(f.id)} activeFilter={filter} />)
             }
           </div>
@@ -231,12 +236,12 @@ function DemoPanel() {
       </div>
 
       {/* Findings — matches real FindingRow */}
-      <div className="mt-4">
+      <div className="mt-4 border border-foreground/8 overflow-hidden">
         {DEMO_FINDINGS.map((f) => (
-          <div key={f.id} className="flex gap-3 py-2.5 border-b border-foreground/6 last:border-0">
-            <div className="pt-[6px] shrink-0">
-              <div className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
-            </div>
+          <div key={f.id} className="flex gap-3 px-5 py-3 border-b border-foreground/6 last:border-0">
+            <span className="shrink-0 mt-[3px] text-[9px] font-semibold uppercase tracking-wide w-7 text-foreground/20">
+              {SEV_LABEL[f.sev]}
+            </span>
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2">
                 <p className="text-[12px] font-medium text-foreground/35">{f.title}</p>
