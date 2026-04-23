@@ -4,28 +4,11 @@ import { getPromptLibrary } from "@/lib/prompt-library";
 import { getRepoContributors } from "@/lib/github-repo-contributors";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 
-const FAQ_ITEMS = [
-  { q: "What is VibePrompt?", a: "VibePrompt is a free prompt library and vibe coding workflow for developers shipping with AI. No login required, open source." },
-  { q: "How does vibe coding work?", a: "Vibe coding is a workflow for shipping software with AI assistance. VibePrompt provides a 9-step playbook from idea to shipped product, plus battle-tested prompts for each stage." },
-  { q: "Is VibePrompt free to use?", a: "Yes. VibePrompt is a free plan with no paywalls, no login required, and fully open source on GitHub." },
-  { q: "Which AI tools work with these prompts?", a: "The prompts work with Claude Code, Cursor, GitHub Copilot, ChatGPT, Windsurf, and any other AI coding assistant." },
-];
-
-const FAQ_SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: FAQ_ITEMS.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
-
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "VibePrompt",
-  description: "40 battle-tested AI prompts, a 9-step vibe coding workflow, and a curated tool list, free and open source.",
+  description: "52 battle-tested AI prompts, a 9-step vibe coding workflow, and a curated tool list, free and open source.",
   url: "https://vibeprompt.tech",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
@@ -41,7 +24,6 @@ export default async function HomePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA_ORG) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_SCHEMA) }} />
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-12">
 
@@ -65,7 +47,7 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/50">
-              The 9-step vibe coding playbook from idea to shipped , 
+              The 9-step vibe coding playbook from idea to shipped,
               plus {prompts.length} battle-tested prompts to use at every stage.
             </p>
 
@@ -253,39 +235,6 @@ export default async function HomePage() {
 
         </div>
 
-      </div>
-
-      {/* FAQ + email capture */}
-      <div className="mx-auto w-full max-w-6xl px-6 pb-20 pt-4">
-
-        {/* Email capture */}
-        <div className="border border-foreground/12 px-6 py-8 mb-8 flex flex-col sm:flex-row sm:items-center gap-4">
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-foreground/70">Get notified when new prompts ship</p>
-            <p className="mt-1 text-xs text-foreground/35">No spam. Unsubscribe anytime.</p>
-          </div>
-          <form action="#" className="flex gap-2 shrink-0">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="border border-foreground/15 bg-background px-3 py-2 text-xs text-foreground placeholder:text-foreground/20 outline-none focus:border-foreground/35 w-48"
-            />
-            <button type="submit" className="px-4 py-2 text-xs font-semibold text-white" style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}>
-              Subscribe
-            </button>
-          </form>
-        </div>
-
-        {/* FAQ */}
-        <h2 className="text-sm font-semibold text-foreground/50 mb-4">How does VibePrompt work?</h2>
-        <div className="border border-foreground/12 overflow-hidden divide-y divide-foreground/8">
-          {FAQ_ITEMS.map((f) => (
-            <div key={f.q} className="px-5 py-4">
-              <h3 className="text-xs font-semibold text-foreground/70">{f.q}</h3>
-              <p className="mt-1 text-xs leading-relaxed text-foreground/40">{f.a}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </>
   );
