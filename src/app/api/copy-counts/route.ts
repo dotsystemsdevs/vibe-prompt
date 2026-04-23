@@ -1,18 +1,20 @@
-import { getSupabase } from "@/lib/supabase";
+import { kv } from "@vercel/kv";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const { data } = await getSupabase()
-      .from("prompt_copies")
-      .select("slug, count") as { data: { slug: string; count: number }[] | null };
-
+    const keys = await kv.keys("prompt:copies:*");
     const counts: Record<string, number> = {};
-    for (const row of data ?? []) {
-      counts[row.slug] = row.count;
+    if (keys.length > 0) {
+      const values = await kv.mget<number[]>(...keys);
+      keys.forEach((key, i) => {
+        const slug = key.replace("prompt:copies:", "");
+        counts[slug] = values[i] ?? 0;
+      });
     }
-    return NextResponse.json(counts);
+    const total = (await kv.get<number>("total:copies")) ?? 0;
+    return NextResponse.json({ counts, total });
   } catch {
-    return NextResponse.json({});
+    return NextResponse.json({ counts: {}, total: 0 });
   }
 }

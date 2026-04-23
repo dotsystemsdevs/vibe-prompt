@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import type { Category, Prompt } from "@/lib/types";
@@ -14,6 +14,18 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
   const searchParams = useSearchParams();
   const [category, setCategory] = useState(searchParams.get("category") ?? "all");
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
+  const [copyCounts, setCopyCounts] = useState<Record<string, number>>({});
+  const [totalCopied, setTotalCopied] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/copy-counts")
+      .then((r) => r.json())
+      .then((d: { counts: Record<string, number>; total: number }) => {
+        setCopyCounts(d.counts ?? {});
+        setTotalCopied(d.total ?? null);
+      })
+      .catch(() => {});
+  }, []);
 
   const normalize = (v: string) =>
     v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -49,6 +61,11 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
             className="w-full bg-transparent text-base sm:text-sm text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
           />
           {query && <button onClick={() => setQuery("")} aria-label="Clear search" className="shrink-0 text-xs text-muted-foreground/40 hover:text-foreground">✕</button>}
+          {totalCopied !== null && totalCopied > 0 && (
+            <span className="shrink-0 text-[10px] tabular-nums text-foreground/25 hidden sm:block">
+              {totalCopied.toLocaleString()} copied
+            </span>
+          )}
         </div>
       </div>
 
@@ -106,7 +123,14 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
                     </button>
                   ))}
                 </div>
-                <span className="text-xs text-foreground/20 transition-colors group-hover:text-foreground/60">→</span>
+                <div className="flex items-center gap-2 shrink-0">
+                  {(copyCounts[p.slug] ?? 0) > 0 && (
+                    <span className="text-[10px] tabular-nums text-foreground/20">
+                      {copyCounts[p.slug]}×
+                    </span>
+                  )}
+                  <span className="text-xs text-foreground/20 transition-colors group-hover:text-foreground/60">→</span>
+                </div>
               </div>
             </Link>
           ))}

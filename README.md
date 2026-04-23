@@ -1,6 +1,6 @@
 # VibePrompt
 
-Open-source prompt library and workflow hub for vibe coders — built so you always know what to do next, what to check, and how to ship faster with AI.
+Open-source prompt library, workflow hub, and site audit tool for vibe coders. Browse 52 battle-tested prompts, follow a 9-step shipping playbook, and scan any landing page for issues in one click.
 
 [![CI](https://github.com/dotsystemsdevs/VibePrompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/VibePrompt/actions/workflows/ci.yml)
 ![License](https://img.shields.io/github/license/dotsystemsdevs/VibePrompt)
@@ -8,41 +8,19 @@ Open-source prompt library and workflow hub for vibe coders — built so you alw
 ![Issues](https://img.shields.io/github/issues/dotsystemsdevs/VibePrompt?style=flat)
 ![PRs](https://img.shields.io/github/issues-pr/dotsystemsdevs/VibePrompt?style=flat)
 
-Repository: [dotsystemsdevs/VibePrompt](https://github.com/dotsystemsdevs/VibePrompt)
+**Live**: https://vibeprompt.tech
 
 ---
-
-## Quick links
-
-- **Site**: https://vibeprompt.tech
-- **Issues**: https://github.com/dotsystemsdevs/VibePrompt/issues
-- **Pull requests**: https://github.com/dotsystemsdevs/VibePrompt/pulls
 
 ## What This Is
 
-VibePrompt is a Next.js app that makes it easy to find, use, and learn from high-quality prompts for AI-assisted development.
+VibePrompt is a free, open-source tool for developers shipping with AI.
 
-- **Browse** a curated prompt library organized by workflow stage
-- **Follow** a 9-step workflow built from top vibe coding repos
-- **Explore** the Awesome list of AI coding tools and resources
-- **Save** prompts locally — no account required
-
-The goal: make prompt-based building easier to start, learn, and ship.
-
----
-
-## Contribute
-
-This project is **open source** and actively improved. If you ship with AI, you can help make VibePrompt better.
-
-- **Good first contributions**: fix copy, tighten UI spacing, improve mobile, add a prompt, or add a tool/resource
-- **Public discussions**: open an issue → we’ll track it openly
-- **Code changes**: open a PR (small + focused is perfect)
-
-Links:
-- [Open an Issue](https://github.com/dotsystemsdevs/VibePrompt/issues)
-- [Open a Pull Request](https://github.com/dotsystemsdevs/VibePrompt/pulls)
-- [Contributing Guide](./CONTRIBUTING.md)
+- **Browse** 52 prompts organized by workflow stage, copy in one click
+- **Follow** a 9-step vibe coding playbook from idea to shipped product
+- **Scan** any site with PageLens, an instant SEO, conversion, security, and AI-readiness audit
+- **Explore** a curated list of AI coding tools and resources
+- No login required. No paywall.
 
 ---
 
@@ -50,13 +28,16 @@ Links:
 
 | Route | What it does |
 |---|---|
-| `/` | Homepage |
-| `/browse` | Browse all prompts by category |
-| `/prompts/[slug]` | Individual prompt detail page |
-| `/workflow` | 9-step vibe coding workflow |
+| `/` | Homepage with workflow preview and FAQ |
+| `/browse` | Browse all 52 prompts by category, with copy count tracking |
+| `/prompts/[slug]` | Prompt detail with copy count and contributor badge |
+| `/workflow` | 9-step vibe coding playbook |
+| `/scan` | PageLens site audit (SEO, conversion, trust, security, AEO) |
+| `/articles` | Articles on vibe coding |
 | `/awesome` | Curated list of AI/vibe coding tools |
+| `/learn` | Learning resources |
+| `/privacy` | Privacy policy |
 | `/about` | About the project |
-| `/contact` | Contact |
 
 ---
 
@@ -66,38 +47,35 @@ Links:
 VibePrompt/
 ├─ src/
 │  ├─ app/                  # Next.js App Router pages
+│  │  ├─ api/audit/         # PageLens audit API (40+ rules)
+│  │  ├─ api/copy-counts/   # Prompt copy count API (Vercel KV)
+│  │  └─ scan/              # PageLens scan UI
 │  ├─ components/           # UI and feature components
-│  │  ├─ awesome/           # Awesome list components
-│  │  ├─ cta/               # Call-to-action components
-│  │  ├─ hero/              # Hero section
-│  │  ├─ layout/            # Navbar, footer, theme toggle
-│  │  ├─ motion/            # Animation wrappers
-│  │  ├─ prompts/           # Prompt cards, browse, actions
-│  │  └─ workflow/          # Workflow step components
-│  └─ lib/                  # Data, types, and utilities
-│     ├─ actions/           # Server actions (saves, etc.)
-│     ├─ categories.ts      # Category definitions and slug→folder mappings
-│     ├─ awesome-data.ts    # Awesome list entries
-│     ├─ prompt-library.ts  # Prompt data loading from markdown
-│     ├─ workflow-steps.ts  # Workflow step metadata
-│     ├─ local-saves.ts     # localStorage save helpers
-│     ├─ supabase.ts        # Supabase client
-│     └─ types.ts           # Shared TypeScript types
+│  │  ├─ prompts/           # Browse, cards, copy actions
+│  │  ├─ layout/            # Navbar, footer
+│  │  └─ ...
+│  └─ lib/
+│     ├─ actions/copies.ts  # Copy count server actions (Vercel KV)
+│     ├─ categories.ts      # Slug to folder mappings (protected)
+│     ├─ prompt-library.ts  # Loads prompts from markdown
+│     ├─ workflow-steps.ts  # 9-step workflow metadata
+│     └─ types.ts           # Shared types (protected)
 ├─ content/
-│  └─ prompts/              # Markdown prompt source files (one per prompt)
-├─ prompt-library/          # Standalone prompt playbook (40 prompts, 9 categories)
-│  ├─ Agent Setup/          # → "Context" on site
-│  ├─ Architecture Stack/   # → "Stack" on site
-│  ├─ Build Ship/           # → "Build" on site
-│  ├─ Launch Growth/        # → "Ship" on site
-│  ├─ Ops Maintenance/      # → "Iterate" on site
-│  ├─ PRD Spec/             # → "PRD" on site
-│  ├─ Prompting Craft/      # → "Prompting" on site
-│  ├─ Research Validate/    # → "Research" on site
-│  └─ Testing Quality/      # → "Quality" on site
-├─ public/                  # Static assets
-├─ scripts/                 # Utility scripts
-├─ AGENTS.md                # AI agent guidance for contributors
+│  └─ prompts/              # 52 markdown prompt files
+├─ prompt-library/          # Standalone prompt playbook
+│  ├─ Agent Setup/
+│  ├─ Architecture Stack/
+│  ├─ Build Ship/
+│  ├─ Launch Growth/
+│  ├─ Ops Maintenance/
+│  ├─ PRD Spec/
+│  ├─ Prompting Craft/
+│  ├─ Research Validate/
+│  └─ Testing Quality/
+├─ public/
+│  ├─ llms.txt              # AI crawler context file
+│  └─ robots.txt            # Explicit AI bot permissions
+├─ AGENTS.md                # Contributor and agent guide
 └─ CLAUDE.md                # Claude Code project instructions
 ```
 
@@ -110,51 +88,58 @@ VibePrompt/
 | Framework | Next.js 16 (App Router) |
 | UI | React 19, Tailwind CSS v4, shadcn/ui |
 | Auth | Clerk |
-| Database | Supabase |
+| KV Storage | Vercel KV (copy counts, scan count) |
+| Database | Supabase (optional, for saves) |
 | Animations | GSAP |
-| Language | TypeScript |
+| Analytics | Vercel Analytics |
+| Language | TypeScript (strict) |
 
 ---
 
 ## Getting Started
 
-### 1. Install dependencies
-
 ```bash
 npm install
+npm run dev      # localhost:3000
+npm run build
+npm run lint
 ```
 
-### 2. Set up environment variables
-
-Create a `.env.local` file:
+Environment variables needed in `.env.local`:
 
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
-CLERK_SECRET_KEY=your_clerk_secret
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### 3. Run locally
-
-```bash
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-### 4. Lint and build
-
-```bash
-npm run lint
-npm run build
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+KV_REST_API_URL=
+KV_REST_API_TOKEN=
+# Optional (for saves feature):
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
 ---
 
 ## Prompt Library
 
-The `prompt-library/` directory contains 40 standalone markdown prompt files organized by workflow stage. These are the source of truth for prompts shown in the app. Each file follows this format:
+52 prompts in `content/prompts/`, organized by stage:
+
+| Folder | Site label | What it covers |
+|---|---|---|
+| `Agent Setup/` | Context | AGENTS.md, CLAUDE.md, memory banks |
+| `Research Validate/` | Research | Validation, kill criteria, competitive analysis |
+| `PRD Spec/` | PRD | Requirements, acceptance criteria, scope |
+| `Architecture Stack/` | Stack | Stack decisions, system design |
+| `Build Ship/` | Build | Feature implementation, atomic tasks |
+| `Prompting Craft/` | Prompting | Prompt chains, output control |
+| `Testing Quality/` | Quality | Code review, security, testing |
+| `Launch Growth/` | Ship | Distribution, positioning, launch |
+| `Ops Maintenance/` | Iterate | Post-launch ops and reliability |
+
+**Adding a prompt:**
+
+1. Pick the right folder in `content/prompts/`
+2. Create a kebab-case `.md` file
+3. Use this structure:
 
 ```markdown
 ---
@@ -162,63 +147,66 @@ title: Prompt Title
 ---
 
 ## When to use
-[One or two sentences on the use case]
+One or two sentences.
 
 ## Prompt
 
 \```
-[The prompt text]
+The prompt text.
 \```
 ```
 
-**Categories** (folder name → display name on site):
+4. Open a PR: `prompt(category): add prompt-name`
 
-| Folder | Site label | What it covers |
-|---|---|---|
-| `Agent Setup/` | Context | AGENTS.md, CLAUDE.md, memory banks, context engineering |
-| `Research Validate/` | Research | Demand validation, kill criteria, competitive landscape |
-| `PRD Spec/` | PRD | Requirements, acceptance criteria, scope definition |
-| `Architecture Stack/` | Stack | Stack decisions, system boundaries, implementation strategy |
-| `Build Ship/` | Build | Feature implementation, atomic tasks, commit loops |
-| `Prompting Craft/` | Prompting | Prompt chains, output control, disagreement handling |
-| `Testing Quality/` | Quality | Code review, security audits, testing plans |
-| `Launch Growth/` | Ship | Distribution, positioning, launch execution |
-| `Ops Maintenance/` | Iterate | Operations, reliability, post-launch maintenance |
+---
+
+## PageLens Audit
+
+`/scan` audits any public URL across 40+ rules in 7 categories:
+
+- **SEO**: title, meta description, canonical, headings
+- **Conversion**: CTA presence, social proof, pricing, FAQ, email capture
+- **Trust**: OG tags, structured data, privacy link, accessibility
+- **Structure**: semantic HTML, viewport, nav/main/footer landmarks
+- **Performance**: render-blocking scripts, lazy loading, resource hints
+- **Security**: CSP, HSTS, X-Frame-Options, X-Content-Type-Options
+- **AI/AEO**: llms.txt, FAQ schema, robots.txt AI crawler permissions
+
+Audit API: `GET /api/audit?url=https://example.com`
+
+---
+
+## Roadmap
+
+**Done:**
+- 52 prompts across 9 categories
+- 9-step vibe coding workflow
+- PageLens site audit (40+ rules, 7 categories)
+- Copy count tracking per prompt via Vercel KV
+- AI crawler support (llms.txt, robots.txt, FAQ schema)
+- Security headers (CSP, HSTS, X-Frame-Options)
+- Articles section
+- Privacy policy
+- 100/100 on our own PageLens audit
+
+**Next:**
+- Prompt submissions via GitHub Issues
+- Saved prompts (Clerk + Supabase)
+- More prompts, more categories
+- Search improvements
 
 ---
 
 ## Contributing
 
-Contributions are welcome — especially new prompts, content fixes, and UI improvements.
+Read `AGENTS.md` before writing any code.
 
-- [Contributing Guide](./CONTRIBUTING.md)
-- [Code of Conduct](./CODE_OF_CONDUCT.md)
-- [Security Policy](./SECURITY.md)
-
-**Fast path (5 minutes):**
-
-1. Pick one small thing (copy/UI/prompt/tool)
-2. Make the change
-3. Open a PR with a clear title and screenshot if it’s UI
-
-**Adding a prompt:**
-
-1. Pick the right folder in `prompt-library/`
-2. Create a `.md` file with a kebab-case filename
-3. Use the frontmatter + `## When to use` + `## Prompt` structure
-4. Keep it focused — one prompt per file, real use case, no fluff
-5. Open a PR with the category in the title: `prompt(context): add AGENTS.md generator`
-
-**Adding to the Awesome list:**
-
-Edit `src/lib/awesome-data.ts`. Each entry needs `title`, `href`, `description`, and `category`.
-
-**UI contributions:**
-
-Read `AGENTS.md` before touching any code — it has stack-specific rules that differ from standard Next.js.
+- **Quick contribution**: copy fix, UI spacing, mobile, add a prompt, add a tool
+- **Issues**: https://github.com/dotsystemsdevs/VibePrompt/issues
+- **PRs**: https://github.com/dotsystemsdevs/VibePrompt/pulls
 
 ---
 
 ## License
 
-MIT — see [LICENSE](./LICENSE)
+MIT, see [LICENSE](./LICENSE)
