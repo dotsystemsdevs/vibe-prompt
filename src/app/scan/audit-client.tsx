@@ -144,7 +144,7 @@ function ResultPanel({ data }: { data: AuditResult }) {
       {data.findings.length > 0 && (
         <div className="border border-foreground/12 overflow-hidden">
           {/* Tab bar */}
-          <div className="flex border-b border-foreground/8 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex flex-wrap border-b border-foreground/8">
             {tabs.map((tab) => {
               const active = filter === tab.key;
               return (
