@@ -91,7 +91,7 @@ function ResultPanel({ data }: { data: AuditResult }) {
   const sc = scoreColor(data.score);
 
   return (
-    <div className="mt-8 space-y-6">
+    <div className="space-y-6">
       {data.isSPA && (
         <div className="border border-yellow-500/20 bg-yellow-500/[0.03] px-4 py-3">
           <p className="text-xs font-medium text-yellow-400/70">Client-rendered page, results may be incomplete</p>
@@ -205,7 +205,7 @@ const DEMO_FINDINGS = [
 
 function DemoPanel() {
   return (
-    <div className="mt-10 select-none pointer-events-none opacity-40">
+    <div className="select-none pointer-events-none opacity-40">
       <div className="flex items-center gap-3 mb-5">
         <div className="h-px flex-1 bg-foreground/8" />
         <span className="text-[9px] uppercase tracking-[0.18em] text-foreground/30">Example result</span>
@@ -297,66 +297,71 @@ export function AuditClient() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 pb-20">
-      <div className="max-w-2xl">
-      <form onSubmit={handleScan} className="flex">
-        <input
-          ref={inputRef}
-          type="url"
-          placeholder="https://yoursite.com"
-          required
-          className="flex-1 border border-foreground/20 bg-background px-4 py-3 text-sm text-foreground placeholder:text-foreground/20 outline-none focus:border-foreground/40 transition-colors"
-        />
-        <button
-          type="submit"
-          disabled={state.status === "loading"}
-          className="shrink-0 px-5 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-85 disabled:opacity-40"
-          style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
-        >
-          {state.status === "loading"
-            ? <span className="flex items-center gap-2"><span className="h-3 w-3 animate-spin rounded-full border border-foreground/30 border-t-foreground/70" />Scanning</span>
-            : "Scan →"}
-        </button>
-      </form>
-
-      {state.status === "idle" && (
-        <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-          {["stripe.com", "linear.app", "vercel.com"].map((site) => (
+      <div className="border border-foreground/20 overflow-hidden">
+        {/* Form row */}
+        <div className="border-b border-foreground/12 px-4 py-4 sm:px-6 sm:py-5">
+          <form onSubmit={handleScan} className="flex">
+            <input
+              ref={inputRef}
+              type="url"
+              placeholder="https://yoursite.com"
+              required
+              className="flex-1 bg-transparent px-0 py-1 text-sm text-foreground placeholder:text-foreground/20 outline-none"
+            />
             <button
-              key={site}
-              type="button"
-              onClick={() => runScan(`https://${site}`)}
-              className="text-[10px] text-foreground/30 hover:text-foreground/60 border border-foreground/10 hover:border-foreground/25 px-2 py-0.5 transition-colors"
+              type="submit"
+              disabled={state.status === "loading"}
+              className="shrink-0 ml-4 px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+              style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
             >
-              {site}
+              {state.status === "loading"
+                ? <span className="flex items-center gap-2"><span className="h-3 w-3 animate-spin rounded-full border border-white/30 border-t-white/80" />Scanning</span>
+                : "Scan →"}
             </button>
-          ))}
+          </form>
+          {state.status === "idle" && (
+            <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+              {["stripe.com", "linear.app", "vercel.com"].map((site) => (
+                <button
+                  key={site}
+                  type="button"
+                  onClick={() => runScan(`https://${site}`)}
+                  className="text-[10px] text-foreground/30 hover:text-foreground/60 border border-foreground/10 hover:border-foreground/25 px-2 py-0.5 transition-colors"
+                >
+                  {site}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      )}
 
-      {state.status === "loading" && (
-        <div className="mt-8 px-5 py-6 border border-foreground/8">
-          <div className="flex items-center gap-3">
-            <div className="h-3 w-3 animate-spin rounded-full border border-foreground/15 border-t-foreground/50 shrink-0" />
-            <p className="text-sm text-foreground/40">Fetching and running audit rules…</p>
-          </div>
-          <div className="mt-3 space-y-1">
-            {["SEO signals", "Conversion elements", "Trust & security headers", "AI discoverability"].map((s) => (
-              <p key={s} className="text-[10px] text-foreground/20">{s}…</p>
-            ))}
-          </div>
+        {/* Body */}
+        <div className="px-4 py-6 sm:px-6">
+          {state.status === "loading" && (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div className="h-3 w-3 animate-spin rounded-full border border-foreground/15 border-t-foreground/50 shrink-0" />
+                <p className="text-sm text-foreground/40">Fetching and running audit rules…</p>
+              </div>
+              <div className="space-y-1">
+                {["SEO signals", "Conversion elements", "Trust & security headers", "AI discoverability"].map((s) => (
+                  <p key={s} className="text-[10px] text-foreground/20">{s}…</p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {state.status === "error" && (
+            <div className="border border-red-500/15 bg-red-500/[0.03] px-4 py-4">
+              <p className="text-xs font-medium text-red-400/80">Scan failed</p>
+              <p className="mt-0.5 text-xs text-foreground/40">{state.message}</p>
+              <button type="button" onClick={reset} className="mt-2 text-[10px] text-foreground/35 hover:text-foreground/55 underline transition-colors">Try again</button>
+            </div>
+          )}
+
+          {state.status === "result" && <ResultPanel data={state.data} />}
+          {state.status === "idle" && <DemoPanel />}
         </div>
-      )}
-
-      {state.status === "error" && (
-        <div className="mt-6 border border-red-500/15 bg-red-500/[0.03] px-4 py-4">
-          <p className="text-xs font-medium text-red-400/80">Scan failed</p>
-          <p className="mt-0.5 text-xs text-foreground/40">{state.message}</p>
-          <button type="button" onClick={reset} className="mt-2 text-[10px] text-foreground/35 hover:text-foreground/55 underline transition-colors">Try again</button>
-        </div>
-      )}
-
-      {state.status === "result" && <ResultPanel data={state.data} />}
-      {state.status === "idle" && <DemoPanel />}
       </div>
     </div>
   );
