@@ -423,7 +423,8 @@ export function AuditClient() {
       )}
 
       {state.status === "result" && <ResultPanel data={state.data} />}
-      {state.status === "idle" && <><RedditReplyCard /><DemoPanel /></>}
+      {state.status === "idle" && <DemoPanel />}
+      <RedditReplyCard />
     </div>
   );
 }
