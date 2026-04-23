@@ -56,7 +56,7 @@ export function Navbar() {
           >
             GitHub ↗
           </a>
-          <button type="button" className="text-muted-foreground md:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>
+          <button type="button" className="p-2 -mr-2 text-muted-foreground md:hidden" aria-label="Menu" onClick={() => setOpen(!open)}>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {open ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />

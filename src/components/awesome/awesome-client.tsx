@@ -80,11 +80,11 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
       {/* Category filter — select on mobile, tabs on desktop */}
       <div className="border-b border-foreground/12">
         {/* Mobile: compact select */}
-        <div className="sm:hidden px-4 py-2.5">
+        <div className="sm:hidden px-4 py-3">
           <select
             value={activeSlug}
             onChange={(e) => setActiveSlug(e.target.value)}
-            className="w-full bg-transparent text-xs text-foreground/70 outline-none cursor-pointer py-1"
+            className="w-full bg-background border border-foreground/15 text-xs text-foreground/70 outline-none cursor-pointer px-3 py-2.5 appearance-none"
           >
             <option value="all">All categories</option>
             {categories.map((cat) => (

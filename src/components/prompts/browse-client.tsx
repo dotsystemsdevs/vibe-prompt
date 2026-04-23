@@ -65,13 +65,13 @@ export function BrowseClient({ categories, prompts }: BrowseClientProps) {
 
       {/* Cards */}
       {results.length > 0 ? (
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
           {results.map((p) => (
             <Link
               key={p.slug}
               href={`/prompts/${p.slug}`}
               prefetch={false}
-              className="group flex flex-col gap-3 border-b border-r border-foreground/[0.08] p-5 transition-colors hover:bg-foreground/[0.04]"
+              className="group flex flex-col gap-3 border-b sm:border-r border-foreground/[0.08] p-5 transition-colors hover:bg-foreground/[0.04]"
             >
               <div>
                 <h3 className="text-sm font-semibold leading-snug text-foreground/90 group-hover:text-foreground transition-colors">{p.title}</h3>
