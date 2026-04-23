@@ -211,9 +211,15 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
       trust: "affects credibility", structure: "makes it harder to navigate",
       aeo: "blocks AI search engines",
     };
-    const topIssues = data.findings.slice(0, 3).map((f) => `- ${f.title}, ${catSuffix[f.category] ?? "worth fixing"}`).join("\n");
-    const praise = data.score >= 75 ? "really strong" : "solid";
-    const visible = `your ${best[1].label} is ${praise}, a few things that could be better:\n${topIssues}`;
+    const top = data.findings.slice(0, 3);
+    let visible: string;
+    if (top.length === 0) {
+      visible = `${best[1].label} looks clean, nothing flagged`;
+    } else {
+      const issueLines = top.map((f) => `${f.title}, ${catSuffix[f.category] ?? "worth fixing"}`).join("\n");
+      const praise = data.score >= 75 ? "solid" : "ok";
+      visible = `${best[1].label} is ${praise}, a few things flagged:\n${issueLines}`;
+    }
     const hidden = `\nscored ${data.score}/100, full breakdown:\n${scanUrl}`;
     return { visible, full: visible + hidden };
   })() : null;
@@ -232,11 +238,12 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
       if (i >= visibleText.length) { clearInterval(id); setDone(true); }
     }, 18);
     return () => clearInterval(id);
-  }, [visibleText]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.url, data?.scannedAt]);
 
   function copy() {
     if (!fullText) return;
-    navigator.clipboard.writeText(fullText!).then(() => {
+    navigator.clipboard.writeText(fullText).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -246,13 +253,13 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
     <>
       {/* Header */}
       <div className="flex items-center gap-2.5 px-5 py-3 border-b border-foreground/8">
-        <svg className="w-4 h-4 text-blue-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <rect x="3" y="11" width="18" height="10" rx="2" />
-          <circle cx="12" cy="5" r="2" />
-          <path d="M12 7v4" />
-          <line x1="8" y1="16" x2="8" y2="16" strokeWidth={3} />
-          <line x1="16" y1="16" x2="16" y2="16" strokeWidth={3} />
-          <path d="M10 19h4" />
+        <svg viewBox="0 0 16 16" fill="currentColor" className="w-[13px] h-[13px] text-foreground/40 shrink-0" aria-hidden="true">
+          <circle cx="8" cy="2" r="1.5" />
+          <rect x="7.25" y="3" width="1.5" height="1.5" />
+          <rect x="1" y="5" width="14" height="10" rx="1.5" />
+          <rect x="3.5" y="7.5" width="2" height="2" rx="0.5" fill="black" fillOpacity="0.4" />
+          <rect x="10.5" y="7.5" width="2" height="2" rx="0.5" fill="black" fillOpacity="0.4" />
+          <rect x="5" y="11" width="6" height="1.5" rx="0.5" fill="black" fillOpacity="0.3" />
         </svg>
         <span className="text-[9px] uppercase tracking-[0.18em] text-foreground/30">Feedback</span>
         <div className="ml-auto">
@@ -278,7 +285,6 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
           <p className="text-xs text-foreground/20">Scan a site to generate feedback.</p>
         )}
       </div>
-
     </>
   );
 }
