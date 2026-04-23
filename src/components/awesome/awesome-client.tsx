@@ -72,9 +72,9 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-start gap-4 px-4 py-3.5 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
+              className="group flex items-center gap-4 px-4 py-3.5 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
             >
-              <div className="mt-0.5 shrink-0">
+              <div className="shrink-0">
                 <Favicon href={item.href} emoji={item.catEmoji} />
               </div>
               <div className="min-w-0 flex-1">
@@ -83,17 +83,18 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
                   <span className="text-xs text-foreground/20 transition-colors group-hover:text-foreground/50">↗</span>
                 </div>
                 <p className="mt-0.5 text-xs text-muted-foreground/70">{item.description}</p>
-                <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-1">
-                  {item.tags.map((tag) => (
-                    <button
-                      key={tag}
-                      onClick={(e) => { e.preventDefault(); setQuery(tag); }}
-                      className="text-[10px] text-foreground/30 hover:text-foreground/60 transition-colors"
-                    >
-                      #{tag}
-                    </button>
-                  ))}
-                </div>
+              </div>
+              <div className="hidden sm:flex shrink-0 flex-wrap justify-end gap-x-2 gap-y-1 max-w-[40%]">
+                {item.tags.map((tag) => (
+                  <button
+                    key={tag}
+                    onClick={(e) => { e.preventDefault(); setQuery(tag); }}
+                    className="text-[10px] transition-opacity hover:opacity-70"
+                    style={{ color: "var(--accent-blue)" }}
+                  >
+                    #{tag}
+                  </button>
+                ))}
               </div>
             </a>
           ))}
