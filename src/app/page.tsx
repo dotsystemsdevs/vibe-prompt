@@ -264,7 +264,7 @@ export default async function HomePage() {
             <p className="text-sm font-semibold text-foreground/70">Get notified when new prompts ship</p>
             <p className="mt-1 text-xs text-foreground/35">No spam. Unsubscribe anytime.</p>
           </div>
-          <form onSubmit={(e) => e.preventDefault()} className="flex gap-2 shrink-0">
+          <form action="#" className="flex gap-2 shrink-0">
             <input
               type="email"
               placeholder="your@email.com"
