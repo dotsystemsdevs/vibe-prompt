@@ -3,23 +3,23 @@ title: Memory Bank Setup
 ---
 
 ## When to use
-Once per project, after writing your PRD and before your first build session. Sets up the memory-bank/ folder that every AI session will read from — replaces copy-pasting context into every chat.
+Once per project, after writing your PRD and before your first build session. Sets up the memory-bank/ folder that every AI session will read from , replaces copy-pasting context into every chat.
 
 ## Prompt
 
 ```
-Set up a memory-bank/ folder for my project. This folder is the persistent context layer every AI session reads before starting. Create all files listed below with real content — no placeholders.
+Set up a memory-bank/ folder for my project. This folder is the persistent context layer every AI session reads before starting. Create all files listed below with real content , no placeholders.
 
 Project details:
 - Project name: [PROJECT NAME]
 - Tech stack: [e.g. Next.js 15, TypeScript, Tailwind, Supabase, Clerk]
 - PRD summary: [PASTE YOUR PRD OR DESCRIBE YOUR PROJECT IN 3-5 SENTENCES]
-- Current codebase state: [What exists — e.g. "Fresh Next.js app, nothing built yet" or "Auth working, dashboard skeleton done"]
+- Current codebase state: [What exists , e.g. "Fresh Next.js app, nothing built yet" or "Auth working, dashboard skeleton done"]
 
 Create the following files:
 
 memory-bank/@architecture.md
-Mark this file with @ — it must be read before every session. Include:
+Mark this file with @ , it must be read before every session. Include:
 - Full directory tree with one-line descriptions of each folder and its purpose
 - Every existing file that does real work, with one sentence describing what it does
 - Any files that must never be modified (protected list)
@@ -27,7 +27,7 @@ Mark this file with @ — it must be read before every session. Include:
 Update this file after every session that adds new files or changes the structure.
 
 memory-bank/@design-doc.md
-Mark this file with @ — it must be read before every session. Include:
+Mark this file with @ , it must be read before every session. Include:
 - Project goal (1 sentence)
 - Target user (1 sentence, specific person with specific situation)
 - Problem being solved (1 sentence, no solution in it)

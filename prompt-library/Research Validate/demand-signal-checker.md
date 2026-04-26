@@ -3,7 +3,7 @@ title: Demand Signal Checker
 ---
 
 ## When to use
-When you want to verify that real demand exists for your product idea before investing weeks of build time — turn your gut feeling into a structured evidence checklist.
+When you want to verify that real demand exists for your product idea before investing weeks of build time , turn your gut feeling into a structured evidence checklist.
 
 ## Prompt
 

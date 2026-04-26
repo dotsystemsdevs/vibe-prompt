@@ -3,7 +3,7 @@ title: Diff Review Gate
 ---
 
 ## When to use
-Before accepting any AI-generated code change — run this review to catch scope creep, unintended modifications, and anything that slipped in beyond the stated task.
+Before accepting any AI-generated code change , run this review to catch scope creep, unintended modifications, and anything that slipped in beyond the stated task.
 
 ## Prompt
 
@@ -23,11 +23,11 @@ Check the following and give a PASS or FAIL for each:
 
 2. NEW DEPENDENCIES: Does the diff add any new imports, packages, or dependencies that were not approved as part of this task? If yes, FAIL and list each new dependency.
 
-3. LOGIC SCOPE: Does the diff change any logic outside of what the task described? Refactors, "improvements," renamed variables, changed function signatures — anything beyond the literal task is out of scope. FAIL if anything like this exists.
+3. LOGIC SCOPE: Does the diff change any logic outside of what the task described? Refactors, "improvements," renamed variables, changed function signatures , anything beyond the literal task is out of scope. FAIL if anything like this exists.
 
 4. HARDCODED VALUES: Does the diff introduce any hardcoded strings, URLs, IDs, or numeric magic values that should be constants or environment variables? FAIL and list each one.
 
-5. SECRET EXPOSURE: Does the diff expose any API keys, tokens, connection strings, or credentials — in code, comments, or test fixtures? FAIL immediately if yes and do not proceed.
+5. SECRET EXPOSURE: Does the diff expose any API keys, tokens, connection strings, or credentials , in code, comments, or test fixtures? FAIL immediately if yes and do not proceed.
 
 6. PROTECTED FILES: Does the diff touch any files that are on the protected file list in AGENTS.md? FAIL if yes, regardless of what was changed.
 

@@ -3,15 +3,15 @@ title: Cost and Scale Review
 ---
 
 ## When to use
-When monthly infrastructure costs are growing faster than revenue, or before scaling to significantly more users — find the waste and the single points of failure before they find you.
+When monthly infrastructure costs are growing faster than revenue, or before scaling to significantly more users , find the waste and the single points of failure before they find you.
 
 ## Prompt
 
 ```
-Review my current infrastructure setup for cost efficiency and scale readiness. I need specific, actionable findings — not general cloud architecture advice.
+Review my current infrastructure setup for cost efficiency and scale readiness. I need specific, actionable findings , not general cloud architecture advice.
 
 Current monthly infrastructure costs:
-[LIST EACH SERVICE AND ITS MONTHLY COST — e.g.]
+[LIST EACH SERVICE AND ITS MONTHLY COST , e.g.]
 - Vercel Pro: $20/month
 - Supabase Pro: $25/month
 - Clerk Pro: $25/month
@@ -57,11 +57,11 @@ For each service, identify at what user volume the current plan would hit its li
 List concrete actions ordered by: (monthly savings × ease of implementation). Top of the list = highest impact, easiest to do.
 
 For each action:
-ACTION: [Specific step — e.g. "Downgrade Sentry to free tier and use Vercel's built-in error logging"]
+ACTION: [Specific step , e.g. "Downgrade Sentry to free tier and use Vercel's built-in error logging"]
 MONTHLY SAVINGS: $[X]
 RISK: [What you lose and whether it matters at current scale]
 EFFORT: [How long it would take to implement]
 
 5. COST TARGET:
-Based on current and projected scale, what should the monthly infrastructure cost be? What is the realistic cost floor — the minimum you can pay and still run this product reliably?
+Based on current and projected scale, what should the monthly infrastructure cost be? What is the realistic cost floor , the minimum you can pay and still run this product reliably?
 ```

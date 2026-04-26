@@ -1,6 +1,6 @@
 # Contributing to vibeprompt
 
-vibeprompt uses GitHub as the source of truth for public prompts. Every prompt is a Markdown file reviewed and merged by maintainers — just like code.
+vibeprompt uses GitHub as the source of truth for public prompts. Every prompt is a Markdown file reviewed and merged by maintainers , just like code.
 
 ---
 
@@ -34,7 +34,7 @@ Copy the prompt below and fill in the [brackets]:
 ````
 
 **Placeholder rules:**
-- Use `[UPPER_SNAKE_CASE]` for every variable — e.g., `[PRODUCT_NAME]`, `[TARGET_AUDIENCE]`
+- Use `[UPPER_SNAKE_CASE]` for every variable , e.g., `[PRODUCT_NAME]`, `[TARGET_AUDIENCE]`
 - Every placeholder must have a matching bullet point in `## Input`
 - No placeholder should require knowledge the user can't reasonably have
 
@@ -77,7 +77,7 @@ PRs will be rejected if:
 PRs will be accepted faster if:
 
 - The prompt solves a specific, named pain (not a generic task)
-- The Instructions block is self-contained — no external files needed to run it
+- The Instructions block is self-contained , no external files needed to run it
 - Variants cover a real lighter use case and a real heavier one
 - You've tested it and included the model you used in the PR description
 

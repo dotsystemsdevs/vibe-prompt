@@ -3,12 +3,12 @@ title: Secret Leak Scanner
 ---
 
 ## When to use
-Before any commit that involves API integrations, environment configuration, auth logic, or any file that has touched credentials — make this a non-negotiable step.
+Before any commit that involves API integrations, environment configuration, auth logic, or any file that has touched credentials , make this a non-negotiable step.
 
 ## Prompt
 
 ```
-Scan the following code diff for leaked secrets, credentials, and sensitive configuration. Be thorough and paranoid — false positives are fine, false negatives are not.
+Scan the following code diff for leaked secrets, credentials, and sensitive configuration. Be thorough and paranoid , false positives are fine, false negatives are not.
 
 Diff or files to scan:
 [PASTE THE GIT DIFF OR FILE CONTENTS HERE]
@@ -39,7 +39,7 @@ PATTERN CATEGORIES TO SCAN:
 
 5. PRIVATE URLS AND INTERNAL ENDPOINTS:
    - Internal service URLs with credentials in query params (?key=, ?token=, ?secret=)
-   - Supabase URLs paired with service role keys (not anon keys — service role keys have full access)
+   - Supabase URLs paired with service role keys (not anon keys , service role keys have full access)
 
 6. ENVIRONMENT VARIABLE VALUES HARDCODED:
    - Any place where process.env.SOME_SECRET is replaced with a hardcoded string
@@ -60,7 +60,7 @@ FINDING [N]:
 - Recommended fix: [move to env var / remove entirely / replace with placeholder]
 
 If nothing is found:
-SCAN RESULT: CLEAN — no secrets or credentials detected in the provided diff.
+SCAN RESULT: CLEAN , no secrets or credentials detected in the provided diff.
 
 Do not give me a summary without the details. If you find anything, I need the exact location.
 ```

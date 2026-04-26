@@ -3,12 +3,12 @@ title: Connect Frontend to Backend
 ---
 
 ## When to use
-When you have a working frontend and a working backend but they aren't talking to each other — or when UI state isn't updating from server data, API calls are disconnected from components, or data fetched from the server never reaches the screen.
+When you have a working frontend and a working backend but they aren't talking to each other , or when UI state isn't updating from server data, API calls are disconnected from components, or data fetched from the server never reaches the screen.
 
 ## Prompt
 
 ```
-I need you to wire the frontend to the backend for this feature. Do not rewrite either side — only connect them.
+I need you to wire the frontend to the backend for this feature. Do not rewrite either side , only connect them.
 
 Feature to connect: [DESCRIBE THE FEATURE]
 Frontend location: [FILE/COMPONENT PATH]
@@ -17,7 +17,7 @@ What should happen: [USER ACTION → API CALL → UI UPDATE]
 
 ---
 
-STEP 1 — Map the current data flow
+STEP 1 , Map the current data flow
 
 Before writing any code, read both files and document:
 
@@ -35,18 +35,18 @@ Write this out before touching anything. Show me the map.
 
 ---
 
-STEP 2 — Implement the connection
+STEP 2 , Implement the connection
 
 Wire them together following this order exactly:
 1. Add the API call in the frontend (fetch/action/query)
 2. Handle loading state
 3. Handle error state  
-4. Handle success — update the UI with real data
+4. Handle success , update the UI with real data
 5. Remove any mock/static data that was previously hardcoded
 
 ---
 
-STEP 3 — Verify end-to-end
+STEP 3 , Verify end-to-end
 
 Write a short checklist I can run manually to confirm the connection works:
 - [ ] Action I take in the UI
@@ -55,8 +55,8 @@ Write a short checklist I can run manually to confirm the connection works:
 - [ ] UI change that confirms the data arrived
 
 Rules:
-- Do not rewrite the API — only call it as it exists
-- Do not redesign the component — only add the data wiring
+- Do not rewrite the API , only call it as it exists
+- Do not redesign the component , only add the data wiring
 - If the API and frontend expect different data shapes, tell me before bridging them
-- One feature connection per session — do not wire multiple things at once
+- One feature connection per session , do not wire multiple things at once
 ```

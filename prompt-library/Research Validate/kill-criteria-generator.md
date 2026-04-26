@@ -22,7 +22,7 @@ Generate kill criteria across these 4 dimensions:
    - Minimum number of users who complete the core value loop at least once
    - Minimum number of users who return for a second session within 7 days
 
-2. REVENUE KILL CRITERIA (if applicable): If this is a paid product, define revenue thresholds. Format: "If [revenue condition] is not met by [date], kill the project." Be specific — not "some revenue" but "$X MRR by week N."
+2. REVENUE KILL CRITERIA (if applicable): If this is a paid product, define revenue thresholds. Format: "If [revenue condition] is not met by [date], kill the project." Be specific , not "some revenue" but "$X MRR by week N."
 
 3. BUILD KILL CRITERIA: Define when the build itself signals the idea is wrong. Format: "If building [feature or function] requires more than [time/complexity] because [reason], this is a signal the approach is wrong and we should stop." Examples: if the MVP scope keeps expanding past 8 features, if no working prototype exists after 3 full weeks of work.
 

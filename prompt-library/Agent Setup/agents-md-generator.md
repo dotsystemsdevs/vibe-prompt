@@ -8,7 +8,7 @@ Before starting any AI-assisted project, or when your AGENTS.md is missing, inco
 ## Prompt
 
 ```
-Generate a complete AGENTS.md file for my project. Use the details below and fill in every section — no TBD, no placeholders left empty.
+Generate a complete AGENTS.md file for my project. Use the details below and fill in every section , no TBD, no placeholders left empty.
 
 Project name: [PROJECT NAME]
 Tech stack: [e.g. Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Supabase, Clerk]
@@ -37,17 +37,17 @@ Must include these four non-negotiable rules:
 - Never create a file longer than 500 lines. If approaching the limit, refactor into modules.
 - Never delete or overwrite existing code unless explicitly instructed to do so.
 - Every new feature requires 3 tests: one expected-use case, one edge case, one failure case.
-- Always update TASK.md after completing a task — mark it done with today's date.
+- Always update TASK.md after completing a task , mark it done with today's date.
 
 7. TASK.MD PROTOCOL
 Explain how TASK.md is maintained: check it before starting, add the task with today's date if not listed, mark it done immediately after completing, add a "Discovered During Work" section for tasks that surface mid-session.
 
 8. MEMORY BANK
 List any files in memory-bank/ that must be read before every session. Mark with @ prefix for files that are always required:
-- @architecture.md — file map, always read
-- @design-doc.md — PRD summary, always read
-- progress.md — completed steps so far
-- implementation-plan.md — ordered task list
+- @architecture.md , file map, always read
+- @design-doc.md , PRD summary, always read
+- progress.md , completed steps so far
+- implementation-plan.md , ordered task list
 
 9. CURRENT STATE
 What is built and working. What is in progress. What has not been started. Keep this honest.

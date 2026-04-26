@@ -24,10 +24,10 @@ WHAT YOU MUST NOT DO:
 - Do not suggest an alternative approach unless the implementation literally cannot work (not just that you think there's a better way)
 - Do not add warnings, caveats, or "consider this instead" paragraphs to your response
 - Do not implement a modified version that incorporates your suggestions without telling me
-- Do not ask "are you sure?" — I am sure. That's why I'm saying it again.
+- Do not ask "are you sure?" , I am sure. That's why I'm saying it again.
 
 THE ONLY EXCEPTION:
-If proceeding would cause data loss, a security vulnerability (e.g. exposing user data or credentials), or would make the application throw an unrecoverable error, you must stop and tell me specifically why — not just that you're concerned, but the exact failure that would occur. Otherwise, implement what was asked.
+If proceeding would cause data loss, a security vulnerability (e.g. exposing user data or credentials), or would make the application throw an unrecoverable error, you must stop and tell me specifically why , not just that you're concerned, but the exact failure that would occur. Otherwise, implement what was asked.
 
 CONFIRMATION:
 Before writing any code, confirm in one sentence that you understand the original requirement and will implement it as stated without modifications.

@@ -8,13 +8,13 @@ Append this to any implementation prompt when you need the AI to stay inside a s
 ## Prompt
 
 ```
-SCOPE CONSTRAINT — READ BEFORE STARTING:
+SCOPE CONSTRAINT , READ BEFORE STARTING:
 
 You are working on exactly one thing: [DESCRIBE THE SPECIFIC TASK IN ONE SENTENCE].
 
 Hard limits:
 - Touch ONLY these files: [LIST THE FILES]
-- Do NOT modify any file not listed above — even if you think it would improve it
+- Do NOT modify any file not listed above , even if you think it would improve it
 - Do NOT refactor code that is not directly part of this task
 - Do NOT rename variables, functions, or components outside the task scope
 - Do NOT add error handling, logging, or validation beyond what the task requires

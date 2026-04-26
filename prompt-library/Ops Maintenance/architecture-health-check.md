@@ -12,7 +12,7 @@ Do not write any code. This is a read-only audit.
 
 I need an honest architecture health check before I continue building. The project has been growing and I want to catch structural problems before they compound.
 
-Project context: [DESCRIBE YOUR APP — what it does, main tech stack, rough size]
+Project context: [DESCRIBE YOUR APP , what it does, main tech stack, rough size]
 Main concern: [WHAT FEELS WRONG OR UNCERTAIN]
 
 ---
@@ -21,16 +21,16 @@ AUDIT CHECKLIST
 
 Read the codebase and assess each of these. For each item, give: STATUS (healthy / warning / critical) and a one-line explanation.
 
-1. File size — any files over 300 lines that should be split?
-2. Coupling — components or modules that know too much about each other's internals?
-3. Data flow — is state lifted to the right level, or is data being drilled 3+ levels deep?
-4. Duplication — logic that exists in more than one place and will diverge?
-5. Dead code — files, functions, or components that are imported but never used?
-6. API contracts — are the frontend and backend in agreement on data shapes?
-7. Error handling — are there silent failures or missing error states?
-8. Security surface — any exposed secrets, unvalidated inputs, or missing auth checks?
-9. Naming consistency — do naming conventions hold across the codebase?
-10. Test coverage — what critical paths have no tests?
+1. File size , any files over 300 lines that should be split?
+2. Coupling , components or modules that know too much about each other's internals?
+3. Data flow , is state lifted to the right level, or is data being drilled 3+ levels deep?
+4. Duplication , logic that exists in more than one place and will diverge?
+5. Dead code , files, functions, or components that are imported but never used?
+6. API contracts , are the frontend and backend in agreement on data shapes?
+7. Error handling , are there silent failures or missing error states?
+8. Security surface , any exposed secrets, unvalidated inputs, or missing auth checks?
+9. Naming consistency , do naming conventions hold across the codebase?
+10. Test coverage , what critical paths have no tests?
 
 ---
 

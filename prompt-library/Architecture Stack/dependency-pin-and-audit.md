@@ -3,7 +3,7 @@ title: Dependency Pin and Audit
 ---
 
 ## When to use
-Before starting a project or after adding new dependencies — lock your versions and catch problems before a surprise breaking change kills your build mid-sprint.
+Before starting a project or after adding new dependencies , lock your versions and catch problems before a surprise breaking change kills your build mid-sprint.
 
 ## Prompt
 
@@ -30,7 +30,7 @@ Perform the following operations:
 7. DEV VS PROD CLASSIFICATION: Are all packages correctly classified? Flag any package in dependencies that should be in devDependencies (test runners, type definitions, build tools) and vice versa.
 
 Output the following:
-A. The corrected package.json dependencies and devDependencies sections with all versions pinned (valid JSON only — no comments)
+A. The corrected package.json dependencies and devDependencies sections with all versions pinned (valid JSON only , no comments)
 B. A numbered audit findings list organized by: SECURITY, DEPRECATED, DUPLICATES, BUNDLE, OTHER
 C. A summary count: X issues found, Y critical, Z warnings
 ```

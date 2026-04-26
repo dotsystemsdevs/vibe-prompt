@@ -3,12 +3,12 @@ title: Launch Day Checklist
 ---
 
 ## When to use
-24 hours before any public launch or significant user-facing release — run through every item and do not flip the switch until everything is confirmed.
+24 hours before any public launch or significant user-facing release , run through every item and do not flip the switch until everything is confirmed.
 
 ## Prompt
 
 ```
-Generate a launch day checklist for [PRODUCT NAME]. I am launching in 24 hours. Every item must be verified — not assumed. Output each item with a checkbox, the verification step, and the pass condition.
+Generate a launch day checklist for [PRODUCT NAME]. I am launching in 24 hours. Every item must be verified , not assumed. Output each item with a checkbox, the verification step, and the pass condition.
 
 Product: [PRODUCT NAME]
 Live URL: [YOUR PRODUCTION URL]
@@ -24,9 +24,9 @@ LAUNCH CHECKLIST:
 Verification: Open [URL] in an incognito browser window with no cookies.
 Pass condition: The page loads without error. There is no "coming soon" page, login wall, or Vercel "project not found" screen blocking the landing page.
 
-[ ] 2. CORE USER FLOW — END TO END IN PRODUCTION
+[ ] 2. CORE USER FLOW , END TO END IN PRODUCTION
 Verification: As a brand new user with no account, complete the full core value loop from the production URL.
-Pass condition: [DESCRIBE YOUR CORE FLOW — e.g. "Sign up → create first item → see it in the list → delete it"]. Every step completes. No errors. The end state is correct.
+Pass condition: [DESCRIBE YOUR CORE FLOW , e.g. "Sign up → create first item → see it in the list → delete it"]. Every step completes. No errors. The end state is correct.
 
 [ ] 3. ERROR TRACKING IS LIVE
 Verification: Deliberately trigger an error in production (bad API call, invalid route). Check the error tracking dashboard.
@@ -42,7 +42,7 @@ Pass condition: Every variable in .env.local has a corresponding production valu
 
 [ ] 6. NO SECRETS IN SOURCE CODE
 Verification: Run the secret-leak-scanner prompt on the final production build's source.
-Pass condition: CLEAN output — no credentials in source.
+Pass condition: CLEAN output , no credentials in source.
 
 [ ] 7. PAYMENT FLOW WORKS (if applicable)
 Verification: Complete a real purchase in production using a test card that charges a real payment. Then immediately refund it.

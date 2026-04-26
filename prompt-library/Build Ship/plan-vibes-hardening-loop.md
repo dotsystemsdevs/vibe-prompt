@@ -3,7 +3,7 @@ title: Plan → Vibes → Hardening Loop
 ---
 
 ## When to use
-For any feature that's more than a one-line change. The three-phase loop separates planning, building, and quality into distinct modes — each with different rules. Prevents the most common failure: shipping code that works but isn't maintainable.
+For any feature that's more than a one-line change. The three-phase loop separates planning, building, and quality into distinct modes , each with different rules. Prevents the most common failure: shipping code that works but isn't maintainable.
 
 ## Prompt
 
@@ -12,7 +12,7 @@ We are building [FEATURE NAME] using the Plan → Vibes → Hardening loop. Thre
 
 ---
 
-PHASE 1 — PLAN (do this now)
+PHASE 1 , PLAN (do this now)
 
 Read the relevant files for this feature. Then:
 1. Summarize what currently exists that relates to this feature (files, functions, patterns)
@@ -26,21 +26,21 @@ Tell me when the plan is ready and wait for my approval.
 
 ---
 
-PHASE 2 — VIBES (start after I approve the plan)
+PHASE 2 , VIBES (start after I approve the plan)
 
 Build the feature. Rules during this phase:
-- Follow the plan — if you need to deviate, ask first
+- Follow the plan , if you need to deviate, ask first
 - Focus on making it work, not making it perfect
-- Test the happy path only — confirm the core behavior works
+- Test the happy path only , confirm the core behavior works
 - Do NOT commit yet
 
 When done, tell me: "Feature works. Ready for hardening." Then stop.
 
 ---
 
-PHASE 3 — HARDENING (start after I confirm the feature works)
+PHASE 3 , HARDENING (start after I confirm the feature works)
 
-Open a fresh context (or treat this as a fresh start — forget everything from Phase 2).
+Open a fresh context (or treat this as a fresh start , forget everything from Phase 2).
 
 You are a senior engineer reviewing staged changes only. Run the following in order:
 
@@ -48,7 +48,7 @@ CLEANUP PASS:
 - Remove dead code and unused imports
 - Eliminate duplication
 - Split any function longer than 40 lines into named helpers
-- Apply KISS and DRY — no over-engineering
+- Apply KISS and DRY , no over-engineering
 - Fix naming to be self-explanatory
 
 REVIEW PASS (fresh context again):

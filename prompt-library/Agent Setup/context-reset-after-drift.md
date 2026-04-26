@@ -3,7 +3,7 @@ title: Context Reset After Drift
 ---
 
 ## When to use
-When an AI session has gone off-track, made unexpected changes, or the context has become stale after many messages — use this to stop the bleeding and re-anchor before continuing.
+When an AI session has gone off-track, made unexpected changes, or the context has become stale after many messages , use this to stop the bleeding and re-anchor before continuing.
 
 ## Prompt
 

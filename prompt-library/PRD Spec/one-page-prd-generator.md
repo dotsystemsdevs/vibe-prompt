@@ -3,12 +3,12 @@ title: One-Page PRD Generator
 ---
 
 ## When to use
-When you need to write a PRD before starting to build with AI — this is the document your AGENTS.md will reference and your AI coding agent will read to understand scope.
+When you need to write a PRD before starting to build with AI , this is the document your AGENTS.md will reference and your AI coding agent will read to understand scope.
 
 ## Prompt
 
 ```
-Generate a tight one-page PRD for my product. Every section must be filled in — no TBD, no vague language. This document will be read by an AI coding agent, so precision matters more than polish.
+Generate a tight one-page PRD for my product. Every section must be filled in , no TBD, no vague language. This document will be read by an AI coding agent, so precision matters more than polish.
 
 Use this information to fill in the PRD:
 - Product name: [PRODUCT NAME]
@@ -31,7 +31,7 @@ Version: 1.0 | Date: [DATE]
 [One sentence. No solution language. Quantify the pain if possible. See: problem-statement-sharpener prompt.]
 
 ## MVP Features
-[Exactly 3-5 features. Each feature is one sentence describing user-observable behavior — not implementation details. Format: "User can [action] so that [outcome]."]
+[Exactly 3-5 features. Each feature is one sentence describing user-observable behavior , not implementation details. Format: "User can [action] so that [outcome]."]
 1.
 2.
 3.
@@ -39,7 +39,7 @@ Version: 1.0 | Date: [DATE]
 5. (optional)
 
 ## Out of Scope (MVP)
-[Minimum 5 explicit exclusions. Be specific — name the features you are NOT building. This list prevents scope creep when the AI is building.]
+[Minimum 5 explicit exclusions. Be specific , name the features you are NOT building. This list prevents scope creep when the AI is building.]
 - NOT building:
 - NOT building:
 - NOT building:
@@ -47,7 +47,7 @@ Version: 1.0 | Date: [DATE]
 - NOT building:
 
 ## Done Condition
-[One testable statement that defines when the MVP is complete. It must be binary — either true or false. Example: "A new user can sign up, complete the core action, and see the result within 5 minutes, without any help from the founder."]
+[One testable statement that defines when the MVP is complete. It must be binary , either true or false. Example: "A new user can sign up, complete the core action, and see the result within 5 minutes, without any help from the founder."]
 
 ## Constraints
 - Tech stack: [LIST YOUR STACK]

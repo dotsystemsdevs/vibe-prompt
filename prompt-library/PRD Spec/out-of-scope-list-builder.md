@@ -3,12 +3,12 @@ title: Out-of-Scope List Builder
 ---
 
 ## When to use
-After writing your MVP features, to explicitly define what you are NOT building — this list goes directly into your AGENTS.md and PRD to prevent AI scope creep during the build.
+After writing your MVP features, to explicitly define what you are NOT building , this list goes directly into your AGENTS.md and PRD to prevent AI scope creep during the build.
 
 ## Prompt
 
 ```
-I need to build a comprehensive out-of-scope list for my MVP. AI coding agents have a tendency to add "helpful" features that were never asked for — better onboarding flows, admin dashboards, notification systems, settings pages. I need to name every obvious scope-creep addition explicitly so the agent cannot claim it was implied.
+I need to build a comprehensive out-of-scope list for my MVP. AI coding agents have a tendency to add "helpful" features that were never asked for , better onboarding flows, admin dashboards, notification systems, settings pages. I need to name every obvious scope-creep addition explicitly so the agent cannot claim it was implied.
 
 My product: [DESCRIBE WHAT IT DOES]
 My MVP feature list:
@@ -24,7 +24,7 @@ For each MVP feature, do the following:
 
 2. LABEL EACH AS OUT OF SCOPE: State explicitly that these are NOT to be built.
 
-After processing all features, also add these universal out-of-scope items (unless already in my feature list — if so, skip):
+After processing all features, also add these universal out-of-scope items (unless already in my feature list , if so, skip):
 - User profile editing page
 - Email notification system
 - Admin dashboard or back-office interface

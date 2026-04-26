@@ -3,7 +3,7 @@ title: MVP Scope Cutter
 ---
 
 ## When to use
-When your feature list has grown beyond 5 items and you need to cut ruthlessly before handing it to an AI coding agent — more features means more drift, more bugs, and longer time to ship.
+When your feature list has grown beyond 5 items and you need to cut ruthlessly before handing it to an AI coding agent , more features means more drift, more bugs, and longer time to ship.
 
 ## Prompt
 
@@ -11,7 +11,7 @@ When your feature list has grown beyond 5 items and you need to cut ruthlessly b
 I need to cut my feature list down to a true MVP. Apply the MVP filter ruthlessly. The goal is to ship the smallest possible version that lets a real user complete the core value loop and tell me if this product is worth building.
 
 My product: [DESCRIBE WHAT IT DOES IN ONE SENTENCE]
-Core value loop: [Describe the single most important thing a user does in your product — the action that delivers the primary value]
+Core value loop: [Describe the single most important thing a user does in your product , the action that delivers the primary value]
 
 My current feature list:
 1. [FEATURE 1]
@@ -38,7 +38,7 @@ After labeling all features:
 
 2. SCOPE CHECK: If more than 5 features are labeled KEEP, apply the filter again more aggressively. A true MVP should have 3-5 features maximum.
 
-3. HIDDEN COMPLEXITY WARNING: Flag any KEEP feature that is deceptively complex to build — features that look simple but likely require significant backend work, third-party integrations, or data modeling. These are scope traps.
+3. HIDDEN COMPLEXITY WARNING: Flag any KEEP feature that is deceptively complex to build , features that look simple but likely require significant backend work, third-party integrations, or data modeling. These are scope traps.
 
-4. FINAL MVP LIST: Output the final KEEP list as a clean numbered list — this becomes the feature set for the PRD.
+4. FINAL MVP LIST: Output the final KEEP list as a clean numbered list , this becomes the feature set for the PRD.
 ```

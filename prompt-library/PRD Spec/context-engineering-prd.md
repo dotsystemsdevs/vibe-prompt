@@ -8,7 +8,7 @@ When you want to implement a specific feature and need the AI to research your c
 ## Prompt
 
 ```
-I want to implement the following feature. Before writing any code, research the codebase and produce a complete implementation blueprint (PRP — Product Requirements Prompt).
+I want to implement the following feature. Before writing any code, research the codebase and produce a complete implementation blueprint (PRP , Product Requirements Prompt).
 
 Feature request:
 [DESCRIBE WHAT YOU WANT TO BUILD IN 2-5 SENTENCES]
@@ -35,7 +35,7 @@ Step 4: WRITE THE IMPLEMENTATION BLUEPRINT
 Produce a complete PRP using this structure:
 
 Goal: [End state in one sentence]
-Why: [Business value — who benefits and what metric improves]
+Why: [Business value , who benefits and what metric improves]
 What: [User-visible behavior and technical requirements]
 
 Success Criteria:
@@ -51,8 +51,8 @@ Context:
 - Codebase after: [expected structure after implementation]
 
 Implementation tasks (ordered):
-001. [Task title] — [files to touch, max 3] — [done condition]
-002. [Task title] — [files to touch, max 3] — [done condition]
+001. [Task title] , [files to touch, max 3] , [done condition]
+002. [Task title] , [files to touch, max 3] , [done condition]
 ...
 
 Validation gates (run these to confirm success):

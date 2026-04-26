@@ -1,6 +1,6 @@
 # Prompt Playbook
 
-39 prompts organized by workflow stage — from environment setup to post-launch iteration. Every prompt supports real shipping workflows, not just ideation.
+39 prompts organized by workflow stage , from environment setup to post-launch iteration. Every prompt supports real shipping workflows, not just ideation.
 
 ## Categories
 

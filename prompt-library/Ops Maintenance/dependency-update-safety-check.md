@@ -3,7 +3,7 @@ title: Dependency Update Safety Check
 ---
 
 ## When to use
-Before updating any npm package — especially major version bumps — to understand what you're actually changing and whether your tests would catch a regression.
+Before updating any npm package , especially major version bumps , to understand what you're actually changing and whether your tests would catch a regression.
 
 ## Prompt
 
@@ -11,12 +11,12 @@ Before updating any npm package — especially major version bumps — to unders
 Review the following proposed dependency update and give me a GO or NO-GO recommendation with specific evidence.
 
 Package being updated: [PACKAGE NAME]
-Current version: [CURRENT VERSION — e.g. 3.4.2]
-Proposed version: [NEW VERSION — e.g. 4.0.0]
+Current version: [CURRENT VERSION , e.g. 3.4.2]
+Proposed version: [NEW VERSION , e.g. 4.0.0]
 Why I'm considering this update: [e.g. security patch, new feature I need, automated Dependabot PR]
 
 How I use this package in my project:
-[DESCRIBE HOW YOUR CODE USES THIS PACKAGE — e.g. "We import useForm and Controller from react-hook-form in 8 form components. We use the register function and formState.errors on every form."]
+[DESCRIBE HOW YOUR CODE USES THIS PACKAGE , e.g. "We import useForm and Controller from react-hook-form in 8 form components. We use the register function and formState.errors on every form."]
 
 Relevant code that uses this package:
 [PASTE 2-3 REPRESENTATIVE EXAMPLES OF HOW YOU CALL THIS LIBRARY]

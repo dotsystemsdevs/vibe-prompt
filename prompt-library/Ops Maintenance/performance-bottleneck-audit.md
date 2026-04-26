@@ -8,14 +8,14 @@ When pages are slow, API responses are lagging, users are reporting performance 
 ## Prompt
 
 ```
-Audit the following code for performance bottlenecks. I need specific, actionable findings — not general advice about performance. For each issue found, give me the exact file and function, why it's a problem, and the specific fix.
+Audit the following code for performance bottlenecks. I need specific, actionable findings , not general advice about performance. For each issue found, give me the exact file and function, why it's a problem, and the specific fix.
 
 Tech stack: [YOUR STACK]
 Reported symptoms (if any): [e.g. "homepage takes 4 seconds to load," "API /api/prompts times out under load," "user reports sluggish scroll"]
 Current scale: [e.g. "~500 users, ~200 requests/minute at peak"]
 
 Code to audit:
-[PASTE THE RELEVANT CODE — include database queries, API routes, and React components for the slow areas]
+[PASTE THE RELEVANT CODE , include database queries, API routes, and React components for the slow areas]
 
 AUDIT CATEGORIES:
 
@@ -32,7 +32,7 @@ Identify any <img> tags or Image components that are loading images without size
 For each finding: the component file, the specific element, and the fix.
 
 4. BLOCKING OPERATIONS ON THE MAIN THREAD (frontend):
-Identify any expensive synchronous operations in React component render paths — large array transformations, heavy regex, unfiltered .filter().map() chains on large datasets running on every render.
+Identify any expensive synchronous operations in React component render paths , large array transformations, heavy regex, unfiltered .filter().map() chains on large datasets running on every render.
 For each finding: the component, the operation, and whether it should be memoized, moved to a server component, or paginated.
 
 5. MISSING PAGINATION:
@@ -51,5 +51,5 @@ OUTPUT: A prioritized list.
 - HIGH (will cause slowness at 2x current scale): Fix this sprint
 - LOW (good hygiene): Fix when in the area
 
-End with: ESTIMATED IMPACT — if the top 3 critical issues were fixed, what improvement in response time or bundle size would you expect?
+End with: ESTIMATED IMPACT , if the top 3 critical issues were fixed, what improvement in response time or bundle size would you expect?
 ```

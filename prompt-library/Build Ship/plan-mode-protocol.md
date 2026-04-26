@@ -3,7 +3,7 @@ title: Plan Mode Protocol
 ---
 
 ## When to use
-Before executing any non-trivial task in Claude Code or Cursor. Forces the AI to plan before touching code — the single habit that prevents the most regressions.
+Before executing any non-trivial task in Claude Code or Cursor. Forces the AI to plan before touching code , the single habit that prevents the most regressions.
 
 ## Prompt
 
@@ -21,13 +21,13 @@ Read AGENTS.md, memory-bank/@architecture.md, and TASK.md. Confirm you have read
 Restate the task in your own words. What is the exact end state when this task is done? What does the done condition look like from the user's perspective?
 
 3. LIST FILES TO TOUCH
-List every file you will create, modify, or delete. Maximum 3 files. If you need more than 3 files, tell me — we will split the task before proceeding.
+List every file you will create, modify, or delete. Maximum 3 files. If you need more than 3 files, tell me , we will split the task before proceeding.
 
 4. LIST FILES TO NOT TOUCH
 List any files that could be tempting but are explicitly out of scope for this task. Include all protected files from AGENTS.md.
 
 5. DESCRIBE YOUR APPROACH
-In 3-5 sentences, describe exactly what you plan to implement. No code yet — just the approach. If there are two ways to do it, describe both and tell me which you recommend and why.
+In 3-5 sentences, describe exactly what you plan to implement. No code yet , just the approach. If there are two ways to do it, describe both and tell me which you recommend and why.
 
 6. FLAG RISKS
 Identify anything that could go wrong: files approaching 500 lines that may need refactoring first, dependencies that need to be installed, schema changes that require a migration, or any change that can't be easily rolled back.

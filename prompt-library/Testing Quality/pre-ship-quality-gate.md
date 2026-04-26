@@ -3,12 +3,12 @@ title: Pre-Ship Quality Gate
 ---
 
 ## When to use
-Before merging any feature branch or deploying to production — run every item on this gate and do not ship until everything is PASS.
+Before merging any feature branch or deploying to production , run every item on this gate and do not ship until everything is PASS.
 
 ## Prompt
 
 ```
-Run through the pre-ship quality gate for the changes I'm about to deploy. Check each item and report PASS, FAIL, or SKIP (with reason for skip). Do not summarize — give me the full gate output.
+Run through the pre-ship quality gate for the changes I'm about to deploy. Check each item and report PASS, FAIL, or SKIP (with reason for skip). Do not summarize , give me the full gate output.
 
 Feature being shipped: [DESCRIBE THE FEATURE]
 Branch or commit being reviewed: [BRANCH NAME OR COMMIT HASH]
@@ -31,7 +31,7 @@ PASS condition: Zero lint errors. Warnings are acceptable but must be listed.
 Check: Are any secrets, API keys, tokens, or credentials present in the diff?
 How to verify: Review every changed file for hardcoded strings matching: sk-, pk-, Bearer, password=, secret=, api_key=, DATABASE_URL with credentials, any base64-encoded strings in source.
 PASS condition: Zero secrets found in source code.
-FAIL condition: Any credential found anywhere in source — even in comments or test fixtures.
+FAIL condition: Any credential found anywhere in source , even in comments or test fixtures.
 
 4. SCOPE VERIFICATION
 Check: Do the changed files match the stated feature scope?
@@ -45,7 +45,7 @@ How to verify: Read the out-of-scope list in the PRD or AGENTS.md. Check the dif
 PASS condition: Nothing from the out-of-scope list was built.
 FAIL condition: Any out-of-scope item implemented, even partially.
 
-6. PRIMARY USER FLOW — MANUAL SMOKE TEST
+6. PRIMARY USER FLOW , MANUAL SMOKE TEST
 Check: Can a real user complete the primary value loop end to end in the current build?
 How to verify: Walk through the steps manually in the running app.
 Steps to test: [LIST THE STEPS OF YOUR CORE USER FLOW HERE]
