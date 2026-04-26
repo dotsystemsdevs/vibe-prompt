@@ -17,7 +17,7 @@ Read this before writing any code in this repo.
 | Framework | Next.js 16 (App Router) | Breaking changes vs Next.js 13/14, read the docs |
 | UI | React 19, Tailwind CSS v4 | v4 syntax differs from v3, no `tailwind.config.js` |
 | Components | shadcn/ui | Components in `src/components/ui/` |
-| Auth | Clerk | `@clerk/nextjs`, middleware in `middleware.ts` |
+| Auth | None | The product is public. No user accounts, no sign-in. |
 | Database | Supabase | Client in `src/lib/supabase.ts` |
 | Animations | GSAP | Use sparingly, prefer Tailwind transitions |
 | Language | TypeScript | Strict mode, no `any` |
@@ -127,8 +127,6 @@ npm run lint      # ESLint check
 Environment variables needed in `.env.local`:
 
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```

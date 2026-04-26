@@ -237,7 +237,7 @@ A high-upvote thread dedicated entirely to this. Key failures in shipped vibe-co
 - Frontend input validation is UX, not security , all real sanitization must happen server-side
 - "Ask the AI to review for security risks" is NOT a real security review , same model that wrote the insecure code has the same blind spots
 - OWASP Top 10 is the minimum bar , ask AI to secure explicitly against it
-- Don't build auth or payments from scratch , use Clerk, Auth0, Stripe, etc.
+- Don't build auth or payments from scratch , use established providers (e.g. Auth.js, Supabase, Stripe) instead of one-off hand-rolled code.
 - Add monitoring (Sentry/Datadog) and automated dependency audits (Dependabot / `npm audit`)
 - "Shipping early is a feature, shipping insecurely is a bug that eventually kills your startup"
 

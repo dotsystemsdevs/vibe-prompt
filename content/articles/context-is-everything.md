@@ -45,7 +45,7 @@ Before you ask the AI to build something, give it a mental model of what you're 
 
 Bad: "Add user authentication."
 
-Better: "We need to add authentication. Users should be able to sign in with Google or email. We're using Clerk. The protected routes should live under `/dashboard`."
+Better: "We need to add authentication. Users should be able to sign in with Google or email. We will use our provider's sign-in and session. The protected routes should live under `/dashboard`."
 
 The second version gives the AI enough to make correct decisions without asking clarifying questions or guessing.
 

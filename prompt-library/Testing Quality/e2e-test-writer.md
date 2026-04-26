@@ -14,7 +14,7 @@ Primary user flow to test: [DESCRIBE THE FULL FLOW , e.g. "User signs up, create
 
 Tech details:
 - Framework: [e.g. Next.js 15]
-- Auth: [e.g. Clerk , describe how to handle auth in tests, e.g. bypass with test user]
+- Auth: [e.g. Supabase test user , describe how to handle auth in tests, e.g. bypass with test user]
 - Base URL for tests: [e.g. http://localhost:3000]
 - Test user credentials (for local testing): [e.g. use environment variable TEST_USER_EMAIL and TEST_USER_PASSWORD]
 

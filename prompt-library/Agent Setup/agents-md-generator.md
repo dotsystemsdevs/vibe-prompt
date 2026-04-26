@@ -11,7 +11,7 @@ Before starting any AI-assisted project, or when your AGENTS.md is missing, inco
 Generate a complete AGENTS.md file for my project. Use the details below and fill in every section , no TBD, no placeholders left empty.
 
 Project name: [PROJECT NAME]
-Tech stack: [e.g. Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Supabase, Clerk]
+Tech stack: [e.g. Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Supabase]
 Database: [e.g. Postgres via Supabase]
 Deployment: [e.g. Vercel]
 

@@ -20,7 +20,7 @@ Design a prompt chain with the following structure for each step:
 STEP [N] of [TOTAL]: [SHORT TITLE]
 
 INPUT: What does this step receive as its input?
-- If it's the first step: describe the starting state (e.g. "empty Next.js project with Clerk installed")
+- If it's the first step: describe the starting state (e.g. "empty Next.js project, Tailwind installed, no database yet")
 - If it's a later step: describe the exact output from the previous step that this step consumes
 
 TRANSFORMATION: What does this step do? Describe the specific action, decision, or implementation that happens in this step. 2-4 sentences.

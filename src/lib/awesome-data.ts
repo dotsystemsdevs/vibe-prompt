@@ -68,7 +68,6 @@ export const AWESOME_CATEGORIES = [
       { name: "shadcn/ui", description: "Copy-paste component library that owns its own code.", href: "https://ui.shadcn.com", tags: ["ui", "free", "open-source", "react", "components"] },
       { name: "Supabase", description: "Postgres backend with auth, storage, and realtime built in.", href: "https://supabase.com", tags: ["database", "postgres", "free-tier", "open-source", "auth"] },
       { name: "Neon", description: "Serverless Postgres, scales to zero, great for solo projects.", href: "https://neon.tech", tags: ["database", "postgres", "serverless", "free-tier"] },
-      { name: "Clerk", description: "Drop-in auth with social logins, MFA, and user management.", href: "https://clerk.com", tags: ["auth", "paid", "free-tier", "social-login", "mfa"] },
       { name: "Drizzle", description: "Lightweight type-safe SQL ORM that pairs well with AI codegen.", href: "https://orm.drizzle.team", tags: ["orm", "free", "open-source", "typescript", "sql"] },
       { name: "Prisma", description: "Type-safe ORM with a great DX and schema-first workflow.", href: "https://prisma.io", tags: ["orm", "free", "open-source", "typescript", "sql"] },
       { name: "Upstash", description: "Serverless Redis for rate limiting, queues, and caching.", href: "https://upstash.com", tags: ["redis", "serverless", "free-tier", "caching", "queues"] },
@@ -229,7 +228,6 @@ export const AWESOME_CATEGORIES = [
     title: "Auth",
     description: "Authentication, authorization, and identity, don't build this yourself.",
     items: [
-      { name: "Clerk", description: "Drop-in auth with social logins, MFA, orgs, and user management UI.", href: "https://clerk.com", tags: ["social-login", "mfa", "paid", "free-tier", "organizations"] },
       { name: "Auth.js", description: "Open-source authentication for Next.js and other frameworks.", href: "https://authjs.dev", tags: ["open-source", "free", "next-js", "oauth", "social-login"] },
       { name: "Supabase Auth", description: "Built-in auth in Supabase, email, OAuth, magic link, phone.", href: "https://supabase.com/auth", tags: ["oauth", "magic-link", "free-tier", "email", "phone"] },
       { name: "WorkOS", description: "Enterprise SSO, SCIM, and audit logs, one API for all of it.", href: "https://workos.com", tags: ["enterprise", "sso", "saml", "paid", "scim"] },

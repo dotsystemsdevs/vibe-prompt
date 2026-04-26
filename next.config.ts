@@ -2,15 +2,15 @@ import type { NextConfig } from "next";
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.com https://*.clerk.accounts.dev https://va.vercel-scripts.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://avatars.githubusercontent.com https://www.google.com https://icons.duckduckgo.com https://images.unsplash.com https://img.clerk.com https://*.clerk.com",
+  "img-src 'self' data: blob: https://avatars.githubusercontent.com https://www.google.com https://icons.duckduckgo.com https://images.unsplash.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://api.github.com https://vitals.vercel-insights.com https://*.supabase.co wss://*.supabase.co https://*.clerk.com https://*.clerk.accounts.dev wss://*.clerk.com",
-  "frame-src 'none' https://*.clerk.com https://*.clerk.accounts.dev",
+  "connect-src 'self' https://api.github.com https://vitals.vercel-insights.com https://*.supabase.co wss://*.supabase.co",
+  "frame-src 'none'",
   "frame-ancestors 'none'",
   "base-uri 'self'",
-  "form-action 'self' https://*.clerk.com",
+  "form-action 'self'",
   "worker-src 'self' blob:",
 ].join("; ");
 

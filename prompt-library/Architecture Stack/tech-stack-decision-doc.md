@@ -37,8 +37,8 @@ Generate TechDesign.md with these exact sections. For each decision, state the c
 - Connection pooling: [e.g. Supabase pooler , reason, or none needed at this scale]
 
 ## Auth
-- Provider: [e.g. Clerk , reason, or NextAuth, Supabase Auth]
-- Session strategy: [e.g. JWT via Clerk , what this means for API calls]
+- Provider: [e.g. Supabase Auth , reason, or NextAuth, Auth.js]
+- Session strategy: [e.g. session cookie with rotating refresh, what this means for API calls]
 - Protected routes: [e.g. middleware.ts handles all route protection]
 
 ## File Storage (if needed)

@@ -12,7 +12,7 @@ Before writing any implementation code, define the API contract for the followin
 
 Feature: [DESCRIBE THE FEATURE THAT REQUIRES THIS API]
 Who calls this API: [e.g. the React frontend, a webhook handler, a cron job]
-Auth context: [e.g. Clerk authenticated user, public endpoint, service-to-service]
+Auth context: [e.g. authenticated user, public endpoint, service-to-service]
 
 For each endpoint required by this feature, define the following. Be precise , this is a contract, not a sketch.
 

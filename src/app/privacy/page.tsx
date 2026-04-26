@@ -14,15 +14,15 @@ export default function PrivacyPage() {
       <div className="mt-10 space-y-8 text-sm leading-relaxed text-foreground/60">
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">What we collect</h2>
-          <p>vibeprompt collects anonymous usage analytics via Vercel Analytics (page views, no personal data). If you sign in, Clerk handles authentication and stores only your email and session data.</p>
+          <p>vibeprompt collects anonymous usage analytics via Vercel Analytics (page views, no personal data). The site has no user accounts, so we do not collect sign-in or profile data from this app.</p>
         </section>
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">What we don&apos;t do</h2>
-          <p>We do not sell data, run ads, or share your information with third parties beyond what is required to operate the service (Vercel, Clerk, Supabase).</p>
+          <p>We do not sell data, run ads, or share your information with third parties beyond what is required to operate the service (Vercel and, if configured, our Supabase project for optional features).</p>
         </section>
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">Cookies</h2>
-          <p>We use session cookies for authentication only. No tracking cookies.</p>
+          <p>We do not use ad or social tracking cookies. Analytics is first-party and counts page views, not a cross-site profile. There is no login cookie for this app.</p>
         </section>
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">Contact</h2>

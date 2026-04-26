@@ -235,10 +235,9 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
             ],
           },
           {
-            text: "Pick a database and auth. Supabase handles Postgres + auth + storage in one service. Use Clerk for auth as a standalone product.",
+            text: "Pick a database and auth. Supabase bundles Postgres, auth, and storage, which covers many indie projects. You can add a different auth product later if you outgrow the basics.",
             links: [
               { label: "Supabase", href: "https://supabase.com" },
-              { label: "Clerk", href: "https://clerk.com" },
             ],
           },
           {
@@ -373,7 +372,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
             detail: "The most common vibe coding failure mode is 'I built the whole UI, now I need to wire it to the API.' By that point, the data shapes don't match, the auth logic doesn't align, and half the state management is wrong. One slice at a time prevents all of it.",
           },
           {
-            text: "Break your PRD into 20–30 atomic tasks in `TASK.md`. 'Add auth' is not atomic. 'Add /login route that renders the Clerk sign-in component' is. If a task touches more than 3 files, split it.",
+            text: "Break your PRD into 20–30 atomic tasks in `TASK.md`. 'Add auth' is not atomic. 'Add /login route with email sign-in and a session callback' is. If a task touches more than 3 files, split it.",
           },
           {
             text: "Use Plan Mode before every task. In Claude Code: press `shift+tab` before executing. In Cursor: start your prompt with 'DO NOT code yet, just plan.' Approve the plan. Then execute.",

@@ -15,11 +15,14 @@ All notable changes to this project will be documented in this file.
 - Footer tagline: "Open source prompt library" → "Prompts, resources, and tools for vibe coders"
 - Footer "Buy me a coffee" link: coffee cup icon plus bold label (same bar height, no extra padding)
 - `README.md` and new `ROADMAP.md` aligned with `prompt-library/` as prompt source, current routes, public-only auth, env vars, and `CONTRIBUTING.md` as the human entry point
+- Content and docs: removed remaining Clerk product references, privacy policy now matches a site with no accounts
+- `next.config.ts` CSP: removed all Clerk allowlists; public site, no sign-in
 - Footer contributor avatars: grayscale removed, full color always
 - `next.config.ts`: added Google favicon hostname, removed unused turbopack root
 
 ### Removed
-- Clerk auth removed entirely , no login needed
+- `@clerk/nextjs` dependency, `src/proxy.ts` (Clerk middleware), and unused `SignInPrompt` component
+- Clerk auth in the app was already gone , this removes the last package, CSP, and text references
 - `content/prompts/` folder removed (unused legacy content)
 - `scripts/` folder removed (unused utility script)
 - `saves-counter` Supabase dependency removed

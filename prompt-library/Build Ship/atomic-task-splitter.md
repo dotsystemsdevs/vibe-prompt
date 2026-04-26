@@ -14,7 +14,7 @@ My PRD / feature list:
 [PASTE YOUR PRD OR FEATURE LIST HERE]
 
 Tech stack: [YOUR STACK]
-Current codebase state: [What already exists , e.g. "Next.js initialized, Tailwind configured, Clerk auth working, no other features built"]
+Current codebase state: [What already exists , e.g. "Next.js initialized, Tailwind configured, no auth in app yet, no other features built"]
 
 Rules for atomic tasks:
 
@@ -48,7 +48,7 @@ Files to create or modify: [EXACT FILE PATHS , max 3]
 Files to NOT touch: [Any files that could be tempting but are out of scope]
 What to build: [2-3 sentences , exactly what to implement]
 Done condition: [One testable sentence]
-Commit message: [e.g. "feat: add login page with Clerk sign-in component"]
+Commit message: [e.g. "feat: add login page with email sign-in component"]
 Depends on: [TASK N-1, or "no dependencies"]
 ---
 

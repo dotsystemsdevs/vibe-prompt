@@ -14,7 +14,7 @@ Current monthly infrastructure costs:
 [LIST EACH SERVICE AND ITS MONTHLY COST , e.g.]
 - Vercel Pro: $20/month
 - Supabase Pro: $25/month
-- Clerk Pro: $25/month
+- Hosted auth (per vendor pricing): from free dev tiers to paid per MAU
 - Sentry: $26/month
 - PostHog: $0 (free tier)
 - Cloudflare: $0 (free tier)

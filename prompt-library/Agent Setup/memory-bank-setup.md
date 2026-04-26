@@ -12,7 +12,7 @@ Set up a memory-bank/ folder for my project. This folder is the persistent conte
 
 Project details:
 - Project name: [PROJECT NAME]
-- Tech stack: [e.g. Next.js 15, TypeScript, Tailwind, Supabase, Clerk]
+- Tech stack: [e.g. Next.js 15, TypeScript, Tailwind, Supabase]
 - PRD summary: [PASTE YOUR PRD OR DESCRIBE YOUR PROJECT IN 3-5 SENTENCES]
 - Current codebase state: [What exists , e.g. "Fresh Next.js app, nothing built yet" or "Auth working, dashboard skeleton done"]
 

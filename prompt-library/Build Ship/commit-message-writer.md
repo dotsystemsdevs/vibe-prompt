@@ -36,7 +36,7 @@ Add POST /api/prompts route with user-scoped insertion
 
 - Route handler validates required fields before hitting the database
   to avoid unnecessary DB calls on bad input
-- Records are scoped to the authenticated user ID from Clerk to prevent
+- Records are scoped to the authenticated user ID to prevent
   cross-user data access at the API layer rather than relying solely on RLS
 - Returns 201 with full record so the frontend can update its cache
   without a separate fetch

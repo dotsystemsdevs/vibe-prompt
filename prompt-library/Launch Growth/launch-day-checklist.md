@@ -13,7 +13,7 @@ Generate a launch day checklist for [PRODUCT NAME]. I am launching in 24 hours. 
 Product: [PRODUCT NAME]
 Live URL: [YOUR PRODUCTION URL]
 Tech stack: [YOUR STACK]
-Auth provider: [e.g. Clerk]
+Auth provider: [e.g. Supabase Auth, Auth.js]
 Error tracking: [e.g. Sentry]
 Analytics: [e.g. PostHog]
 Payment provider (if applicable): [e.g. Stripe]

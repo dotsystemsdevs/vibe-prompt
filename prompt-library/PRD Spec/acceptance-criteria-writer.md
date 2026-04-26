@@ -13,7 +13,7 @@ Write acceptance criteria for the following feature. The criteria will be used t
 Feature name: [FEATURE NAME]
 Feature description: [DESCRIBE WHAT THE FEATURE DOES FROM THE USER'S PERSPECTIVE]
 User type: [WHO WILL USE THIS FEATURE]
-Tech stack relevant to this feature: [e.g. React frontend, Supabase backend, Clerk auth]
+Tech stack relevant to this feature: [e.g. React frontend, Supabase backend, email auth]
 
 Rules for the acceptance criteria you write:
 - Use Given/When/Then format for every criterion
