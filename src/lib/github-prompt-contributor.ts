@@ -57,7 +57,7 @@ async function resolveDefaultContributor(): Promise<PromptContributor> {
 
 async function fetchContributorUncached(repoPath: string): Promise<PromptContributor> {
   const owner = process.env.GITHUB_PROMPTS_OWNER ?? "dotsystemsdevs";
-  const repo = process.env.GITHUB_PROMPTS_REPO ?? "VibePrompt";
+  const repo = process.env.GITHUB_PROMPTS_REPO ?? "vibeprompt";
 
   if (!repoPath.trim()) {
     return resolveDefaultContributor();

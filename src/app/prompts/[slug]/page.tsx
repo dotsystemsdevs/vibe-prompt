@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!prompt) return {};
   const description = prompt.useCase.slice(0, 155);
   return {
-    title: `${prompt.title}, VibePrompt`,
+    title: `${prompt.title}, vibeprompt`,
     description,
     alternates: { canonical: `/prompts/${slug}` },
     openGraph: {

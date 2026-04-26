@@ -7,11 +7,11 @@ import { GithubCta } from "@/components/cta/github-cta";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
-  title: "Articles | VibePrompt",
+  title: "Articles | vibeprompt",
   description: "Practical guides and insights for vibe coders, what actually works when building with AI.",
   alternates: { canonical: "/articles" },
   openGraph: {
-    title: "Articles, VibePrompt",
+    title: "Articles, vibeprompt",
     description: "Practical guides and insights for vibe coders, what actually works when building with AI.",
     url: "https://vibeprompt.tech/articles",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
@@ -82,9 +82,9 @@ export default async function ArticlesPage() {
             title={"Got an article\nidea?"}
             description="Practical guides, lessons learned, or tools that work, if it helps vibe coders ship, suggest it."
             accent="#ffffff"
-            primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues"
+            primaryHref="https://github.com/dotsystemsdevs/vibeprompt/issues"
             primaryLabel="Suggest an article"
-            secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+            secondaryHref="https://github.com/dotsystemsdevs/vibeprompt"
             secondaryLabel="Submit a PR instead"
             borderTop={false}
             className="mt-6"

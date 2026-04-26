@@ -634,9 +634,9 @@ export default function WorkflowPage() {
             title={"Something\nmissing?"}
             description="Suggest a step, a resource, or a fix. If it belongs here, it goes in."
             accent="#ffffff"
-            primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new"
+            primaryHref="https://github.com/dotsystemsdevs/vibeprompt/issues/new"
             primaryLabel="Suggest a change"
-            secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+            secondaryHref="https://github.com/dotsystemsdevs/vibeprompt"
             secondaryLabel="Submit a PR"
             borderTop={false}
             className="mt-6"

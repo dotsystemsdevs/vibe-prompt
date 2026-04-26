@@ -9,7 +9,7 @@ import { Reveal } from "@/components/motion/reveal";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "AI Prompt Library | 40 Prompts for Vibe Coders, VibePrompt",
+  title: "AI Prompt Library | 40 Prompts for Vibe Coders, vibeprompt",
   description:
     "Browse 40 free, copy-ready AI prompts for every stage of your build: context setup, PRD writing, code review, shipping, and more.",
   alternates: { canonical: "/browse" },
@@ -42,9 +42,9 @@ export default async function BrowsePage() {
             title={"Got a prompt\nthat ships?"}
             description="Used a prompt that actually worked? Submit it. If it's battle-tested, it gets in."
             accent="#ffffff"
-            primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new?template=suggest-prompt.yml"
+            primaryHref="https://github.com/dotsystemsdevs/vibeprompt/issues/new?template=suggest-prompt.yml"
             primaryLabel="Suggest a prompt"
-            secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+            secondaryHref="https://github.com/dotsystemsdevs/vibeprompt"
             secondaryLabel="Submit a PR instead"
             borderTop={false}
             className="mt-6"

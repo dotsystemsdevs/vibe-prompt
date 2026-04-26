@@ -6,7 +6,7 @@ This version has breaking changes, APIs, conventions, and file structure may all
 
 ---
 
-# VibePrompt, Agent & Contributor Guide
+# vibeprompt, Agent & Contributor Guide
 
 Read this before writing any code in this repo.
 

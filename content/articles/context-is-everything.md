@@ -4,7 +4,7 @@ description: "Bad context is why your AI writes generic code. Here's the exact s
 date: "2026-04-23"
 image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80"
 imageAlt: "Colorful code on screen"
-author: "VibePrompt"
+author: "vibeprompt"
 ---
 
 There's a moment every vibe coder knows.

@@ -4,7 +4,7 @@ description: "Everyone online is one-shotting full dashboards. You're spending w
 date: "2026-04-22"
 image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80"
 imageAlt: "Abstract AI interface with glowing elements"
-author: "VibePrompt"
+author: "vibeprompt"
 ---
 
 There's a post on r/vibecoding or r/ClaudeCode every week. Someone ships a full dashboard in an afternoon. A complete SaaS in a weekend. An entire app in one prompt.

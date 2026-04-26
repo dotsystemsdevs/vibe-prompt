@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | VibePrompt",
-  description: "VibePrompt privacy policy. We collect minimal data and never sell it.",
+  title: "Privacy Policy | vibeprompt",
+  description: "vibeprompt privacy policy. We collect minimal data and never sell it.",
 };
 
 export default function PrivacyPage() {
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       <div className="mt-10 space-y-8 text-sm leading-relaxed text-foreground/60">
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">What we collect</h2>
-          <p>VibePrompt collects anonymous usage analytics via Vercel Analytics (page views, no personal data). If you sign in, Clerk handles authentication and stores only your email and session data.</p>
+          <p>vibeprompt collects anonymous usage analytics via Vercel Analytics (page views, no personal data). If you sign in, Clerk handles authentication and stores only your email and session data.</p>
         </section>
         <section>
           <h2 className="text-sm font-semibold text-foreground/80 mb-2">What we don&apos;t do</h2>

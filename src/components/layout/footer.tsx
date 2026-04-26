@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
-const GITHUB_URL = "https://github.com/dotsystemsdevs/VibePrompt";
+const GITHUB_URL = "https://github.com/dotsystemsdevs/vibeprompt";
 
 type FooterContributor = {
   login: string;
@@ -72,7 +72,7 @@ export function Footer() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("https://api.github.com/repos/dotsystemsdevs/VibePrompt/contributors?per_page=30");
+        const res = await fetch("https://api.github.com/repos/dotsystemsdevs/vibeprompt/contributors?per_page=30");
         if (!res.ok) throw new Error("bad_status");
         const data = (await res.json()) as ApiContributor[];
         const items: FooterContributor[] = (Array.isArray(data) ? data : [])

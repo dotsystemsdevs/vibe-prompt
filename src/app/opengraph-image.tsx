@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "VibePrompt, Prompts, workflow & tools for vibe coders";
+export const alt = "vibeprompt, Prompts, workflow & tools for vibe coders";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

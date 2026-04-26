@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 const FAQ_ITEMS = [
-  { q: "What is VibePrompt?", a: "VibePrompt is a free prompt library and vibe coding workflow for developers shipping with AI. No login required, open source." },
-  { q: "How does vibe coding work?", a: "Vibe coding is a workflow for shipping software with AI assistance. VibePrompt provides a 9-step playbook from idea to shipped product, plus battle-tested prompts for each stage." },
-  { q: "Is VibePrompt free to use?", a: "Yes. VibePrompt is completely free, no paywalls, no login required, and fully open source on GitHub." },
+  { q: "What is vibeprompt?", a: "vibeprompt is a free prompt library and vibe coding workflow for developers shipping with AI. No login required, open source." },
+  { q: "How does vibe coding work?", a: "Vibe coding is a workflow for shipping software with AI assistance. vibeprompt provides a 9-step playbook from idea to shipped product, plus battle-tested prompts for each stage." },
+  { q: "Is vibeprompt free to use?", a: "Yes. vibeprompt is completely free, no paywalls, no login required, and fully open source on GitHub." },
   { q: "Which AI tools work with these prompts?", a: "The prompts work with Claude Code, Cursor, GitHub Copilot, ChatGPT, Windsurf, and any other AI coding assistant." },
 ];
 
@@ -18,8 +18,8 @@ const FAQ_SCHEMA = {
 };
 
 export const metadata: Metadata = {
-  title: "About | VibePrompt",
-  description: "VibePrompt is an open-source prompt library and toolkit for vibe coders who ship.",
+  title: "About | vibeprompt",
+  description: "vibeprompt is an open-source prompt library and toolkit for vibe coders who ship.",
   alternates: { canonical: "/about" },
 };
 
@@ -32,7 +32,7 @@ export default function AboutPage() {
           <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">About</p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">Built for builders who ship.</h1>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            VibePrompt is an open-source toolkit for vibe coders, builders who use AI to go from idea to prototype to shipped
+            vibeprompt is an open-source toolkit for vibe coders, builders who use AI to go from idea to prototype to shipped
             product. Use the prompts, follow the workflow, and keep momentum.
           </p>
 
@@ -74,7 +74,7 @@ export default function AboutPage() {
           <ul className="mt-5 space-y-3 text-sm">
             <li>
               <a
-                href="https://github.com/dotsystemsdevs/VibePrompt"
+                href="https://github.com/dotsystemsdevs/vibeprompt"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block border border-foreground/15 bg-foreground/[0.02] px-4 py-3 font-medium text-foreground transition-colors hover:bg-foreground/[0.04]"
@@ -85,7 +85,7 @@ export default function AboutPage() {
             </li>
             <li>
               <a
-                href="https://github.com/dotsystemsdevs/VibePrompt/issues"
+                href="https://github.com/dotsystemsdevs/vibeprompt/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block border border-foreground/15 bg-foreground/[0.02] px-4 py-3 font-medium text-foreground transition-colors hover:bg-foreground/[0.04]"

@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { href: "/scan", label: "Scan" },
 ];
 
-const GITHUB_URL = "https://github.com/dotsystemsdevs/VibePrompt";
+const GITHUB_URL = "https://github.com/dotsystemsdevs/vibeprompt";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -51,7 +51,7 @@ export function Navbar() {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="VibePrompt on GitHub (opens in new tab)"
+            aria-label="vibeprompt on GitHub (opens in new tab)"
             className="hidden border border-foreground/20 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-white/[0.05] sm:inline-flex"
           >
             GitHub ↗

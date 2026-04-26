@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const article = await getArticle(slug);
   if (!article) return {};
   return {
-    title: `${article.title} | VibePrompt`,
+    title: `${article.title} | vibeprompt`,
     description: article.description,
     alternates: { canonical: `/articles/${slug}` },
     openGraph: {

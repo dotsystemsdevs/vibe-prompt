@@ -7,14 +7,14 @@ import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 const SCHEMA_ORG = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "VibePrompt",
+  name: "vibeprompt",
   description: "52 battle-tested AI prompts, a 9-step vibe coding workflow, and a curated tool list, free and open source.",
   url: "https://vibeprompt.tech",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   keywords: "AI prompts, vibe coding, prompt library, Claude prompts, AI workflow, open source",
-  creator: { "@type": "Organization", name: "VibePrompt", url: "https://vibeprompt.tech" },
+  creator: { "@type": "Organization", name: "vibeprompt", url: "https://vibeprompt.tech" },
 };
 
 export default async function HomePage() {
@@ -60,7 +60,7 @@ export default async function HomePage() {
                 See the workflow →
               </Link>
               <a
-                href="https://github.com/dotsystemsdevs/VibePrompt/issues"
+                href="https://github.com/dotsystemsdevs/vibeprompt/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-foreground/45 hover:bg-foreground/[0.05]"

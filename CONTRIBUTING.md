@@ -1,6 +1,6 @@
-# Contributing to VibePrompt
+# Contributing to vibeprompt
 
-VibePrompt uses GitHub as the source of truth for public prompts. Every prompt is a Markdown file reviewed and merged by maintainers — just like code.
+vibeprompt uses GitHub as the source of truth for public prompts. Every prompt is a Markdown file reviewed and merged by maintainers — just like code.
 
 ---
 

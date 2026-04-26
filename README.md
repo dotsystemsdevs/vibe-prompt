@@ -1,12 +1,12 @@
-# VibePrompt
+# vibeprompt
 
 Open-source prompt library, workflow hub, and site audit tool for vibe coders. Browse 52 battle-tested prompts, follow a 9-step shipping playbook, and scan any landing page for issues in one click.
 
-[![CI](https://github.com/dotsystemsdevs/VibePrompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/VibePrompt/actions/workflows/ci.yml)
-![License](https://img.shields.io/github/license/dotsystemsdevs/VibePrompt)
-![Stars](https://img.shields.io/github/stars/dotsystemsdevs/VibePrompt?style=flat)
-![Issues](https://img.shields.io/github/issues/dotsystemsdevs/VibePrompt?style=flat)
-![PRs](https://img.shields.io/github/issues-pr/dotsystemsdevs/VibePrompt?style=flat)
+[![CI](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml)
+![License](https://img.shields.io/github/license/dotsystemsdevs/vibeprompt)
+![Stars](https://img.shields.io/github/stars/dotsystemsdevs/vibeprompt?style=flat)
+![Issues](https://img.shields.io/github/issues/dotsystemsdevs/vibeprompt?style=flat)
+![PRs](https://img.shields.io/github/issues-pr/dotsystemsdevs/vibeprompt?style=flat)
 
 **Live**: https://vibeprompt.tech
 
@@ -14,7 +14,7 @@ Open-source prompt library, workflow hub, and site audit tool for vibe coders. B
 
 ## What This Is
 
-VibePrompt is a free, open-source tool for developers shipping with AI.
+vibeprompt is a free, open-source tool for developers shipping with AI.
 
 - **Browse** 52 prompts organized by workflow stage, copy in one click
 - **Follow** a 9-step vibe coding playbook from idea to shipped product
@@ -44,7 +44,7 @@ VibePrompt is a free, open-source tool for developers shipping with AI.
 ## Project Structure
 
 ```text
-VibePrompt/
+vibeprompt/
 ├─ src/
 │  ├─ app/                  # Next.js App Router pages
 │  │  ├─ api/audit/         # PageLens audit API (40+ rules)
@@ -202,8 +202,8 @@ Audit API: `GET /api/audit?url=https://example.com`
 Read `AGENTS.md` before writing any code.
 
 - **Quick contribution**: copy fix, UI spacing, mobile, add a prompt, add a tool
-- **Issues**: https://github.com/dotsystemsdevs/VibePrompt/issues
-- **PRs**: https://github.com/dotsystemsdevs/VibePrompt/pulls
+- **Issues**: https://github.com/dotsystemsdevs/vibeprompt/issues
+- **PRs**: https://github.com/dotsystemsdevs/vibeprompt/pulls
 
 ---
 

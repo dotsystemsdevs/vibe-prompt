@@ -19,23 +19,23 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
-  title: "VibePrompt - AI Prompts, Workflow & Tools for Builders",
+  title: "vibeprompt - AI Prompts, Workflow & Tools for Builders",
   description:
     "40 battle-tested prompts for AI development. Free prompt library with workflows and tools for shipping with AI. Copy in one click, no login needed.",
   keywords: "AI prompts, vibe coding workflow, prompt library",
   metadataBase: getMetadataBase(),
   alternates: { canonical: "https://vibeprompt.tech" },
   openGraph: {
-    title: "VibePrompt - Everything You Need to Ship with AI",
+    title: "vibeprompt - Everything You Need to Ship with AI",
     description:
       "Free open-source prompt library with 40 tested prompts, workflows, and tools for AI developers.",
-    siteName: "VibePrompt",
+    siteName: "vibeprompt",
     type: "website",
     url: "https://vibeprompt.tech",
   },
   twitter: {
     card: "summary_large_image",
-    title: "VibePrompt - AI Prompts for Builders",
+    title: "vibeprompt - AI Prompts for Builders",
     description:
       "40 battle-tested prompts for shipping with AI. Free, open-source, no login required.",
   },

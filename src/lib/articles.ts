@@ -41,7 +41,7 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
           date: data.date ?? "",
           image: data.image ?? "",
           imageAlt: data.imageAlt ?? "",
-          author: data.author ?? "VibePrompt",
+          author: data.author ?? "vibeprompt",
         } satisfies ArticleMeta;
       })
   );
@@ -68,7 +68,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
     date: data.date ?? "",
     image: data.image ?? "",
     imageAlt: data.imageAlt ?? "",
-    author: data.author ?? "VibePrompt",
+    author: data.author ?? "vibeprompt",
     html,
   };
 }

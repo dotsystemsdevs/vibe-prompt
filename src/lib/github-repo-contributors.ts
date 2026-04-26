@@ -54,7 +54,7 @@ async function fallbackContributors(): Promise<PromptContributor[]> {
 
 async function fetchContributorsUncached(): Promise<PromptContributor[]> {
   const owner = process.env.GITHUB_PROMPTS_OWNER ?? "dotsystemsdevs";
-  const repo = process.env.GITHUB_PROMPTS_REPO ?? "VibePrompt";
+  const repo = process.env.GITHUB_PROMPTS_REPO ?? "vibeprompt";
   const url = `https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100`;
 
   const data = await fetchJson<ApiContributor[]>(url);

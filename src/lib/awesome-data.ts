@@ -141,7 +141,7 @@ export const AWESOME_CATEGORIES = [
       { name: "Together AI", description: "Run open-source models at scale with a simple API.", href: "https://together.ai", tags: ["ai", "llm", "api", "paid", "free-tier", "open-source"] },
       { name: "Replicate", description: "Deploy and run any open-source model with one API call.", href: "https://replicate.com", tags: ["ai", "api", "paid", "open-source", "models"] },
       { name: "Mistral", description: "Efficient open-weight models, strong at code and reasoning.", href: "https://mistral.ai", tags: ["ai", "llm", "open-source", "free-tier", "code"] },
-      { name: "VibePrompt", description: "Curated prompt library built for vibe coders, you're here.", href: "https://vibeprompt.tech", tags: ["prompts", "free", "open-source", "vibe-coding"] },
+      { name: "vibeprompt", description: "Curated prompt library built for vibe coders, you're here.", href: "https://vibeprompt.tech", tags: ["prompts", "free", "open-source", "vibe-coding"] },
     ],
   },
   {
@@ -180,6 +180,10 @@ export const AWESOME_CATEGORIES = [
       { name: "Intercom", description: "In-app messaging to talk to users while they're in your product.", href: "https://intercom.com", tags: ["support", "chat", "paid", "customer-success"] },
       { name: "Tally", description: "Free Typeform alternative, beautiful forms, no limits.", href: "https://tally.so", tags: ["forms", "free", "surveys", "nocode"] },
       { name: "r/ChatGPTCoding", description: "AI dev community sharing real-world iteration stories.", href: "https://reddit.com/r/ChatGPTCoding", tags: ["community", "free", "reddit", "ai"] },
+      { name: "Dub.co", description: "Short links with click tracking, see which CTAs actually convert.", href: "https://dub.co", tags: ["analytics", "links", "free-tier", "open-source", "marketing"] },
+      { name: "ManyChat", description: "Auto-reply to Instagram comments and DMs, turn engagement into action.", href: "https://manychat.com", tags: ["instagram", "automation", "free-tier", "marketing", "dms"] },
+      { name: "Google Play Console", description: "Where you publish, manage, and monitor Android apps on Google Play.", href: "https://play.google.com/console", tags: ["mobile", "android", "free", "publishing", "store"] },
+      { name: "r/AndroidClosedTesting", description: "Best channel for recruiting closed-test users for Android apps.", href: "https://reddit.com/r/AndroidClosedTesting", tags: ["community", "free", "reddit", "android", "testing"] },
     ],
   },
   {

@@ -5,7 +5,7 @@ import { Hero } from "@/components/hero/hero";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata = {
-  title: "Awesome Vibe Coding, Tools & Resources for AI Builders | VibePrompt",
+  title: "Awesome Vibe Coding, Tools & Resources for AI Builders | vibeprompt",
   description: "Curated list of tools, AI coding platforms, and resources for vibe coders. No bloat, no affiliates, just what actually works.",
   alternates: { canonical: "/awesome" },
   openGraph: {
@@ -35,9 +35,9 @@ export default async function AwesomePage() {
             title={"Know a tool\nwe're missing?"}
             description="Suggest it in two minutes. If it belongs here, it goes in."
             accent="#ffffff"
-            primaryHref="https://github.com/dotsystemsdevs/VibePrompt/issues/new?template=suggest-tool.yml"
+            primaryHref="https://github.com/dotsystemsdevs/vibeprompt/issues/new?template=suggest-tool.yml"
             primaryLabel="Suggest a tool"
-            secondaryHref="https://github.com/dotsystemsdevs/VibePrompt"
+            secondaryHref="https://github.com/dotsystemsdevs/vibeprompt"
             secondaryLabel="Submit a PR instead"
             borderTop={false}
             className="mt-6"

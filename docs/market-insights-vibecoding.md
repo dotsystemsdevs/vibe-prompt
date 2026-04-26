@@ -524,4 +524,4 @@ A sharp perspective from a developer-turned-vibecoder:
 
 ---
 
-*Use these insights to validate and sharpen the VibePrompt workflow steps and prompt library.*
+*Use these insights to validate and sharpen the vibeprompt workflow steps and prompt library.*

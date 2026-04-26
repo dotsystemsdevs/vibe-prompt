@@ -191,7 +191,7 @@ Give me 3 complete variations with different angles:
 - Angle 3: Contrarian or bold claim`,
     outputExample: `PAIN ANGLE:
 Headline: Stop losing your best prompts.
-Sub: VibePrompt is the open library where builders save and share the prompts that actually ship products.
+Sub: vibeprompt is the open library where builders save and share the prompts that actually ship products.
 CTA: Save your first prompt →
 
 OUTCOME ANGLE:
@@ -201,7 +201,7 @@ CTA: Browse prompts free →
 
 BOLD ANGLE:
 Headline: Most prompt libraries are slop.
-Sub: We fixed that. VibePrompt is a curated, GitHub-powered prompt library built by builders who actually ship.
+Sub: We fixed that. vibeprompt is a curated, GitHub-powered prompt library built by builders who actually ship.
 CTA: See for yourself →`,
     notes: "The bold angle gets more shares. The outcome angle converts better. Test both.",
     upvotes: 203,

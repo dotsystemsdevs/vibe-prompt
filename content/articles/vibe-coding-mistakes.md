@@ -4,7 +4,7 @@ description: "Every project failure follows the same pattern. Here's what actual
 date: "2026-04-21"
 image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=80"
 imageAlt: "Abstract neural network visualization"
-author: "VibePrompt"
+author: "vibeprompt"
 ---
 
 After analyzing hundreds of posts across r/vibecoding, r/ClaudeAI, r/cursor, and r/ClaudeCode, the same failures keep appearing. Different projects, different stacks, same mistakes.

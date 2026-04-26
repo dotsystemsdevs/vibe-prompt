@@ -4,7 +4,7 @@ import { AuditClient, CountUp } from "./audit-client";
 import { kv } from "@vercel/kv";
 
 export const metadata: Metadata = {
-  title: "Scan | VibePrompt",
+  title: "Scan | vibeprompt",
   description:
     "Paste any URL and get a prioritized scan of your landing page, SEO, conversion, AI discoverability, and security in seconds.",
 };
