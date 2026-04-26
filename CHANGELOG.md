@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Renamed all "Before AI" task group headings to "Checklist"
 - Footer tagline: "Open source prompt library" → "Prompts, resources, and tools for vibe coders"
+- Footer "Buy me a coffee" link: coffee cup icon plus bold label (same bar height, no extra padding)
+- `README.md` and new `ROADMAP.md` aligned with `prompt-library/` as prompt source, current routes, public-only auth, env vars, and `CONTRIBUTING.md` as the human entry point
 - Footer contributor avatars: grayscale removed, full color always
 - `next.config.ts`: added Google favicon hostname, removed unused turbopack root
 

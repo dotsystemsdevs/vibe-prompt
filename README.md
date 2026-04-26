@@ -1,6 +1,6 @@
 # vibeprompt
 
-Open-source prompt library, workflow hub, and site audit tool for vibe coders. Browse 52 battle-tested prompts, follow a 9-step shipping playbook, and scan any landing page for issues in one click.
+Open-source prompt library, workflow hub, and site audit tool for vibe coders. Browse 52 battle-tested prompts, read 11 articles, follow a 9-step shipping playbook, and scan any landing page for issues in one click.
 
 [![CI](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml)
 ![License](https://img.shields.io/github/license/dotsystemsdevs/vibeprompt)
@@ -33,9 +33,10 @@ vibeprompt is a free, open-source tool for developers shipping with AI.
 | `/prompts/[slug]` | Prompt detail with copy count and contributor badge |
 | `/workflow` | 9-step vibe coding playbook |
 | `/scan` | PageLens site audit (SEO, conversion, trust, security, AEO) |
-| `/articles` | Articles on vibe coding |
+| `/articles` | Article index; `/articles/[slug]` for each post |
 | `/awesome` | Curated list of AI/vibe coding tools |
 | `/learn` | Learning resources |
+| `/contact` | Contact |
 | `/privacy` | Privacy policy |
 | `/about` | About the project |
 
@@ -60,9 +61,8 @@ vibeprompt/
 │     ├─ prompt-library.ts  # Loads prompts from markdown
 │     ├─ workflow-steps.ts  # 9-step workflow metadata
 │     └─ types.ts           # Shared types (protected)
-├─ content/
-│  └─ prompts/              # 52 markdown prompt files
-├─ prompt-library/          # Standalone prompt playbook
+├─ content/                 # Long-form content (e.g. articles)
+├─ prompt-library/          # 52 public prompts (loaded at build time)
 │  ├─ Agent Setup/
 │  ├─ Architecture Stack/
 │  ├─ Build Ship/
@@ -87,9 +87,9 @@ vibeprompt/
 |---|---|
 | Framework | Next.js 16 (App Router) |
 | UI | React 19, Tailwind CSS v4, shadcn/ui |
-| Auth | Clerk |
-| KV Storage | Vercel KV (copy counts, scan count) |
-| Database | Supabase (optional, for saves) |
+| Auth | None in the product (app is public, no sign-in) |
+| KV storage | Vercel KV (copy counts and related use) |
+| Database | Supabase client present, optional for future features |
 | Animations | GSAP |
 | Analytics | Vercel Analytics |
 | Language | TypeScript (strict) |
@@ -108,11 +108,9 @@ npm run lint
 Environment variables needed in `.env.local`:
 
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
 KV_REST_API_URL=
 KV_REST_API_TOKEN=
-# Optional (for saves feature):
+# Optional:
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
@@ -121,7 +119,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 ## Prompt Library
 
-52 prompts in `content/prompts/`, organized by stage:
+52 markdown prompts in `prompt-library/`, organized by stage (folder names differ from on-site category labels, see `src/lib/categories.ts`):
 
 | Folder | Site label | What it covers |
 |---|---|---|
@@ -135,28 +133,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 | `Launch Growth/` | Ship | Distribution, positioning, launch |
 | `Ops Maintenance/` | Iterate | Post-launch ops and reliability |
 
-**Adding a prompt:**
+**Adding a prompt**
 
-1. Pick the right folder in `content/prompts/`
-2. Create a kebab-case `.md` file
-3. Use this structure:
-
-```markdown
----
-title: Prompt Title
----
-
-## When to use
-One or two sentences.
-
-## Prompt
-
-\```
-The prompt text.
-\```
-```
-
-4. Open a PR: `prompt(category): add prompt-name`
+1. Open `src/lib/categories.ts` and use the `dirName` for the right folder under `prompt-library/`
+2. Add a kebab-case `.md` file that matches the format in [`CONTRIBUTING.md`](./CONTRIBUTING.md) (one fenced code block under `## Instructions`, placeholders listed under `## Input`, and so on)
+3. Open a PR, for example: `prompt(category): add your-prompt-name`
 
 ---
 
@@ -178,30 +159,24 @@ Audit API: `GET /api/audit?url=https://example.com`
 
 ## Roadmap
 
-**Done:**
-- 52 prompts across 9 categories
-- 9-step vibe coding workflow
-- PageLens site audit (40+ rules, 7 categories)
-- Copy count tracking per prompt via Vercel KV
-- AI crawler support (llms.txt, robots.txt, FAQ schema)
-- Security headers (CSP, HSTS, X-Frame-Options)
-- Articles section
-- Privacy policy
-- 100/100 on our own PageLens audit
+**Done**
 
-**Next:**
-- Prompt submissions via GitHub Issues
-- Saved prompts (Clerk + Supabase)
-- More prompts, more categories
-- Search improvements
+- 52 prompts across 9 categories, 11 articles, PageLens, workflow, copy counts, public access with no login
+
+**Next (see also [ROADMAP.md](./ROADMAP.md) and [Issues](https://github.com/dotsystemsdevs/vibeprompt/issues))**
+
+- Community prompts and content (open issues: labels `content`, `good first issue`)
+- Hardening copy counts and any infra follow-ups
+- Ongoing quality: search, redirects (for example `www` to apex), docs
 
 ---
 
 ## Contributing
 
-Read `AGENTS.md` before writing any code.
+For people: start with [`CONTRIBUTING.md`](./CONTRIBUTING.md). For agents and full stack detail: `AGENTS.md`.
 
-- **Quick contribution**: copy fix, UI spacing, mobile, add a prompt, add a tool
+- **Quick contribution**: copy fix, UI, mobile, add a prompt, add a tool, article tweak
+- **Roadmap**: [`ROADMAP.md`](./ROADMAP.md)
 - **Issues**: https://github.com/dotsystemsdevs/vibeprompt/issues
 - **PRs**: https://github.com/dotsystemsdevs/vibeprompt/pulls
 
