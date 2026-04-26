@@ -141,8 +141,21 @@ export function Footer() {
               <Link href="/about" className="text-muted-foreground transition-colors hover:text-foreground">About</Link>
               <span className="text-foreground/20">·</span>
               <Link href="/privacy" className="text-muted-foreground transition-colors hover:text-foreground">Privacy</Link>
-              <span className="text-foreground/20">·</span>
-              <a href={COFFEE_URL} target="_blank" rel="noopener noreferrer" className="text-muted-foreground transition-colors hover:text-foreground">Coffee ↗</a>
+              <a
+                href={COFFEE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-1 inline-flex items-center gap-1.5 font-medium text-foreground transition-opacity hover:opacity-70"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+                  <line x1="6" y1="2" x2="6" y2="4" />
+                  <line x1="10" y1="2" x2="10" y2="4" />
+                  <line x1="14" y1="2" x2="14" y2="4" />
+                </svg>
+                Buy me a coffee
+              </a>
             </div>
           </div>
         ) : (
@@ -188,8 +201,21 @@ export function Footer() {
               <Link href="/about" className="transition-colors hover:text-foreground">About</Link>
               <span className="mx-2 text-foreground/20">·</span>
               <Link href="/privacy" className="transition-colors hover:text-foreground">Privacy</Link>
-              <span className="mx-2 text-foreground/20">·</span>
-              <a href={COFFEE_URL} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">Coffee ↗</a>
+              <a
+                href={COFFEE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-3 inline-flex items-center gap-1.5 font-medium text-foreground transition-opacity hover:opacity-70"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+                  <line x1="6" y1="2" x2="6" y2="4" />
+                  <line x1="10" y1="2" x2="10" y2="4" />
+                  <line x1="14" y1="2" x2="14" y2="4" />
+                </svg>
+                Buy me a coffee
+              </a>
             </div>
           </div>
         )}
