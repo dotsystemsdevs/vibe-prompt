@@ -27,8 +27,7 @@ Read this before writing any code in this repo.
 - **Pages** live in `src/app/` using App Router conventions (`page.tsx`, `layout.tsx`)
 - **Client components** are co-located with their server counterparts, suffixed `-client.tsx`
 - **Data files** live in `src/lib/`, types in `types.ts`, category defs in `categories.ts`
-- **Prompt content** lives in `content/prompts/` as markdown files
-- **Prompt playbook** lives in `prompt-library/` as standalone markdown, not imported by the app
+- **Prompt content** lives in `prompt-library/` as markdown files, loaded by `src/lib/prompt-library.ts` (use `src/lib/categories.ts` for folder names, `dirName` vs on-site label)
 
 ## Design System
 
@@ -119,9 +118,10 @@ The prompt text.
 
 ```bash
 npm install
-npm run dev       # localhost:3000
-npm run build     # production build
-npm run lint      # ESLint check
+npm run dev          # localhost:3000
+npm run build        # production build
+npm run lint         # ESLint
+npm run typecheck    # TypeScript (tsc, no emit)
 ```
 
 Environment variables needed in `.env.local`:

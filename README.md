@@ -100,10 +100,13 @@ vibeprompt/
 
 ```bash
 npm install
-npm run dev      # localhost:3000
-npm run build
+npm run dev         # localhost:3000
 npm run lint
+npm run typecheck
+npm run build
 ```
+
+Node **20+** (see `package.json` `engines`). Run commands from the repo root.
 
 Environment variables needed in `.env.local`:
 

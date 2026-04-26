@@ -15,7 +15,7 @@ Instead, report privately with:
 - Impact assessment
 - Suggested remediation (optional)
 
-If you cannot share details publicly, contact project maintainers through private channels associated with the repository.
+For a private channel, email **dot.systems@proton.me** with the subject line starting with `[security]`. We do not use the public issue tracker for undisclosed reports.
 
 ## Scope
 

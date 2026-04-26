@@ -5,12 +5,19 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- `npm run typecheck` and CI step with `tsc --noEmit` so TypeScript is checked in addition to the Next build
+- `.github/dependabot.yml` for weekly npm and monthly GitHub Actions updates
+- `.github/FUNDING.yml` with Buy Me a Coffee and site link
+- `package.json` `engines.node` (>= 20) to match CI
 - OG image for social sharing (`/opengraph-image`) , dark background, blue accent, all 9 workflow steps
 - Favicon , solid blue circle (`#2563EB`) shown in browser tab and navbar
 - Mobile homepage redesigned to match desktop , workflow card + left-aligned layout
 - `vibeprompt.tech` domain configured and live
 
 ### Changed
+- `AGENTS.md` documents `prompt-library/` as the on-site prompt source, not `content/prompts/`, and includes `typecheck` in the run list
+- `README.md` Getting Started runs lint and typecheck before build, and notes Node 20+
+- `SECURITY.md` lists an email for private security reports, issue template security link uses `VibePrompt` path
 - Renamed all "Before AI" task group headings to "Checklist"
 - Footer tagline: "Open source prompt library" → "Prompts, resources, and tools for vibe coders"
 - Footer "Buy me a coffee" link: coffee cup icon plus bold label (same bar height, no extra padding)
