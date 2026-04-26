@@ -13,6 +13,7 @@ interface ParsedPage {
   h3s: string[];
   buttonCount: number;
   realButtonCount: number;
+  uniqueCtaCount: number;
   buttonTexts: string[];
   isSPA: boolean;
   totalImages: number;
@@ -136,6 +137,9 @@ function parseHtml(html: string): HtmlParsed {
     ...realButtons.map((m) => m[1].replace(/<[^>]+>/g, "").trim()),
     ...buttonLikeLinks.map((m) => m[1].replace(/<[^>]+>/g, "").trim()),
   ].filter(Boolean);
+  const uniqueCtaCount = new Set(
+    buttonTexts.map((t) => t.toLowerCase().replace(/\s+/g, " ").trim()).filter(Boolean)
+  ).size;
 
   const links = [...html.matchAll(/href=["']([^"']+)["']/gi)].map((m) => m[1]);
   const externalBlankLinks = linkMatches.filter((m) => {
@@ -188,7 +192,7 @@ function parseHtml(html: string): HtmlParsed {
 
   return {
     title, metaDescription, h1s, h2s, h3s,
-    buttonCount, realButtonCount, buttonTexts, isSPA,
+    buttonCount, realButtonCount, uniqueCtaCount, buttonTexts, isSPA,
     totalImages, imagesWithoutAlt, imagesWithoutLazy,
     links, externalBlankLinks, emptyLinks,
     hasNav, hasFooter, hasMain, hasCanonical, hasStructuredData,
@@ -330,9 +334,9 @@ const RULES: Rule[] = [
   {
     id: "conv_no_cta", category: "conversion", severity: "medium", effort: "involved",
     title: "No CTA buttons detected",
-    description: "No buttons or action-oriented links found. Visitors may not know what to do next. Note: client-rendered CTAs won't appear in a static scan.",
+    description: "No buttons or action-oriented links found in the static HTML. Visitors may not know what to do next.",
     fix: "Add at least one visible CTA above the fold. Use a <button> or <a> with a btn/cta class and action verbs like 'Get started' or 'Try free'.",
-    scoreImpact: 10, check: (p) => p.buttonCount === 0,
+    scoreImpact: 10, check: (p) => p.buttonCount === 0 && !p.isSPA,
   },
   {
     id: "conv_weak_cta", category: "conversion", severity: "medium", effort: "quick",
@@ -365,9 +369,9 @@ const RULES: Rule[] = [
   {
     id: "conv_too_many_cta", category: "conversion", severity: "medium", effort: "moderate",
     title: "Too many competing CTAs",
-    description: "More than 5 primary action buttons detected. Too many choices create decision paralysis.",
+    description: "More than 5 distinct action buttons detected. Too many different choices create decision paralysis. Note: the same CTA repeated in header, hero, and footer counts as one.",
     fix: "Consolidate to 1 primary CTA per section. Demote secondary actions to text links.",
-    scoreImpact: 5, check: (p) => p.realButtonCount > 5,
+    scoreImpact: 5, check: (p) => p.uniqueCtaCount > 5,
   },
   {
     id: "conv_no_form", category: "conversion", severity: "low", effort: "moderate",
