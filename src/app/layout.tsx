@@ -52,6 +52,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
+        <script defer src="https://tracker-mauve-sigma.vercel.app/t.js" data-project="vibeprompt" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Navbar />
