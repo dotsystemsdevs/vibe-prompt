@@ -8,7 +8,7 @@ const SCHEMA_ORG = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   name: "vibeprompt",
-  description: "52 battle-tested AI prompts, a 9-step vibe coding workflow, and a curated tool list, free and open source.",
+  description: "The vibe coding playbook — a 9-step methodology and 55 battle-tested prompts for shipping with Claude Code, Cursor, and other AI coding agents. Free, open source.",
   url: "https://vibeprompt.tech",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web",
@@ -34,21 +34,21 @@ export default async function HomePage() {
           <div className="flex flex-1 flex-col">
 
             <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/50">
-              {prompts.length} prompts &nbsp;·&nbsp; {categories.length} categories &nbsp;·&nbsp; free plan · open source
+              9-step playbook &nbsp;·&nbsp; {prompts.length} prompts &nbsp;·&nbsp; free · open source
             </p>
 
             <h1
               className="font-bold leading-[1.02] tracking-[-0.04em] text-foreground"
               style={{ fontSize: "clamp(2.6rem, 3.8vw + 0.5rem, 4.2rem)" }}
             >
-              Everything you need
+              The vibe coding
               <br />
-              to ship with AI.
+              playbook.
             </h1>
 
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/50">
-              The 9-step vibe coding playbook from idea to shipped,
-              plus {prompts.length} battle-tested prompts to use at every stage.
+              A 9-step methodology for shipping with AI agents.
+              {prompts.length} battle-tested prompts to use at every stage.
             </p>
 
             <div className="mt-8 flex items-center gap-3">
@@ -154,12 +154,12 @@ export default async function HomePage() {
             className="font-bold leading-[1.05] tracking-[-0.04em] text-foreground"
             style={{ fontSize: "clamp(2.2rem, 8vw, 3rem)" }}
           >
-            Everything you need
-            <br />to ship with AI.
+            The vibe coding
+            <br />playbook.
           </p>
 
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/50">
-            The 9-step vibe coding playbook from idea to shipped, plus {prompts.length} battle-tested prompts.
+            A 9-step methodology for shipping with AI agents. {prompts.length} prompts at every stage.
           </p>
 
           <div className="mt-7 flex items-center gap-3">
