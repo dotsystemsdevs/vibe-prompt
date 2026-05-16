@@ -19,25 +19,26 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
-  title: "vibeprompt - AI Prompts, Workflow & Tools for Builders",
+  title: "vibeprompt — The vibe coding playbook",
   description:
-    "40 battle-tested prompts for AI development. Free prompt library with workflows and tools for shipping with AI. Copy in one click, no login needed.",
-  keywords: "AI prompts, vibe coding workflow, prompt library",
+    "A 9-step methodology and 55 battle-tested prompts for shipping with Claude Code, Cursor, and AI coding agents. Free, open source, no login.",
+  keywords:
+    "vibe coding, vibe coding playbook, AI coding workflow, Claude Code prompts, Cursor prompts, prompt library, AI development methodology",
   metadataBase: getMetadataBase(),
   alternates: { canonical: "https://vibeprompt.tech" },
   openGraph: {
-    title: "vibeprompt - Everything You Need to Ship with AI",
+    title: "vibeprompt — The vibe coding playbook",
     description:
-      "Free open-source prompt library with 40 tested prompts, workflows, and tools for AI developers.",
+      "A 9-step methodology and 55 battle-tested prompts for shipping with AI coding agents. Free and open source.",
     siteName: "vibeprompt",
     type: "website",
     url: "https://vibeprompt.tech",
   },
   twitter: {
     card: "summary_large_image",
-    title: "vibeprompt - AI Prompts for Builders",
+    title: "vibeprompt — The vibe coding playbook",
     description:
-      "40 battle-tested prompts for shipping with AI. Free, open-source, no login required.",
+      "9-step methodology + 55 prompts for shipping with Claude Code, Cursor & AI agents. Free, open source.",
   },
 };
 
