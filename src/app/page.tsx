@@ -73,31 +73,47 @@ export default async function HomePage() {
             </div>
 
             {contributors.length > 0 && (
-              <div className="mt-8 flex items-center gap-4">
-                <div className="flex items-center">
-                  {contributors.slice(0, 8).map((c, i) => (
+              <div className="mt-10 border-t border-foreground/10 pt-6">
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
+                    Built in the open by {contributors.length}
+                  </span>
+                  <a
+                    href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/75 transition-colors hover:text-foreground"
+                  >
+                    Join us →
+                  </a>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {contributors.slice(0, 8).map((c) => (
                     <a
                       key={c.login}
                       href={c.profileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      title={c.login}
-                      className="relative block transition-transform hover:z-10 hover:scale-110"
-                      style={{ marginLeft: i === 0 ? 0 : "-8px" }}
+                      className="group flex items-center gap-2 rounded-full border border-foreground/15 bg-foreground/[0.03] py-1 pl-1 pr-3 transition-all hover:border-foreground/35 hover:bg-foreground/[0.07]"
                     >
                       <Image
                         src={c.avatarUrl}
                         alt={c.login}
-                        width={32}
-                        height={32}
-                        className="rounded-full border border-background transition-transform"
+                        width={28}
+                        height={28}
+                        className="rounded-full"
                       />
+                      <span className="text-xs font-medium text-foreground/75 transition-colors group-hover:text-foreground">
+                        {c.login}
+                      </span>
                     </a>
                   ))}
+                  {contributors.length > 8 && (
+                    <span className="text-xs text-foreground/45">
+                      +{contributors.length - 8} more
+                    </span>
+                  )}
                 </div>
-                <p className="text-[11px] text-foreground/50">
-                  Built by {contributors.length} contributor{contributors.length !== 1 ? "s" : ""} · trusted by builders worldwide
-                </p>
               </div>
             )}
 
@@ -205,31 +221,45 @@ export default async function HomePage() {
           </div>
 
           {contributors.length > 0 && (
-            <div className="mt-7 flex items-center gap-3">
-              <div className="flex items-center">
-                {contributors.slice(0, 6).map((c, i) => (
+            <div className="mt-8 border-t border-foreground/10 pt-5">
+              <div className="mb-3 flex items-center gap-3">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
+                  Built in the open by {contributors.length}
+                </span>
+                <a
+                  href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/75 transition-colors hover:text-foreground"
+                >
+                  Join →
+                </a>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {contributors.slice(0, 6).map((c) => (
                   <a
                     key={c.login}
                     href={c.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    title={c.login}
-                    className="relative block transition-transform hover:scale-110"
-                    style={{ marginLeft: i === 0 ? 0 : "-8px" }}
+                    className="group flex items-center gap-1.5 rounded-full border border-foreground/15 bg-foreground/[0.03] py-0.5 pl-0.5 pr-2 transition-all hover:border-foreground/35"
                   >
                     <Image
                       src={c.avatarUrl}
                       alt={c.login}
-                      width={26}
-                      height={26}
-                      className="rounded-full border border-background"
+                      width={22}
+                      height={22}
+                      className="rounded-full"
                     />
+                    <span className="text-[11px] font-medium text-foreground/70 transition-colors group-hover:text-foreground">
+                      {c.login}
+                    </span>
                   </a>
                 ))}
+                {contributors.length > 6 && (
+                  <span className="text-[11px] text-foreground/45">+{contributors.length - 6}</span>
+                )}
               </div>
-              <p className="text-[11px] text-foreground/30">
-                Built by {contributors.length} contributor{contributors.length !== 1 ? "s" : ""}
-              </p>
             </div>
           )}
 
