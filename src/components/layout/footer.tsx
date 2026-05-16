@@ -5,8 +5,15 @@ import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
-const GITHUB_URL = "https://github.com/dotsystemsdevs/vibeprompt";
-const COFFEE_URL = "https://buymeacoffee.com/dotdevs";
+const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
+
+const SISTER_PROJECTS: { name: string; url: string }[] = [
+  { name: "Slothy", url: "https://slothy.app" },
+  { name: "Commitment Issues", url: "https://commitmentissues.dev" },
+  { name: "Build2Race", url: "https://build2race.com" },
+  { name: "Excuse Caddie", url: "https://excusecaddie.xyz" },
+  { name: "Indexia", url: "https://indexia.tech" },
+];
 
 type FooterContributor = {
   login: string;
@@ -41,7 +48,6 @@ export function Footer() {
       return;
     }
 
-    // Prompt detail page: use server-resolved contributor from data-* attributes
     if (pathname.startsWith("/prompts/")) {
       const el = document.querySelector("[data-footer-contributor-login]") as HTMLElement | null;
       const login = el?.dataset.footerContributorLogin;
@@ -55,8 +61,7 @@ export function Footer() {
       return;
     }
 
-    // Repo contributors for workflow/awesome/browse (cached in sessionStorage)
-    const cacheKey = "vp_repo_contrib_v1";
+    const cacheKey = "vp_repo_contrib_v2";
     try {
       const cached = sessionStorage.getItem(cacheKey);
       if (cached) {
@@ -73,11 +78,11 @@ export function Footer() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("https://api.github.com/repos/dotsystemsdevs/vibeprompt/contributors?per_page=30");
+        const res = await fetch("https://api.github.com/repos/dotsystemsdevs/vibe-prompt/contributors?per_page=30");
         if (!res.ok) throw new Error("bad_status");
         const data = (await res.json()) as ApiContributor[];
         const items: FooterContributor[] = (Array.isArray(data) ? data : [])
-          .filter((c) => typeof c?.login === "string" && c.login.length > 0)
+          .filter((c) => typeof c?.login === "string" && c.login.length > 0 && !c.login.endsWith("[bot]"))
           .slice(0, 18)
           .map((c) => ({ login: c.login, avatarUrl: c.avatar_url, profileUrl: c.html_url }));
         if (cancelled) return;
@@ -100,7 +105,6 @@ export function Footer() {
   return (
     <footer className={`shrink-0 border-t border-foreground/12 ${compact ? "bg-background" : ""}`}>
 
-      {/* Bottom links */}
       <div className={`mx-auto max-w-6xl px-6 ${compact ? "py-4" : "py-10"}`}>
         {compact ? (
           <div className="flex items-center justify-between gap-4">
@@ -141,28 +145,22 @@ export function Footer() {
               <Link href="/about" className="text-muted-foreground transition-colors hover:text-foreground">About</Link>
               <span className="text-foreground/20">·</span>
               <Link href="/privacy" className="text-muted-foreground transition-colors hover:text-foreground">Privacy</Link>
+              <span className="text-foreground/20">·</span>
               <a
-                href={COFFEE_URL}
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-1 inline-flex items-center gap-1.5 font-medium text-foreground transition-opacity hover:opacity-70"
+                className="text-muted-foreground transition-colors hover:text-foreground"
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
-                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-                  <line x1="6" y1="2" x2="6" y2="4" />
-                  <line x1="10" y1="2" x2="10" y2="4" />
-                  <line x1="14" y1="2" x2="14" y2="4" />
-                </svg>
-                Buy me a coffee
+                GitHub
               </a>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-sm font-semibold tracking-tight text-foreground">vibeprompt</p>
-              <p className="mt-1 text-xs text-muted-foreground">Prompts, resources, and tools for vibe coders.</p>
+              <p className="mt-1 text-xs text-muted-foreground">The vibe coding playbook. Free and open source.</p>
               {showContributorStrip && contributors && contributors.length > 0 && (
                 <div className="mt-4 flex items-center gap-3">
                   <div className="flex items-center">
@@ -196,25 +194,40 @@ export function Footer() {
                   </a>
                 </div>
               )}
+
+              <div className="mt-6">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+                  More from Dot Systems
+                </p>
+                <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px]">
+                  {SISTER_PROJECTS.map((p, i) => (
+                    <span key={p.name} className="inline-flex items-center gap-3">
+                      <a
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground/55 transition-colors hover:text-foreground"
+                      >
+                        {p.name}
+                      </a>
+                      {i < SISTER_PROJECTS.length - 1 && <span className="text-foreground/15">·</span>}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className="flex items-center text-xs text-muted-foreground">
               <Link href="/about" className="transition-colors hover:text-foreground">About</Link>
               <span className="mx-2 text-foreground/20">·</span>
               <Link href="/privacy" className="transition-colors hover:text-foreground">Privacy</Link>
+              <span className="mx-2 text-foreground/20">·</span>
               <a
-                href={COFFEE_URL}
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-3 inline-flex items-center gap-1.5 font-medium text-foreground transition-opacity hover:opacity-70"
+                className="transition-colors hover:text-foreground"
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
-                  <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-                  <line x1="6" y1="2" x2="6" y2="4" />
-                  <line x1="10" y1="2" x2="10" y2="4" />
-                  <line x1="14" y1="2" x2="14" y2="4" />
-                </svg>
-                Buy me a coffee
+                GitHub
               </a>
             </div>
           </div>
