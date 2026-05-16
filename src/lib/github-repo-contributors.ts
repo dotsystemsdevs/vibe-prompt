@@ -29,7 +29,7 @@ function githubHeaders(): HeadersInit {
 
 async function fetchJson<T>(url: string): Promise<T | null> {
   try {
-    const res = await fetch(url, { headers: githubHeaders(), next: { revalidate: 3600 } });
+    const res = await fetch(url, { headers: githubHeaders(), next: { revalidate: 600 } });
     if (!res.ok) return null;
     return (await res.json()) as T;
   } catch {
@@ -63,7 +63,7 @@ async function fetchContributorsUncached(): Promise<PromptContributor[]> {
   }
 
   const mapped = data
-    .filter((c) => typeof c.login === "string" && c.login.length > 0)
+    .filter((c) => typeof c.login === "string" && c.login.length > 0 && c.type !== "Bot" && !c.login.endsWith("[bot]"))
     .map((c) => ({
       login: c.login,
       avatarUrl: c.avatar_url,
@@ -76,7 +76,7 @@ async function fetchContributorsUncached(): Promise<PromptContributor[]> {
 const getRepoContributorsCached = unstable_cache(
   async () => fetchContributorsUncached(),
   ["github-repo-contributors-list-v2"],
-  { revalidate: 3600 }
+  { revalidate: 600 }
 );
 
 /** All GitHub users who contributed commits to the configured repo (up to 100). */
