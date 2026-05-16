@@ -99,6 +99,9 @@ export const AWESOME_CATEGORIES = [
       { name: "Google AI Studio", description: "Gemini models with free tier and multimodal support.", href: "https://aistudio.google.com", tags: ["ai", "llm", "free-tier", "google", "multimodal"] },
       { name: "Groq", description: "Fastest inference available, great for low-latency apps.", href: "https://groq.com", tags: ["ai", "llm", "api", "free-tier", "fast"] },
       { name: "OpenRouter", description: "One API key, access to every major model, with fallbacks.", href: "https://openrouter.ai", tags: ["ai", "llm", "api", "free-tier", "multi-model"] },
+      { name: "MCP (Model Context Protocol)", description: "Standardized protocol for AI agents to access external tools and data.", href: "https://modelcontextprotocol.io", tags: ["ai", "protocol", "open-source", "free", "tools", "agent"] },
+      { name: "Context7", description: "MCP server that gives AI agents up-to-date library docs and examples.", href: "https://context7.com", tags: ["mcp", "docs", "ai", "free-tier", "library"] },
+      { name: "Browser Use", description: "MCP server that gives AI agents web browsing and automation capabilities.", href: "https://browser-use.com", tags: ["mcp", "browser", "ai", "open-source", "free"] },
     ],
   },
   {
