@@ -20,11 +20,18 @@ const CAT_LABEL: Record<string, string> = {
 function scoreColor(s: number) { return s >= 75 ? "#3b82f6" : s >= 50 ? "#f97316" : "#ef4444"; }
 
 export function CountUp({ target }: { target: number }) {
-  const [display, setDisplay] = useState(0);
+  // SSR + hydration: render target immediately. Animate up from 0 if reduced-motion isn't preferred.
+  const [display, setDisplay] = useState(target);
   const rafRef = useRef<number>(0);
+  const didAnimate = useRef(false);
 
   useEffect(() => {
-    if (target <= 0) return;
+    if (target <= 0 || didAnimate.current) return;
+    if (typeof window === "undefined") return;
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (prefersReducedMotion) return;
+    didAnimate.current = true;
+    setDisplay(0);
     const start = { t: 0 };
     function tick(ts: number) {
       if (!start.t) start.t = ts;
