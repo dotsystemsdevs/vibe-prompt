@@ -40,7 +40,10 @@ export default async function HomePage() {
           <div className="flex flex-1 flex-col">
 
             <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/50">
-              {promptsCount} prompts &nbsp;·&nbsp; {fixesCount} fixes &nbsp;·&nbsp; {articlesCount} deep-dives &nbsp;·&nbsp; free · open
+              {promptsCount} prompts &nbsp;·&nbsp; {fixesCount} fixes &nbsp;·&nbsp; {articlesCount} deep-dives &nbsp;·&nbsp;{" "}
+              <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
+                free · open
+              </Link>
             </p>
 
             <h1
