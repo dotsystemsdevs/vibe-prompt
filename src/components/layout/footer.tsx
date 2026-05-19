@@ -37,6 +37,10 @@ export function Footer() {
     if (pathname.startsWith("/prompts/")) return true;
     if (pathname === "/workflow") return true;
     if (pathname === "/awesome") return true;
+    if (pathname === "/articles") return true;
+    if (pathname.startsWith("/articles/")) return true;
+    if (pathname === "/list") return true;
+    if (pathname === "/scan") return true;
     return false;
   }, [pathname]);
 
