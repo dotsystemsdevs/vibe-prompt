@@ -7,6 +7,8 @@ import { getAllArticles, type ArticleMeta, type Category as ArticleCategory } fr
 import { getPromptLibrary } from "@/lib/prompt-library";
 import type { Prompt } from "@/lib/types";
 import { LIST_PROBLEMS, type ListProblem, type ListCategory } from "@/lib/list-problems";
+import { WorkflowStepper } from "@/components/workflow/workflow-stepper";
+import { WORKFLOW_PAGE_STEPS } from "@/lib/workflow-data";
 
 type HandbookChapter = {
   number: string;
@@ -121,14 +123,14 @@ const HANDBOOK_CHAPTERS: HandbookChapter[] = [
 ];
 
 export const metadata: Metadata = {
-  title: "The Vibe Coding Handbook | vibeprompt",
+  title: "The Vibe Coding Cookbook | vibeprompt",
   description:
-    "Everything you need to ship with AI, in one place. Free, open source, updated weekly. 11 chapters covering mindset, context, build, quality, ship, grow, earn, stay, and iterate.",
-  alternates: { canonical: "/handbook" },
+    "Recipes for shipping with AI, in one place. Free, open source, updated weekly. 11 chapters plus a 9-step interactive build loop, covering mindset, context, build, quality, ship, grow, earn, stay, and iterate.",
+  alternates: { canonical: "/cookbook" },
   openGraph: {
-    title: "The Vibe Coding Handbook, vibeprompt",
-    description: "Everything you need to ship with AI, in one place. Free, open source, updated weekly.",
-    url: "https://vibeprompt.tech/handbook",
+    title: "The Vibe Coding Cookbook, vibeprompt",
+    description: "Recipes for shipping with AI, in one place. Free, open source, updated weekly.",
+    url: "https://vibeprompt.tech/cookbook",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
   },
 };
@@ -170,7 +172,7 @@ function resolveChapter(
   return { articles, prompts, problems };
 }
 
-export default async function HandbookPage() {
+export default async function CookbookPage() {
   const [articles, library] = await Promise.all([getAllArticles(), getPromptLibrary()]);
   const { prompts } = library;
   const totalCount = articles.length + prompts.length + LIST_PROBLEMS.length;
@@ -179,8 +181,8 @@ export default async function HandbookPage() {
     <div className="pt-12">
       <Reveal>
         <Hero
-          title={"The Vibe Coding\nHandbook."}
-          description={`Everything you need to ship with AI, in one place. ${HANDBOOK_CHAPTERS.length} chapters. ${articles.length} articles. ${prompts.length} prompts. ${LIST_PROBLEMS.length} field-tested problems. Free. Open source. Updated weekly.`}
+          title={"The Vibe Coding\nCookbook."}
+          description={`Recipes for shipping with AI, in one place. ${HANDBOOK_CHAPTERS.length} chapters · 9-step interactive build loop · ${articles.length} articles · ${prompts.length} prompts · ${LIST_PROBLEMS.length} field-tested problems. Free. Open source. Updated weekly.`}
           accent="#ffffff"
         />
       </Reveal>
@@ -188,8 +190,9 @@ export default async function HandbookPage() {
       <div className="mx-auto max-w-6xl px-6 pt-2 pb-10">
 
         {/* Stats grid */}
-        <div className="mb-12 grid grid-cols-2 sm:grid-cols-4 border border-foreground/12">
+        <div className="mb-12 grid grid-cols-2 sm:grid-cols-5 border border-foreground/12">
           <Stat label="Chapters" value={HANDBOOK_CHAPTERS.length} href="#chapters" />
+          <Stat label="Build steps" value={WORKFLOW_PAGE_STEPS.length} href="#workflow" />
           <Stat label="Articles" value={articles.length} href="/articles" />
           <Stat label="Prompts" value={prompts.length} href="/browse" />
           <Stat label="Problems" value={LIST_PROBLEMS.length} href="/list" />
@@ -198,9 +201,19 @@ export default async function HandbookPage() {
         {/* Mini TOC */}
         <nav aria-label="Chapter index" className="mb-14 border border-foreground/12 p-5 sm:p-6">
           <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/45">
-            On this page · {totalCount} resources
+            On this page · {totalCount + WORKFLOW_PAGE_STEPS.length} resources
           </p>
           <ol className="grid gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 text-[12px]">
+            <li>
+              <a
+                href="#workflow"
+                className="group flex items-baseline gap-2 py-1 text-foreground/70 hover:text-foreground transition-colors"
+              >
+                <span className="tabular-nums text-foreground/30 text-[10px] uppercase tracking-widest w-5">→</span>
+                <span className="font-medium">Build loop</span>
+                <span className="text-foreground/35 text-[11px] truncate">9-step interactive walkthrough</span>
+              </a>
+            </li>
             {HANDBOOK_CHAPTERS.map((c) => (
               <li key={c.slug}>
                 <a
@@ -217,6 +230,22 @@ export default async function HandbookPage() {
             ))}
           </ol>
         </nav>
+
+        {/* Interactive build loop — formerly /workflow */}
+        <section id="workflow" className="mb-16 scroll-mt-24">
+          <header className="mb-6 max-w-2xl">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/45 mb-3">
+              The build loop
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.02em] text-foreground mb-3">
+              From idea to shipped, in 9 steps.
+            </h2>
+            <p className="text-sm leading-relaxed text-foreground/60">
+              Interactive checklist with tasks, learning resources, and prompts at each phase. Progress saves locally — close the tab and come back tomorrow, your checkmarks are still there.
+            </p>
+          </header>
+          <WorkflowStepper steps={WORKFLOW_PAGE_STEPS} />
+        </section>
 
         <div id="chapters">
           {HANDBOOK_CHAPTERS.map((chapter) => {
