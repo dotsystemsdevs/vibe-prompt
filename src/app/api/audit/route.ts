@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
       ...external,
     };
     const result = runAudit(page, targetUrl);
-    try { kv.incr("scan_count").catch(() => {}); } catch {}
+    try { await kv.incr("scan_count"); } catch {}
     return NextResponse.json(result);
   } catch (err) {
     clearTimeout(timeout);

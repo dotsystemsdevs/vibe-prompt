@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     "Paste any URL and get a prioritized scan of your landing page, SEO, conversion, AI discoverability, and security in seconds.",
 };
 
+export const revalidate = 60;
+
 async function getScanCount(): Promise<number> {
   try {
     return (await kv.get<number>("scan_count")) ?? 0;
