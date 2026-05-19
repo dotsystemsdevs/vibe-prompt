@@ -118,4 +118,16 @@ html {
   .prose-article code { font-family: monospace; font-size: 0.85em; background: color-mix(in srgb, var(--foreground) 6%, transparent); padding: 0.15em 0.4em; border-radius: 2px; }
   .prose-article a { color: var(--foreground); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent); }
   .prose-article a:hover { text-decoration-color: var(--foreground); }
+
+  /* Tables — render properly instead of squishing columns */
+  .prose-article .table-wrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); }
+  .prose-article table { width: 100%; border-collapse: collapse; font-size: 0.875rem; line-height: 1.5; }
+  .prose-article thead { background: color-mix(in srgb, var(--foreground) 4%, transparent); }
+  .prose-article th { text-align: left; font-weight: 600; color: var(--foreground); padding: 0.625rem 0.875rem; border-bottom: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent); font-size: 0.8125rem; letter-spacing: 0.01em; }
+  .prose-article td { padding: 0.625rem 0.875rem; border-bottom: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent); color: color-mix(in srgb, var(--foreground) 78%, transparent); vertical-align: top; }
+  .prose-article tr:last-child td { border-bottom: none; }
+  .prose-article th + th, .prose-article td + td { border-left: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent); }
+
+  /* Blockquote — for callouts in articles */
+  .prose-article blockquote { border-left: 2px solid color-mix(in srgb, var(--foreground) 30%, transparent); padding-left: 1rem; margin: 1.5rem 0; color: color-mix(in srgb, var(--foreground) 75%, transparent); font-style: normal; }
 }

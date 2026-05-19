@@ -79,7 +79,10 @@ export async function getArticle(slug: string): Promise<Article | null> {
   }
 
   const { data, content } = matter(raw);
-  const html = await marked(content, { async: true });
+  const rawHtml = await marked(content, { async: true });
+  const html = rawHtml
+    .replace(/<table>/g, '<div class="table-wrap"><table>')
+    .replace(/<\/table>/g, "</table></div>");
 
   return {
     slug,

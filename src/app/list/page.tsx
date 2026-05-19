@@ -85,32 +85,32 @@ export default async function ListPage({ searchParams }: ListPageProps) {
             <li
               key={problem.id}
               id={problem.id}
-              className={`relative px-5 sm:px-7 py-6 ${i > 0 ? "border-t border-foreground/[0.08]" : ""}`}
+              className={`relative px-5 sm:px-8 py-8 ${i > 0 ? "border-t border-foreground/[0.08]" : ""}`}
             >
-              <div className="flex items-baseline gap-3 mb-2">
-                <span className="shrink-0 text-[10px] tabular-nums uppercase tracking-widest text-foreground/30 w-8">
+              <div className="flex items-baseline gap-3 sm:gap-4 mb-3">
+                <span className="shrink-0 text-[10px] tabular-nums uppercase tracking-widest text-foreground/30 w-8 pt-0.5">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h2 className="text-sm font-semibold leading-snug text-foreground/95">
+                <h2 className="text-base sm:text-[17px] font-semibold leading-snug tracking-[-0.01em] text-foreground">
                   {problem.title}
                 </h2>
               </div>
 
-              <div className="ml-11">
+              <div className="ml-11 sm:ml-12 max-w-2xl">
                 <div className="mb-3 flex items-center gap-2">
                   <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
                     {LIST_CATEGORY_LABEL[problem.category]}
                   </span>
                 </div>
 
-                <p className="text-xs leading-relaxed text-foreground/65">
+                <p className="text-[15px] leading-7 text-foreground/75">
                   {problem.answer}
                 </p>
 
                 {problem.articleSlug && (
                   <Link
                     href={`/articles/${problem.articleSlug}`}
-                    className="mt-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-widest text-foreground/40 transition-colors hover:text-foreground"
+                    className="mt-4 inline-flex items-center gap-1 text-[10px] uppercase tracking-widest text-foreground/40 transition-colors hover:text-foreground"
                   >
                     Deep dive →
                   </Link>
