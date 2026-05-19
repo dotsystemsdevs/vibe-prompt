@@ -5,7 +5,7 @@ date: "2026-04-17"
 image: "https://images.unsplash.com/photo-1501618669935-18b6ecb13d6d?w=1200&q=80"
 imageAlt: "Analytics dashboard with graphs and metrics"
 author: "vibeprompt"
-category: method
+category: growth
 ---
 
 Most launch advice ends at the launch itself. Here's the part nobody writes about: the weeks after, when you check the dashboard, the numbers haven't moved, and you don't know which lever to pull next.

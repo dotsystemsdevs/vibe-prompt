@@ -33,7 +33,9 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const allArticles = await getAllArticles();
   const articles = activeCategory ? allArticles.filter((a) => a.category === activeCategory) : allArticles;
 
-  const counts: Record<Category, number> = { android: 0, ios: 0, web: 0, method: 0 };
+  const counts: Record<Category, number> = Object.fromEntries(
+    CATEGORIES.map((c) => [c, 0])
+  ) as Record<Category, number>;
   for (const a of allArticles) counts[a.category]++;
 
   return (
@@ -50,7 +52,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
         {/* Category tabs */}
         <div className="mb-6 flex flex-wrap items-center gap-x-1 gap-y-2 border-b border-foreground/12 pb-0">
           <CategoryTab href="/articles" active={activeCategory === null} label="All" count={allArticles.length} />
-          {CATEGORIES.map((c) => (
+          {CATEGORIES.filter((c) => counts[c] > 0).map((c) => (
             <CategoryTab
               key={c}
               href={`/articles?cat=${c}`}

@@ -5,7 +5,7 @@ date: "2026-05-18"
 image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1200&q=80"
 imageAlt: "Magnifying glass over a smartphone search field"
 author: "vibeprompt"
-category: method
+category: growth
 ---
 
 ASO is mostly noise. Half the advice you find online is from agencies selling tools, half is from people who tested one app once and built a theory. The actual mechanics are simpler than either makes it sound, and a handful of fields move 90% of the result.

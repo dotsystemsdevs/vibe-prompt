@@ -5,7 +5,7 @@ date: "2026-05-17"
 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
 imageAlt: "Conversion rate chart on a laptop screen"
 author: "vibeprompt"
-category: method
+category: growth
 ---
 
 Conversion rate is the leverage point for every other metric in the funnel. Double it, and every install channel becomes twice as valuable for free. Halve it, and the most expensive paid acquisition campaign won't make the math work.

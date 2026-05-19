@@ -7,14 +7,15 @@ import { marked } from "marked";
 
 const ARTICLES_DIR = path.join(process.cwd(), "content/articles");
 
-export const CATEGORIES = ["android", "ios", "web", "method"] as const;
+export const CATEGORIES = ["method", "android", "ios", "web", "growth"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_LABEL: Record<Category, string> = {
+  method: "Method",
   android: "Android",
   ios: "iOS",
   web: "Web",
-  method: "Method",
+  growth: "Growth",
 };
 
 function normalizeCategory(raw: unknown): Category {

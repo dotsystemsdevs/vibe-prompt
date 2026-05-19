@@ -5,7 +5,7 @@ date: "2026-05-16"
 image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80"
 imageAlt: "App store listing on a phone screen"
 author: "vibeprompt"
-category: method
+category: growth
 ---
 
 A store listing is paperwork until you realize it's the only sales surface 99% of your installs will ever see. Most of them never read your homepage, never visit your social, never see your launch post. They search a term, see a tile, tap it, and decide in seconds.
