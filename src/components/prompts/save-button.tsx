@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { isLocallySaved, toggleLocalSave } from "@/lib/local-saves";
 
 interface SaveButtonProps {
@@ -8,31 +8,28 @@ interface SaveButtonProps {
   initialSaved: boolean;
 }
 
-export function SaveButton({ slug, initialSaved }: SaveButtonProps) {
-  const [saved, setSaved] = useState(initialSaved);
-  const [loading, setLoading] = useState(false);
+function subscribeSaves(callback: () => void) {
+  window.addEventListener("vp:saves-changed", callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("vp:saves-changed", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
 
-  useEffect(() => {
-    setSaved(isLocallySaved(slug));
-    function onChanged() {
-      setSaved(isLocallySaved(slug));
-    }
-    window.addEventListener("vp:saves-changed", onChanged as EventListener);
-    window.addEventListener("storage", onChanged);
-    return () => {
-      window.removeEventListener("vp:saves-changed", onChanged as EventListener);
-      window.removeEventListener("storage", onChanged);
-    };
-  }, [slug]);
+export function SaveButton({ slug, initialSaved }: SaveButtonProps) {
+  const saved = useSyncExternalStore(
+    subscribeSaves,
+    () => isLocallySaved(slug),
+    () => initialSaved,
+  );
+  const [loading, setLoading] = useState(false);
 
   async function handleSave() {
     if (loading) return;
     setLoading(true);
     try {
-      const nextSaved = toggleLocalSave(slug);
-      setSaved(nextSaved);
-    } catch {
-      setSaved(isLocallySaved(slug));
+      toggleLocalSave(slug);
     } finally {
       setLoading(false);
     }

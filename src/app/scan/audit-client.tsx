@@ -31,6 +31,7 @@ export function CountUp({ target }: { target: number }) {
     const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (prefersReducedMotion) return;
     didAnimate.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional reset to 0 before count-up animation
     setDisplay(0);
     const start = { t: 0 };
     function tick(ts: number) {
@@ -235,9 +236,11 @@ function FeedbackCopyCard({ data }: { data?: AuditResult }) {
   const fullText = textData?.full ?? null;
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- intentional reset before typewriter animation */
     if (!visibleText) { setDisplayed(""); setDone(false); return; }
     setDisplayed("");
     setDone(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
     let i = 0;
     const id = setInterval(() => {
       i++;

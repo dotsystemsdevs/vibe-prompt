@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { isLocallySaved, toggleLocalSave } from "@/lib/local-saves";
 
 interface AwesomeSaveButtonProps {
@@ -8,33 +8,30 @@ interface AwesomeSaveButtonProps {
   initialSaved: boolean;
 }
 
-export function AwesomeSaveButton({ href, initialSaved }: AwesomeSaveButtonProps) {
-  const [saved, setSaved] = useState(initialSaved);
-  const [loading, setLoading] = useState(false);
-  const key = `awesome:${encodeURIComponent(href)}`;
+function subscribeSaves(callback: () => void) {
+  window.addEventListener("vp:saves-changed", callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("vp:saves-changed", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
 
-  useEffect(() => {
-    setSaved(isLocallySaved(key));
-    function onChanged() {
-      setSaved(isLocallySaved(key));
-    }
-    window.addEventListener("vp:saves-changed", onChanged as EventListener);
-    window.addEventListener("storage", onChanged);
-    return () => {
-      window.removeEventListener("vp:saves-changed", onChanged as EventListener);
-      window.removeEventListener("storage", onChanged);
-    };
-  }, [key]);
+export function AwesomeSaveButton({ href, initialSaved }: AwesomeSaveButtonProps) {
+  const key = `awesome:${encodeURIComponent(href)}`;
+  const saved = useSyncExternalStore(
+    subscribeSaves,
+    () => isLocallySaved(key),
+    () => initialSaved,
+  );
+  const [loading, setLoading] = useState(false);
 
   async function handleSave(e: React.MouseEvent) {
     e.preventDefault();
     if (loading) return;
     setLoading(true);
     try {
-      const nextSaved = toggleLocalSave(key);
-      setSaved(nextSaved);
-    } catch {
-      setSaved(isLocallySaved(key));
+      toggleLocalSave(key);
     } finally {
       setLoading(false);
     }

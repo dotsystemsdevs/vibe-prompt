@@ -44,7 +44,6 @@ export function Footer() {
 
   useEffect(() => {
     if (!showContributorStrip) {
-      setContributors(null);
       return;
     }
 
@@ -53,11 +52,13 @@ export function Footer() {
       const login = el?.dataset.footerContributorLogin;
       const avatarUrl = el?.dataset.footerContributorAvatar;
       const profileUrl = el?.dataset.footerContributorUrl;
+      /* eslint-disable react-hooks/set-state-in-effect -- syncing client state with server-injected DOM attributes */
       if (login && avatarUrl && profileUrl) {
         setContributors([{ login, avatarUrl, profileUrl }]);
       } else {
         setContributors(null);
       }
+      /* eslint-enable react-hooks/set-state-in-effect */
       return;
     }
 
