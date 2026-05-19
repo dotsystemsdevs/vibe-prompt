@@ -2,8 +2,8 @@
 title: "TestFlight to App Store: Publishing iOS Without the Pitfalls"
 description: "TestFlight isn't optional and App Review isn't predictable. Here's what to actually expect across the iOS publishing flow, what catches first-time shippers off guard, and how to keep the timeline under two weeks."
 date: "2026-05-19"
-image: "https://images.unsplash.com/photo-1607252650355-f7fd0460ccdb?w=1200&q=80"
-imageAlt: "iPhone in hand showing an app launch"
+image: "https://images.unsplash.com/photo-1603515161074-3206aaeb03f2?w=1200&q=80"
+imageAlt: "iPhone home screen showing app icons"
 author: "vibeprompt"
 category: ios
 ---
