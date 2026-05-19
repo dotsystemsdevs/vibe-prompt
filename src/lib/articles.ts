@@ -40,11 +40,17 @@ export type Article = {
   imageAlt: string;
   author: string;
   category: Category;
+  readingMinutes: number;
   html: string;
   toc: TocItem[];
 };
 
 export type ArticleMeta = Omit<Article, "html" | "toc">;
+
+function estimateReadingMinutes(text: string): number {
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 220));
+}
 
 export async function getAllArticles(): Promise<ArticleMeta[]> {
   let files: string[];
@@ -59,7 +65,7 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
       .filter((f) => f.endsWith(".md"))
       .map(async (file) => {
         const raw = await fs.readFile(path.join(ARTICLES_DIR, file), "utf-8");
-        const { data } = matter(raw);
+        const { data, content } = matter(raw);
         return {
           slug: file.replace(/\.md$/, ""),
           title: data.title ?? "",
@@ -69,6 +75,7 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
           imageAlt: data.imageAlt ?? "",
           author: data.author ?? "vibeprompt",
           category: normalizeCategory(data.category),
+          readingMinutes: estimateReadingMinutes(content),
         } satisfies ArticleMeta;
       })
   );
@@ -126,6 +133,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
     imageAlt: data.imageAlt ?? "",
     author: data.author ?? "vibeprompt",
     category: normalizeCategory(data.category),
+    readingMinutes: estimateReadingMinutes(content),
     html,
     toc,
   };

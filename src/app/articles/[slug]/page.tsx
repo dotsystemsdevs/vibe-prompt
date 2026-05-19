@@ -89,6 +89,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35 mb-3">
                 {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                 {" · "}{article.author}
+                {" · "}{article.readingMinutes} min read
               </p>
               <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.03em] text-foreground">
                 {article.title}
