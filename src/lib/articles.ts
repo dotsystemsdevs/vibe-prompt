@@ -25,6 +25,12 @@ function normalizeCategory(raw: unknown): Category {
   return "method";
 }
 
+export type TocItem = {
+  level: 2 | 3;
+  id: string;
+  text: string;
+};
+
 export type Article = {
   slug: string;
   title: string;
@@ -35,9 +41,10 @@ export type Article = {
   author: string;
   category: Category;
   html: string;
+  toc: TocItem[];
 };
 
-export type ArticleMeta = Omit<Article, "html">;
+export type ArticleMeta = Omit<Article, "html" | "toc">;
 
 export async function getAllArticles(): Promise<ArticleMeta[]> {
   let files: string[];
@@ -80,7 +87,33 @@ export async function getArticle(slug: string): Promise<Article | null> {
 
   const { data, content } = matter(raw);
   const rawHtml = await marked(content, { async: true });
-  const html = rawHtml
+
+  const usedIds = new Set<string>();
+  function uniqueId(base: string): string {
+    let id = base;
+    let n = 2;
+    while (usedIds.has(id)) id = `${base}-${n++}`;
+    usedIds.add(id);
+    return id;
+  }
+  function slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .replace(/<[^>]+>/g, "")
+      .replace(/[^\w\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-") || "section";
+  }
+
+  const toc: TocItem[] = [];
+  const withIds = rawHtml.replace(/<(h2|h3)>([^<]+)<\/\1>/g, (_m, tag: string, text: string) => {
+    const level = (tag === "h2" ? 2 : 3) as 2 | 3;
+    const id = uniqueId(slugify(text));
+    toc.push({ level, id, text });
+    return `<${tag} id="${id}">${text}</${tag}>`;
+  });
+
+  const html = withIds
     .replace(/<table>/g, '<div class="table-wrap"><table>')
     .replace(/<\/table>/g, "</table></div>");
 
@@ -94,5 +127,6 @@ export async function getArticle(slug: string): Promise<Article | null> {
     author: data.author ?? "vibeprompt",
     category: normalizeCategory(data.category),
     html,
+    toc,
   };
 }

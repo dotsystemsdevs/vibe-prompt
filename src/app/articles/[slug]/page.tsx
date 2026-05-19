@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAllArticles } from "@/lib/articles";
+import { ArticleToc } from "@/components/articles/article-toc";
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
@@ -33,7 +34,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="pt-12">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
 
         {/* Back */}
         <Link
@@ -43,43 +44,52 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           ← Articles
         </Link>
 
-        <article className="mx-auto max-w-2xl">
-
-          {/* Header */}
-          <header className="mb-8">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35 mb-3">
-              {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-              {" · "}{article.author}
-            </p>
-            <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.03em] text-foreground">
-              {article.title}
-            </h1>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              {article.description}
-            </p>
-          </header>
-
-          {/* Hero image */}
-          {article.image && (
-            <div className="relative w-full overflow-hidden mb-10 border border-foreground/10" style={{ aspectRatio: "16/9" }}>
-              <Image
-                src={article.image}
-                alt={article.imageAlt}
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 672px) 100vw, 672px"
-              />
+        <div className="lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12 xl:gap-16">
+          {/* TOC sidebar (desktop only) */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-8">
+              <ArticleToc items={article.toc} />
             </div>
-          )}
+          </aside>
 
-          {/* Body */}
-          <div
-            className="prose-article"
-            dangerouslySetInnerHTML={{ __html: article.html }}
-          />
+          <article className="mx-auto max-w-2xl lg:mx-0">
 
-        </article>
+            {/* Header */}
+            <header className="mb-8">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35 mb-3">
+                {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                {" · "}{article.author}
+              </p>
+              <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.03em] text-foreground">
+                {article.title}
+              </h1>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {article.description}
+              </p>
+            </header>
+
+            {/* Hero image */}
+            {article.image && (
+              <div className="relative w-full overflow-hidden mb-10 border border-foreground/10" style={{ aspectRatio: "16/9" }}>
+                <Image
+                  src={article.image}
+                  alt={article.imageAlt}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 672px) 100vw, 672px"
+                />
+              </div>
+            )}
+
+            {/* Body */}
+            <div
+              className="prose-article"
+              dangerouslySetInnerHTML={{ __html: article.html }}
+            />
+
+          </article>
+        </div>
       </div>
     </div>
   );
