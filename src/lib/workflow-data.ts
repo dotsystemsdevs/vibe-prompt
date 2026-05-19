@@ -296,6 +296,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
           {
             text: "Create `AGENTS.md` (or `CLAUDE.md`) in the repo root. Claude Code reads it automatically at the start of every session.",
             links: [
+              { label: "Download vibeprompt's AGENTS.md template", href: "/templates/AGENTS.md" },
               { label: "Claude Code memory docs", href: "https://docs.anthropic.com/en/docs/claude-code/memory" },
               { label: "KhazP template", href: "https://github.com/KhazP/vibe-coding-prompt-template/blob/main/AGENTS.md" },
             ],
