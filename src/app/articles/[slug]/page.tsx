@@ -75,7 +75,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* TOC sidebar (desktop only) */}
           <aside className="hidden lg:block">
             <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-8">
-              <ArticleToc items={article.toc} />
+              <ArticleToc
+                items={article.toc}
+                problems={relatedProblems.map((p) => ({ id: p.id, title: p.title }))}
+              />
             </div>
           </aside>
 
