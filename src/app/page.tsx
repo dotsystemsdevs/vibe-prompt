@@ -207,6 +207,13 @@ export default async function HomePage() {
             </Link>
           </div>
 
+          <Link
+            href="/scan"
+            className="mt-3 inline-flex items-center gap-1.5 text-xs text-foreground/40 transition-colors hover:text-foreground/80"
+          >
+            Or scan a live site for issues now →
+          </Link>
+
           {/* Workflow card */}
           <div className="mt-8 border border-foreground/20">
             <div className="flex items-center justify-between border-b border-foreground/12 px-4 py-2.5">
