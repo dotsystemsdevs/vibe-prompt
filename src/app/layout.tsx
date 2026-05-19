@@ -69,8 +69,14 @@ export default function RootLayout({
         <script defer src="https://tracker-mauve-sigma.vercel.app/t.js" data-project="vibeprompt" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-foreground focus:text-background focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:outline-none"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        <main className="flex min-h-0 flex-1 flex-col">{children}</main>
+        <main id="main" className="flex min-h-0 flex-1 flex-col">{children}</main>
         <Footer />
         <Analytics />
       </body>
