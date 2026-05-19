@@ -29,27 +29,27 @@ export const LIST_PROBLEMS: ListProblem[] = [
   // ── Build ─────────────────────────────────────────────────────────────────
   {
     id: "ai-code-security-holes",
-    title: "AI wrote code with security holes I never noticed",
+    title: "AI-generated code has hidden security holes",
     category: "build",
     answer: "GitClear data: ~45% of AI-generated code has at least one security issue. The fix isn't \"stop using AI\" — it's adding a security pass to every PR before merge. Read your dependencies, check for hardcoded secrets, run a free SAST scanner like Semgrep or GitHub's CodeQL once a week. The Moltbook breach (1.5M tokens leaked 3 days after launch) was a missing env var check a human would have caught in 30 seconds.",
     articleSlug: "vibe-coding-mistakes",
   },
   {
     id: "last-20-percent",
-    title: "AI got me 80% of the way, the last 20% takes 5x longer",
+    title: "AI nails 80%, last 20% takes 5x longer",
     category: "build",
     answer: "This is the universal vibe coding experience and it's not a skill issue. The first 80% is patterns the model has seen 10,000 times. The last 20% is your specific edge cases, error states, browser quirks, and integration glue — things no model has seen exactly. Plan for it. Block out 3x your gut estimate for the polish phase. If you keep promising \"one more hour\", you're estimating against the 80% phase.",
     articleSlug: "one-shot-myth",
   },
   {
     id: "code-duplication-pile",
-    title: "Code duplication is everywhere after 3 weeks of vibe coding",
+    title: "Code duplication piles up after weeks of vibe coding",
     category: "build",
     answer: "GitClear measured 4x more duplication in AI-assisted codebases. The model doesn't know your existing helpers exist unless you point at them. Two habits: (1) Keep a `CLAUDE.md` or `AGENTS.md` listing utilities and where to find them. (2) After every feature, ask the agent: \"Did this duplicate logic from anywhere? Show me the closest existing helper.\" Even imperfect dedup beats the default behavior.",
   },
   {
     id: "dont-know-codebase",
-    title: "I don't know what my own codebase does anymore",
+    title: "Lost track of what an AI-built codebase does",
     category: "build",
     answer: "If you can't navigate your code, you can't fix bugs and you can't add features without making it worse. Spend an afternoon writing an architecture overview into `ARCHITECTURE.md` — what each top-level folder does, where state lives, what's a server vs client boundary. Make the AI generate the first draft, then audit it yourself. The act of auditing is half the learning.",
     articleSlug: "context-is-everything",
@@ -75,7 +75,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "every-prompt-new-state",
-    title: "Every prompt adds state I didn't ask for",
+    title: "Every prompt adds unrequested state",
     category: "build",
     answer: "Constrain the model upfront. \"Don't add new state, don't add new dependencies, don't add new files unless I explicitly ask.\" Write it once in your AGENTS.md and reference it. Without constraints, the model defaults to \"add everything that might be useful\" which is the opposite of what shipped code needs.",
   },
@@ -87,7 +87,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "give-up-refactor",
-    title: "Hard bug → give up → refactor everything",
+    title: "Hard bug spirals into a full refactor",
     category: "build",
     answer: "The refactor instinct is escape, not strategy. Spend 45 minutes with the actual bug: add logging, bisect the change history (`git bisect`), reproduce in isolation. 9 times out of 10 the bug is a 3-line fix once you understand it. Refactoring while you don't understand the bug just moves it somewhere harder to find.",
   },
@@ -95,14 +95,14 @@ export const LIST_PROBLEMS: ListProblem[] = [
   // ── Ship ──────────────────────────────────────────────────────────────────
   {
     id: "play-closed-testing-12",
-    title: "Google Play needs 12 testers for 14 days, I have 0",
+    title: "Google Play needs 12 real testers for 14 days",
     category: "ship",
     answer: "Real users, real installs, real opens. Where they come from: r/AndroidApps closed-testing weekly thread, indiehackers.com, Twitter, your existing email list. Aim for 30+ because Google sometimes pushes back below that. Stagger sign-ups so people don't all churn at once. Your iOS friends count if they actually have an Android device.",
     articleSlug: "closed-testing-on-google-play",
   },
   {
     id: "app-review-rejected-vague",
-    title: "Apple App Review rejected the app for a vague reason",
+    title: "App Review rejection with a vague reason",
     category: "ship",
     answer: "Open the rejection in Resolution Center and click \"reply\" not \"resubmit\". Ask for the specific guideline number (e.g., 4.0, 5.1.1) and the specific screen they're flagging. Reviewers respond to direct questions. Don't just resubmit hoping a different reviewer will pass it — same reviewer often picks it up again.",
     articleSlug: "testflight-and-app-store-publishing",
@@ -122,7 +122,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "build-size-doubled",
-    title: "Bundle size doubled and I don't know why",
+    title: "Bundle size doubled with no obvious cause",
     category: "ship",
     answer: "Run `next build` and look at the route-level breakdown — it shows per-page kB. Then `npx @next/bundle-analyzer` for a visual. Usual culprits: a heavy lib imported in a layout (loads on every page), an icon set fully imported instead of tree-shaken, or accidentally bundling a server-only module into a client component.",
   },
@@ -146,7 +146,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "ssl-custom-domain",
-    title: "SSL breaks when I attach a custom domain",
+    title: "SSL breaks after attaching a custom domain",
     category: "ship",
     answer: "Almost always DNS propagation — wait 1 hour, recheck. If still broken: (1) Verify the CNAME or A record matches Vercel/Netlify's exact target. (2) Remove and re-add the domain. (3) Check no other provider (Cloudflare proxy mode) is intercepting and serving its own (invalid) cert.",
   },
@@ -167,19 +167,19 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "rank-brand-only",
-    title: "I rank #1 for my brand name only",
+    title: "Only ranking for the brand name",
     category: "grow",
     answer: "You haven't done real SEO yet — you've just claimed your name. Pick 3 long-tail keywords your audience actually searches (use Google's search-suggest as free research). Write one in-depth article per keyword, 1500+ words, with real examples. Three articles, three months of indexing — that's the actual start of SEO.",
   },
   {
     id: "reddit-removed-post",
-    title: "Reddit removed my post for self-promotion",
+    title: "Reddit removes posts as self-promotion",
     category: "grow",
     answer: "Subreddit rules vary but the universal pattern: post 5-10 useful, non-promotional comments BEFORE you ever post your link. Build karma in the sub first. When you do post, the format matters more than the content: \"I built X to solve Y\" works, \"Check out my new app\" doesn't. r/SideProject and r/IndieDev are more tolerant; r/programming is brutal.",
   },
   {
     id: "ph-launch-8-upvotes",
-    title: "Product Hunt launch got 8 upvotes",
+    title: "Product Hunt launch stalls at 8 upvotes",
     category: "grow",
     answer: "PH is now a closed game — 80% of upvotes come in the first 4 hours from people you DM directly. Without a pre-built list of 50+ people who will vote, you'll stall. If you don't have that list, skip PH. Show HN, Reddit r/SideProject, and Twitter via build-in-public are more honest channels for small audiences.",
   },
@@ -205,7 +205,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "five-stars-three-reviews",
-    title: "I have 5 stars but only 3 reviews",
+    title: "5 stars, but only 3 reviews",
     category: "grow",
     answer: "Zero reviews = no install. 5 reviews = install permission. 30 reviews = competitive. The jump from 3 to 30 is the highest-ROI marketing move you have. DM your first 30 users individually asking for a review. Not a broadcast — individual messages with their name. Conversion rate is roughly 30-40% if you ask right.",
     articleSlug: "getting-your-first-app-reviews",
@@ -225,7 +225,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "instagram-no-installs",
-    title: "Instagram followers grew but installs didn't",
+    title: "Instagram grows followers but not installs",
     category: "grow",
     answer: "Instagram is a brand channel, not an install channel — for indie apps. You can drive awareness, you can't drive installs reliably without paid promotion. If your goal is installs, redirect that time to Reddit, Show HN, or App Store SEO. Keep Instagram if it's joy; kill it if it's hope.",
     articleSlug: "instagram-for-indie-apps",
@@ -234,13 +234,13 @@ export const LIST_PROBLEMS: ListProblem[] = [
   // ── Earn ──────────────────────────────────────────────────────────────────
   {
     id: "priced-too-low",
-    title: "I priced it at $5 and nobody trusts it",
+    title: "Priced at $5 and nobody trusts it",
     category: "earn",
     answer: "Price is a signal. $5 SaaS reads as \"hobby project, will disappear\". $19-29 reads as \"actual product\". For B2B tools, $49 minimum. Test by 3-4x your current price for new signups; existing customers grandfather in. If conversion stays flat, you were leaving money on the table. If it tanks, ratchet down — but most indie devs are too low, not too high.",
   },
   {
     id: "free-tier-converts-zero",
-    title: "Free tier is too generous, paid converts 0.3%",
+    title: "Free tier too generous, paid converts at 0.3%",
     category: "earn",
     answer: "0.3% is industry-typical for freemium SaaS. The fix isn't \"shrink the free tier\" — most users on free aren't going to pay no matter what. The fix is targeting paid users from the start with a trial (7-14 days, full features), not freemium. Trial converts 10-30%, freemium converts 1-5%.",
   },
@@ -264,7 +264,7 @@ export const LIST_PROBLEMS: ListProblem[] = [
   },
   {
     id: "refunds-week-one",
-    title: "Refund requests came in week 1",
+    title: "Refund requests start in week 1",
     category: "earn",
     answer: "Almost always one of: (1) Onboarding didn't show the value in 60 seconds, they got lost and gave up. (2) Pricing tier was confusing — they picked wrong and feel ripped off. Watch the first 5 refund recordings (Hotjar, PostHog). The pattern is usually the same screen. Fix that one screen and refund rate drops 50%+.",
   },
@@ -272,56 +272,56 @@ export const LIST_PROBLEMS: ListProblem[] = [
   // ── Stay ──────────────────────────────────────────────────────────────────
   {
     id: "shipped-three-feel-behind",
-    title: "I shipped 3 things this month and feel behind",
+    title: "Shipped 3 things this month, still feel behind",
     category: "stay",
     answer: "Twitter's selection bias is brutal — you see people's wins, not their abandoned projects. 99% of indies haven't shipped one thing in 6 months. You shipping 3 isn't behind, it's top 1%. Unfollow accounts that make you feel worse, follow ones that make you feel saner. Your real comparison is your past self.",
   },
   {
     id: "twitter-makes-anxious",
-    title: "Twitter makes me feel like everyone is winning",
+    title: "Twitter makes everyone else look like winners",
     category: "stay",
     answer: "The accounts you see are filtered by engagement. Engagement comes from extreme outcomes (huge wins, huge fails) — never the median. Median indie outcome: 6 months of work, $200/mo revenue, slowly dying. You don't see that. Cap your Twitter time at 15 min/day or you'll burn out comparing your inside to other people's outside.",
   },
   {
     id: "started-next-before-finishing",
-    title: "I started a new project before finishing the last",
+    title: "New project started before finishing the last",
     category: "stay",
     answer: "Universal indie pattern. Two questions to ask before starting: (1) Is the new project actually different, or am I escaping a hard moment on the current one? (2) Will I be embarrassed in 6 months if neither is shipped? If both answers are uncomfortable, force-finish the current one — even badly. Shipping a small version of project N beats half-building N+1.",
   },
   {
     id: "side-project-100-per-month",
-    title: "Side project pays $100/mo but eats my evenings",
+    title: "Side project pays $100/mo, eats every evening",
     category: "stay",
     answer: "$100/mo at 20 evening-hours/week is $1.25/hour. The math doesn't justify the hours unless you're learning skills you couldn't elsewhere or the path to $1k/mo is clear within 90 days. Otherwise: either commit a quarter to push it to $1k+, or sunset it. Indie purgatory drains the energy you need for the next project.",
   },
   {
     id: "rebuilt-same-saas",
-    title: "I rebuilt the same SaaS in 3 different stacks",
+    title: "Same SaaS rebuilt in 3 different stacks",
     category: "stay",
     answer: "You don't have a product problem, you have a fear-of-launching problem. Stacks don't fail products — products fail because nobody knew about them. Pick the stack you have right now, ship to production with that, get 10 paying users, then decide if the stack matters. Spoiler: at that point you'll never want to migrate.",
     articleSlug: "what-an-mvp-actually-is",
   },
   {
     id: "dopamine-build-not-sell",
-    title: "Building gives me dopamine, selling doesn't — and that breaks pre-PMF",
+    title: "Building feels good, selling doesn't (kills pre-PMF)",
     category: "stay",
     answer: "Universal trap. Building is deterministic — your prompt either works or doesn't, you get an instant signal. Selling is probabilistic, delayed, often rejected. Solo founders need to schedule the unloved work like dental cleaning: 1 hour every morning before you let yourself open the editor. Not after — before. Otherwise it never happens.",
   },
   {
     id: "metrics-anxious",
-    title: "Every metric I check makes me anxious",
+    title: "Checking metrics triggers anxiety",
     category: "stay",
     answer: "Check metrics on a schedule, not on impulse. Weekly Friday 30-min review. Outside that window, don't open the dashboard. The data didn't change in 4 hours, but your stress level did. The anxiety isn't pointing at a real problem you can fix today; it's pointing at scarcity of progress signals which is just the nature of pre-PMF.",
   },
   {
     id: "havent-talked-to-user",
-    title: "I haven't talked to a user in 6 weeks",
+    title: "No user contact in 6 weeks",
     category: "stay",
     answer: "Without user contact you're drifting. 2026's data: solo founders who do 1 user call per week are 3x more likely to find PMF. \"Call\" can be a 10-min Discord DM. The hard part isn't time, it's the discomfort. Pick the friendliest user, ask one question: \"What were you doing right before you opened the app today?\" — listen for what you didn't anticipate.",
   },
   {
     id: "mvp-not-mvp",
-    title: "What I'm calling an MVP is actually v1",
+    title: "What's called an MVP is actually a v1",
     category: "stay",
     answer: "Eric Ries's MVP: smallest thing that lets you LEARN whether the hypothesis is true. Not smallest thing that's shippable, not your minimum-acceptable-quality v1. If you're polishing features instead of putting it in front of users, you're past MVP and into v1 territory. That's not wrong, but call it what it is — and don't claim you're \"validating\" anymore.",
     articleSlug: "what-an-mvp-actually-is",

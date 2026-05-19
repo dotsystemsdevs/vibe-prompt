@@ -78,6 +78,13 @@ export default async function HomePage() {
               </a>
             </div>
 
+            <Link
+              href="/scan"
+              className="mt-4 inline-flex items-center gap-1.5 text-xs text-foreground/40 transition-colors hover:text-foreground/80"
+            >
+              Or scan a live site for issues now →
+            </Link>
+
             {contributors.length > 0 && (
               <div className="mt-10 border-t border-foreground/10 pt-6">
                 <div className="mb-3 flex items-center gap-3">

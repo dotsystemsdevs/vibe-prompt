@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { WorkflowStepper } from "@/components/workflow/workflow-stepper";
+import { WorkflowStepper, type StepRelated } from "@/components/workflow/workflow-stepper";
 import { WORKFLOW_PAGE_STEPS as STEPS } from "@/lib/workflow-data";
+import { WORKFLOW_RELATED } from "@/lib/workflow-related";
+import { getAllArticles, type ArticleMeta } from "@/lib/articles";
+import { LIST_PROBLEMS } from "@/lib/list-problems";
 import { Hero } from "@/components/hero/hero";
 import { GithubCta } from "@/components/cta/github-cta";
 import { Reveal } from "@/components/motion/reveal";
@@ -12,7 +15,23 @@ export const metadata: Metadata = {
   alternates: { canonical: "/workflow" },
 };
 
-export default function WorkflowPage() {
+export default async function WorkflowPage() {
+  const allArticles = await getAllArticles();
+  const relatedByStep: Record<string, StepRelated> = {};
+  for (const step of STEPS) {
+    const map = WORKFLOW_RELATED[step.step];
+    if (!map) continue;
+    const articles: ArticleMeta[] = (map.articleSlugs ?? [])
+      .map((slug) => allArticles.find((a) => a.slug === slug))
+      .filter((a): a is ArticleMeta => Boolean(a));
+    const fixes = (map.fixIds ?? [])
+      .map((id) => LIST_PROBLEMS.find((p) => p.id === id))
+      .filter((p): p is (typeof LIST_PROBLEMS)[number] => Boolean(p));
+    if (articles.length > 0 || fixes.length > 0) {
+      relatedByStep[step.step] = { articles, fixes };
+    }
+  }
+
   return (
     <div className="pt-12">
       <Reveal>
@@ -23,7 +42,7 @@ export default function WorkflowPage() {
         />
       </Reveal>
       <div className="mx-auto max-w-6xl px-6 pt-6">
-        <WorkflowStepper steps={STEPS} />
+        <WorkflowStepper steps={STEPS} relatedByStep={relatedByStep} />
         <Reveal>
           <GithubCta
             title={"Something\nmissing?"}

@@ -3,12 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { StepChecklist } from "./workflow-checklist";
+import type { ArticleMeta } from "@/lib/articles";
+import type { ListProblem } from "@/lib/list-problems";
+import { LIST_CATEGORY_LABEL } from "@/lib/list-problems";
 
 type Resource = { label: string; href: string; usage?: string[]; type?: "video" | "tool" | "article" };
 
 export type TaskLink = { label: string; href: string };
 export type TaskItem = { text: string; detail?: string; links?: TaskLink[] };
 export type TaskGroup = { heading?: string; description?: string; badge?: string; items: TaskItem[]; resources?: Resource[] };
+
+export type StepRelated = {
+  articles: ArticleMeta[];
+  fixes: ListProblem[];
+};
 
 export type StepData = {
   step: string;
@@ -28,7 +36,12 @@ export type StepData = {
   };
 };
 
-export function WorkflowStepper({ steps }: { steps: StepData[] }) {
+interface WorkflowStepperProps {
+  steps: StepData[];
+  relatedByStep?: Record<string, StepRelated>;
+}
+
+export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperProps) {
   const [current, setCurrent] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
 
@@ -61,6 +74,10 @@ export function WorkflowStepper({ steps }: { steps: StepData[] }) {
   const isLast = current === steps.length - 1;
   const taskCount = s.tasks.reduce((n, g) => n + g.items.filter(i => !i.text.startsWith("Watch:") && !i.text.startsWith("Read:")).length, 0);
   const learnCount = s.tasks.reduce((n, g) => n + g.items.filter(i => i.text.startsWith("Watch:") || i.text.startsWith("Read:")).length, 0);
+
+  const related = relatedByStep[s.step] ?? { articles: [], fixes: [] };
+  const relatedArticles = related.articles;
+  const relatedProblems = related.fixes;
 
   return (
     <div className="border border-foreground/20 overflow-hidden">
@@ -165,6 +182,73 @@ export function WorkflowStepper({ steps }: { steps: StepData[] }) {
           </div>
           <span className="text-[11px] text-foreground/25 transition-colors group-hover:text-foreground/70">Browse →</span>
         </Link>
+      )}
+
+      {/* Related articles */}
+      {relatedArticles.length > 0 && (
+        <div className="border-t border-foreground/12">
+          <div className="flex items-center gap-3 bg-foreground/[0.02] px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+              Read this for depth
+            </span>
+          </div>
+          <div className="divide-y divide-foreground/[0.06]">
+            {relatedArticles.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="group flex items-start gap-3 px-4 py-3.5 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
+              >
+                <span className="shrink-0 mt-1 text-foreground/20 text-[10px]">◆</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-medium leading-snug text-foreground/85 transition-colors group-hover:text-foreground">
+                    {article.title}
+                  </p>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-foreground/45 line-clamp-2">
+                    {article.description}
+                  </p>
+                </div>
+                <span className="shrink-0 mt-1 text-[9px] text-foreground/20 transition-colors group-hover:text-foreground/45">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Related fixes — when things break at this step */}
+      {relatedProblems.length > 0 && (
+        <div className="border-t border-foreground/12">
+          <div className="flex items-center gap-3 bg-foreground/[0.02] px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+              When it breaks
+            </span>
+          </div>
+          <div className="divide-y divide-foreground/[0.06]">
+            {relatedProblems.map((problem) => (
+              <Link
+                key={problem.id}
+                href={`/list?cat=${problem.category}#${problem.id}`}
+                className="group flex items-baseline gap-3 px-4 py-3 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
+              >
+                <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/30 w-12">
+                  {LIST_CATEGORY_LABEL[problem.category]}
+                </span>
+                <span className="flex-1 text-[12px] leading-snug text-foreground/65 transition-colors group-hover:text-foreground">
+                  {problem.title}
+                </span>
+                <span className="shrink-0 text-[9px] text-foreground/20 transition-colors group-hover:text-foreground/45">→</span>
+              </Link>
+            ))}
+            {relatedProblems[0] && (
+              <Link
+                href={`/list?cat=${relatedProblems[0].category}`}
+                className="block px-4 py-2.5 sm:px-6 text-[10px] uppercase tracking-widest text-foreground/30 transition-colors hover:text-foreground/65 hover:bg-foreground/[0.03]"
+              >
+                See all {LIST_CATEGORY_LABEL[relatedProblems[0].category]} fixes →
+              </Link>
+            )}
+          </div>
+        </div>
       )}
 
       {/* Prev / Next, as footer row */}
