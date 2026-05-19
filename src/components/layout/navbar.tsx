@@ -7,7 +7,6 @@ import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/workflow", label: "Workflow" },
-  { href: "/handbook", label: "Handbook" },
   { href: "/browse", label: "Prompts" },
   { href: "/articles", label: "Articles" },
   { href: "/list", label: "Fixes" },
