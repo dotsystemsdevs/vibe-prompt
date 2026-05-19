@@ -5,6 +5,7 @@ date: "2026-04-21"
 image: "https://images.unsplash.com/photo-1611890798517-07b0fcb4a811?w=1200&q=80"
 imageAlt: "Yellow warning sign"
 author: "vibeprompt"
+category: method
 ---
 
 After analyzing hundreds of posts across r/vibecoding, r/ClaudeAI, r/cursor, and r/ClaudeCode, the same failures keep appearing. Different projects, different stacks, same mistakes.

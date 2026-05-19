@@ -5,6 +5,7 @@ date: "2026-04-23"
 image: "https://images.unsplash.com/photo-1696695368125-fc0d809b4ab5?w=1200&q=80"
 imageAlt: "Android smartphone held in a hand"
 author: "vibeprompt"
+category: android
 ---
 
 Google Play has a rule that catches most first-time Android shippers off guard: before your app can reach production, it needs to run in closed testing with real users for 14 continuous days. Not friends adding the test track and forgetting about it. Real users actually opening the app.

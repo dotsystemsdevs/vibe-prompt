@@ -5,6 +5,7 @@ date: "2026-04-22"
 image: "https://images.unsplash.com/photo-1553293373-2ad550294aa9?w=1200&q=80"
 imageAlt: "Computer error message on a screen"
 author: "vibeprompt"
+category: method
 ---
 
 There's a post on r/vibecoding or r/ClaudeCode every week. Someone ships a full dashboard in an afternoon. A complete SaaS in a weekend. An entire app in one prompt.

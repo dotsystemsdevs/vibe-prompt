@@ -5,6 +5,7 @@ date: "2026-04-22"
 image: "https://images.unsplash.com/photo-1633613286991-611fe299c4be?w=1200&q=80"
 imageAlt: "Rocket lifting off into the sky"
 author: "vibeprompt"
+category: android
 ---
 
 The instinct on launch day is to treat it like a finish line. You hit "Submit for review," post it on socials, and wait for installs.

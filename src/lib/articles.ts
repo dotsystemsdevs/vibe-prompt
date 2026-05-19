@@ -7,6 +7,23 @@ import { marked } from "marked";
 
 const ARTICLES_DIR = path.join(process.cwd(), "content/articles");
 
+export const CATEGORIES = ["android", "ios", "web", "method"] as const;
+export type Category = (typeof CATEGORIES)[number];
+
+export const CATEGORY_LABEL: Record<Category, string> = {
+  android: "Android",
+  ios: "iOS",
+  web: "Web",
+  method: "Method",
+};
+
+function normalizeCategory(raw: unknown): Category {
+  if (typeof raw === "string" && (CATEGORIES as readonly string[]).includes(raw)) {
+    return raw as Category;
+  }
+  return "method";
+}
+
 export type Article = {
   slug: string;
   title: string;
@@ -15,6 +32,7 @@ export type Article = {
   image: string;
   imageAlt: string;
   author: string;
+  category: Category;
   html: string;
 };
 
@@ -42,6 +60,7 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
           image: data.image ?? "",
           imageAlt: data.imageAlt ?? "",
           author: data.author ?? "vibeprompt",
+          category: normalizeCategory(data.category),
         } satisfies ArticleMeta;
       })
   );
@@ -69,6 +88,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
     image: data.image ?? "",
     imageAlt: data.imageAlt ?? "",
     author: data.author ?? "vibeprompt",
+    category: normalizeCategory(data.category),
     html,
   };
 }

@@ -5,6 +5,7 @@ date: "2026-04-23"
 image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1200&q=80"
 imageAlt: "Library shelves filled with books"
 author: "vibeprompt"
+category: method
 ---
 
 There's a moment every vibe coder knows.

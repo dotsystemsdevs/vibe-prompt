@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getAllArticles } from "@/lib/articles";
+import { getAllArticles, CATEGORIES, CATEGORY_LABEL, type Category } from "@/lib/articles";
 import { Hero } from "@/components/hero/hero";
 import { GithubCta } from "@/components/cta/github-cta";
 import { Reveal } from "@/components/motion/reveal";
@@ -18,8 +18,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ArticlesPage() {
-  const articles = await getAllArticles();
+interface ArticlesPageProps {
+  searchParams: Promise<{ cat?: string }>;
+}
+
+function parseCategory(raw: string | undefined): Category | null {
+  if (raw && (CATEGORIES as readonly string[]).includes(raw)) return raw as Category;
+  return null;
+}
+
+export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
+  const { cat } = await searchParams;
+  const activeCategory = parseCategory(cat);
+  const allArticles = await getAllArticles();
+  const articles = activeCategory ? allArticles.filter((a) => a.category === activeCategory) : allArticles;
+
+  const counts: Record<Category, number> = { android: 0, ios: 0, web: 0, method: 0 };
+  for (const a of allArticles) counts[a.category]++;
 
   return (
     <div className="pt-12">
@@ -32,9 +47,23 @@ export default async function ArticlesPage() {
       </Reveal>
 
       <div className="mx-auto max-w-6xl px-6 pt-6">
+        {/* Category tabs */}
+        <div className="mb-6 flex flex-wrap items-center gap-x-1 gap-y-2 border-b border-foreground/12 pb-0">
+          <CategoryTab href="/articles" active={activeCategory === null} label="All" count={allArticles.length} />
+          {CATEGORIES.map((c) => (
+            <CategoryTab
+              key={c}
+              href={`/articles?cat=${c}`}
+              active={activeCategory === c}
+              label={CATEGORY_LABEL[c]}
+              count={counts[c]}
+            />
+          ))}
+        </div>
+
         {articles.length === 0 ? (
           <div className="border border-foreground/20 px-8 py-20 text-center">
-            <p className="text-sm text-muted-foreground">No articles yet.</p>
+            <p className="text-sm text-muted-foreground">No articles in this category yet.</p>
           </div>
         ) : (
           <div className="border border-foreground/20 overflow-hidden">
@@ -58,9 +87,15 @@ export default async function ArticlesPage() {
                 {/* Text */}
                 <div className="flex flex-1 flex-col justify-between gap-3 p-5 sm:p-6">
                   <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35 mb-2">
-                      {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-                    </p>
+                    <div className="mb-2 flex items-center gap-2">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">
+                        {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+                      </p>
+                      <span className="text-foreground/15">·</span>
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">
+                        {CATEGORY_LABEL[article.category]}
+                      </p>
+                    </div>
                     <h2 className="text-sm font-semibold leading-snug text-foreground/90 group-hover:text-foreground transition-colors">
                       {article.title}
                     </h2>
@@ -92,5 +127,31 @@ export default async function ArticlesPage() {
         </Reveal>
       </div>
     </div>
+  );
+}
+
+function CategoryTab({
+  href,
+  active,
+  label,
+  count,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+  count: number;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`relative px-3 py-2 text-[11px] font-medium uppercase tracking-widest transition-colors ${
+        active ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"
+      }`}
+      aria-current={active ? "page" : undefined}
+    >
+      <span>{label}</span>
+      <span className="ml-1.5 tabular-nums text-foreground/30">{count}</span>
+      {active && <span className="absolute inset-x-2 -bottom-px h-px bg-foreground" />}
+    </Link>
   );
 }

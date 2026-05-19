@@ -5,6 +5,7 @@ date: "2026-04-18"
 image: "https://images.unsplash.com/photo-1666875753105-c63a6f3bdc86?w=1200&q=80"
 imageAlt: "Five star rating display"
 author: "vibeprompt"
+category: method
 ---
 
 The most underestimated number on a Play Store listing is the review count.

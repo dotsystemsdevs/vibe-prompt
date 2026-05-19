@@ -5,6 +5,7 @@ date: "2026-04-19"
 image: "https://images.unsplash.com/photo-1621592867256-8ef277cfb72b?w=1200&q=80"
 imageAlt: "Smartphone showing a social media feed"
 author: "vibeprompt"
+category: method
 ---
 
 Almost every indie hacker who launches an app eventually tries Instagram. The pitch is obvious: free reach, viral potential, the algorithm rewards consistency.
