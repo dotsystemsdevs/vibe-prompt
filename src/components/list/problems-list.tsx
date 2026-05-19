@@ -137,14 +137,18 @@ export function ProblemsList({ problems, initialCategory }: ProblemsListProps) {
               </div>
 
               <div className="ml-11 sm:ml-12 max-w-2xl">
-                <div className="mb-3 flex items-center gap-2">
+                <div className="mb-3 flex items-center gap-3">
                   <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
                     {LIST_CATEGORY_LABEL[problem.category]}
                   </span>
+                  <span className="text-foreground/15">·</span>
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
+                    Fix
+                  </span>
                 </div>
 
-                <p className="text-[15px] leading-7 text-foreground/75">
-                  {problem.answer}
+                <p className="text-[15px] leading-7 text-foreground/80">
+                  <FormattedAnswer text={problem.answer} />
                 </p>
 
                 {problem.articleSlug && (
@@ -159,6 +163,27 @@ export function ProblemsList({ problems, initialCategory }: ProblemsListProps) {
             </li>
           ))}
         </ol>
+      )}
+    </>
+  );
+}
+
+function FormattedAnswer({ text }: { text: string }) {
+  // Split on backticks. Odd-indexed segments are code.
+  const parts = text.split("`");
+  return (
+    <>
+      {parts.map((part, i) =>
+        i % 2 === 1 ? (
+          <code
+            key={i}
+            className="rounded-sm bg-foreground/[0.08] px-1.5 py-0.5 font-mono text-[13px] text-foreground/85"
+          >
+            {part}
+          </code>
+        ) : (
+          <span key={i}>{part}</span>
+        )
       )}
     </>
   );
