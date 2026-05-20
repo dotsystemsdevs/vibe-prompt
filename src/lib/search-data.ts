@@ -13,7 +13,7 @@ export type SearchItem = {
 };
 
 const STATIC_PAGES: SearchItem[] = [
-  { type: "page", id: "workflow", title: "The 9-step workflow", href: "/workflow", snippet: "Interactive build loop from idea to shipped." },
+  { type: "page", id: "workflow", title: "The 10-step workflow", href: "/workflow", snippet: "Interactive build loop from idea to shipped." },
   { type: "page", id: "browse", title: "Prompt library", href: "/browse", snippet: "Battle-tested prompts grouped by stage." },
   { type: "page", id: "articles", title: "Articles", href: "/articles", snippet: "Deep-dives with real receipts from shipped apps." },
   { type: "page", id: "awesome", title: "Awesome tools", href: "/awesome", snippet: "Curated tools, platforms, and resources." },

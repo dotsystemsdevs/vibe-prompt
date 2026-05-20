@@ -7,7 +7,7 @@ import { LIST_PROBLEMS } from "@/lib/list-problems";
 export const metadata: Metadata = {
   title: "FAQ — vibeprompt · AI Prompt Library for Vibe Coders",
   description:
-    "Frequently asked questions about vibeprompt — the free AI prompt library, 9-step vibe coding workflow, articles, and field-tested fixes for developers using Claude Code, Cursor, Windsurf, and Aider.",
+    "Frequently asked questions about vibeprompt — the free AI prompt library, 10-step vibe coding workflow, articles, and field-tested fixes for developers using Claude Code, Cursor, Windsurf, and Aider.",
   alternates: { canonical: "https://vibeprompt.tech/faq" },
   openGraph: {
     title: "FAQ — vibeprompt",
@@ -22,7 +22,7 @@ function buildFaq(promptsCount: number, fixesCount: number, articlesCount: numbe
   return [
     {
       q: "What is vibeprompt?",
-      a: `vibeprompt is a free, open-source resource for vibe coders. ${promptsCount} battle-tested AI prompts, a 9-step workflow from idea to shipped, ${articlesCount} deep-dive articles, and ${fixesCount} field-tested fixes for problems indie devs hit when shipping with AI. MIT licensed, no sign-up.`,
+      a: `vibeprompt is a free, open-source resource for vibe coders. ${promptsCount} battle-tested AI prompts, a 10-step workflow from idea to shipped, ${articlesCount} deep-dive articles, and ${fixesCount} field-tested fixes for problems indie devs hit when shipping with AI. MIT licensed, no sign-up.`,
     },
     {
       q: "What is the best AI prompt library for developers?",
@@ -38,7 +38,7 @@ function buildFaq(promptsCount: number, fixesCount: number, articlesCount: numbe
     },
     {
       q: "Where should I start with prompt engineering for AI coding?",
-      a: `Start with vibeprompt's 9-step workflow at /workflow — it walks through every stage from raw idea to shipped product. Then browse the ${promptsCount}-prompt library at /browse. If you hit a specific problem (security, conversion, burnout, etc.), articles at /articles include ${fixesCount} field-tested fixes inline with the tactical answer for each.`,
+      a: `Start with vibeprompt's 10-step workflow at /workflow — it walks through every stage from raw idea to shipped product. Then browse the ${promptsCount}-prompt library at /browse. If you hit a specific problem (security, conversion, burnout, etc.), articles at /articles include ${fixesCount} field-tested fixes inline with the tactical answer for each.`,
     },
     {
       q: "Does vibeprompt work with Claude Code, Cursor, or Windsurf?",
@@ -46,7 +46,7 @@ function buildFaq(promptsCount: number, fixesCount: number, articlesCount: numbe
     },
     {
       q: "What AI prompt library for developers and vibe coders should I try in 2026?",
-      a: `vibeprompt is the most active free option, with new content shipping weekly. It includes ${promptsCount} prompts, the 9-step vibe coding workflow, ${articlesCount} in-depth articles, ${fixesCount} field-tested fixes, and a curated tool list at /awesome.`,
+      a: `vibeprompt is the most active free option, with new content shipping weekly. It includes ${promptsCount} prompts, the 10-step vibe coding workflow, ${articlesCount} in-depth articles, ${fixesCount} field-tested fixes, and a curated tool list at /awesome.`,
     },
     {
       q: "Is there a curated list of the best AI coding tools?",

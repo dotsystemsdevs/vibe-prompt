@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "vibeprompt workflow — 9-step interactive build loop from idea to shipped";
+export const alt = "vibeprompt workflow — 10-step interactive build loop from idea to shipped";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -31,15 +31,15 @@ export default function OGImage() {
           <div style={{ color: "#ffffff", fontSize: "72px", fontWeight: "800", lineHeight: "1.0", letterSpacing: "-0.04em" }}>
             From idea to shipped,
             <br />
-            <span style={{ color: "#2563EB" }}>in 9 steps.</span>
+            <span style={{ color: "#2563EB" }}>in 10 steps.</span>
           </div>
           <div style={{ color: "#71717a", fontSize: "24px", fontWeight: "400" }}>
             Interactive checklist. Progress saves locally. Pick up where you left off.
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "10px" }}>
-          {["Environment", "Research", "PRD", "Stack", "Context", "Build", "Quality", "Ship", "Iterate"].map((step, i) => (
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          {["Environment", "Research", "PRD", "Stack", "Context", "Build", "Quality", "Ship", "Launch", "Iterate"].map((step, i) => (
             <div
               key={step}
               style={{

@@ -45,7 +45,7 @@ export default async function WorkflowPage() {
       <Reveal>
         <Hero
           title={"The vibe coding\nworkflow."}
-          description="9 steps from idea to shipped, built from the most-starred vibe coding repos."
+          description="10 steps from idea to shipped, built from the most-starred vibe coding repos."
           accent="#ffffff"
         />
       </Reveal>

@@ -24,9 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const p = prompts.length;
   const f = LIST_PROBLEMS.length;
   const a = articles.length;
-  const longDesc = `Recipes for shipping with AI: a 9-step workflow, ${p} battle-tested prompts, ${f} field-tested fixes, ${a} deep-dives. Free, open source, updated as you ship.`;
-  const ogDesc = `Recipes for shipping with AI: a 9-step workflow, ${p} prompts, ${f} fixes, and ${a} deep-dives. Free, open source, web-native, updated weekly.`;
-  const twDesc = `Recipes for shipping with AI. 9-step workflow, ${p} prompts, ${f} fixes, ${a} deep-dives. Free, open source, updated weekly.`;
+  const longDesc = `Recipes for shipping with AI: a 10-step workflow, ${p} battle-tested prompts, ${f} field-tested fixes, ${a} deep-dives. Free, open source, updated as you ship.`;
+  const ogDesc = `Recipes for shipping with AI: a 10-step workflow, ${p} prompts, ${f} fixes, and ${a} deep-dives. Free, open source, web-native, updated weekly.`;
+  const twDesc = `Recipes for shipping with AI. 10-step workflow, ${p} prompts, ${f} fixes, ${a} deep-dives. Free, open source, updated weekly.`;
 
   return {
     icons: {

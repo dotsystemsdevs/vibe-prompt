@@ -215,7 +215,7 @@ export default async function VsToolsPage() {
               <PickCard
                 situation="You're a dev shipping production code"
                 pick="Claude Code or Cursor + vibeprompt"
-                why="The CLI/IDE agents handle complex codebases best. vibeprompt's 9-step workflow + 56 prompts mean you spend less time figuring out what to ask."
+                why="The CLI/IDE agents handle complex codebases best. vibeprompt's 10-step workflow + 56 prompts mean you spend less time figuring out what to ask."
               />
               <PickCard
                 situation="You're building a UI prototype only"

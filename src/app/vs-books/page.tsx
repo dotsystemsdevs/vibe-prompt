@@ -44,7 +44,7 @@ export default async function ComparePage() {
       updated: "Weekly",
       audience: "Solo + indie builders shipping with AI",
       strengths: [
-        `${promptsCount} copyable prompts mapped to a 9-step workflow`,
+        `${promptsCount} copyable prompts mapped to a 10-step workflow`,
         `${fixesCount} field-tested fixes searchable by error or topic`,
         `${articlesCount} deep-dives with real receipts from shipped apps`,
         "Interactive checklists that save progress locally",

@@ -18,7 +18,7 @@ export default async function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "vibeprompt",
-    description: `The vibe coding cookbook — recipes for shipping with AI. 9-step workflow, ${promptsCount} battle-tested prompts, ${fixesCount} field-tested fixes, and ${articlesCount} deep-dives. Free, open source, web-native.`,
+    description: `The vibe coding cookbook — recipes for shipping with AI. 10-step workflow, ${promptsCount} battle-tested prompts, ${fixesCount} field-tested fixes, and ${articlesCount} deep-dives. Free, open source, web-native.`,
     url: "https://vibeprompt.tech",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
@@ -49,7 +49,7 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/55">
-              {promptsCount} prompts, {fixesCount} fixes, a 9-step workflow.
+              {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow.
               {" "}
               <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
                 Free, open source.
@@ -163,7 +163,7 @@ export default async function HomePage() {
           </p>
 
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/55">
-            {promptsCount} prompts, {fixesCount} fixes, a 9-step workflow.
+            {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow.
             {" "}
             <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
               Free, open source.

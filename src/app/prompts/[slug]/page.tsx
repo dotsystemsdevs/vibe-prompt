@@ -11,14 +11,25 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+function trimDescription(text: string, max = 155): string {
+  const cleaned = text.replace(/\s+/g, " ").trim();
+  if (cleaned.length <= max) return cleaned;
+  const cut = cleaned.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  const base = lastSpace > 60 ? cut.slice(0, lastSpace) : cut;
+  return base.replace(/[,;:.\s]+$/, "") + "...";
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const prompt = await getPromptBySlug(slug);
   if (!prompt) return {};
-  const description = prompt.useCase.slice(0, 155);
+  const description = trimDescription(prompt.useCase);
+  const keywords = [...(prompt.tags ?? []), ...(prompt.tools ?? []), prompt.categoryName].filter(Boolean).join(", ");
   return {
     title: `${prompt.title}, vibeprompt`,
     description,
+    keywords,
     alternates: { canonical: `/prompts/${slug}` },
     openGraph: {
       title: prompt.title,
@@ -85,8 +96,30 @@ export default async function PromptPage({ params }: PageProps) {
       ? prompt.whenToUse
       : null;
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: prompt.title,
+    description: trimDescription(prompt.useCase),
+    url: `https://vibeprompt.tech/prompts/${prompt.slug}`,
+    mainEntityOfPage: `https://vibeprompt.tech/prompts/${prompt.slug}`,
+    articleSection: prompt.categoryName,
+    keywords: [...(prompt.tags ?? []), ...(prompt.tools ?? [])].join(", "),
+    proficiencyLevel: prompt.difficulty,
+    author: { "@type": "Person", name: contributor.login || prompt.author || "vibeprompt" },
+    publisher: { "@type": "Organization", name: "vibeprompt", url: "https://vibeprompt.tech" },
+    datePublished: prompt.createdAt,
+    dateModified: prompt.createdAt,
+    inLanguage: "en",
+    isAccessibleForFree: true,
+  };
+
   return (
     <div className="pt-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-6xl pt-6">
         <article className="overflow-hidden border border-foreground/20">
 
@@ -127,9 +160,9 @@ export default async function PromptPage({ params }: PageProps) {
           {/* Prompt section, label + copy in same row */}
           <div>
             <div className="flex items-center justify-between border-b border-foreground/20 px-4 py-3 sm:px-8">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-foreground/40">
                 Prompt
-              </span>
+              </h2>
               <div className="flex items-center gap-2">
                 <PromptActions
                   slug={prompt.slug}

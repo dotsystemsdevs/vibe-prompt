@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const SUGGESTIONS = [
   {
     href: "/workflow",
-    label: "The 9-step workflow",
+    label: "The 10-step workflow",
     description: "From raw idea to shipped. Interactive checklists, save your progress.",
   },
   {

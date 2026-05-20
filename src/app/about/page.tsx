@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const FAQ_ITEMS = [
   { q: "What is vibeprompt?", a: "vibeprompt is a free prompt library and vibe coding workflow for developers shipping with AI. No login required, open source." },
-  { q: "How does vibe coding work?", a: "Vibe coding is a workflow for shipping software with AI assistance. vibeprompt provides a 9-step playbook from idea to shipped product, plus battle-tested prompts for each stage." },
+  { q: "How does vibe coding work?", a: "Vibe coding is a workflow for shipping software with AI assistance. vibeprompt provides a 10-step playbook from idea to shipped product, plus battle-tested prompts for each stage." },
   { q: "Is vibeprompt free to use?", a: "Yes. vibeprompt is completely free, no paywalls, no login required, and fully open source on GitHub." },
   { q: "Which AI tools work with these prompts?", a: "The prompts work with Claude Code, Cursor, GitHub Copilot, ChatGPT, Windsurf, and any other AI coding assistant." },
 ];
