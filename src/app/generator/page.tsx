@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "AGENTS.md & PRD Generator — fill in, get ready-to-ship markdown | vibeprompt",
   description:
     "Free AGENTS.md and PRD generator for vibe coders. Fill in your project details, get production-ready markdown to drop into your repo. No sign-up, no API key, runs in your browser.",
-  alternates: { canonical: "/generator" },
+  alternates: { canonical: "/toolbox" },
   keywords:
     "AGENTS.md generator, PRD generator, CLAUDE.md generator, vibe coding generator, AI context file, Claude Code setup, Cursor setup, AGENTS.md template",
   openGraph: {
