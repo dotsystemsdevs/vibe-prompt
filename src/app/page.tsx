@@ -49,11 +49,15 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/55">
-              {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow.
-              {" "}
-              <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
-                Free, open source.
-              </Link>
+              {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow. Free,{" "}
+              <a
+                href="https://github.com/dotsystemsdevs/vibe-prompt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors"
+              >
+                open source on GitHub
+              </a>.
             </p>
 
             <div className="mt-8 flex items-center gap-3">
@@ -65,10 +69,10 @@ export default async function HomePage() {
                 See the workflow →
               </Link>
               <Link
-                href="/generator"
+                href="/toolbox#generators"
                 className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
               >
-                Or generate AGENTS.md →
+                Or generate your AGENTS.md →
               </Link>
             </div>
 
@@ -163,11 +167,15 @@ export default async function HomePage() {
           </p>
 
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/55">
-            {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow.
-            {" "}
-            <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
-              Free, open source.
-            </Link>
+            {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow. Free,{" "}
+            <a
+              href="https://github.com/dotsystemsdevs/vibe-prompt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors"
+            >
+              open source on GitHub
+            </a>.
           </p>
 
           <div className="mt-7 flex items-center gap-3">

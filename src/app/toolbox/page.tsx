@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Hero } from "@/components/hero/hero";
 import { Reveal } from "@/components/motion/reveal";
 import { GithubCta } from "@/components/cta/github-cta";
+import { GeneratorClient } from "@/components/generator/generator-client";
 
 export const metadata: Metadata = {
   title: "Toolbox — generators, scanners, and templates for vibe coders | vibeprompt",
@@ -64,33 +65,25 @@ export default function ToolboxPage() {
       </Reveal>
 
       <div className="mx-auto max-w-6xl px-6 pt-2 pb-10">
-        {/* Generators — the headline tool */}
+        {/* Generators — embedded inline so /toolbox is the actual surface */}
         <Reveal>
-          <section className="mb-16">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/45">
-              Generators
-            </p>
-            <Link
-              href="/generator"
-              className="block border border-foreground/30 bg-foreground/[0.02] p-6 transition-colors hover:bg-foreground/[0.04] sm:p-8"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <section id="generators" className="mb-16 scroll-mt-20">
+            <div className="mb-6 flex items-baseline justify-between gap-4">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/45 mb-2">
+                  Generators
+                </p>
                 <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
                   AGENTS.md &amp; PRD Generator
                 </h2>
-                <span className="text-[11px] text-foreground/55">Open →</span>
+                <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-foreground/65">
+                  Fill in the blanks below, copy or download the markdown. Inputs save to
+                  your browser, never to a server.
+                </p>
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/80">
-                Fill in the blanks and download a ready-to-ship AGENTS.md or PRD. Two modes
-                included in the source — template-fill (default) and a Claude-powered
-                enhance mode you can switch on with one env var if you self-host.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-foreground/55">
-                <span>· Saves to your browser</span>
-                <span>· No signup</span>
-                <span>· Open source</span>
-              </div>
-            </Link>
+            </div>
+
+            <GeneratorClient />
           </section>
         </Reveal>
 

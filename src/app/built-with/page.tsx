@@ -22,6 +22,7 @@ type Surface = "Web" | "iOS" | "Android";
 
 type Project = {
   name: string;
+  iconDomain: string;
   oneLine: string;
   url: string;
   surfaces: Surface[];
@@ -32,9 +33,20 @@ type Project = {
   workflowSteps: string;
 };
 
+const SURFACE_LABEL: Record<Surface, string> = {
+  Web: "🌐 Web",
+  iOS: "🍎 iOS",
+  Android: "🤖 Android",
+};
+
+function faviconUrl(domain: string) {
+  return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+}
+
 const PROJECTS: Project[] = [
   {
     name: "Excuse Caddie",
+    iconDomain: "excusecaddie.xyz",
     oneLine: "Random excuse generator for golf — three platforms, one weekend's worth of prompts each.",
     url: "https://excusecaddie.xyz",
     surfaces: ["Web", "iOS", "Android"],
@@ -46,6 +58,7 @@ const PROJECTS: Project[] = [
   },
   {
     name: "Commitment Issues",
+    iconDomain: "commitmentissues.dev",
     oneLine: "Death certificates for abandoned GitHub repos. Open source, weirdly viral on dev Twitter.",
     url: "https://commitmentissues.dev",
     surfaces: ["Web"],
@@ -57,6 +70,7 @@ const PROJECTS: Project[] = [
   },
   {
     name: "Build2Race",
+    iconDomain: "build2race.com",
     oneLine: "Free triathlon training plan generator. PRD said 'free forever' which kept the build small.",
     url: "https://build2race.com",
     surfaces: ["Web"],
@@ -68,6 +82,7 @@ const PROJECTS: Project[] = [
   },
   {
     name: "Indexia",
+    iconDomain: "indexia.se",
     oneLine: "AI-SEO and GEO (generative engine optimization) for Swedish businesses. Currently in customer outreach.",
     url: "https://indexia.se",
     surfaces: ["Web"],
@@ -79,6 +94,7 @@ const PROJECTS: Project[] = [
   },
   {
     name: "Slothy",
+    iconDomain: "slothy.app",
     oneLine: "Productivity app for people who hate productivity apps. iOS + Android.",
     url: "https://apps.apple.com/app/id6760565326",
     surfaces: ["iOS", "Android"],
@@ -90,6 +106,7 @@ const PROJECTS: Project[] = [
   },
   {
     name: "vibeprompt itself",
+    iconDomain: "vibeprompt.tech",
     oneLine: "The site you're on right now. Yes, it was built with its own workflow.",
     url: "https://vibeprompt.tech",
     surfaces: ["Web"],
@@ -133,28 +150,42 @@ export default function BuiltWithPage() {
           {PROJECTS.map((p) => (
             <Reveal key={p.name}>
               <article className="border border-foreground/12 p-6 sm:p-7">
-                <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-                  <div>
-                    <h2 className="text-lg sm:text-xl font-bold tracking-[-0.02em] text-foreground">
-                      {p.name}
-                    </h2>
-                    <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/45">
-                      {p.surfaces.join(" · ")} · {p.stack}
-                    </p>
+                <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+                  <div className="flex items-start gap-4 min-w-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={faviconUrl(p.iconDomain)}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="shrink-0 mt-1 h-10 w-10 rounded-md border border-foreground/15 bg-foreground/[0.04] p-1"
+                    />
+                    <div className="min-w-0">
+                      <h2 className="text-lg sm:text-xl font-bold tracking-[-0.02em] text-foreground">
+                        {p.name}
+                      </h2>
+                      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-foreground/65">
+                        {p.surfaces.map((s) => (
+                          <span key={s} className="font-medium">{SURFACE_LABEL[s]}</span>
+                        ))}
+                        <span className="text-foreground/25">·</span>
+                        <span className="font-mono text-foreground/55">{p.stack}</span>
+                      </div>
+                    </div>
                   </div>
                   <a
                     href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[11px] text-foreground/45 transition-colors hover:text-foreground"
+                    className="shrink-0 text-[11px] text-foreground/55 transition-colors hover:text-foreground"
                   >
                     Visit →
                   </a>
                 </div>
 
-                <p className="mb-5 text-sm leading-relaxed text-foreground/80">{p.oneLine}</p>
+                <p className="mb-4 text-sm leading-relaxed text-foreground/80">{p.oneLine}</p>
 
-                <p className="mb-5 text-[11px] text-foreground/55 italic">{p.status}</p>
+                <p className="mb-5 text-[11px] text-foreground/60 italic">{p.status}</p>
 
                 <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-3 text-[12px]">
                   <div>
