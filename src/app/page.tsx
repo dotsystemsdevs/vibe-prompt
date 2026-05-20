@@ -65,10 +65,10 @@ export default async function HomePage() {
                 See the workflow →
               </Link>
               <Link
-                href="/scan"
+                href="/generator"
                 className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
               >
-                Or scan a site →
+                Or generate AGENTS.md →
               </Link>
             </div>
 
@@ -179,10 +179,10 @@ export default async function HomePage() {
               See the workflow →
             </Link>
             <Link
-              href="/scan"
+              href="/generator"
               className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
             >
-              Or scan a site →
+              Or generate AGENTS.md →
             </Link>
           </div>
 

@@ -17,6 +17,7 @@ const STATIC_PAGES: SearchItem[] = [
   { type: "page", id: "browse", title: "Prompt library", href: "/browse", snippet: "Battle-tested prompts grouped by stage." },
   { type: "page", id: "articles", title: "Articles", href: "/articles", snippet: "Deep-dives with real receipts from shipped apps." },
   { type: "page", id: "awesome", title: "Awesome tools", href: "/awesome", snippet: "Curated tools, platforms, and resources." },
+  { type: "page", id: "generator", title: "AGENTS.md & PRD generator", href: "/generator", snippet: "Fill in fields, get ready-to-ship markdown. Free, no sign-up." },
   { type: "page", id: "scan", title: "Scan a site", href: "/scan", snippet: "Free site auditor for SEO, conversion, security." },
   { type: "page", id: "vs-books", title: "vs. the vibe coding books", href: "/vs-books", snippet: "How vibeprompt compares to Gene Kim and Smykowski." },
   { type: "page", id: "vs-tools", title: "vs. the vibe coding tools", href: "/vs-tools", snippet: "Replit, Lovable, Bolt, Cursor, Claude Code, v0 — honest comparison." },
