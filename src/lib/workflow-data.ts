@@ -554,6 +554,88 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
   },
   {
     step: "08",
+    title: "Launch",
+    emoji: "📣",
+    whatThis: "Get the first 100 real users. Reddit, Show HN, Product Hunt, Twitter, the channels that work for indie builders.",
+    why: "A live URL with zero users is the same as no URL. Distribution is the #1 reason indie products fail — more than product quality, more than capital.",
+    tasks: [
+      {
+        heading: "Checklist",
+        description: "Pre-pick channels, prep posts, then launch in a 48-hour window.",
+        items: [
+          {
+            text: "Reddit: post in 2–3 subreddits where your audience already hangs out. Build karma first with 5–10 useful non-promotional comments per sub. Frame: 'I built X to solve Y', not 'Check out my app'.",
+            detail: "r/SideProject and r/IndieDev are forgiving. r/programming is brutal. Niche subs (r/golf, r/triathlon) work if you have a niche product.",
+            links: [
+              { label: "r/SideProject", href: "https://www.reddit.com/r/SideProject/" },
+              { label: "r/IndieDev", href: "https://www.reddit.com/r/IndieDev/" },
+              { label: "r/IndieHackers", href: "https://www.reddit.com/r/indiehackers/" },
+            ],
+          },
+          {
+            text: "Show HN: post Tue–Thu, 8–10 AM Eastern. Title leads with what you built AND what's interesting. 'Show HN: I built X — what surprised me about Y' beats 'Show HN: My new app launched'.",
+            detail: "Reply to every comment in the first 6 hours. Engagement keeps you on the front page. One reply per comment is enough.",
+            links: [{ label: "Show HN submission rules", href: "https://news.ycombinator.com/showhn.html" }],
+          },
+          {
+            text: "Product Hunt: only post if you have 50+ people pre-committed to upvote in hour 1. Without a list, you'll stall at 8 upvotes.",
+            detail: "If you don't have that list yet, skip PH. Comes back to bite indie devs who launch cold here.",
+            links: [{ label: "Product Hunt launch checklist", href: "https://www.producthunt.com/launch" }],
+          },
+          {
+            text: "Twitter / X: post a build-in-public thread. Show the screenshot, the metric you care about, the ask. Tag #buildinpublic #indiedev. Reply to 10 accounts in your niche daily for the next week.",
+            detail: "Following count doesn't matter. Consistency + engagement does. After 30 days of daily replies, your impressions 10–20x.",
+          },
+          {
+            text: "DM your first 30 users individually for a review/feedback. Not a broadcast — use their name, reference what they did in your app.",
+            detail: "Conversion rate is 30–40% if asked right. Zero reviews kills install rate; 5 reviews unlocks it.",
+          },
+          {
+            text: "Find 3 Discord servers / Slack communities where your target user hangs out. Lurk a week, contribute, then mention your product when relevant — never as the first message.",
+          },
+          {
+            text: "App Store / Play Store: re-check the listing one more time before driving paid or organic traffic to it. Screenshot 1 must say what the app does in 5 words.",
+            links: [{ label: "Store listing breakdown", href: "/articles/store-listing-anatomy" }],
+          },
+          {
+            text: "Track every channel separately. UTM params on links from Reddit, Twitter, PH. Without UTMs you can't tell what worked.",
+            detail: "?utm_source=reddit&utm_medium=post&utm_campaign=launch — keep it that simple.",
+          },
+          {
+            text: "Kill the channel that doesn't work after 7 days. Double down on the one that does. Most launches succeed on ONE channel, not five.",
+          },
+        ],
+      },
+      {
+        heading: "Learn",
+        description: "How experienced indie devs land their first 100 users.",
+        items: [
+          {
+            text: "Watch: How to get your first 100 users as an indie hacker",
+            links: [{ label: "YouTube", href: "https://www.youtube.com/results?search_query=first+100+users+indie+hacker+saas+launch" }],
+          },
+          {
+            text: "Watch: Show HN that worked, retrospective from the launcher",
+            links: [{ label: "YouTube", href: "https://www.youtube.com/results?search_query=show+hn+launch+strategy+how+to" }],
+          },
+          {
+            text: "Read: How to launch on Reddit without getting banned",
+            links: [{ label: "Indie Hackers", href: "https://www.indiehackers.com/post/how-to-launch-on-reddit-without-getting-banned" }],
+          },
+          {
+            text: "Read: Where to launch your indie product, full channel list",
+            links: [{ label: "Indie Hackers", href: "https://www.indiehackers.com/post/the-best-places-to-launch-your-product-in-2024" }],
+          },
+        ],
+      },
+    ],
+    commonMistakes: [],
+    resources: [],
+    output: [],
+    browseSlug: "launch-growth",
+  },
+  {
+    step: "09",
     title: "Iterate",
     emoji: "🔁",
     whatThis: "Use real behavior data to decide what to fix next. Not gut feelings. Not user requests. Behavior.",

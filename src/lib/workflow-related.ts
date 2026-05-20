@@ -41,7 +41,22 @@ export const WORKFLOW_RELATED: Record<string, WorkflowRelated> = {
     fixIds: ["play-closed-testing-12", "app-review-rejected-vague", "vercel-prod-breaks", "env-vars-broken"],
   },
   "08": {
+    articleSlugs: [
+      "launching-on-google-play",
+      "getting-your-first-app-reviews",
+      "instagram-for-indie-apps",
+    ],
+    fixIds: [
+      "reddit-removed-post",
+      "ph-launch-8-upvotes",
+      "show-hn-sunk",
+      "twitter-12-impressions",
+      "five-stars-three-reviews",
+      "rank-brand-only",
+    ],
+  },
+  "09": {
     articleSlugs: ["after-launch-troubleshooting"],
-    fixIds: ["60-visitors-zero-conv", "ph-launch-8-upvotes", "metrics-anxious"],
+    fixIds: ["60-visitors-zero-conv", "metrics-anxious"],
   },
 };
