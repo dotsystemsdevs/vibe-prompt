@@ -39,13 +39,6 @@ export default async function HomePage() {
           {/* Left */}
           <div className="flex flex-1 flex-col">
 
-            <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/50">
-              {promptsCount} prompts &nbsp;·&nbsp; {fixesCount} fixes &nbsp;·&nbsp; {articlesCount} deep-dives &nbsp;·&nbsp;{" "}
-              <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
-                free · open
-              </Link>
-            </p>
-
             <h1
               className="font-bold leading-[1.02] tracking-[-0.04em] text-foreground"
               style={{ fontSize: "clamp(2.6rem, 3.8vw + 0.5rem, 4.2rem)" }}
@@ -55,9 +48,12 @@ export default async function HomePage() {
               cookbook.
             </h1>
 
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/50">
-              Recipes for shipping with AI. A 9-step workflow,
-              {" "}{prompts.length} battle-tested prompts, and field-tested fixes when things break.
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/55">
+              {promptsCount} prompts, {fixesCount} fixes, a 9-step workflow.
+              {" "}
+              <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
+                Free, open source.
+              </Link>
             </p>
 
             <div className="mt-8 flex items-center gap-3">
@@ -68,68 +64,48 @@ export default async function HomePage() {
               >
                 See the workflow →
               </Link>
-              <a
-                href="https://github.com/dotsystemsdevs/vibeprompt/issues"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-foreground/25 px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-foreground/45 hover:bg-foreground/[0.05]"
+              <Link
+                href="/scan"
+                className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
               >
-                <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
-                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
-                </svg>
-                Contribute
-              </a>
+                Or scan a site →
+              </Link>
             </div>
 
-            <Link
-              href="/scan"
-              className="mt-4 inline-flex items-center gap-1.5 text-xs text-foreground/40 transition-colors hover:text-foreground/80"
-            >
-              Or scan a live site for issues now →
-            </Link>
-
             {contributors.length > 0 && (
-              <div className="mt-10 border-t border-foreground/10 pt-6">
-                <div className="mb-3 flex items-center gap-3">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
-                    Built in the open by {contributors.length}
-                  </span>
-                  <a
-                    href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/75 transition-colors hover:text-foreground"
-                  >
-                    Join us →
-                  </a>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {contributors.slice(0, 8).map((c) => (
+              <div className="mt-10 flex items-center gap-3">
+                <div className="flex items-center">
+                  {contributors.slice(0, 8).map((c, i) => (
                     <a
                       key={c.login}
                       href={c.profileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-2 rounded-full border border-foreground/15 bg-foreground/[0.03] py-1 pl-1 pr-3 transition-all hover:border-foreground/35 hover:bg-foreground/[0.07]"
+                      title={c.login}
+                      className="relative block transition-transform hover:z-10 hover:scale-110"
+                      style={{ marginLeft: i === 0 ? 0 : "-8px" }}
                     >
                       <Image
                         src={c.avatarUrl}
                         alt={c.login}
-                        width={28}
-                        height={28}
-                        className="rounded-full"
+                        width={26}
+                        height={26}
+                        className="rounded-full border border-background"
                       />
-                      <span className="text-xs font-medium text-foreground/75 transition-colors group-hover:text-foreground">
-                        {c.login}
-                      </span>
                     </a>
                   ))}
-                  {contributors.length > 8 && (
-                    <span className="text-xs text-foreground/45">
-                      +{contributors.length - 8} more
-                    </span>
-                  )}
                 </div>
+                <span className="text-[11px] text-foreground/45">
+                  Built in the open by {contributors.length} ·{" "}
+                  <a
+                    href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground/70 transition-colors hover:text-foreground"
+                  >
+                    Join us →
+                  </a>
+                </span>
               </div>
             )}
 
@@ -177,10 +153,6 @@ export default async function HomePage() {
         {/* ── Mobile ── */}
         <div className="flex flex-1 flex-col px-5 py-10 lg:hidden">
 
-          <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/50">
-            {promptsCount} prompts &nbsp;·&nbsp; {fixesCount} fixes &nbsp;·&nbsp; {articlesCount} deep-dives &nbsp;·&nbsp; free
-          </p>
-
           <p
             aria-hidden="true"
             className="font-bold leading-[1.05] tracking-[-0.04em] text-foreground"
@@ -190,8 +162,12 @@ export default async function HomePage() {
             <br />cookbook.
           </p>
 
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/50">
-            Recipes for shipping with AI. A 9-step workflow, {prompts.length} prompts, and fixes when things break.
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/55">
+            {promptsCount} prompts, {fixesCount} fixes, a 9-step workflow.
+            {" "}
+            <Link href="/vs-books" className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors">
+              Free, open source.
+            </Link>
           </p>
 
           <div className="mt-7 flex items-center gap-3">
@@ -203,19 +179,12 @@ export default async function HomePage() {
               See the workflow →
             </Link>
             <Link
-              href="/browse"
-              className="text-xs text-foreground/40 transition-colors hover:text-foreground/70"
+              href="/scan"
+              className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
             >
-              Browse prompts →
+              Or scan a site →
             </Link>
           </div>
-
-          <Link
-            href="/scan"
-            className="mt-3 inline-flex items-center gap-1.5 text-xs text-foreground/40 transition-colors hover:text-foreground/80"
-          >
-            Or scan a live site for issues now →
-          </Link>
 
           {/* Workflow card */}
           <div className="mt-8 border border-foreground/20">
@@ -244,45 +213,39 @@ export default async function HomePage() {
           </div>
 
           {contributors.length > 0 && (
-            <div className="mt-8 border-t border-foreground/10 pt-5">
-              <div className="mb-3 flex items-center gap-3">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
-                  Built in the open by {contributors.length}
-                </span>
-                <a
-                  href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/75 transition-colors hover:text-foreground"
-                >
-                  Join →
-                </a>
-              </div>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {contributors.slice(0, 6).map((c) => (
+            <div className="mt-8 flex items-center gap-3">
+              <div className="flex items-center">
+                {contributors.slice(0, 8).map((c, i) => (
                   <a
                     key={c.login}
                     href={c.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-1.5 rounded-full border border-foreground/15 bg-foreground/[0.03] py-0.5 pl-0.5 pr-2 transition-all hover:border-foreground/35"
+                    title={c.login}
+                    className="relative block transition-transform hover:z-10 hover:scale-110"
+                    style={{ marginLeft: i === 0 ? 0 : "-7px" }}
                   >
                     <Image
                       src={c.avatarUrl}
                       alt={c.login}
-                      width={22}
-                      height={22}
-                      className="rounded-full"
+                      width={24}
+                      height={24}
+                      className="rounded-full border border-background"
                     />
-                    <span className="text-[11px] font-medium text-foreground/70 transition-colors group-hover:text-foreground">
-                      {c.login}
-                    </span>
                   </a>
                 ))}
-                {contributors.length > 6 && (
-                  <span className="text-[11px] text-foreground/45">+{contributors.length - 6}</span>
-                )}
               </div>
+              <span className="text-[11px] text-foreground/45">
+                Built by {contributors.length} ·{" "}
+                <a
+                  href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground/70 transition-colors hover:text-foreground"
+                >
+                  Join →
+                </a>
+              </span>
             </div>
           )}
 
