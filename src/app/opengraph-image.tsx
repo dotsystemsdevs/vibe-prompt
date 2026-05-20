@@ -57,7 +57,7 @@ export default function OGImage() {
 
         {/* Bottom: workflow steps */}
         <div style={{ display: "flex", gap: "12px" }}>
-          {["Environment", "Research", "PRD", "Stack", "Context", "Build", "Quality", "Ship", "Iterate"].map((step, i) => (
+          {["Environment", "Research", "PRD", "Stack", "Context", "Build", "Quality", "Ship", "Launch", "Iterate"].map((step, i) => (
             <div
               key={step}
               style={{
