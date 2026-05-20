@@ -19,6 +19,7 @@ const STATIC_PAGES: SearchItem[] = [
   { type: "page", id: "awesome", title: "Awesome tools", href: "/awesome", snippet: "Curated tools, platforms, and resources." },
   { type: "page", id: "scan", title: "Scan a site", href: "/scan", snippet: "Free site auditor for SEO, conversion, security." },
   { type: "page", id: "vs-books", title: "vs. the vibe coding books", href: "/vs-books", snippet: "How vibeprompt compares to Gene Kim and Smykowski." },
+  { type: "page", id: "vs-tools", title: "vs. the vibe coding tools", href: "/vs-tools", snippet: "Replit, Lovable, Bolt, Cursor, Claude Code, v0 — honest comparison." },
   { type: "page", id: "faq", title: "FAQ", href: "/faq", snippet: "Frequently asked questions." },
 ];
 
