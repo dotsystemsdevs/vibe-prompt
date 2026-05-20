@@ -189,6 +189,13 @@ export default async function ComparePage() {
               free and stays free — so it can sit in your bookmarks while you decide if the books are worth
               the buy.
             </p>
+
+            <Link
+              href="/vs-tools"
+              className="mt-6 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground"
+            >
+              Comparing tools instead? See vs-tools →
+            </Link>
           </section>
         </Reveal>
 

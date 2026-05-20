@@ -264,6 +264,13 @@ export default async function VsToolsPage() {
                 body="No tool fixes 'I priced it at $5 and nobody trusts it' or 'Reddit removed my post for self-promotion'. vibeprompt does — these are content-shaped problems."
               />
             </div>
+
+            <Link
+              href="/vs-books"
+              className="mt-8 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-foreground/45 transition-colors hover:text-foreground"
+            >
+              Comparing books instead? See vs-books →
+            </Link>
           </section>
         </Reveal>
 
