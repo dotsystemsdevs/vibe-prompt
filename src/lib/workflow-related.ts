@@ -8,7 +8,7 @@ export type WorkflowRelated = {
 
 export const WORKFLOW_RELATED: Record<string, WorkflowRelated> = {
   "00": {
-    // Environment: basic setup, nothing tactical to link yet
+    articleSlugs: ["claude-code-vs-codex-cli", "cursor-vs-windsurf"],
   },
   "01": {
     // Research: validation, no fixes mapped
@@ -21,11 +21,11 @@ export const WORKFLOW_RELATED: Record<string, WorkflowRelated> = {
     // Stack: no fixes directly tied to stack choice
   },
   "04": {
-    articleSlugs: ["context-is-everything"],
+    articleSlugs: ["context-is-everything", "agents-vs-claude-vs-cursorrules", "which-llm-for-which-step"],
     fixIds: ["dont-know-codebase", "every-prompt-new-state", "deprecated-apis"],
   },
   "05": {
-    articleSlugs: ["one-shot-myth", "vibecoding-real-examples-with-time-data", "vibe-coding-mistakes"],
+    articleSlugs: ["one-shot-myth", "vibecoding-real-examples-with-time-data", "vibe-coding-mistakes", "which-llm-for-which-step"],
     fixIds: ["last-20-percent", "ai-confidently-wrong", "code-duplication-pile", "give-up-refactor"],
   },
   "06": {

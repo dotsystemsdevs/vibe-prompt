@@ -70,6 +70,9 @@ function persist(data: FormData) {
 export function GeneratorClient() {
   const [kind, setKind] = useState<Kind>("agents");
   const [data, setData] = useState<FormData>(loadInitial);
+  const [aiOutput, setAiOutput] = useState<string | null>(null);
+  const [aiState, setAiState] = useState<"idle" | "loading" | "error">("idle");
+  const [aiError, setAiError] = useState<string | null>(null);
 
   function update<K extends Kind>(k: K, field: keyof FormData[K], value: string) {
     setData((prev) => {
@@ -77,19 +80,54 @@ export function GeneratorClient() {
       persist(next);
       return next;
     });
+    // Invalidate any AI output when inputs change so user re-generates.
+    if (aiOutput !== null) setAiOutput(null);
   }
 
-  const output = useMemo(() => (kind === "agents" ? renderAgents(data.agents) : renderPrd(data.prd)), [kind, data]);
+  // Reset AI state when switching tabs.
+  function switchKind(next: Kind) {
+    setKind(next);
+    setAiOutput(null);
+    setAiState("idle");
+    setAiError(null);
+  }
+
+  async function enhanceWithAi() {
+    setAiState("loading");
+    setAiError(null);
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ kind, data: data[kind] }),
+      });
+      const json = (await res.json()) as { markdown?: string; error?: string };
+      if (!res.ok) {
+        setAiError(json.error ?? "AI generation failed.");
+        setAiState("error");
+        return;
+      }
+      setAiOutput(json.markdown ?? "");
+      setAiState("idle");
+    } catch {
+      setAiError("Network error. Try again.");
+      setAiState("error");
+    }
+  }
+
+  const templateOutput = useMemo(() => (kind === "agents" ? renderAgents(data.agents) : renderPrd(data.prd)), [kind, data]);
+  const output = aiOutput ?? templateOutput;
   const filename = kind === "agents" ? "AGENTS.md" : "PRD.md";
+  const isAi = aiOutput !== null;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
       <div>
         <div className="mb-5 flex gap-1 border-b border-foreground/12">
-          <TabButton active={kind === "agents"} onClick={() => setKind("agents")}>
+          <TabButton active={kind === "agents"} onClick={() => switchKind("agents")}>
             AGENTS.md
           </TabButton>
-          <TabButton active={kind === "prd"} onClick={() => setKind("prd")}>
+          <TabButton active={kind === "prd"} onClick={() => switchKind("prd")}>
             PRD.md
           </TabButton>
         </div>
@@ -183,7 +221,19 @@ export function GeneratorClient() {
         )}
       </div>
 
-      <OutputPanel markdown={output} filename={filename} />
+      <OutputPanel
+        markdown={output}
+        filename={filename}
+        onEnhance={enhanceWithAi}
+        aiState={aiState}
+        aiError={aiError}
+        isAi={isAi}
+        onRevertToTemplate={() => {
+          setAiOutput(null);
+          setAiState("idle");
+          setAiError(null);
+        }}
+      />
     </div>
   );
 }
@@ -244,7 +294,23 @@ function Field({
   );
 }
 
-function OutputPanel({ markdown, filename }: { markdown: string; filename: string }) {
+function OutputPanel({
+  markdown,
+  filename,
+  onEnhance,
+  aiState,
+  aiError,
+  isAi,
+  onRevertToTemplate,
+}: {
+  markdown: string;
+  filename: string;
+  onEnhance: () => void;
+  aiState: "idle" | "loading" | "error";
+  aiError: string | null;
+  isAi: boolean;
+  onRevertToTemplate: () => void;
+}) {
   const [copied, setCopied] = useState(false);
 
   function copy() {
@@ -269,6 +335,7 @@ function OutputPanel({ markdown, filename }: { markdown: string; filename: strin
       <div className="mb-3 flex items-center justify-between">
         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
           Preview · {filename}
+          {isAi && <span className="ml-2 text-foreground/45">· AI-enhanced ✨</span>}
         </p>
         <div className="flex items-center gap-2">
           <button
@@ -290,8 +357,39 @@ function OutputPanel({ markdown, filename }: { markdown: string; filename: strin
       <pre className="max-h-[600px] overflow-auto border border-foreground/15 bg-foreground/[0.02] p-4 text-[12px] leading-relaxed text-foreground/85 font-mono whitespace-pre-wrap">
         {markdown}
       </pre>
-      <p className="mt-2 text-[10px] text-foreground/40">
-        All inputs save to your browser. Nothing leaves your machine.
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        {!isAi ? (
+          <button
+            type="button"
+            onClick={onEnhance}
+            disabled={aiState === "loading"}
+            className="inline-flex items-center gap-1.5 border border-foreground/45 bg-foreground/[0.04] px-3 py-1.5 text-[11px] font-semibold text-foreground transition-colors hover:bg-foreground/[0.08] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {aiState === "loading" ? "Generating…" : "Enhance with AI ✨"}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onRevertToTemplate}
+            className="inline-flex items-center gap-1.5 border border-foreground/25 px-3 py-1.5 text-[11px] font-semibold text-foreground/70 transition-colors hover:bg-foreground/[0.04]"
+          >
+            ← Revert to template
+          </button>
+        )}
+        <p className="text-[10px] text-foreground/40">
+          {isAi
+            ? "AI version — re-generates when you edit inputs."
+            : "AI version uses Claude Haiku. 5 per hour. Template version is free, unlimited."}
+        </p>
+      </div>
+
+      {aiError && (
+        <p className="mt-2 text-[11px] text-red-500">{aiError}</p>
+      )}
+
+      <p className="mt-3 text-[10px] text-foreground/40">
+        Template inputs save to your browser. Nothing leaves your machine unless you tap &ldquo;Enhance with AI&rdquo;.
       </p>
     </div>
   );

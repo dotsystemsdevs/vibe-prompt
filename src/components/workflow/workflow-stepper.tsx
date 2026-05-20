@@ -24,6 +24,7 @@ export type StepData = {
   emoji: string;
   whatThis: string;
   why: string;
+  timeEstimate?: string;
   tasks: TaskGroup[];
   commonMistakes: string[];
   resources: Resource[];
@@ -119,8 +120,9 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
             <h2 className="text-base font-semibold text-foreground/90 sm:text-sm">{s.title}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.whatThis}</p>
           </div>
-          {(taskCount > 0 || learnCount > 0) && (
+          {(taskCount > 0 || learnCount > 0 || s.timeEstimate) && (
             <div className="shrink-0 flex flex-col items-end gap-1 pt-0.5">
+              {s.timeEstimate && <span className="font-mono text-[10px] tabular-nums text-foreground/30">~{s.timeEstimate}</span>}
               {taskCount > 0 && <span className="font-mono text-[10px] tabular-nums text-foreground/25">{taskCount} tasks</span>}
               {learnCount > 0 && <span className="font-mono text-[10px] tabular-nums text-foreground/20">{learnCount} resources</span>}
             </div>

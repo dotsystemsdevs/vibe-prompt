@@ -5,6 +5,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "00",
     title: "Environment",
     emoji: "⚙️",
+    timeEstimate: "45 min",
     whatThis: "Get your terminal, editor, Git, Node.js, and AI tool working before you write a single line of code.",
     why: "Most beginners fail in setup chaos, not bad ideas. Lock this in once, you'll never think about it again.",
     tasks: [
@@ -76,10 +77,11 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
   },
   {
     step: "01",
-    title: "Research",
+    title: "Deep Research",
     emoji: "🔍",
-    whatThis: "Confirm the problem is real before writing any code. Use a chat AI with web search for deep research, not your IDE.",
-    why: "Most projects fail before the build starts. One hour here saves weeks of building the wrong thing.",
+    timeEstimate: "60-90 min",
+    whatThis: "Confirm the problem is real, the market exists, and the wedge is yours — before writing any code. Use a chat AI with web search, not your IDE.",
+    why: "Most projects fail before the build starts. One hour of real market validation saves weeks of building the wrong thing. Skipping this is the single most expensive mistake in vibe coding.",
     tasks: [
       {
         heading: "Checklist",
@@ -117,6 +119,14 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
             ],
           },
           {
+            text: "Talk to 5 potential users. DM them, ask about the problem (not your solution). Look for the same complaint 3+ times — that's the wedge.",
+            detail: "Skip if your idea is purely for yourself. Otherwise, 5 conversations beats any AI-generated research summary.",
+          },
+          {
+            text: "Quantify the wedge. What do users currently pay (in money, time, or annoyance) to solve this? If the answer is 'nothing,' the demand is weaker than it looks.",
+            detail: "$0 willing-to-pay is fine for hobby projects. For anything you want to monetize, find the existing price point.",
+          },
+          {
             text: "Write kill criteria before any code: 'If I can't find 10 real complaints in 1 hour → I stop.'",
             detail: "Write it now, in writing, before any code. You won't enforce it later if you don't commit now.",
           },
@@ -150,6 +160,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "02",
     title: "PRD",
     emoji: "📝",
+    timeEstimate: "30-45 min",
     whatThis: "Write one file that says exactly what you're building, why, and what success looks like. This is what you hand to AI at the start of every session.",
     why: "Without a spec, AI fills every gap with assumptions, and those assumptions ship. Most agent failures are context failures, not model failures.",
     tasks: [
@@ -214,6 +225,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "03",
     title: "Stack",
     emoji: "🎨",
+    timeEstimate: "20-30 min",
     whatThis: "Lock every technology decision in one file before writing any code. The AI picks whatever it was trained on most, not what fits your project.",
     why: "Mid-build stack changes cost ten times more than upfront decisions. No open choices past this step.",
     tasks: [
@@ -287,6 +299,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "04",
     title: "Context",
     emoji: "🗂️",
+    timeEstimate: "30-45 min",
     whatThis: "Build the memory system every AI session reads from, AGENTS.md plus a memory-bank folder. This is what separates a codebase that stays coherent from one that doesn't.",
     why: "Every new chat is a blank slate. Without a persistent context layer, every session drifts, different decisions, different conventions, broken consistency.",
     tasks: [
@@ -321,11 +334,12 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
             text: "Add a no-touch list: files the AI must never modify. Examples: `.env`, `package-lock.json`, critical config files.",
           },
           {
-            text: "Create a `memory-bank/` folder with these files: `@architecture.md` (file map, always read), `@design-doc.md` (your PRD, always read), `progress.md` (completed steps), `implementation-plan.md` (ordered task list).",
-            detail: "Files prefixed with @ are set as 'Always' rules in your tool. The AI reads them before every session.",
+            text: "Create a `memory-bank/` folder with these files: `@architecture.md` (file map, always read), `@design-doc.md` (your PRD, always read), `progress.md` (completed steps), `implementation-plan.md` (ordered task list), `MEMORY.md` (session continuity — what each agent learned).",
+            detail: "Files prefixed with @ are set as 'Always' rules in your tool. The AI reads them before every session. `MEMORY.md` is special: every agent appends to it when they finish, so the next session picks up where the last one stopped.",
             links: [
               { label: "Download @architecture.md template", href: "/templates/architecture.md" },
               { label: "Download implementation-plan.md template", href: "/templates/implementation-plan.md" },
+              { label: "Download MEMORY.md template", href: "/templates/MEMORY.md" },
               { label: "EnzeD memory-bank pattern", href: "https://github.com/EnzeD/vibe-coding" },
             ],
           },
@@ -362,6 +376,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "05",
     title: "Build",
     emoji: "🔄",
+    timeEstimate: "30-90 min / task",
     whatThis: "One task. Plan first. Execute. Verify. Commit. Start a new chat. Repeat. Planning is everything, do not let the AI plan autonomously.",
     why: "Big prompts produce big diffs. Big diffs don't get reviewed. Small loops mean smaller diffs, clean rollback points, and a codebase you can understand.",
     tasks: [
@@ -435,6 +450,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "06",
     title: "Quality",
     emoji: "🛡️",
+    timeEstimate: "45-60 min",
     whatThis: "Run a structured check before any code reaches production. You are the only gate. The AI that wrote the code is primed to defend it.",
     why: "AI code passes surface checks and misses subtle ones. Secrets leak. Spec drift accumulates quietly. Vibe-coded codebases have systematic blind spots.",
     tasks: [
@@ -499,6 +515,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "07",
     title: "Ship",
     emoji: "🚀",
+    timeEstimate: "60-90 min",
     whatThis: "Get a real URL in front of real people. Watch what they actually do.",
     why: "Localhost is fiction. Real users break assumptions you didn't know you had.",
     tasks: [
@@ -556,6 +573,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "08",
     title: "Launch",
     emoji: "📣",
+    timeEstimate: "2-4h / channel",
     whatThis: "Get the first 100 real users. Reddit, Show HN, Product Hunt, Twitter, the channels that work for indie builders.",
     why: "A live URL with zero users is the same as no URL. Distribution is the #1 reason indie products fail — more than product quality, more than capital.",
     tasks: [
@@ -657,6 +675,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "09",
     title: "Iterate",
     emoji: "🔁",
+    timeEstimate: "ongoing",
     whatThis: "Use real behavior data to decide what to fix next. Not gut feelings. Not user requests. Behavior.",
     why: "What users say and what users do are different data. Iterating without session data is guessing with extra steps.",
     tasks: [

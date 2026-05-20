@@ -200,9 +200,17 @@ export function Footer() {
               )}
 
               <div className="mt-6">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
-                  More from Dot Systems
-                </p>
+                <div className="flex items-baseline gap-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+                    More from Dot Systems
+                  </p>
+                  <Link
+                    href="/built-with"
+                    className="text-[10px] text-foreground/35 transition-colors hover:text-foreground/70"
+                  >
+                    Built with vibeprompt →
+                  </Link>
+                </div>
                 <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px]">
                   {SISTER_PROJECTS.map((p, i) => (
                     <span key={p.name} className="inline-flex items-center gap-3">

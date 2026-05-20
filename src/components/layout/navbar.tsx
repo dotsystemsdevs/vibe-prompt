@@ -8,7 +8,7 @@ import { CommandPaletteTrigger } from "@/components/search/command-palette";
 
 const NAV_LINKS = [
   { href: "/workflow", label: "Workflow" },
-  { href: "/generator", label: "Generator" },
+  { href: "/toolbox", label: "Toolbox" },
   { href: "/browse", label: "Prompts" },
   { href: "/articles", label: "Articles" },
   { href: "/awesome", label: "Awesome" },
