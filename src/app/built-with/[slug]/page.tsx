@@ -75,7 +75,7 @@ export default async function ProjectPostmortem({ params }: { params: Promise<{ 
           ← All projects
         </Link>
 
-        <PageHeader kicker="Built with vibeprompt" title={p.name}>
+        <PageHeader accent="blue" kicker="Built with vibeprompt" title={p.name}>
           <div className="mt-3 flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

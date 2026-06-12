@@ -91,18 +91,6 @@ export const BUILT_WITH_PROJECTS: BuiltWithProject[] = [
     workflowSteps: "Stripped-down version of 02-07. Skipped Step 04 (Context) entirely — too small to need a memory-bank.",
   },
   {
-    name: "Indexia",
-    iconDomain: "indexia.se",
-    oneLine: "AI-SEO and GEO (generative engine optimization) for Swedish businesses. Currently in customer outreach.",
-    url: "https://indexia.se",
-    surfaces: ["Web"],
-    stack: "Next.js · Supabase · Resend",
-    status: "Live · 50+ cold-outreach emails sent, conversation in progress",
-    whatWorked: "Step 04 (Context) — AGENTS.md locked the Swedish-language constraints and tone. Every prompt came out in correct Swedish first try.",
-    whatBroke: "Step 08 outreach: first batch of 30 emails got 1 reply. Wrote the 'cold outreach for indie devs' fix recipe after this.",
-    workflowSteps: "01-09 with heavy emphasis on Step 08 (Launch). Outreach is the entire product strategy for this one.",
-  },
-  {
     name: "Slothy",
     iconDomain: "slothy.app",
     oneLine: "Productivity app for people who hate productivity apps. iOS + Android.",

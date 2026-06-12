@@ -85,7 +85,7 @@ export default async function WeeklyIssuePage({ params }: { params: Promise<{ sl
           ← All issues
         </Link>
 
-        <PageHeader kicker="The Weekly Fix" title={issue.title}>
+        <PageHeader accent="purple" kicker="The Weekly Fix" title={issue.title}>
           <div className="text-meta mt-3 flex flex-wrap items-center gap-2">
             <time dateTime={issue.date}>{formatDate(issue.date)}</time>
             <span aria-hidden>·</span>

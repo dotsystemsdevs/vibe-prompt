@@ -71,7 +71,7 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           ← All fixes
         </Link>
 
-        <PageHeader kicker={`${categoryLabel} failure`} title={p.title} />
+        <PageHeader accent="red" kicker={`${categoryLabel} failure`} title={p.title} />
 
         <FixActions title={p.title} answer={p.answer} path={`/fixes/${p.id}`} />
 

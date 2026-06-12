@@ -37,6 +37,7 @@ export default function FixesPage() {
       <div className="page-shell-wide">
         <PageHeader
           emoji="🚑"
+          accent="red"
           kicker="The AI build failure database"
           title="AI broke your build? Search the fix."
           lede={`${fixCount} failures and the fix for each. Search before you ask Claude.`}

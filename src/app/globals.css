@@ -630,7 +630,7 @@ html {
     letter-spacing: 0.12em;
     font-size: 10.5px;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--page-accent, var(--accent));
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -640,7 +640,7 @@ html {
     display: inline-block;
     width: 14px;
     height: 1px;
-    background: var(--accent);
+    background: var(--page-accent, var(--accent));
   }
   .page-header .page-title {
     font-family: var(--font-sans), ui-sans-serif, sans-serif;
@@ -659,9 +659,17 @@ html {
     margin-top: 0.85rem;
     max-width: 38rem;
   }
-  /* Optional emoji mark above the kicker — keeps page openers uniform. */
+  /* Emoji landmark — a tinted tile (the page's one accent), like a Notion
+     page icon. Falls back to the neutral ink tint when no accent is set. */
   .page-header .page-emoji {
-    font-size: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-md);
+    background-color: var(--page-accent-soft, var(--accent-soft));
+    font-size: 26px;
     line-height: 1;
     margin-bottom: 1rem;
   }
@@ -875,6 +883,16 @@ html {
   --error-soft: rgba(178, 58, 58, 0.10);
   --info: var(--accent);
   --info-soft: var(--accent-soft);
+
+  /* Per-page accents — one muted tint per surface, used only as a landmark
+     (emoji tile + kicker), never as a loud fill. Pages set --page-accent /
+     --page-accent-soft via the PageHeader; everything else falls back to ink. */
+  --page-red: #A23B3B;     --page-red-soft: rgba(162, 59, 59, 0.09);
+  --page-amber: #946A14;   --page-amber-soft: rgba(148, 106, 20, 0.12);
+  --page-blue: #355E97;    --page-blue-soft: rgba(53, 94, 151, 0.09);
+  --page-purple: #5F4C97;  --page-purple-soft: rgba(95, 76, 151, 0.10);
+  --page-green: #2C724B;   --page-green-soft: rgba(44, 114, 75, 0.10);
+  --page-orange: #A65A2E;  --page-orange-soft: rgba(166, 90, 46, 0.10);
 }
 
 @theme inline {

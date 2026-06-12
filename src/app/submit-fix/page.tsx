@@ -15,6 +15,7 @@ export default function SubmitFixPage() {
       <div className="page-shell">
         <PageHeader
           emoji="🛠️"
+          accent="red"
           kicker="Contribute"
           title="Submit the fix that saved your build."
           lede="Failures are the moat. If AI broke your build and you found the fix, submit it so the next builder does not lose three hours."

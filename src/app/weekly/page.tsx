@@ -45,6 +45,7 @@ export default function WeeklyPage() {
       <div className="page-shell">
         <PageHeader
           emoji="📬"
+          accent="purple"
           kicker="The Weekly Fix"
           title="The Weekly Fix"
           lede="One AI build failure, the fix, and the prompt that solves it. Read every past issue below, or get the next one in your inbox."

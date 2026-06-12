@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import type { StepData, StepRelated, TaskItem } from "./workflow-stepper";
 import { LIST_CATEGORY_LABEL } from "@/lib/list-problems";
 
@@ -200,7 +200,10 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
   const hasRelated = !!related && (related.articles.length > 0 || related.fixes.length > 0);
 
   return (
-    <div className="w-full">
+    <div
+      className="w-full"
+      style={{ "--page-accent": "var(--page-amber)", "--page-accent-soft": "var(--page-amber-soft)" } as CSSProperties}
+    >
 
       {/* Step picker — horizontal scrollable strip, only on smaller screens
           where the app sidebar isn't visible. On lg+ the app sidebar already
@@ -253,18 +256,18 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
           {/* Subtle accent wash for a touch of depth */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[color:var(--accent-soft)] via-transparent to-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[color:var(--page-accent-soft)] via-transparent to-transparent"
           />
 
           <div className="relative p-5 sm:p-6">
             <div className="flex items-start gap-4">
               {active.emoji && (
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] text-[24px] leading-none shadow-[0_1px_2px_rgba(33,31,28,0.06)]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--page-accent-soft)] text-[24px] leading-none shadow-[0_1px_2px_rgba(33,31,28,0.06)]">
                   <span aria-hidden>{active.emoji}</span>
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">
+                <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--page-accent)]">
                   {/^\d+$/.test(active.step) ? `Recipe ${active.step}` : "Before you begin"}
                 </span>
                 <h2 className="mt-1.5 text-[26px] sm:text-[32px] font-bold leading-[1.1] tracking-tight text-[color:var(--ink)]">

@@ -7,12 +7,12 @@ import { BUILT_WITH_PROJECTS, SURFACE_LABEL, faviconUrl, builtWithSlug } from "@
 export const metadata: Metadata = {
   title: "Built with vibeprompt: apps shipped using the 10-step workflow",
   description:
-    "Six indie apps shipped using vibeprompt's workflow + prompts. iOS, Android, and web. Live URLs, what stack, what we learned, what broke. Not aspirational, actually shipped.",
+    "Five indie apps shipped using vibeprompt's workflow + prompts. iOS, Android, and web. Live URLs, what stack, what we learned, what broke. Not aspirational, actually shipped.",
   alternates: { canonical: "/built-with" },
   keywords: "built with vibeprompt, vibe coding case study, indie app showcase, ai coded app examples, claude code shipped apps",
   openGraph: {
     title: "Built with vibeprompt: the apps, the URLs, what broke",
-    description: "Six indie apps shipped end-to-end using vibeprompt's 10-step workflow.",
+    description: "Five indie apps shipped end-to-end using vibeprompt's 10-step workflow.",
     url: "https://vibeprompt.tech/built-with",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
   },
@@ -24,8 +24,9 @@ export default function BuiltWithPage() {
       <div className="page-shell-wide">
         <PageHeader
           emoji="🚀"
+          accent="blue"
           title="Built with vibeprompt"
-          lede="Six indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
+          lede="Five indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
         />
 
         <Reveal>
@@ -36,7 +37,7 @@ export default function BuiltWithPage() {
               them broke in some specific way that became a fix recipe on this site.
             </p>
             <p className="text-body mt-4">
-              All six were built by the same solo dev (the maintainer of this site). The workflow
+              All five were built by the same solo dev (the maintainer of this site). The workflow
               didn&rsquo;t come from a book. It came from the patterns that survived across these
               projects.
             </p>

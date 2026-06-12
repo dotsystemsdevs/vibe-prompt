@@ -28,6 +28,7 @@ export default async function AwesomePage() {
       <div className="page-shell">
         <PageHeader
           emoji="🧰"
+          accent="green"
           title="Awesome list"
           lede={
             <>
