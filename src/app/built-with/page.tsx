@@ -25,6 +25,7 @@ export default function BuiltWithPage() {
         <PageHeader
           emoji="🚀"
           accent="blue"
+          kicker="Case studies"
           title="Built with vibeprompt"
           lede="Five indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
         />

@@ -249,18 +249,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
         <div className="min-w-0">
 
         {/* Recipe header card */}
-        <header
-          className={`relative mb-6 overflow-hidden rounded-xl border bg-[color:var(--paper)] transition-colors ${
-            stepFinished ? "border-[color:var(--accent)]" : "border-[color:var(--ink-rule)]"
-          }`}
-        >
-          {/* Subtle accent wash for a touch of depth */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[color:var(--page-accent-soft)] via-transparent to-transparent"
-          />
-
-          <div className="relative p-5 sm:p-6">
+        <header className="mb-8 border-b border-[color:var(--ink-rule)] pb-6">
             <div className="flex items-start gap-4">
               {active.emoji && (
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--page-accent-soft)] text-[24px] leading-none shadow-[0_1px_2px_rgba(33,31,28,0.06)]">
@@ -317,15 +306,14 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                 />
               </div>
             )}
-          </div>
         </header>
 
         {/* Task groups — Learn is split out into the side rail */}
         {actionableGroups.map((group, gi) => {
           return (
-            <section key={gi} className="mb-4 overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
+            <section key={gi} className="mb-8">
               {group.heading && (
-                <div className="flex items-center justify-between gap-3 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-2.5 sm:px-5">
+                <div className="mb-3 flex items-center justify-between gap-3">
                   <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
                     <span aria-hidden className="text-[12px] leading-none">{headingEmoji(group.heading)}</span>
                     {group.heading}
@@ -336,11 +324,11 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                 </div>
               )}
               {group.description && (
-                <p className="px-4 pt-3.5 text-meta sm:px-5">
+                <p className="mb-3 text-meta">
                   {group.description}
                 </p>
               )}
-              <ol className="divide-y divide-[color:var(--ink-rule)]">
+              <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
                 {group.items.map(({ item, idx }, ii) => {
                   const key = `step-${active.step}-${idx}`;
                   const done = !!checked[key];
@@ -430,12 +418,12 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
 
         {/* Resources aside — same boxed shell as the checklist sections */}
         <aside className="mt-8 lg:mt-0">
-          <div className="lg:sticky lg:top-6 space-y-4">
+          <div className="lg:sticky lg:top-6 space-y-7">
 
             {/* Tools & links pulled straight from this recipe's tasks */}
             {stepLinks.length > 0 && (
-              <section className="overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                <div className="flex items-center justify-between gap-3 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-2.5">
+              <section>
+                <div className="mb-2 flex items-center justify-between gap-3">
                   <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
                     <span aria-hidden className="text-[12px] leading-none">🧰</span>
                     Tools &amp; links
@@ -444,7 +432,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                     {stepLinks.length.toString().padStart(2, "0")}
                   </span>
                 </div>
-                <ul className="space-y-0.5 p-2">
+                <ul className="space-y-0.5">
                   {stepLinks.map((link) => (
                     <li key={link.href}>
                       <a
@@ -467,8 +455,8 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
 
             {/* Learn — watch/read videos lifted out of the checklist */}
             {learnLinks.length > 0 && (
-              <section className="overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                <div className="flex items-center justify-between gap-3 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-2.5">
+              <section>
+                <div className="mb-2 flex items-center justify-between gap-3">
                   <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
                     <span aria-hidden className="text-[12px] leading-none">🎥</span>
                     Learn
@@ -477,7 +465,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                     {learnLinks.length.toString().padStart(2, "0")}
                   </span>
                 </div>
-                <ul className="space-y-0.5 p-2">
+                <ul className="space-y-0.5">
                   {learnLinks.map((l) => (
                     <li key={l.href}>
                       <a
@@ -502,14 +490,14 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
 
             {/* Related reading from the library */}
             {hasRelated && (
-              <section className="overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                <div className="flex items-center gap-1.5 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-2.5">
+              <section>
+                <div className="mb-2 flex items-center gap-1.5">
                   <span aria-hidden className="text-[12px] leading-none">📚</span>
                   <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
                     Related reading
                   </p>
                 </div>
-                <div className="p-2">
+                <div>
                   {related!.articles.length > 0 && (
                     <ul className="space-y-0.5">
                       {related!.articles.map((a) => (
@@ -557,14 +545,14 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
 
             {/* Fallback — a contents list so the rail is never empty */}
             {stepLinks.length === 0 && learnLinks.length === 0 && !hasRelated && (
-              <section className="overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                <div className="flex items-center gap-1.5 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-2.5">
+              <section>
+                <div className="mb-2 flex items-center gap-1.5">
                   <span aria-hidden className="text-[12px] leading-none">📋</span>
                   <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
                     In this recipe
                   </p>
                 </div>
-                <ol className="space-y-1.5 p-3">
+                <ol className="space-y-1.5">
                   {activeItems.map(({ item }, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span aria-hidden className="mt-px font-mono text-[10.5px] tabular-nums leading-snug text-[color:var(--ink-faded)]">
@@ -602,7 +590,7 @@ function TaskRow({ item, done, onToggle, index }: { item: TaskItem; done: boolea
           }
         }}
         aria-pressed={done}
-        className={`group flex items-start gap-3 cursor-pointer px-4 py-4 transition-colors sm:px-5 ${
+        className={`group flex items-start gap-3 cursor-pointer rounded-lg px-3 py-4 transition-colors ${
           done ? "opacity-55" : "hover:bg-[color:var(--accent-soft)]"
         }`}
       >
