@@ -11,7 +11,9 @@ const TYPE_LABEL: Record<SearchItem["type"], string> = {
   page: "Page",
 };
 
-const TYPE_ORDER: SearchItem["type"][] = ["page", "article", "problem", "prompt"];
+// Fixes rank right after pages — searching a failure ("cursor lost context")
+// should surface the fix first, ahead of articles and prompts.
+const TYPE_ORDER: SearchItem["type"][] = ["page", "problem", "article", "prompt"];
 
 export function CommandPalette({ data }: { data: SearchItem[] }) {
   const [open, setOpen] = useState(false);
@@ -115,7 +117,7 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onInputKey}
-            placeholder="Search articles, prompts, fixes, pages..."
+            placeholder="Search fixes, articles, prompts, pages..."
             className="flex-1 bg-transparent text-body text-[color:var(--ink)] placeholder:text-[color:var(--ink-faded)] outline-none"
             autoComplete="off"
             aria-label="Search query"

@@ -2,24 +2,47 @@
 
 import { useState } from "react";
 
+type Status = "idle" | "loading" | "done" | "error";
+
 /**
  * "The Weekly Fix" newsletter capture.
  *
- * UI-only for now — there is no email backend wired up yet. On submit it just
- * shows a local confirmation so the flow feels real.
- *
- * TODO(email): wire to an email provider (Buttondown / ConvertKit / Fastmail).
- * POST the address to a /api/subscribe route and handle errors + double opt-in.
+ * Posts to /api/subscribe, which routes to Buttondown (preferred) or Vercel KV.
+ * Until one of those is configured the API returns 503 and we show a graceful
+ * "not live yet" message — the form never crashes.
  */
 export function NewsletterCta() {
   const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.trim() || !email.includes("@")) return;
-    // TODO(email): replace this local-only confirmation with a real subscribe call.
-    setDone(true);
+    if (status === "loading") return;
+    if (!email.trim() || !email.includes("@")) {
+      setStatus("error");
+      setError("Enter a valid email address.");
+      return;
+    }
+    setStatus("loading");
+    setError("");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      if (res.ok) {
+        setStatus("done");
+        return;
+      }
+      const data = await res.json().catch(() => null);
+      setStatus("error");
+      setError(data?.error ?? "Something went wrong. Try again.");
+    } catch {
+      setStatus("error");
+      setError("Network error. Try again.");
+    }
   }
 
   return (
@@ -33,24 +56,38 @@ export function NewsletterCta() {
         One real AI-building failure, the fix, and the prompt that solves it. Sent weekly. No spam, unsubscribe anytime.
       </p>
 
-      {done ? (
+      {status === "done" ? (
         <p className="text-body mt-5 inline-flex items-center gap-2 font-medium text-[color:var(--success)]">
           <span aria-hidden>✓</span> You&rsquo;re on the list. The next fix lands in your inbox.
         </p>
       ) : (
-        <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-center">
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            aria-label="Email address"
-            className="vp-input sm:max-w-xs"
-          />
-          <button type="submit" className="btn-primary justify-center">
-            Get weekly fixes
-            <span aria-hidden>→</span>
+        <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:items-start">
+          <div className="flex-1 sm:max-w-xs">
+            <label htmlFor="weekly-fix-email" className="sr-only">
+              Email address
+            </label>
+            <input
+              id="weekly-fix-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (status === "error") setStatus("idle");
+              }}
+              placeholder="you@example.com"
+              aria-invalid={status === "error"}
+              className="vp-input"
+            />
+            {status === "error" && (
+              <p role="alert" className="text-meta mt-1.5 text-[color:var(--error)]">
+                {error}
+              </p>
+            )}
+          </div>
+          <button type="submit" disabled={status === "loading"} className="btn-primary justify-center">
+            {status === "loading" ? "Subscribing…" : "Get weekly fixes"}
+            {status !== "loading" && <span aria-hidden>→</span>}
           </button>
         </form>
       )}
