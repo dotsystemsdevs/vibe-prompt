@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
+import { BUILT_WITH_PROJECTS } from "@/lib/built-with-data";
 import { getSiteStats } from "@/lib/site-stats";
 
 export default async function HomePage() {
   const stats = await getSiteStats();
   const recipeCount = WORKFLOW_STEPS.length;
 
+  // Real shipped apps, named, as a quiet proof line (not a section).
+  const appNames = BUILT_WITH_PROJECTS.map((p) => p.name).filter((n) => n !== "vibeprompt itself");
+
   // The whole product, three doors. Learn → Fix → Proof.
   const PATHS = [
     { eyebrow: "Learn", title: `The ${recipeCount}-step method`, desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
     { eyebrow: "Fix", title: `${stats.fixes} failures`, desc: "The fix for each one.", href: "/fixes" },
-    { eyebrow: "Proof", title: `${stats.apps} shipped apps`, desc: "What worked, what broke.", href: "/built-with" },
+    { eyebrow: "Proof", title: `${stats.apps} shipped apps`, desc: "What worked, what broke, what we'd change.", href: "/built-with" },
   ];
 
   const schemaOrg = {
@@ -33,14 +37,17 @@ export default async function HomePage() {
       {/* One screen. Vertically centered on desktop, no scroll. */}
       <div className="mx-auto flex w-full max-w-3xl flex-col justify-center px-6 py-16 sm:px-8 lg:h-full lg:py-0">
 
-        {/* Hero — curiosity, not description */}
+        {/* Hero — curiosity, then one line of context */}
         <h1 className="font-bold tracking-[-0.03em] leading-[1.06] text-[color:var(--ink)] text-[clamp(2.2rem,4vw+0.8rem,3.6rem)]">
           AI got you 80% of the way.
           <br />
           The last 20% is why projects die.
         </h1>
+        <p className="text-body-lg mt-5 max-w-xl">
+          The fixes, workflow, and postmortems behind {stats.apps} shipped AI-built products.
+        </p>
 
-        <div className="mt-9">
+        <div className="mt-8">
           <Link href="/fixes" className="btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <circle cx="11" cy="11" r="7" />
@@ -65,6 +72,9 @@ export default async function HomePage() {
             </Link>
           ))}
         </nav>
+
+        {/* Quiet proof — real apps, named */}
+        <p className="text-meta mt-14">Built while shipping {appNames.join(", ")}.</p>
       </div>
     </>
   );

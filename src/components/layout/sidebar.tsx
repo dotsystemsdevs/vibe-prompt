@@ -53,6 +53,9 @@ const MORE: NavGroup[] = [
   { href: "/cookie-policy", icon: "🍪", label: "Cookies", match: (p) => p === "/cookie-policy" },
 ];
 
+// Everything secondary collapses behind one "Resources" disclosure.
+const SECONDARY: NavGroup[] = [...RESOURCES, ...MORE];
+
 export function Sidebar() {
   const pathname = usePathname() || "/";
   const onCookbook = pathname === "/workflow";
@@ -71,6 +74,13 @@ export function Sidebar() {
   useEffect(() => {
     if (onCookbook) setCookbookOpen(true);
   }, [onCookbook]);
+
+  // Secondary nav stays collapsed until you open it, or land on one of its pages.
+  const onSecondary = SECONDARY.some((i) => i.match(pathname));
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  useEffect(() => {
+    if (onSecondary) setResourcesOpen(true);
+  }, [onSecondary]);
 
   return (
     <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
@@ -148,28 +158,37 @@ export function Sidebar() {
         </ol>
       </div>
 
-      {/* Resources — secondary */}
+      {/* Resources — collapsed by default; everything secondary lives here */}
       <div className="px-2 mt-6">
-        <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          Resources
-        </p>
-        <ol className="space-y-0.5">
-          {RESOURCES.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} />
-          ))}
-        </ol>
-      </div>
-
-      {/* More — utility */}
-      <div className="px-2 mt-6">
-        <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          More
-        </p>
-        <ol className="space-y-0.5">
-          {MORE.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} />
-          ))}
-        </ol>
+        <button
+          type="button"
+          onClick={() => setResourcesOpen((o) => !o)}
+          aria-expanded={resourcesOpen}
+          className="flex w-full items-center justify-between rounded-md px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink-soft)]"
+        >
+          <span>Resources</span>
+          <svg
+            width="11"
+            height="11"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+            className={`transition-transform ${resourcesOpen ? "rotate-90" : ""}`}
+          >
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        </button>
+        {resourcesOpen && (
+          <ol className="mt-1 space-y-0.5">
+            {SECONDARY.map((item) => (
+              <RootLink key={item.href} item={item} active={item.match(pathname)} />
+            ))}
+          </ol>
+        )}
       </div>
 
       <div className="flex-1" />
