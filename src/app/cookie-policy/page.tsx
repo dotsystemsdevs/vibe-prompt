@@ -10,10 +10,7 @@ export const metadata: Metadata = {
 };
 
 const LOCAL_STORAGE = [
-  { key: "vibeprompt-tasks-v1", what: "Which Cookbook steps you have checked off." },
-  { key: "vibeprompt-prd-draft-v1", what: "Your draft in the Cookbook PRD builder, so it is not lost on refresh." },
-  { key: "vp_saved_slugs_v1", what: "Items you have saved." },
-  { key: "vp_downvotes", what: "Things you have downvoted, so they stay hidden for you." },
+  { key: "vibeprompt-tasks-v1", what: "Which Cookbook steps you have checked off, so your progress survives a refresh." },
 ];
 
 export default function CookiePolicyPage() {
@@ -40,8 +37,8 @@ export default function CookiePolicyPage() {
           <section>
             <h2 className="section-title">What the site stores in your browser</h2>
             <p className="text-body-lg mt-3">
-              Instead of cookies, a few features use your browser&rsquo;s local storage. This stays on your device, is
-              never sent to us, and is only there to make the site work for you:
+              Instead of cookies, the Cookbook uses your browser&rsquo;s local storage to remember your progress. It
+              stays on your device, is never sent to us, and is only there to make the site work for you:
             </p>
             <div className="mt-5 divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
               {LOCAL_STORAGE.map((row) => (
@@ -57,8 +54,8 @@ export default function CookiePolicyPage() {
             <h2 className="section-title">How to clear it</h2>
             <p className="text-body-lg mt-3">
               Clear it anytime: in your browser, open developer tools, go to Application (or Storage), then Local
-              Storage, and delete the entries above, or use your browser&rsquo;s &ldquo;clear site data&rdquo; option
-              for this site. Clearing it just resets your progress and saved items; nothing else happens.
+              Storage, and delete the entry above, or use your browser&rsquo;s &ldquo;clear site data&rdquo; option
+              for this site. Clearing it just resets your Cookbook progress; nothing else happens.
             </p>
           </section>
 

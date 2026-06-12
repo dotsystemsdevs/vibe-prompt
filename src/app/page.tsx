@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 import { BUILT_WITH_PROJECTS } from "@/lib/built-with-data";
 import { getSiteStats } from "@/lib/site-stats";
@@ -6,15 +7,31 @@ import { getSiteStats } from "@/lib/site-stats";
 export default async function HomePage() {
   const stats = await getSiteStats();
   const recipeCount = WORKFLOW_STEPS.length;
-
-  // Real shipped apps, named, as a quiet proof line (not a section).
   const appNames = BUILT_WITH_PROJECTS.map((p) => p.name).filter((n) => n !== "vibeprompt itself");
 
-  // The whole product, three doors. Learn → Fix → Proof.
-  const PATHS = [
-    { eyebrow: "Learn", title: `The ${recipeCount}-step method`, desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
-    { eyebrow: "Fix", title: `${stats.fixes} failures`, desc: "The fix for each one.", href: "/fixes" },
-    { eyebrow: "Proof", title: `${stats.apps} shipped apps`, desc: "What worked, what broke, what we'd change.", href: "/built-with" },
+  // Three real artifacts, not three categories: a failure, a project, the method.
+  const DOORS = [
+    {
+      eyebrow: "A failure",
+      accent: "var(--page-red)",
+      title: "Tests pass, but the feature is broken.",
+      desc: `And ${stats.fixes - 1} more, each with the fix.`,
+      href: "/fixes/tests-pass-feature-broken",
+    },
+    {
+      eyebrow: "A project",
+      accent: "var(--page-blue)",
+      title: "Commitment Issues launched.",
+      desc: "Then the Stripe webhook went silent after a deploy.",
+      href: "/built-with/commitment-issues",
+    },
+    {
+      eyebrow: "The method",
+      accent: "var(--page-amber)",
+      title: `The ${recipeCount} steps behind every app.`,
+      desc: "Idea to shipped, nothing skipped.",
+      href: "/workflow",
+    },
   ];
 
   const schemaOrg = {
@@ -37,14 +54,14 @@ export default async function HomePage() {
       {/* One screen. Vertically centered on desktop, no scroll. */}
       <div className="mx-auto flex w-full max-w-3xl flex-col justify-center px-6 py-16 sm:px-8 lg:h-full lg:py-0">
 
-        {/* Hero — curiosity, then one line of context */}
+        {/* Hero — curiosity, then one concrete line of context */}
         <h1 className="font-bold tracking-[-0.03em] leading-[1.06] text-[color:var(--ink)] text-[clamp(2.2rem,4vw+0.8rem,3.6rem)]">
           AI got you 80% of the way.
           <br />
           The last 20% is why projects die.
         </h1>
         <p className="text-body-lg mt-5 max-w-xl">
-          The fixes, workflow, and postmortems behind {stats.apps} shipped AI-built products.
+          Everything that broke shipping {stats.apps} real apps, and the fix for each.
         </p>
 
         <div className="mt-8">
@@ -57,18 +74,23 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {/* Three paths — typography, no boxes */}
-        <nav aria-label="Where to go" className="mt-16 grid gap-x-8 gap-y-7 sm:grid-cols-3">
-          {PATHS.map((p) => (
-            <Link key={p.href} href={p.href} className="group block">
-              <p className="text-label text-[color:var(--accent)]">{p.eyebrow}</p>
-              <p className="mt-1.5 text-[19px] font-semibold tracking-tight text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
-                {p.title}
+        {/* Three doors — each is a real artifact, not a category */}
+        <nav aria-label="Where to go" className="mt-16 grid gap-x-8 gap-y-8 sm:grid-cols-3">
+          {DOORS.map((d) => (
+            <Link
+              key={d.href}
+              href={d.href}
+              className="group block"
+              style={{ "--page-accent": d.accent } as CSSProperties}
+            >
+              <p className="text-label text-[color:var(--page-accent)]">{d.eyebrow}</p>
+              <p className="mt-1.5 text-[18px] font-semibold leading-snug tracking-tight text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--page-accent)]">
+                {d.title}
                 <span aria-hidden className="ml-1 inline-block opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100">
                   →
                 </span>
               </p>
-              <p className="text-body mt-1">{p.desc}</p>
+              <p className="text-body mt-1.5">{d.desc}</p>
             </Link>
           ))}
         </nav>
