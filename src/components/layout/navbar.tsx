@@ -25,6 +25,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/about": "About",
   "/faq": "FAQ",
   "/privacy": "Privacy",
+  "/cookie-policy": "Cookies",
 };
 
 const PAGE_ICONS: Record<string, string> = {
@@ -39,6 +40,7 @@ const PAGE_ICONS: Record<string, string> = {
   "/about": "👋",
   "/faq": "❓",
   "/privacy": "🔒",
+  "/cookie-policy": "🍪",
 };
 
 function dispatchOpenSearch() {
@@ -164,7 +166,7 @@ export function Navbar() {
         >
           <nav aria-label="Mobile primary" className="grid gap-0.5 text-[14px]">
             {Object.entries(PAGE_TITLES)
-              .filter(([href]) => href !== "/" && href !== "/privacy")
+              .filter(([href]) => href !== "/")
               .map(([href, title]) => {
                 const active = pathname === href || (href !== "/" && pathname.startsWith(href + "/"));
                 const rowCls = active

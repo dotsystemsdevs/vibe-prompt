@@ -297,19 +297,25 @@ export function SubmitFixForm() {
         />
       </div>
 
-      {/* Consent */}
-      <div>
+      {/* Attribution consent (optional) + privacy note */}
+      <div className="space-y-2.5">
         <label className="flex items-start gap-2.5 text-[13.5px] text-[color:var(--ink-soft)]">
           <input
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0 accent-[color:var(--accent)]"
-            aria-invalid={!!fields.consent}
           />
-          <span>VibePrompt may publish this fix with attribution.</span>
+          <span>Credit me by name (and link) if this fix is published. Leave unchecked to stay anonymous.</span>
         </label>
-        <FieldError msg={fields.consent} />
+        <p className="text-meta">
+          We review every submission before anything is published. Your email is only used to review and follow up, and
+          is never published or shared. See the{" "}
+          <Link href="/privacy" className="vp-link">
+            privacy page
+          </Link>
+          .
+        </p>
       </div>
 
       {generalError && (
@@ -318,12 +324,11 @@ export function SubmitFixForm() {
         </p>
       )}
 
-      <div className="flex items-center gap-3 pt-1">
+      <div className="pt-1">
         <button type="submit" disabled={status === "loading"} className="btn-primary">
           {status === "loading" ? "Submitting…" : "Submit the fix"}
           {status !== "loading" && <span aria-hidden>→</span>}
         </button>
-        <span className="text-meta">Reviewed before publishing. No spam.</span>
       </div>
     </form>
   );

@@ -68,9 +68,9 @@ export async function POST(req: NextRequest) {
   if (!LIST_CATEGORIES.includes(category)) fields.category = "Pick a category.";
   if (whatHappened.length < 20) fields.whatHappened = "Add a little more detail on what happened.";
   if (howFixed.length < 20) fields.howFixed = "Describe the fix in a little more detail.";
-  if (!name) fields.name = "Add your name for attribution.";
+  if (!name) fields.name = "Add your name so we can credit you (or follow up).";
   if (!EMAIL_RE.test(email)) fields.email = "Enter a valid email address.";
-  if (!consent) fields.consent = "Please confirm we can publish with attribution.";
+  // Consent is optional: it only controls whether we publish your name/link.
 
   if (Object.keys(fields).length > 0) {
     return NextResponse.json({ error: "Please fix the highlighted fields.", fields }, { status: 400 });
@@ -123,8 +123,10 @@ export async function POST(req: NextRequest) {
         errorLog ? "\n### Error / log\n```\n" + errorLog + "\n```" : "",
         "",
         "---",
-        `Submitted by **${name}**${link ? ` (${link})` : ""} · ${email}`,
-        `_Consent to publish with attribution: yes._`,
+        submission.consent && name
+          ? `Submitted by **${name}**${link ? ` (${link})` : ""}, consented to attribution.`
+          : "Submitted without attribution consent (name and link withheld from this public issue).",
+        "_The submitter's email is kept private for review only and is not included here._",
       ]
         .filter((l) => l !== "")
         .join("\n");

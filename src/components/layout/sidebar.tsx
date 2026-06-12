@@ -50,6 +50,7 @@ const MORE: NavGroup[] = [
   { href: "/faq", icon: "❓", label: "FAQ", match: (p) => p === "/faq" },
   { href: "/about", icon: "👋", label: "About", match: (p) => p === "/about" },
   { href: "/privacy", icon: "🔒", label: "Privacy", match: (p) => p === "/privacy" },
+  { href: "/cookie-policy", icon: "🍪", label: "Cookies", match: (p) => p === "/cookie-policy" },
 ];
 
 export function Sidebar() {
