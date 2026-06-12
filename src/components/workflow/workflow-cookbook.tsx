@@ -166,8 +166,9 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
     : 0;
   // The step counts as finished when every actionable task is checked.
   const stepFinished = mounted && activeItems.length > 0 && totalDone === activeItems.length;
-  // Next button stays muted until the current step is done, then "activates".
-  const needsWork = mounted && activeItems.length > 0 && totalDone < activeItems.length;
+  // Next button stays muted (and shows no checkmark) until the step is actually
+  // finished — including before hydration and on task-less steps.
+  const needsWork = !stepFinished;
   const related = relatedByStep?.[active.step];
 
   // Tools & links — unique links from the ACTIONABLE tasks only (no videos).
