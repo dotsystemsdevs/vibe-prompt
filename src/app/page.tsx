@@ -1,60 +1,75 @@
 import Link from "next/link";
-import { getPromptLibrary } from "@/lib/prompt-library";
-import { getAllArticles } from "@/lib/articles";
-import { LIST_PROBLEMS } from "@/lib/list-problems";
+import { LIST_PROBLEMS, LIST_CATEGORY_LABEL, type ListProblem } from "@/lib/list-problems";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
-import { BUILT_WITH_PROJECTS } from "@/lib/built-with-data";
+import { getSiteStats } from "@/lib/site-stats";
+import { StatsRow } from "@/components/site/stats-row";
+import { NewsletterCta } from "@/components/fixes/newsletter-cta";
+
+// A punchy, recognizable spread of failures for the homepage teaser.
+const EXAMPLE_IDS = [
+  "last-20-percent",
+  "ai-confidently-wrong",
+  "dont-know-codebase",
+  "tests-pass-feature-broken",
+  "ai-code-security-holes",
+  "code-duplication-pile",
+];
 
 export default async function HomePage() {
-  const { prompts } = await getPromptLibrary();
-  const articles = await getAllArticles();
-  const fixesCount = LIST_PROBLEMS.length;
-  const articlesCount = articles.length;
-  const promptsCount = prompts.length;
+  const stats = await getSiteStats();
   const recipeCount = WORKFLOW_STEPS.length;
-  const builtCount = BUILT_WITH_PROJECTS.length;
+
+  let examples: ListProblem[] = EXAMPLE_IDS.map((id) => LIST_PROBLEMS.find((p) => p.id === id)).filter(
+    (p): p is ListProblem => Boolean(p)
+  );
+  if (examples.length < 6) examples = LIST_PROBLEMS.slice(0, 6);
+
+  const FEATURES = [
+    { emoji: "🚑", title: `${stats.fixes} fixes`, desc: "For the exact failures AI hits when you ship.", href: "/fixes" },
+    { emoji: "✍️", title: `${stats.prompts} prompts`, desc: "Copy-paste for every stage, planning to polish.", href: "/workflow" },
+    { emoji: "🚀", title: `${recipeCount}-step workflow`, desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
+  ];
 
   const schemaOrg = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "vibeprompt",
-    description: `The vibe coding cookbook — recipes for shipping with AI. 10-step workflow, ${promptsCount} battle-tested prompts, ${fixesCount} field-tested fixes, and ${articlesCount} deep-dives. Free, open source, web-native.`,
+    description: `The AI build failure database and vibe coding cookbook: ${stats.fixes} field-tested fixes, a ${recipeCount}-step workflow, ${stats.prompts} prompts, and ${stats.articles} deep-dives. Free, open source, no sign-up.`,
     url: "https://vibeprompt.tech",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    keywords: "vibe coding, vibe coding cookbook, AI prompts, prompt library, Claude prompts, AI workflow, open source",
+    keywords:
+      "AI build failures, vibe coding, AI coding fixes, Claude Code, Cursor, prompt library, AI workflow, open source",
     creator: { "@type": "Organization", name: "vibeprompt", url: "https://vibeprompt.tech" },
   };
-
-  const FEATURES = [
-    { emoji: "✍️", title: `${promptsCount} prompts`, desc: "Copy-paste for every stage, from planning to polish." },
-    { emoji: "🛡️", title: `${fixesCount} fixes`, desc: "For when AI breaks your build or your launch stalls." },
-    { emoji: "🚀", title: `${recipeCount}-step workflow`, desc: "Idea to shipped, nothing skipped." },
-  ];
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }} />
 
-      <div className="mx-auto flex w-full max-w-3xl flex-col justify-center px-6 py-14 sm:px-8 lg:h-full lg:overflow-hidden lg:py-0">
+      <div className="mx-auto w-full max-w-3xl px-6 py-14 sm:px-8 sm:py-16">
 
-        {/* Hero — Notion-style left-aligned */}
+        {/* Hero */}
         <div aria-hidden className="page-emoji">🍳</div>
-        <p className="page-kicker">
-          vibeprompt · the vibe coding cookbook
-        </p>
-        <h1 className="text-display mt-3">
-          Vibe code that actually ships.
-        </h1>
+        <p className="page-kicker">vibeprompt · the vibe coding cookbook</p>
+        <h1 className="text-display mt-3">Vibe code that actually ships.</h1>
         <p className="text-body-lg mt-4 max-w-xl">
-          A {recipeCount}-step playbook with {promptsCount} battle-tested prompts and {fixesCount} fixes
-          for when AI breaks your build. Free, open source, no sign-up.
+          AI got you 80% of the way, then broke your build. vibeprompt is the searchable database of{" "}
+          {stats.fixes} field-tested failures and their fixes, plus a {recipeCount}-step cookbook and {stats.prompts}{" "}
+          prompts. Free, open source, no sign-up.
         </p>
 
-        {/* CTAs */}
+        {/* CTAs — Fixes is now the primary action */}
         <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link href="/workflow" className="btn-primary">
+          <Link href="/fixes" className="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+            </svg>
+            Search the fixes
+          </Link>
+          <Link href="/workflow" className="btn-secondary">
             Open the cookbook
             <span aria-hidden>→</span>
           </Link>
@@ -62,36 +77,81 @@ export default async function HomePage() {
             href="https://github.com/dotsystemsdevs/vibe-prompt"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary"
+            className="btn-ghost"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.337 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.688-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.025a9.28 9.28 0 0 1 2.5-.337c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.025 2.75-1.025.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.688 0 3.837-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.575.688.475A10.005 10.005 0 0 0 22 12c0-5.525-4.475-10-10-10Z" />
-            </svg>
-            Star on GitHub
+            Star on GitHub ↗
           </a>
         </div>
 
-        {/* Notion-callout feature cards */}
-        <div className="mt-12 grid gap-3 sm:grid-cols-3">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="vp-card vp-fill vp-card-tight">
-              <div className="flex items-center gap-2">
-                <span aria-hidden className="text-[18px] leading-none">{f.emoji}</span>
-                <p className="text-body font-semibold text-[color:var(--ink)]">{f.title}</p>
-              </div>
-              <p className="text-body mt-1.5">{f.desc}</p>
-            </div>
-          ))}
+        {/* Authority layer */}
+        <div className="mt-12">
+          <StatsRow stats={stats} />
         </div>
 
-        {/* Trust line */}
-        <p className="text-meta mt-8">
-          Proven on{" "}
-          <Link href="/built-with" className="vp-link">
-            {builtCount} real indie apps
-          </Link>{" "}
-          shipped to iOS, Android, and web. MIT licensed.
-        </p>
+        {/* AI broke your build? — the Fixes teaser */}
+        <section className="mt-16">
+          <h2 className="section-title flex items-center gap-2">
+            <span aria-hidden className="text-[20px] leading-none">🚑</span>
+            AI broke your build?
+          </h2>
+          <p className="text-body mt-2 max-w-xl">
+            Search {stats.fixes} field-tested fixes for the exact problems vibe coders hit when shipping with AI.
+            Here are a few people search for most:
+          </p>
+
+          <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+            {examples.map((p) => (
+              <li key={p.id}>
+                <Link href={`/fixes/${p.id}`} className="group block vp-card-bordered vp-card-hover vp-card-tight h-full">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-body font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+                      {p.title}
+                    </span>
+                    <span aria-hidden className="shrink-0 text-label text-[color:var(--ink-faded)] opacity-0 transition-opacity group-hover:opacity-100">→</span>
+                  </div>
+                  <span className="vp-badge-outline vp-badge mt-2 inline-flex">{LIST_CATEGORY_LABEL[p.category]}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6">
+            <Link href="/fixes" className="btn-primary">
+              Browse all {stats.fixes} fixes
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* What's inside — feature cards */}
+        <section className="mt-16">
+          <div className="grid gap-3 sm:grid-cols-3">
+            {FEATURES.map((f) => (
+              <Link key={f.title} href={f.href} className="group block vp-card vp-fill vp-card-hover vp-card-tight">
+                <div className="flex items-center gap-2">
+                  <span aria-hidden className="text-[18px] leading-none">{f.emoji}</span>
+                  <p className="text-body font-semibold text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+                    {f.title}
+                  </p>
+                </div>
+                <p className="text-body mt-1.5">{f.desc}</p>
+              </Link>
+            ))}
+          </div>
+
+          <p className="text-meta mt-6">
+            Proven on{" "}
+            <Link href="/built-with" className="vp-link">
+              {stats.apps} real indie apps
+            </Link>{" "}
+            shipped to iOS, Android, and web. MIT licensed.
+          </p>
+        </section>
+
+        {/* Newsletter capture */}
+        <section className="mt-16">
+          <NewsletterCta />
+        </section>
       </div>
     </>
   );

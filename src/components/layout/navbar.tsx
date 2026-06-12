@@ -14,6 +14,7 @@ const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 
 const PAGE_TITLES: Record<string, string> = {
   "/": "vibeprompt",
+  "/fixes": "Fixes",
   "/workflow": "Cookbook",
   "/articles": "Articles",
   "/awesome": "Awesome list",
@@ -27,6 +28,7 @@ const PAGE_TITLES: Record<string, string> = {
 
 const PAGE_ICONS: Record<string, string> = {
   "/": "🏠",
+  "/fixes": "🚑",
   "/workflow": "🍳",
   "/articles": "📝",
   "/awesome": "🧰",
@@ -51,6 +53,10 @@ function pageInfo(pathname: string) {
   // Article detail
   if (pathname.startsWith("/articles/")) {
     return { title: "Article", icon: "📝", parent: { href: "/articles", title: "Articles", icon: "📝" } };
+  }
+  // Fix detail
+  if (pathname.startsWith("/fixes/")) {
+    return { title: "Fix", icon: "🚑", parent: { href: "/fixes", title: "Fixes", icon: "🚑" } };
   }
   return { title: "Page", icon: "📄" };
 }
