@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { WorkflowCookbook } from "@/components/workflow/workflow-cookbook";
-import type { StepRelated } from "@/components/workflow/workflow-stepper";
+import { WorkflowCookbook, type CookbookRelated } from "@/components/workflow/workflow-cookbook";
 import { WORKFLOW_PAGE_STEPS as STEPS } from "@/lib/workflow-data";
 import { WORKFLOW_RELATED } from "@/lib/workflow-related";
-import { getAllArticles, type ArticleMeta } from "@/lib/articles";
+import { getAllArticles } from "@/lib/articles";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
 
 export const metadata: Metadata = {
@@ -23,16 +22,20 @@ export const metadata: Metadata = {
 
 export default async function WorkflowPage() {
   const allArticles = await getAllArticles();
-  const relatedByStep: Record<string, StepRelated> = {};
+  // Only ship what the rail actually renders (title + id/slug). The full fix
+  // answers live on /fixes/[id]; sending them here just bloats the page.
+  const relatedByStep: Record<string, CookbookRelated> = {};
   for (const step of STEPS) {
     const map = WORKFLOW_RELATED[step.step];
     if (!map) continue;
-    const articles: ArticleMeta[] = (map.articleSlugs ?? [])
+    const articles = (map.articleSlugs ?? [])
       .map((slug) => allArticles.find((a) => a.slug === slug))
-      .filter((a): a is ArticleMeta => Boolean(a));
+      .filter((a) => Boolean(a))
+      .map((a) => ({ slug: a!.slug, title: a!.title }));
     const fixes = (map.fixIds ?? [])
       .map((id) => LIST_PROBLEMS.find((p) => p.id === id))
-      .filter((p): p is (typeof LIST_PROBLEMS)[number] => Boolean(p));
+      .filter((p) => Boolean(p))
+      .map((p) => ({ id: p!.id, title: p!.title }));
     if (articles.length > 0 || fixes.length > 0) {
       relatedByStep[step.step] = { articles, fixes };
     }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
-import type { StepData, StepRelated, TaskItem } from "./workflow-stepper";
+import type { StepData, TaskItem } from "./workflow-stepper";
 import { LIST_CATEGORY_LABEL } from "@/lib/list-problems";
 
 const STORAGE_KEY = "vibeprompt-tasks-v1";
@@ -71,9 +71,15 @@ function headingEmoji(heading: string): string {
   return "📋";
 }
 
+/** Only the fields the rail renders — keeps the page payload light. */
+export type CookbookRelated = {
+  articles: { slug: string; title: string }[];
+  fixes: { id: string; title: string }[];
+};
+
 interface WorkflowCookbookProps {
   steps: StepData[];
-  relatedByStep?: Record<string, StepRelated>;
+  relatedByStep?: Record<string, CookbookRelated>;
 }
 
 export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps) {
