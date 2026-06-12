@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LIST_CATEGORIES, LIST_CATEGORY_LABEL, type ListCategory } from "@/lib/list-problems";
-import { NewsletterCta } from "@/components/fixes/newsletter-cta";
+import { WeeklyFixLink } from "@/components/fixes/weekly-fix-link";
 
 const TOOLS = [
   "Cursor",
@@ -130,8 +130,10 @@ export function SubmitFixForm() {
               Submit another fix
             </button>
           </div>
+          <div className="mt-6 border-t border-[color:var(--ink-rule)] pt-5">
+            <WeeklyFixLink />
+          </div>
         </div>
-        <NewsletterCta />
       </div>
     );
   }

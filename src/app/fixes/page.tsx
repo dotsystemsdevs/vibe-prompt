@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
-import { NewsletterCta } from "@/components/fixes/newsletter-cta";
+import { WeeklyFixLink } from "@/components/fixes/weekly-fix-link";
 import { FixesClient } from "@/components/fixes/fixes-client";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
 
@@ -49,35 +49,16 @@ export default function FixesPage() {
           <FixesClient problems={LIST_PROBLEMS} />
         </div>
 
-        {/* Contribute + subscribe */}
-        <div className="mt-12 grid gap-4 lg:grid-cols-2">
-          <section className="vp-card-bordered vp-card-lg flex flex-col">
-            <p className="page-kicker">Contribute</p>
-            <h2 className="section-title mt-2 flex items-center gap-2">
-              <span aria-hidden className="text-[20px] leading-none">🛠️</span>
-              Hit a failure that&rsquo;s not here?
-            </h2>
-            <p className="text-body mt-2 flex-1">
-              The database grows from real builds. Submit the failure, the fix, and the prompt that solved it. You get the credit.
-            </p>
-            <div className="mt-5">
-              <Link href="/submit-fix" className="btn-secondary">
-                Submit a fix
-                <span aria-hidden>→</span>
-              </Link>
-            </div>
-          </section>
-
-          <NewsletterCta />
+        {/* Contribute + subscribe — quiet one-liners, no extra boxes */}
+        <div className="mt-12 space-y-2 border-t border-[color:var(--ink-rule)] pt-6">
+          <p className="text-meta">
+            Hit a failure that&rsquo;s not here?{" "}
+            <Link href="/submit-fix" className="vp-link">
+              Submit a fix →
+            </Link>
+          </p>
+          <WeeklyFixLink />
         </div>
-
-        {/* Quiet footer link back to the workflow */}
-        <p className="text-meta mt-10">
-          Building something now?{" "}
-          <Link href="/workflow" className="vp-link">
-            Open the 10-step cookbook →
-          </Link>
-        </p>
       </div>
     </main>
   );

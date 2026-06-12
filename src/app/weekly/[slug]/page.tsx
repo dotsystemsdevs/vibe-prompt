@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { NewsletterCta } from "@/components/fixes/newsletter-cta";
+import { WeeklyFixLink } from "@/components/fixes/weekly-fix-link";
 import { CopyButton } from "@/components/copy-button";
 import { getWeeklyFix, getWeeklyFixesSorted, WEEKLY_FIXES } from "@/lib/weekly-fixes";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
@@ -132,9 +132,9 @@ export default async function WeeklyIssuePage({ params }: { params: Promise<{ sl
           </p>
         )}
 
-        {/* Subscribe */}
-        <div className="mt-12">
-          <NewsletterCta />
+        {/* Subscribe — quiet link, the form lives on /weekly */}
+        <div className="mt-10 border-t border-[color:var(--ink-rule)] pt-6">
+          <WeeklyFixLink />
         </div>
 
         {/* More issues */}

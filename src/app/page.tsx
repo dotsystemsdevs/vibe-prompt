@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { LIST_PROBLEMS, type ListProblem } from "@/lib/list-problems";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
-import { BUILT_WITH_PROJECTS, builtWithSlug } from "@/lib/built-with-data";
 import { getSiteStats } from "@/lib/site-stats";
 import { NewsletterCta } from "@/components/fixes/newsletter-cta";
 
@@ -112,31 +111,6 @@ export default async function HomePage() {
           <p className="text-meta mt-4">
             <Link href="/fixes" className="vp-link">
               Search all {stats.fixes} fixes →
-            </Link>
-          </p>
-        </section>
-
-        {/* Built with — proof, stated plainly */}
-        <section className="mt-20">
-          <h2 className="section-title">Built with vibeprompt</h2>
-          <p className="text-body mt-2 max-w-xl">
-            {stats.apps} real products shipped with the process, each with an honest postmortem of what worked and
-            what broke.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2.5">
-            {BUILT_WITH_PROJECTS.map((proj) => (
-              <Link
-                key={proj.name}
-                href={`/built-with/${builtWithSlug(proj.name)}`}
-                className="text-body font-medium text-[color:var(--ink-soft)] transition-colors hover:text-[color:var(--accent)]"
-              >
-                {proj.name}
-              </Link>
-            ))}
-          </div>
-          <p className="text-meta mt-5">
-            <Link href="/built-with" className="vp-link">
-              See all postmortems →
             </Link>
           </p>
         </section>

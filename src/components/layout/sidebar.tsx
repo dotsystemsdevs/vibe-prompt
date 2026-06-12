@@ -26,8 +26,9 @@ type NavGroup = {
 // see the proof. Home sits above them. Everything else is secondary.
 const PILLARS: NavGroup[] = [
   { href: "/", icon: "🏠", label: "Home", match: (p) => p === "/" },
-  { href: "/fixes", icon: "🚑", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") },
+  // Learn → Fix → Proof
   { href: "/workflow", icon: "🍳", label: "Cookbook", match: (p) => p === "/workflow" },
+  { href: "/fixes", icon: "🚑", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") },
   { href: "/built-with", icon: "🚀", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
