@@ -86,6 +86,9 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
   const [activeStep, setActiveStep] = useState<string>(steps[0]?.step ?? "intro");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [mounted, setMounted] = useState(false);
+  // Supporting resources stay collapsed so the recipe + tasks are the only
+  // thing competing for attention. The user opens them when they want them.
+  const [railOpen, setRailOpen] = useState(false);
 
   // Load progress from localStorage
   useEffect(() => {
@@ -249,7 +252,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
       </div>
 
       {/* Two-column: recipe (left) + sticky resources aside (right) */}
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_clamp(220px,24vw,300px)] lg:items-start lg:gap-8">
+      <div>
 
         {/* Main column — active recipe */}
         <div className="min-w-0">
@@ -422,9 +425,32 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
         </nav>
         </div>
 
-        {/* Resources aside — same boxed shell as the checklist sections */}
-        <aside className="mt-8 lg:mt-0">
-          <div className="lg:sticky lg:top-6 space-y-7">
+        {/* Resources — collapsed by default so they don't compete with the tasks */}
+        <aside className="mt-10 border-t border-[color:var(--ink-rule)] pt-6">
+          <button
+            type="button"
+            onClick={() => setRailOpen((o) => !o)}
+            aria-expanded={railOpen}
+            className="flex items-center gap-2 rounded-md py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink-soft)]"
+          >
+            <span>Resources for this step</span>
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+              className={`transition-transform ${railOpen ? "rotate-90" : ""}`}
+            >
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
+          {railOpen && (
+          <div className="mt-4 space-y-7">
 
             {/* Tools & links pulled straight from this recipe's tasks */}
             {stepLinks.length > 0 && (
@@ -572,6 +598,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
             )}
 
           </div>
+          )}
         </aside>
       </div>
     </div>

@@ -43,7 +43,7 @@ export default async function WorkflowPage() {
 
   return (
     <div className="cookbook-paper">
-      <div className="page-shell-wide">
+      <div className="page-shell">
         <WorkflowCookbook steps={STEPS} relatedByStep={relatedByStep} />
       </div>
     </div>
