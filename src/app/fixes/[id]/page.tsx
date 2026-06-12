@@ -112,8 +112,16 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
+        {/* Contribute */}
+        <p className="text-meta mt-10">
+          Know a better fix, or hit one that&rsquo;s not here?{" "}
+          <Link href="/submit-fix" className="vp-link">
+            Submit a fix →
+          </Link>
+        </p>
+
         {/* Capture — these pages are the SEO entry points, so capture matters most here */}
-        <div className="mt-12">
+        <div className="mt-8">
           <NewsletterCta />
         </div>
       </div>

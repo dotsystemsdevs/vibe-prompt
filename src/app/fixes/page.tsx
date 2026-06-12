@@ -7,9 +7,6 @@ import { FixesClient } from "@/components/fixes/fixes-client";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
 import { getSiteStats } from "@/lib/site-stats";
 
-const GITHUB_NEW_ISSUE =
-  "https://github.com/dotsystemsdevs/vibe-prompt/issues/new?labels=fix&title=New%20fix%3A%20";
-
 export const metadata: Metadata = {
   title: "AI Build Failure Database | VibePrompt",
   description:
@@ -68,13 +65,13 @@ export default async function FixesPage() {
               Hit a failure that&rsquo;s not here?
             </h2>
             <p className="text-body mt-2 flex-1">
-              The database grows from real builds. Submit the failure, the fix, and the prompt that solved it. Open source, you get the credit.
+              The database grows from real builds. Submit the failure, the fix, and the prompt that solved it. You get the credit.
             </p>
             <div className="mt-5">
-              <a href={GITHUB_NEW_ISSUE} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                Submit a fix on GitHub
-                <span aria-hidden>↗</span>
-              </a>
+              <Link href="/submit-fix" className="btn-secondary">
+                Submit a fix
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </section>
 

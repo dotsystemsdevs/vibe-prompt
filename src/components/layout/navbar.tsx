@@ -58,6 +58,10 @@ function pageInfo(pathname: string) {
   if (pathname.startsWith("/fixes/")) {
     return { title: "Fix", icon: "🚑", parent: { href: "/fixes", title: "Fixes", icon: "🚑" } };
   }
+  // Submit a fix
+  if (pathname === "/submit-fix") {
+    return { title: "Submit a fix", icon: "🛠️", parent: { href: "/fixes", title: "Fixes", icon: "🚑" } };
+  }
   return { title: "Page", icon: "📄" };
 }
 
