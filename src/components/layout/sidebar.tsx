@@ -25,6 +25,7 @@ type NavGroup = {
 const TOP_NAV: NavGroup[] = [
   { href: "/", icon: "🏠", label: "Home", match: (p) => p === "/" },
   { href: "/fixes", icon: "🚑", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") },
+  { href: "/weekly", icon: "📬", label: "Weekly Fix", match: (p) => p === "/weekly" || p.startsWith("/weekly/") },
 ];
 
 const COOKBOOK_CHILDREN: NavLeaf[] = WORKFLOW_PAGE_STEPS.map((s) => ({

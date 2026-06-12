@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 type Status = "idle" | "loading" | "done" | "error";
@@ -53,7 +54,10 @@ export function NewsletterCta() {
         Get the Weekly Fix
       </h2>
       <p className="text-body mt-2 max-w-lg">
-        One real AI-building failure, the fix, and the prompt that solves it. Sent weekly. No spam, unsubscribe anytime.
+        One real AI-building failure, the fix, and the prompt that solves it. Sent weekly. No spam, unsubscribe anytime.{" "}
+        <Link href="/weekly" className="vp-link">
+          Read past issues →
+        </Link>
       </p>
 
       {status === "done" ? (

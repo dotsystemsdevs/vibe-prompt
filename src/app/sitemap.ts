@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/articles";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
+import { WEEKLY_FIXES } from "@/lib/weekly-fixes";
 
 const BASE = "https://vibeprompt.tech";
 
@@ -10,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: BASE, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },
     { url: `${BASE}/fixes`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
+    { url: `${BASE}/weekly`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
     { url: `${BASE}/workflow`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE}/articles`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
     { url: `${BASE}/awesome`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
@@ -37,5 +39,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...articleRoutes, ...fixRoutes];
+  // One indexable URL per Weekly Fix issue — freshness signal + long-tail.
+  const weeklyRoutes: MetadataRoute.Sitemap = WEEKLY_FIXES.map((w) => ({
+    url: `${BASE}/weekly/${w.slug}`,
+    lastModified: new Date(`${w.date}T00:00:00Z`),
+    changeFrequency: "yearly",
+    priority: 0.65,
+  }));
+
+  return [...staticRoutes, ...articleRoutes, ...fixRoutes, ...weeklyRoutes];
 }
