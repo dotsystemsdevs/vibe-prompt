@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { promises as fs } from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -52,7 +54,14 @@ function estimateReadingMinutes(text: string): number {
   return Math.max(1, Math.round(words / 220));
 }
 
-export async function getAllArticles(): Promise<ArticleMeta[]> {
+/**
+ * Reads + parses every article markdown file. Wrapped in two layers:
+ * - unstable_cache: persists across server requests (heavy filesystem +
+ *   markdown parse runs once, all subsequent navs hit cache).
+ * - React.cache: dedupes within a single render (multiple components in
+ *   the same render call this without re-fetching).
+ */
+const _getAllArticlesUncached = async (): Promise<ArticleMeta[]> => {
   let files: string[];
   try {
     files = await fs.readdir(ARTICLES_DIR);
@@ -81,7 +90,15 @@ export async function getAllArticles(): Promise<ArticleMeta[]> {
   );
 
   return articles.sort((a, b) => b.date.localeCompare(a.date));
-}
+};
+
+const _getAllArticlesPersistent = unstable_cache(
+  _getAllArticlesUncached,
+  ["all-articles"],
+  { revalidate: 3600, tags: ["articles"] }
+);
+
+export const getAllArticles = cache(_getAllArticlesPersistent);
 
 export async function getArticle(slug: string): Promise<Article | null> {
   const filePath = path.join(ARTICLES_DIR, `${slug}.md`);

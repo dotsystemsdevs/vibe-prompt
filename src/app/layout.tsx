@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { Sidebar } from "@/components/layout/sidebar";
 import { Analytics } from "@vercel/analytics/next";
 import { getPromptLibrary } from "@/lib/prompt-library";
 import { getAllArticles } from "@/lib/articles";
@@ -69,18 +70,26 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://avatars.githubusercontent.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
-        <script defer src="https://tracker-mauve-sigma.vercel.app/t.js" data-project="vibeprompt" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <Script
+          src="https://tracker-mauve-sigma.vercel.app/t.js"
+          data-project="vibeprompt"
+          strategy="afterInteractive"
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-foreground focus:text-background focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:outline-none"
         >
           Skip to main content
         </a>
-        <Navbar />
-        <main id="main" className="flex min-h-0 flex-1 flex-col">{children}</main>
-        <Footer />
+        <div className="flex w-full">
+          <Sidebar />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <Navbar />
+            <main id="main" className="flex min-w-0 flex-1 flex-col">{children}</main>
+          </div>
+        </div>
         <CommandPalette data={searchData} />
         <Analytics />
       </body>

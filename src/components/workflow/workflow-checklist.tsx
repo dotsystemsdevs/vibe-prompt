@@ -15,7 +15,7 @@ function InlineText({ text }: { text: string }) {
     <>
       {parts.map((part, i) =>
         part.startsWith("`") && part.endsWith("`") ? (
-          <code key={i} className="rounded-sm bg-white/[0.04] px-1 font-mono text-[0.85em] text-white/80">
+          <code key={i} className="rounded-sm vp-fill px-1 font-mono text-[0.85em] text-[color:var(--ink-soft)]">
             {part.slice(1, -1)}
           </code>
         ) : (
@@ -76,14 +76,14 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
   }, []);
 
   return (
-    <div className="overflow-hidden border border-foreground/12">
+    <div className="overflow-hidden border border-[color:var(--ink-rule)]">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 border-b border-foreground/10 bg-foreground/[0.03] px-5 py-3">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Spec, {items.length} sections</span>
+      <div className="flex items-center justify-between gap-4 border-b border-[color:var(--ink-rule)] vp-fill px-5 py-3">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--ink-faded)]">Spec, {items.length} sections</span>
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] tabular-nums text-white/40">{totalDone}/{totalAll}</span>
-          <div className="h-1.5 w-20 overflow-hidden border border-white/10 bg-white/5">
-            <div className="h-full bg-blue-400 transition-all duration-300" style={{ width: `${totalPct}%` }} />
+          <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">{totalDone}/{totalAll}</span>
+          <div className="h-1.5 w-20 overflow-hidden border border-[color:var(--ink-rule)] vp-fill">
+            <div className="h-full bg-[color:var(--accent)] transition-all duration-300" style={{ width: `${totalPct}%` }} />
           </div>
         </div>
       </div>
@@ -98,24 +98,24 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
         const isOpen = open[gi] ?? true;
 
         return (
-          <div key={gi} className={`border-b last:border-b-0 ${sectionDone ? "border-foreground/[0.04]" : "border-foreground/[0.08]"}`}>
+          <div key={gi} className={`border-b last:border-b-0 ${sectionDone ? "border-[color:var(--ink-rule)]" : "border-[color:var(--ink-rule)]"}`}>
 
             {/* Section heading, clickable to collapse */}
             <button
               onClick={() => setOpen((prev) => ({ ...prev, [gi]: !isOpen }))}
-              className={`group w-full flex items-center gap-4 px-5 py-3.5 text-left transition-colors ${sectionDone ? "bg-foreground/[0.01]" : isActive ? "bg-blue-400/[0.05] hover:bg-blue-400/[0.08]" : "bg-foreground/[0.03] hover:bg-foreground/[0.05]"}`}
+              className={`group w-full flex items-center gap-4 px-5 py-3.5 text-left transition-colors ${sectionDone ? "bg-[color:var(--accent-soft)]" : isActive ? "bg-[color:var(--accent-soft)] hover:bg-[color:var(--accent-soft)]" : "vp-fill hover:bg-[color:var(--accent-soft)]"}`}
             >
-              <span className={`shrink-0 font-mono text-xs font-bold tabular-nums ${sectionDone ? "text-white/20" : "text-blue-400"}`}>
+              <span className={`shrink-0 font-mono text-xs font-bold tabular-nums ${sectionDone ? "text-[color:var(--ink-faded)]" : "text-[color:var(--accent)]"}`}>
                 {String(gi + 1).padStart(2, "0")}
               </span>
-              <span className={`flex-1 text-sm font-bold uppercase tracking-widest ${sectionDone ? "text-white/20 line-through" : isActive ? "text-blue-400" : "text-white"}`}>
+              <span className={`flex-1 text-sm font-bold uppercase tracking-widest ${sectionDone ? "text-[color:var(--ink-faded)] line-through" : isActive ? "text-[color:var(--accent)]" : "text-[color:var(--ink)]"}`}>
                 {group.heading}
               </span>
-              <span className={`shrink-0 font-mono text-xs font-bold tabular-nums ${sectionDone ? "text-white/15" : isActive ? "text-blue-400/70" : "text-white/50"}`}>
+              <span className={`shrink-0 font-mono text-xs font-bold tabular-nums ${sectionDone ? "text-[color:var(--ink-faded)]" : isActive ? "text-[color:var(--accent)]" : "text-[color:var(--ink-soft)]"}`}>
                 {doneInGroup}/{groupTotal}
               </span>
               <svg
-                className={`shrink-0 h-3.5 w-3.5 transition-transform ${sectionDone ? "text-white/15" : "text-white/40"} ${isOpen ? "rotate-0" : "-rotate-90"}`}
+                className={`shrink-0 h-3.5 w-3.5 transition-transform ${sectionDone ? "text-[color:var(--ink-faded)]" : "text-[color:var(--ink-faded)]"} ${isOpen ? "rotate-0" : "-rotate-90"}`}
                 fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -127,13 +127,13 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
               <>
                 {/* Description */}
                 {group.description && (
-                  <div className="border-b border-foreground/[0.06] bg-foreground/[0.02] px-5 py-3">
-                    <p className="text-xs leading-relaxed text-foreground/50">{group.description}</p>
+                  <div className="border-b border-[color:var(--ink-rule)] vp-fill px-5 py-3">
+                    <p className="text-xs leading-relaxed text-[color:var(--ink-faded)]">{group.description}</p>
                   </div>
                 )}
 
                 {/* Task rows */}
-                <div className="divide-y divide-foreground/[0.06]">
+                <div className="divide-y divide-[color:var(--ink-rule)]">
                   {group.items.map((item: TaskItem, ii: number) => {
                     const fi = groupStart + ii;
                     const k = stepItemKey(step, fi);
@@ -147,7 +147,7 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
                         key={ii}
                         onClick={(e) => { if ((e.target as HTMLElement).closest("a")) e.preventDefault(); }}
                         className={`group flex cursor-pointer items-center gap-4 px-5 py-3.5 transition-colors ${
-                          done ? "opacity-20" : "hover:bg-foreground/[0.03]"
+                          done ? "opacity-20" : "hover:bg-[color:var(--accent-soft)]"
                         }`}
                       >
                         <input
@@ -158,13 +158,13 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
                         />
                         {/* Checkbox */}
                         <span className={`shrink-0 flex h-4 w-4 items-center justify-center border-2 transition-colors ${
-                          done ? "border-white/20 text-white/30" : "border-white/40 group-hover:border-white text-white"
+                          done ? "border-[color:var(--ink-rule)] text-[color:var(--ink-faded)]" : "border-[color:var(--ink-rule)] group-hover:border-[color:var(--ink)] text-[color:var(--ink)]"
                         }`} aria-hidden="true">
                           {done && <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                         </span>
 
                         {/* Task text */}
-                        <p className={`flex-1 min-w-0 text-sm font-medium leading-snug transition-colors ${done ? "text-white/20 line-through" : "text-white"}`}>
+                        <p className={`flex-1 min-w-0 text-sm font-medium leading-snug transition-colors ${done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink)]"}`}>
                           {item.text}
                         </p>
 
@@ -176,7 +176,7 @@ function DocumentChecklist({ step, items, startIndex, checked, toggle }: {
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                             title={firstLink.label}
-                            className="shrink-0 transition-colors text-white/25 hover:text-white"
+                            className="shrink-0 transition-colors text-[color:var(--ink-faded)] hover:text-[color:var(--ink)]"
                           >
                             {isWatch ? (
                               /* YouTube play icon */
@@ -248,17 +248,17 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
     return (
       <div className="space-y-4">
         {items.map((group, gi) => (
-          <div key={gi} className="border border-foreground/10 overflow-hidden">
+          <div key={gi} className="border border-[color:var(--ink-rule)] overflow-hidden">
             {group.heading && (
-              <div className="border-b border-foreground/8 bg-foreground/[0.03] px-5 py-3">
-                <p className="font-mono text-[9px] uppercase tracking-widest text-foreground/30">{group.heading}</p>
+              <div className="border-b border-[color:var(--ink-rule)] vp-fill px-5 py-3">
+                <p className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--ink-faded)]">{group.heading}</p>
               </div>
             )}
-            <div className="divide-y divide-foreground/[0.06]">
+            <div className="divide-y divide-[color:var(--ink-rule)]">
               {group.items.map((item, ii) => (
                 <div key={ii} className="flex items-center gap-3 px-5 py-3">
-                  <span className="shrink-0 h-4 w-4 border border-foreground/20" />
-                  <span className="text-sm text-foreground/70">{item.text}</span>
+                  <span className="shrink-0 h-4 w-4 border border-[color:var(--ink-rule)]" />
+                  <span className="text-sm text-[color:var(--ink-soft)]">{item.text}</span>
                 </div>
               ))}
             </div>
@@ -296,8 +296,8 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
           <div key={gi}>
             {/* Section heading */}
             {group.heading && (
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 border-b border-foreground/[0.06] bg-foreground/[0.02] px-4 py-3 sm:px-6">
-                <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">{group.heading}</span>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 border-b border-[color:var(--ink-rule)] vp-fill px-4 py-3 sm:px-6">
+                <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">{group.heading}</span>
                 {group.description && (
                   <span className="text-[11px] text-muted-foreground/40">{group.description}</span>
                 )}
@@ -305,7 +305,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
             )}
 
             {/* Task rows */}
-            <div className="divide-y divide-foreground/[0.06]">
+            <div className="divide-y divide-[color:var(--ink-rule)]">
               {group.items.map((item: TaskItem, ii: number) => {
                 const fi = groupStart + ii;
                 const k = stepItemKey(step, fi);
@@ -318,7 +318,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                 // Watch/Read, link row with YouTube icon
                 if (isWatch || isRead) {
                   return (
-                    <div key={ii} className={`group flex items-center gap-4 px-4 py-5 sm:px-6 sm:py-3.5 transition-colors ${done ? "opacity-30" : "hover:bg-foreground/[0.03]"}`}>
+                    <div key={ii} className={`group flex items-center gap-4 px-4 py-5 sm:px-6 sm:py-3.5 transition-colors ${done ? "opacity-30" : "hover:bg-[color:var(--accent-soft)]"}`}>
                       <label className="shrink-0 flex cursor-pointer items-center">
                         <input
                           type="checkbox"
@@ -328,7 +328,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                           aria-label={label}
                         />
                         <span className={`flex h-3.5 w-3.5 items-center justify-center border transition-colors ${
-                          done ? "border-foreground/15 bg-foreground/10" : "border-foreground/20 hover:border-foreground/45"
+                          done ? "border-[color:var(--ink-rule)] vp-fill" : "border-[color:var(--ink-rule)] hover:border-[color:var(--ink-soft)]"
                         }`} aria-hidden="true">
                           {done && <svg width="7" height="5" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                         </span>
@@ -341,18 +341,18 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                               <path d="M10.2 5.6v6.8l6-3.4-6-3.4Z" fill="white"/>
                             </svg>
                           ) : (
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-foreground/30">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)]">
                               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                               <polyline points="15 3 21 3 21 9"/>
                               <line x1="10" y1="14" x2="21" y2="3"/>
                             </svg>
                           )}
-                          <p className={`text-sm transition-colors ${done ? "text-foreground/30 line-through" : "text-foreground/80 group-hover:text-foreground"}`}>{label}</p>
+                          <p className={`text-sm transition-colors ${done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink-soft)] group-hover:text-foreground"}`}>{label}</p>
                         </a>
                       ) : (
-                        <p className={`flex-1 text-sm ${done ? "text-foreground/30 line-through" : "text-foreground/80"}`}>{label}</p>
+                        <p className={`flex-1 text-sm ${done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink-soft)]"}`}>{label}</p>
                       )}
-                      {!done && firstLink && <span className="shrink-0 text-[10px] text-foreground/20 transition-colors group-hover:text-foreground/50">↗</span>}
+                      {!done && firstLink && <span className="shrink-0 text-[10px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink-soft)]">↗</span>}
                     </div>
                   );
                 }
@@ -362,7 +362,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                   <label
                     key={ii}
                     onClick={(e) => { if ((e.target as HTMLElement).closest("a")) e.preventDefault(); }}
-                    className={`group flex cursor-pointer items-start gap-4 px-4 py-4 sm:px-6 sm:py-3.5 transition-colors ${done ? "opacity-30" : "hover:bg-foreground/[0.03]"}`}
+                    className={`group flex cursor-pointer items-start gap-4 px-4 py-4 sm:px-6 sm:py-3.5 transition-colors ${done ? "opacity-30" : "hover:bg-[color:var(--accent-soft)]"}`}
                   >
                     <input
                       type="checkbox"
@@ -371,12 +371,12 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                       className="sr-only"
                     />
                     <span className={`mt-0.5 shrink-0 flex h-4.5 w-4.5 sm:h-3.5 sm:w-3.5 items-center justify-center border transition-colors ${
-                      done ? "border-foreground/15 bg-foreground/10" : "border-foreground/20 group-hover:border-foreground/45"
+                      done ? "border-[color:var(--ink-rule)] vp-fill" : "border-[color:var(--ink-rule)] group-hover:border-[color:var(--ink-soft)]"
                     }`} aria-hidden="true">
                       {done && <svg width="7" height="5" viewBox="0 0 8 6" fill="none"><path d="M1 3L3 5L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm leading-normal sm:leading-snug transition-colors ${done ? "text-foreground/30 line-through" : "text-foreground/90 group-hover:text-foreground"}`}>
+                      <p className={`text-sm leading-normal sm:leading-snug transition-colors ${done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink-soft)] group-hover:text-foreground"}`}>
                         <InlineText text={label} />
                       </p>
                       {item.detail && !done && (
@@ -396,7 +396,7 @@ export function StepChecklist({ step, items, storageKey, startIndex = 0, variant
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="inline-flex min-h-6 items-center gap-1 border border-foreground/[0.15] px-2.5 py-1.5 sm:px-2 sm:py-1.5 text-[11px] sm:text-[10px] text-foreground/55 transition-colors hover:border-foreground/30 hover:text-foreground/90"
+                                className="inline-flex min-h-6 items-center gap-1 border border-[color:var(--ink-rule)] px-2.5 py-1.5 sm:px-2 sm:py-1.5 text-[11px] sm:text-[10px] text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-foreground"
                               >
                                 {fav && (
                                   // eslint-disable-next-line @next/next/no-img-element

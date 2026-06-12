@@ -2,7 +2,7 @@
 
 Open-source prompt library, workflow hub, and site audit tool for vibe coders. Browse 52 battle-tested prompts, read 11 articles, follow a 9-step shipping playbook, and scan any landing page for issues in one click.
 
-[![CI](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/vibeprompt/actions/workflows/ci.yml)
+[![CI](https://github.com/dotsystemsdevs/vibe-prompt/actions/workflows/ci.yml/badge.svg)](https://github.com/dotsystemsdevs/vibe-prompt/actions/workflows/ci.yml)
 ![License](https://img.shields.io/github/license/dotsystemsdevs/vibeprompt)
 ![Stars](https://img.shields.io/github/stars/dotsystemsdevs/vibeprompt?style=flat)
 ![Issues](https://img.shields.io/github/issues/dotsystemsdevs/vibeprompt?style=flat)
@@ -166,7 +166,7 @@ Audit API: `GET /api/audit?url=https://example.com`
 
 - 52 prompts across 9 categories, 11 articles, PageLens, workflow, copy counts, public access with no login
 
-**Next (see also [ROADMAP.md](./ROADMAP.md) and [Issues](https://github.com/dotsystemsdevs/vibeprompt/issues))**
+**Next (see also [ROADMAP.md](./ROADMAP.md) and [Issues](https://github.com/dotsystemsdevs/vibe-prompt/issues))**
 
 - Community prompts and content (open issues: labels `content`, `good first issue`)
 - Hardening copy counts and any infra follow-ups
@@ -180,8 +180,8 @@ For people: start with [`CONTRIBUTING.md`](./CONTRIBUTING.md). For agents and fu
 
 - **Quick contribution**: copy fix, UI, mobile, add a prompt, add a tool, article tweak
 - **Roadmap**: [`ROADMAP.md`](./ROADMAP.md)
-- **Issues**: https://github.com/dotsystemsdevs/vibeprompt/issues
-- **PRs**: https://github.com/dotsystemsdevs/vibeprompt/pulls
+- **Issues**: https://github.com/dotsystemsdevs/vibe-prompt/issues
+- **PRs**: https://github.com/dotsystemsdevs/vibe-prompt/pulls
 
 ---
 

@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
+const CURRENT_YEAR = new Date().getFullYear();
 
-const SISTER_PROJECTS: { name: string; url: string }[] = [
-  { name: "Slothy", url: "https://slothy.app" },
-  { name: "Commitment Issues", url: "https://commitmentissues.dev" },
-  { name: "Build2Race", url: "https://build2race.com" },
-  { name: "Excuse Caddie", url: "https://excusecaddie.xyz" },
-  { name: "Indexia", url: "https://indexia.tech" },
+const SISTER_PROJECTS: { name: string; url: string; icon: string }[] = [
+  { name: "Slothy", url: "https://slothy.app", icon: "🦥" },
+  { name: "Commitment Issues", url: "https://commitmentissues.dev", icon: "⚰️" },
+  { name: "Build2Race", url: "https://build2race.com", icon: "🏃" },
+  { name: "Excuse Caddie", url: "https://excusecaddie.xyz", icon: "⛳" },
+  { name: "Indexia", url: "https://indexia.se", icon: "🔍" },
 ];
 
 type FooterContributor = {
@@ -29,42 +30,9 @@ type ApiContributor = {
 
 export function Footer() {
   const pathname = usePathname();
-  const compact = pathname === "/";
-
-  const showContributorStrip = useMemo(() => {
-    if (pathname === "/") return true;
-    if (pathname === "/browse") return true;
-    if (pathname.startsWith("/prompts/")) return true;
-    if (pathname === "/workflow") return true;
-    if (pathname === "/awesome") return true;
-    if (pathname === "/articles") return true;
-    if (pathname.startsWith("/articles/")) return true;
-    if (pathname === "/scan") return true;
-    return false;
-  }, [pathname]);
-
   const [contributors, setContributors] = useState<FooterContributor[] | null>(null);
 
   useEffect(() => {
-    if (!showContributorStrip) {
-      return;
-    }
-
-    if (pathname.startsWith("/prompts/")) {
-      const el = document.querySelector("[data-footer-contributor-login]") as HTMLElement | null;
-      const login = el?.dataset.footerContributorLogin;
-      const avatarUrl = el?.dataset.footerContributorAvatar;
-      const profileUrl = el?.dataset.footerContributorUrl;
-      /* eslint-disable react-hooks/set-state-in-effect -- syncing client state with server-injected DOM attributes */
-      if (login && avatarUrl && profileUrl) {
-        setContributors([{ login, avatarUrl, profileUrl }]);
-      } else {
-        setContributors(null);
-      }
-      /* eslint-enable react-hooks/set-state-in-effect */
-      return;
-    }
-
     const cacheKey = "vp_repo_contrib_v2";
     try {
       const cached = sessionStorage.getItem(cacheKey);
@@ -75,9 +43,7 @@ export function Footer() {
           return;
         }
       }
-    } catch {
-      // ignore
-    }
+    } catch {}
 
     let cancelled = false;
     (async () => {
@@ -91,159 +57,88 @@ export function Footer() {
           .map((c) => ({ login: c.login, avatarUrl: c.avatar_url, profileUrl: c.html_url }));
         if (cancelled) return;
         setContributors(items);
-        try {
-          sessionStorage.setItem(cacheKey, JSON.stringify({ at: Date.now(), items }));
-        } catch {
-          // ignore
-        }
+        try { sessionStorage.setItem(cacheKey, JSON.stringify({ at: Date.now(), items })); } catch {}
       } catch {
         if (!cancelled) setContributors(null);
       }
     })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [pathname, showContributorStrip]);
+    return () => { cancelled = true; };
+  }, [pathname]);
 
   return (
-    <footer className={`shrink-0 border-t border-foreground/12 ${compact ? "bg-background" : ""}`}>
+    <footer className="shrink-0 border-t border-[color:var(--ink-rule)] bg-[color:var(--page)] text-[color:var(--ink)]">
+      <div className="mx-auto w-full max-w-4xl px-6 py-10 sm:px-8 sm:py-12">
 
-      <div className={`mx-auto max-w-6xl px-6 ${compact ? "py-4" : "py-10"}`}>
-        {compact ? (
-          <div className="flex items-center justify-between gap-4">
-            {showContributorStrip && contributors && contributors.length > 0 ? (
-              <div className="flex items-center gap-2.5">
-                <div className="flex items-center">
-                  {contributors.slice(0, 8).map((c, i) => (
-                    <a
-                      key={c.login}
-                      href={c.profileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={c.login}
-                      className="relative block transition-transform hover:z-10 hover:scale-110"
-                      style={{ marginLeft: i === 0 ? 0 : "-7px" }}
-                    >
-                      <Image
-                        src={c.avatarUrl}
-                        alt={c.login}
-                        width={24}
-                        height={24}
-                        className="rounded-full border border-background"
-                      />
-                    </a>
-                  ))}
-                </div>
-                <a
-                  href={`${GITHUB_URL}/graphs/contributors`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-foreground/30 transition-colors hover:text-foreground/60"
-                >
-                  {contributors.length} contributor{contributors.length !== 1 ? "s" : ""} ↗
-                </a>
-              </div>
-            ) : <div />}
-            <div className="flex items-center gap-3 text-[11px]">
-              <Link href="/about" className="text-muted-foreground transition-colors hover:text-foreground">About</Link>
-              <span className="text-foreground/20">·</span>
-              <Link href="/privacy" className="text-muted-foreground transition-colors hover:text-foreground">Privacy</Link>
-              <span className="text-foreground/20">·</span>
-              <a
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground transition-colors hover:text-foreground"
-              >
-                GitHub
-              </a>
-            </div>
+        {/* Sister apps row */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.10em] text-[color:var(--ink-faded)] mr-2">
+            More from dot.systems
+          </p>
+          {SISTER_PROJECTS.map((p) => (
+            <a
+              key={p.name}
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] text-[color:var(--ink-soft)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+            >
+              <span aria-hidden>{p.icon}</span>
+              {p.name}
+            </a>
+          ))}
+        </div>
+
+        {/* Bottom strip — copyright + contributors + small links */}
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-[color:var(--ink-rule)] pt-5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-[color:var(--ink-faded)]">
+            <span>© {CURRENT_YEAR} dot.systems</span>
+            <Link href="/privacy" className="hover:text-[color:var(--ink)] transition-colors">Privacy</Link>
+            <a href="/rss.xml" className="hover:text-[color:var(--ink)] transition-colors">RSS</a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[color:var(--ink)] transition-colors"
+            >
+              GitHub ↗
+            </a>
           </div>
-        ) : (
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold tracking-tight text-foreground">vibeprompt</p>
-              <p className="mt-1 text-xs text-muted-foreground">The vibe coding playbook. Free and open source.</p>
-              {showContributorStrip && contributors && contributors.length > 0 && (
-                <div className="mt-4 flex items-center gap-3">
-                  <div className="flex items-center">
-                    {contributors.slice(0, 8).map((c, i) => (
-                      <a
-                        key={c.login}
-                        href={c.profileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={c.login}
-                        className="relative block transition-transform hover:z-10 hover:scale-110"
-                        style={{ marginLeft: i === 0 ? 0 : "-7px" }}
-                      >
-                        <Image
-                          src={c.avatarUrl}
-                          alt={c.login}
-                          width={24}
-                          height={24}
-                          className="rounded-full border border-background"
-                        />
-                      </a>
-                    ))}
-                  </div>
+
+          {contributors && contributors.length > 0 && (
+            <div className="flex items-center gap-2">
+              <span className="text-[12px] text-[color:var(--ink-faded)]">Contributors</span>
+              <div className="flex items-center">
+                {contributors.slice(0, 6).map((c, i) => (
                   <a
-                    href={`${GITHUB_URL}/graphs/contributors`}
+                    key={c.login}
+                    href={c.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[11px] text-foreground/30 transition-colors hover:text-foreground/60"
+                    title={c.login}
+                    className="relative block transition-transform hover:z-10 hover:scale-110"
+                    style={{ marginLeft: i === 0 ? 0 : "-6px" }}
                   >
-                    {contributors.length} contributor{contributors.length !== 1 ? "s" : ""} ↗
+                    <Image
+                      src={c.avatarUrl}
+                      alt={c.login}
+                      width={20}
+                      height={20}
+                      className="rounded-full border border-[color:var(--page)]"
+                    />
                   </a>
-                </div>
-              )}
-
-              <div className="mt-6">
-                <div className="flex items-baseline gap-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
-                    More from Dot Systems
-                  </p>
-                  <Link
-                    href="/built-with"
-                    className="text-[10px] text-foreground/35 transition-colors hover:text-foreground/70"
-                  >
-                    Built with vibeprompt →
-                  </Link>
-                </div>
-                <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1.5 text-[11px]">
-                  {SISTER_PROJECTS.map((p, i) => (
-                    <span key={p.name} className="inline-flex items-center gap-3">
-                      <a
-                        href={p.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-foreground/55 transition-colors hover:text-foreground"
-                      >
-                        {p.name}
-                      </a>
-                      {i < SISTER_PROJECTS.length - 1 && <span className="text-foreground/15">·</span>}
-                    </span>
-                  ))}
-                </div>
+                ))}
               </div>
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <Link href="/about" className="transition-colors hover:text-foreground">About</Link>
-              <span className="mx-2 text-foreground/20">·</span>
-              <Link href="/privacy" className="transition-colors hover:text-foreground">Privacy</Link>
-              <span className="mx-2 text-foreground/20">·</span>
               <a
-                href={GITHUB_URL}
+                href={`${GITHUB_URL}/graphs/contributors`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
+                className="text-[12px] text-[color:var(--ink-soft)] hover:text-[color:var(--ink)] transition-colors"
               >
-                GitHub
+                +{Math.max(0, contributors.length - 6)} →
               </a>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </footer>
   );

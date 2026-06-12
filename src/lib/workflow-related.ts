@@ -1,5 +1,10 @@
 // Mapping from workflow step number to related articles and field-tested fixes.
 // Kept separate from workflow-data.ts so the step data stays focused on tasks/checklists.
+//
+// Note: external "Techniques · read for depth" links live in
+// workflow-external-techniques.ts. Internal articleSlugs below are kept only
+// for legacy callers (e.g. fix → article anchors) and are no longer rendered
+// in the Techniques section of the cookbook.
 
 export type WorkflowRelated = {
   articleSlugs?: string[];

@@ -6,6 +6,9 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "ss01", "cv11";
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -35,30 +38,73 @@ html {
   --color-primary-foreground: var(--primary-foreground);
   --color-lilac: var(--lilac);
   --color-lilac-dim: var(--lilac-dim);
-  --radius: 0rem;
+
+  /* Radius scale — single source of truth. Overriding Tailwind's defaults so
+     every rounded-{sm,md,lg,xl} maps to the system's values and rounded-lg
+     lines up with .vp-card (0.625rem). Bumped one notch for a softer feel. */
+  --radius: 0.625rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
 }
 
 :root {
-  --background: #0D0D0D;
-  --foreground: #EDEDED;
-  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --card: rgba(237, 237, 237, 0.05);
-  --card-foreground: #EDEDED;
-  --muted: rgba(237, 237, 237, 0.04);
-  --muted-foreground: rgba(237, 237, 237, 0.50);
-  --border: rgba(237, 237, 237, 0.22);
-  --input: rgba(237, 237, 237, 0.22);
-  --primary: #EDEDED;
-  --primary-foreground: #0D0D0D;
-  --secondary: rgba(237, 237, 237, 0.04);
-  --secondary-foreground: #EDEDED;
-  --ring: #EDEDED;
-  --radius: 0rem;
-  --lilac: #EDEDED;
-  --lilac-dim: rgba(237, 237, 237, 0.06);
-  --accent-blue: #2563EB;
-  --accent-blue-hover: #1D55D4;
+  /* Notion-style palette — white page, very light gray sidebar, black text,
+     blue accent reserved for CTAs and active states. */
+  --paper: #FFFFFF;              /* card surfaces */
+  --paper-soft: #F7F7F5;         /* sidebar / inset surfaces */
+  --paper-edge: #ECECEC;         /* dividers */
+  --page: #FFFFFF;               /* main content background */
+  --ink: #211F1C;                /* primary text — near-black, max contrast */
+  --ink-soft: #2E2C28;           /* secondary — very dark for strong contrast */
+  --ink-faded: #4A4843;          /* meta / muted — very dark for strong contrast */
+  --ink-rule: rgba(33, 31, 28, 0.20);
+
+  /* Accent — monochrome: near-black for CTAs/links, soft gray for active states. */
+  --accent: #211F1C;
+  --accent-hover: #3D3B36;
+  --accent-soft: rgba(33, 31, 28, 0.08);
+  --accent-line: rgba(33, 31, 28, 0.28);
+  --accent-ring: rgba(33, 31, 28, 0.25);
+
+  --background: #FFFFFF;
+  --foreground: #37352F;
+  --font-geist-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-geist-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --card: rgba(55, 53, 47, 0.025);
+  --card-foreground: #37352F;
+  --muted: rgba(55, 53, 47, 0.04);
+  --muted-foreground: rgba(33, 31, 28, 0.82);
+  --border: rgba(33, 31, 28, 0.20);
+  --input: rgba(55, 53, 47, 0.16);
+  --primary: #37352F;
+  --primary-foreground: #FFFFFF;
+  --secondary: rgba(55, 53, 47, 0.04);
+  --secondary-foreground: #37352F;
+  --ring: #211F1C;
+  --radius: 0.625rem;
+  --lilac: #37352F;
+
+  /* Spacing rhythm — the vertical gaps the page is built on. Reach for these
+     (via the .page-* / .stack-* helpers below) instead of ad-hoc margins so
+     every section breathes the same. */
+  --space-section: 3.5rem;   /* gap between major page sections */
+  --space-block: 1.5rem;     /* gap between blocks within a section */
+  --space-tight: 0.75rem;    /* gap between tightly-related items */
+  --lilac-dim: rgba(55, 53, 47, 0.04);
+  --accent-blue: #211F1C;
+  --accent-blue-hover: #3D3B36;
+
+  /* Sidebar (Notion uses a softer gray on the left) */
+  --sidebar-bg: #F7F7F5;
+  --sidebar-hover: rgba(33, 31, 28, 0.06);
+  --sidebar-active: rgba(33, 31, 28, 0.11);
+}
+
+@theme inline {
+  --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
 
@@ -66,11 +112,20 @@ html {
   * { @apply border-border; }
   body {
     @apply bg-background text-foreground;
-    -webkit-font-smoothing: antialiased;
-  }
-  h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-geist-sans);
-    letter-spacing: -0.03em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Sans throughout. Display headings use heavier weight + tighter tracking. */
+  h1, h2 {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  h3, h4, h5, h6 {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
   /* Visible focus for keyboard users — mouse clicks won't show it */
   :focus-visible {
@@ -82,15 +137,20 @@ html {
 
 @layer utilities {
   .hero-display {
-    @apply font-bold leading-[1.05];
-    font-family: var(--font-geist-sans);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    letter-spacing: -0.04em;
+    font-family: var(--font-serif), Georgia, serif;
+    font-weight: 600;
+    font-variation-settings: "opsz" 144, "SOFT" 40;
+    line-height: 1.02;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    letter-spacing: -0.025em;
+    color: var(--ink);
   }
 
   .hero-kicker {
-    @apply text-[10px] uppercase tracking-widest;
-    color: var(--lilac);
+    font-family: var(--font-serif), Georgia, serif;
+        font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--ink-faded);
   }
 
 .no-scrollbar {
@@ -101,51 +161,772 @@ html {
     display: none;
   }
 
+  /* Reveal — disabled. Used to fade content in on scroll, but the effect
+     fires on every page navigation in App Router and flashes content.
+     Kept as a no-op so existing <Reveal> wrappers stay valid markup. */
   .vp-reveal {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 560ms ease, transform 560ms ease;
-    will-change: opacity, transform;
+    opacity: 1;
+    transform: none;
   }
   .vp-reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .vp-reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
+  /* Article prose — Notion-style clean reading (sans, no drop-cap) */
+  .prose-article {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    color: var(--ink);
+  }
+  .prose-article p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    color: var(--ink-soft);
+  }
+  .prose-article p:first-of-type::first-letter {
+    font-size: inherit;
+    float: none;
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+    line-height: inherit;
+  }
+  .prose-article h2 {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+    scroll-margin-top: 6rem;
+  }
+  .prose-article h3 {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+    scroll-margin-top: 6rem;
+  }
+  .prose-article hr {
+    border: none;
+    border-top: 1px solid var(--ink-rule);
+    margin: 2.5rem 0;
+  }
+  .prose-article strong { font-weight: 600; color: var(--ink); }
+  .prose-article em { font-style: italic; color: var(--ink-soft); }
+  .prose-article ul { list-style: none; padding: 0; margin-bottom: 1.4rem; }
+  .prose-article ul li {
+    padding-left: 1.25rem;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+    color: var(--ink-soft);
+  }
+  .prose-article ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0.25rem;
+    color: var(--ink-faded);
+    font-size: 1em;
+    top: 0;
+  }
+  .prose-article ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+  .prose-article ol li {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+    color: var(--ink-soft);
+  }
+  .prose-article ol li::marker {
+    color: var(--ink-faded);
+      }
+  .prose-article code {
+    font-family: var(--font-geist-mono);
+    font-size: 0.85em;
+    background: rgba(33, 31, 28, 0.06);
+    color: var(--ink);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    border: 1px solid var(--ink-rule);
+  }
+  .prose-article a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--ink-rule);
+    text-underline-offset: 2px;
+  }
+  .prose-article a:hover { text-decoration-color: var(--ink); }
+  .prose-article pre {
+    background: var(--paper-soft);
+    border: 1px solid var(--ink-rule);
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: var(--font-geist-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
+  }
+  .prose-article pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  /* Tables */
+  .prose-article .table-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--ink-rule);
+  }
+  .prose-article table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .prose-article thead { background: var(--paper-soft); }
+  .prose-article th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 0.65rem 0.875rem;
+    border-bottom: 1px solid var(--ink-rule);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+  }
+  .prose-article td {
+    padding: 0.65rem 0.875rem;
+    border-bottom: 1px solid var(--ink-rule);
+    color: var(--ink);
+    vertical-align: top;
+  }
+  .prose-article tr:last-child td { border-bottom: none; }
+  .prose-article th + th,
+  .prose-article td + td { border-left: 1px solid var(--ink-rule); }
+
+  /* Blockquote — chef's note callout */
+  .prose-article blockquote {
+    border-left: 3px solid var(--ink);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--ink-soft);
+      }
+
+  /* cookbook-paper — historical class. Now site-wide light is the default,
+     so this is just a passthrough kept for backwards-compatibility. */
+  .cookbook-paper {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Card utility — Notion-style: flat block, no border, soft gray fill, no shadow. */
+  .vp-card {
+    background-color: var(--paper-soft);
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+  .vp-card-tight { padding: 1rem; }
+  .vp-card-md { padding: 1.25rem 1.5rem; }
+  .vp-card-lg { padding: 1.5rem 2rem; }
+  .cookbook-paper .cookbook-serif { font-family: var(--font-serif), Georgia, "Times New Roman", serif; }
+  .cookbook-paper .cookbook-rule { border-color: var(--ink-rule); }
+
+  /* Big recipe title — clean sans display */
+  .recipe-title {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  /* Chapter label "Recipe No. 01" — small uppercase, sans */
+  .recipe-no {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* Drop cap */
+  .recipe-dropcap::first-letter {
+    font-family: var(--font-serif), Georgia, serif;
+    font-weight: 700;
+        float: left;
+    font-size: 4.6em;
+    line-height: 0.86;
+    padding: 0.05em 0.12em 0 0;
+    margin-top: 0.06em;
+    color: var(--ink);
+  }
+
+  /* Section labels (Ingredients, Method, etc.) */
+  .recipe-label {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-faded);
+  }
+
+  /* Ornamental divider between recipes */
+  .recipe-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    color: var(--ink-faded);
+    font-family: var(--font-serif), Georgia, serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+  }
+  .recipe-ornament::before,
+  .recipe-ornament::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--ink-rule);
+  }
+
+  /* Numbered method steps */
+  .recipe-step-num {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink-soft);
+    letter-spacing: -0.03em;
+  }
+
+  /* Ingredient row */
+  .ingredient-row {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    color: var(--ink);
+    border-bottom: 1px dotted var(--ink-rule);
+    padding: 0.55rem 0;
+    line-height: 1.4;
+  }
+
+  /* Inline code in the cookbook recipes — phosphor-on-dark */
+  .cookbook-paper code {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--accent);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    font-size: 0.88em;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Design system v2 — typography scale + accent application.
+     Use these classes instead of ad-hoc text-[Npx] values so every page
+     uses the same five sizes and the burgundy accent shows up where it
+     should (active states, link hovers, key emphasis).
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* Five-step type scale (use these instead of arbitrary px) */
+  .text-display {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.04;
+    font-size: clamp(2rem, 3.4vw + 0.6rem, 3.4rem);
+    color: var(--ink);
+  }
+  .text-headline {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.25;
+    font-size: 19px;
+    color: var(--ink);
+  }
+  .text-body {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .text-label {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-faded);
+  }
+  .text-meta {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-faded);
+  }
+
+  /* Accent utilities — burgundy lives here so it shows up where it counts */
+  .vp-accent { color: var(--accent); }
+  .vp-accent-bg { background-color: var(--accent); color: #FFF; }
+  .vp-accent-soft-bg { background-color: var(--accent-soft); color: var(--accent); }
+  .vp-accent-bar {
+    border-left: 2px solid var(--accent);
+    padding-left: 0.85rem;
+  }
+
+  /* Link with burgundy hover — for inline text links inside prose */
+  .vp-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--ink-rule);
+    text-underline-offset: 3px;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+  .vp-link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent-line);
+  }
+
+  /* Active state — tabs, sidebar items, current step.
+     Replace the solid black pill with a burgundy underline + dot. */
+  .vp-active {
+    color: var(--accent);
+    font-weight: 600;
+    position: relative;
+  }
+  .vp-active::before {
+    content: "";
+    position: absolute;
+    left: -0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* Card density override — keep the existing vp-card shadow but tighten
+     padding so content gets more breathing room inside, not outside. */
+  .vp-card { border-radius: 0.625rem; }
+  .vp-card-tight { padding: 0.875rem 1rem; }
+  .vp-card-md { padding: 1.125rem 1.375rem; }
+  .vp-card-lg { padding: 1.25rem 1.75rem; }
+
+  /* Prose links pick up the accent hover too */
+  .prose-article a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent-line);
+  }
+
+  /* Section divider with a centered burgundy mark — replaces the old all-grey
+     "recipe-ornament". Use this between major sections to give the page a
+     visual heartbeat instead of plain horizontal rules. */
+  .vp-section-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+  }
+  .vp-section-mark::before,
+  .vp-section-mark::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    max-width: 4rem;
+    background: var(--ink-rule);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Button system — three variants, used site-wide.
+     btn-primary  : solid ink, burgundy hover (the page's main CTA)
+     btn-secondary: outlined ink, burgundy hover (sits next to a primary)
+     btn-ghost    : text-only link with underline, burgundy hover
+     ───────────────────────────────────────────────────────────────────── */
+  /* Primary CTA — Apple-style: solid accent, white text, soft radius. */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--accent);
+    color: #FFFFFF;
+    padding: 0.625rem 1.125rem;
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    line-height: 1;
+    border-radius: 0.625rem;
+    border: 1px solid var(--accent);
+    transition: background-color 160ms ease, border-color 160ms ease, transform 80ms ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+  .btn-primary:active { transform: translateY(1px); }
+
+  /* Secondary CTA — outlined, sits next to a primary. */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    color: var(--ink);
+    padding: 0.5rem 1rem;
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    line-height: 1;
+    border-radius: 0.5rem;
+    border: 1px solid var(--ink-rule);
+    transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease;
+  }
+  .btn-secondary:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background-color: var(--accent-soft);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--ink-soft);
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    text-decoration: underline;
+    text-decoration-color: var(--ink-rule);
+    text-underline-offset: 3px;
+    transition: color 140ms ease, text-decoration-color 140ms ease;
+  }
+  .btn-ghost:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent-line);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Page-header pattern — every secondary page (/about, /faq, /awesome…)
+     should use the same shape so the site feels like one product.
+     ───────────────────────────────────────────────────────────────────── */
+  .page-header {
+    border-bottom: 1px solid var(--ink-rule);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .page-header .page-kicker {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .page-header .page-kicker::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .page-header .page-title {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    font-size: clamp(1.875rem, 3vw + 0.5rem, 2.75rem);
+    color: var(--ink);
+    margin-top: 0.65rem;
+  }
+  .page-header .page-lede {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-top: 0.85rem;
+    max-width: 38rem;
+  }
+  /* Optional emoji mark above the kicker — keeps page openers uniform. */
+  .page-header .page-emoji {
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  /* Section header used WITHIN pages (smaller than page-title) */
+  .section-title {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.018em;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════
+     Design system v3 — consolidation layer.
+     One set of helpers for page scaffolding, surfaces, inputs, badges and
+     empty states so every page is built from the same parts. Prefer these
+     over ad-hoc text-[Npx] / rounded-* / hand-rolled headers.
+     ═════════════════════════════════════════════════════════════════════ */
+
+  /* ── Page scaffolding ─────────────────────────────────────────────────
+     Every page mounts in one of two shells so left edges, max-width and
+     vertical rhythm line up site-wide. */
+  .page-shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 44rem;       /* ~max-w-2xl/3xl reading measure */
+    padding-inline: 1.5rem;
+    padding-block: 3.5rem;
+  }
+  .page-shell-wide {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 64rem;       /* dashboards, grids, the cookbook */
+    padding-inline: 1.5rem;
+    padding-block: 3.5rem;
+  }
+  @media (min-width: 640px) {
+    .page-shell { padding-block: 4rem; }
+    .page-shell-wide { padding-block: 4rem; }
+  }
+  @media (max-width: 480px) {
+    .page-shell, .page-shell-wide {
+      padding-inline: 1.25rem;
+      padding-block: 2.5rem;
     }
   }
 
-  /* Article prose */
-  .prose-article { color: var(--foreground); }
-  .prose-article p { font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem; color: color-mix(in srgb, var(--foreground) 82%, transparent); }
-  .prose-article h2 { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.02em; margin-top: 3rem; margin-bottom: 1rem; color: var(--foreground); scroll-margin-top: 6rem; position: relative; padding-left: 0.875rem; }
-  .prose-article h2::before { content: ""; position: absolute; left: 0; top: 0.4em; bottom: 0.25em; width: 3px; background: var(--foreground); opacity: 0.85; border-radius: 1px; }
-  .prose-article h3 { font-size: 1.0625rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.5rem; color: var(--foreground); scroll-margin-top: 6rem; }
-  .prose-article hr { border: none; border-top: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent); margin: 2.5rem 0; }
-  .prose-article strong { font-weight: 600; color: var(--foreground); }
-  .prose-article ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
-  .prose-article ul li { padding-left: 1.25rem; position: relative; font-size: 1rem; line-height: 1.8; margin-bottom: 0.5rem; color: color-mix(in srgb, var(--foreground) 82%, transparent); }
-  .prose-article ul li::before { content: "→"; position: absolute; left: 0; color: color-mix(in srgb, var(--foreground) 40%, transparent); font-size: 0.85em; top: 0.35em; }
-  .prose-article ol { list-style: decimal; padding-left: 1.5rem; margin-bottom: 1.5rem; }
-  .prose-article ol li { font-size: 1rem; line-height: 1.8; margin-bottom: 0.5rem; color: color-mix(in srgb, var(--foreground) 82%, transparent); }
-  .prose-article code { font-family: monospace; font-size: 0.85em; background: color-mix(in srgb, var(--foreground) 6%, transparent); padding: 0.15em 0.4em; border-radius: 2px; }
-  .prose-article a { color: var(--foreground); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--foreground) 30%, transparent); }
-  .prose-article a:hover { text-decoration-color: var(--foreground); }
+  /* Consistent vertical gaps — use instead of stacking ad-hoc mt-* values. */
+  .stack-section > * + * { margin-top: var(--space-section); }
+  .stack-block > * + * { margin-top: var(--space-block); }
+  .stack-tight > * + * { margin-top: var(--space-tight); }
 
-  /* Tables — render properly instead of squishing columns */
-  .prose-article .table-wrap { overflow-x: auto; margin: 1.5rem 0; border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent); }
-  .prose-article table { width: 100%; border-collapse: collapse; font-size: 0.875rem; line-height: 1.5; }
-  .prose-article thead { background: color-mix(in srgb, var(--foreground) 4%, transparent); }
-  .prose-article th { text-align: left; font-weight: 600; color: var(--foreground); padding: 0.625rem 0.875rem; border-bottom: 1px solid color-mix(in srgb, var(--foreground) 15%, transparent); font-size: 0.8125rem; letter-spacing: 0.01em; }
-  .prose-article td { padding: 0.625rem 0.875rem; border-bottom: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent); color: color-mix(in srgb, var(--foreground) 78%, transparent); vertical-align: top; }
-  .prose-article tr:last-child td { border-bottom: none; }
-  .prose-article th + th, .prose-article td + td { border-left: 1px solid color-mix(in srgb, var(--foreground) 7%, transparent); }
+  /* ── Typography additions ─────────────────────────────────────────────
+     Fills the gap between .text-headline (19px) and .text-body (14.5px) for
+     intros / lead paragraphs that aren't the page lede. */
+  .text-body-lg {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  /* Section eyebrow that pairs with .section-title (accent, with a tick). */
+  .section-kicker {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-kicker::before {
+    content: "";
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+  }
 
-  /* Blockquote — for callouts in articles */
-  .prose-article blockquote { border-left: 2px solid color-mix(in srgb, var(--foreground) 30%, transparent); padding-left: 1rem; margin: 1.5rem 0; color: color-mix(in srgb, var(--foreground) 75%, transparent); font-style: normal; }
+  /* ── Surfaces ─────────────────────────────────────────────────────────
+     .vp-fill replaces every hand-typed bg-[rgba(33,31,28,0.05)].
+     .vp-card-hover is the interactive variant of .vp-card. */
+  .vp-fill { background-color: var(--accent-soft); }
+  .vp-card-bordered {
+    background-color: var(--paper);
+    border: 1px solid var(--ink-rule);
+    border-radius: var(--radius-lg);
+    transition: border-color 160ms ease, background-color 160ms ease;
+  }
+  .vp-card-hover { cursor: pointer; }
+  .vp-card-hover:hover {
+    border-color: var(--accent-line);
+    background-color: var(--accent-soft);
+  }
+  /* Subtle hairline divider — same weight everywhere. */
+  .vp-divider {
+    border: none;
+    border-top: 1px solid var(--ink-rule);
+  }
+
+  /* ── Inputs ───────────────────────────────────────────────────────────
+     One text-field look for search boxes, the PRD builder, contact, etc. */
+  .vp-input {
+    width: 100%;
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    background-color: var(--paper);
+    border: 1px solid var(--ink-rule);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.8rem;
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+  }
+  .vp-input::placeholder { color: var(--ink-faded); }
+  .vp-input:focus {
+    outline: none;
+    border-color: var(--accent-line);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  textarea.vp-input { resize: vertical; min-height: 6rem; }
+
+  /* ── Badges / tags ────────────────────────────────────────────────────
+     .vp-badge neutral chip; .vp-badge-accent for emphasis / counts. */
+  .vp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink-soft);
+    background-color: var(--accent-soft);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    padding: 0.3rem 0.55rem;
+  }
+  .vp-badge-outline {
+    color: var(--ink-soft);
+    background-color: transparent;
+    border-color: var(--ink-rule);
+  }
+  .vp-badge-accent {
+    color: #fff;
+    background-color: var(--accent);
+  }
+
+  /* ── Empty / loading / error states ───────────────────────────────────
+     One centred block so "nothing here" never looks like a broken layout. */
+  .vp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 3rem 1.5rem;
+    border: 1px dashed var(--ink-rule);
+    border-radius: var(--radius-lg);
+    background-color: var(--paper-soft);
+  }
+  .vp-empty .vp-empty-emoji { font-size: 28px; line-height: 1; margin-bottom: 0.25rem; }
+  .vp-empty .vp-empty-title {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .vp-empty .vp-empty-body {
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-faded);
+    max-width: 22rem;
+  }
+  /* Skeleton shimmer block for loading states. */
+  .vp-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--accent-soft) 25%,
+      rgba(33, 31, 28, 0.04) 37%,
+      var(--accent-soft) 63%
+    );
+    background-size: 400% 100%;
+    border-radius: var(--radius-md);
+    animation: vp-shimmer 1.4s ease infinite;
+  }
+  @keyframes vp-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: 0 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vp-skeleton { animation: none; }
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   Design system v4 — semantic state colors + interaction states.
+   The palette is deliberately monochrome, so these stay muted and are
+   reserved for genuine state signalling (validation, alerts, status).
+   ═════════════════════════════════════════════════════════════════════ */
+:root {
+  --success: #1F7A4D;
+  --success-soft: rgba(31, 122, 77, 0.10);
+  --warning: #8A5A00;
+  --warning-soft: rgba(138, 90, 0, 0.11);
+  --error: #B23A3A;
+  --error-soft: rgba(178, 58, 58, 0.10);
+  --info: var(--accent);
+  --info-soft: var(--accent-soft);
+}
+
+@theme inline {
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
+
+@layer utilities {
+  /* Disabled — one look for every button. */
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-ghost:disabled,
+  .btn-primary[aria-disabled="true"],
+  .btn-secondary[aria-disabled="true"],
+  .btn-ghost[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Accent focus halo on the custom controls (the global :focus-visible
+     handles everything else). */
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible,
+  .btn-ghost:focus-visible,
+  .vp-input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Badge state variants */
+  .vp-badge-success { color: var(--success); background-color: var(--success-soft); border-color: transparent; }
+  .vp-badge-warning { color: var(--warning); background-color: var(--warning-soft); border-color: transparent; }
+  .vp-badge-error   { color: var(--error);   background-color: var(--error-soft);   border-color: transparent; }
+
+  /* Alerts — info / success / warning / error, one shape site-wide. */
+  .vp-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--ink-rule);
+    border-radius: var(--radius-md);
+    background-color: var(--paper-soft);
+    font-family: var(--font-sans), ui-sans-serif, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .vp-alert-info    { border-color: var(--accent-line); background-color: var(--accent-soft); color: var(--ink-soft); }
+  .vp-alert-success { border-color: color-mix(in srgb, var(--success) 32%, transparent); background-color: var(--success-soft); color: var(--success); }
+  .vp-alert-warning { border-color: color-mix(in srgb, var(--warning) 32%, transparent); background-color: var(--warning-soft); color: var(--warning); }
+  .vp-alert-error   { border-color: color-mix(in srgb, var(--error) 32%, transparent);   background-color: var(--error-soft);   color: var(--error); }
 }

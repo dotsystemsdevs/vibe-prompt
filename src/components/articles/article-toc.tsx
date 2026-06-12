@@ -50,10 +50,10 @@ export function ArticleToc({ items, problems = [] }: ArticleTocProps) {
   if (items.length === 0 && problems.length === 0) return null;
 
   return (
-    <nav aria-label="Table of contents" className="text-[11px]">
+    <nav aria-label="Table of contents" className="text-meta">
       {items.length > 0 && (
         <>
-          <p className="mb-3 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+          <p className="text-label mb-3">
             On this page
           </p>
           <ul className="space-y-1.5">
@@ -65,8 +65,8 @@ export function ArticleToc({ items, problems = [] }: ArticleTocProps) {
                     href={`#${item.id}`}
                     className={`block py-0.5 leading-snug transition-colors ${
                       active
-                        ? "text-foreground font-medium"
-                        : "text-foreground/45 hover:text-foreground/80"
+                        ? "text-[color:var(--accent)] font-medium"
+                        : "text-[color:var(--ink-faded)] hover:text-[color:var(--ink)]"
                     }`}
                   >
                     {item.text}
@@ -80,7 +80,7 @@ export function ArticleToc({ items, problems = [] }: ArticleTocProps) {
 
       {problems.length > 0 && (
         <>
-          <p className={`${items.length > 0 ? "mt-6" : ""} mb-3 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40`}>
+          <p className={`${items.length > 0 ? "mt-6" : ""} text-label mb-3`}>
             Common problems
           </p>
           <ul className="space-y-1.5">
@@ -92,8 +92,8 @@ export function ArticleToc({ items, problems = [] }: ArticleTocProps) {
                     href={`#${p.id}`}
                     className={`block py-0.5 leading-snug transition-colors ${
                       active
-                        ? "text-foreground font-medium"
-                        : "text-foreground/45 hover:text-foreground/80"
+                        ? "text-[color:var(--accent)] font-medium"
+                        : "text-[color:var(--ink-faded)] hover:text-[color:var(--ink)]"
                     }`}
                   >
                     {p.title}

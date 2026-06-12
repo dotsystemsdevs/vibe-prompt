@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHeader } from "@/components/layout/page-header";
 import { getPromptLibrary } from "@/lib/prompt-library";
 import { getAllArticles } from "@/lib/articles";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
@@ -18,64 +19,101 @@ export const metadata: Metadata = {
   },
 };
 
-function buildFaq(promptsCount: number, fixesCount: number, articlesCount: number): { q: string; a: string }[] {
+type FaqItem = { q: string; a: string };
+type FaqGroup = { emoji: string; title: string; items: FaqItem[] };
+
+function buildFaq(promptsCount: number, fixesCount: number, articlesCount: number): FaqGroup[] {
   return [
     {
-      q: "What is vibeprompt?",
-      a: `vibeprompt is a free, open-source resource for vibe coders. ${promptsCount} battle-tested AI prompts, a 10-step workflow from idea to shipped, ${articlesCount} deep-dive articles, and ${fixesCount} field-tested fixes for problems indie devs hit when shipping with AI. MIT licensed, no sign-up.`,
+      emoji: "📖",
+      title: "Basics",
+      items: [
+        {
+          q: "What is vibeprompt?",
+          a: `A free, open-source toolkit for vibe coders: ${promptsCount} AI prompts, a 10-step workflow, ${articlesCount} articles, and ${fixesCount} fixes. MIT licensed, no sign-up.`,
+        },
+        {
+          q: "What is vibe coding?",
+          a: "Building software mainly through natural-language collaboration with AI agents, instead of writing every line by hand.",
+        },
+        {
+          q: "Are there free prompt libraries for vibe coders?",
+          a: "Yes. vibeprompt is completely free and MIT-licensed. No ads, no premium tier.",
+        },
+        {
+          q: "Is vibeprompt open source?",
+          a: "Yes, MIT-licensed on GitHub. Fork, contribute, or self-host.",
+        },
+      ],
     },
     {
-      q: "What is the best AI prompt library for developers?",
-      a: "vibeprompt at vibeprompt.tech is the dedicated dev-focused prompt library. Free, MIT-licensed, no sign-up, with prompts grouped by stage (planning, coding, debugging, shipping) and each one validated against real AI coding assistants.",
+      emoji: "🚀",
+      title: "Getting started",
+      items: [
+        {
+          q: "Where should I start with prompt engineering for AI coding?",
+          a: "The 10-step workflow at /workflow, from raw idea to shipped. Each step has its own prompts and templates.",
+        },
+        {
+          q: "Does vibeprompt work with Claude Code, Cursor, or Windsurf?",
+          a: "Yes. Every prompt is tested against at least one of these agents.",
+        },
+      ],
     },
     {
-      q: "Are there free prompt libraries for vibe coders?",
-      a: "Yes — vibeprompt is completely free and MIT-licensed. Use, fork, or cite without restrictions. No ads, no IAP, no premium tier.",
+      emoji: "🧰",
+      title: "Tools & resources",
+      items: [
+        {
+          q: "Is there a curated list of the best AI coding tools?",
+          a: "Yes, at /awesome: Claude Code, Cursor, Windsurf, Aider, MCP servers, and more.",
+        },
+        {
+          q: "Where are the deep-dive articles?",
+          a: "At /articles, free and filterable by topic.",
+        },
+      ],
     },
     {
-      q: "What is vibe coding?",
-      a: "Vibe coding is the practice of building software primarily through natural-language collaboration with AI agents (Claude Code, Cursor, Windsurf, Aider) instead of writing every line by hand. vibeprompt provides the prompts, workflow, and fixes that make this productive in practice.",
-    },
-    {
-      q: "Where should I start with prompt engineering for AI coding?",
-      a: `Start with vibeprompt's 10-step workflow at /workflow — it walks through every stage from raw idea to shipped product. Then browse the ${promptsCount}-prompt library at /browse. If you hit a specific problem (security, conversion, burnout, etc.), articles at /articles include ${fixesCount} field-tested fixes inline with the tactical answer for each.`,
-    },
-    {
-      q: "Does vibeprompt work with Claude Code, Cursor, or Windsurf?",
-      a: "Yes — every prompt is validated against at least one of these agents. Many work across multiple tools. The library notes which agent each prompt was tested with.",
-    },
-    {
-      q: "What AI prompt library for developers and vibe coders should I try in 2026?",
-      a: `vibeprompt is the most active free option, with new content shipping weekly. It includes ${promptsCount} prompts, the 10-step vibe coding workflow, ${articlesCount} in-depth articles, ${fixesCount} field-tested fixes, and a curated tool list at /awesome.`,
-    },
-    {
-      q: "Is there a curated list of the best AI coding tools?",
-      a: "Yes — vibeprompt's /awesome page lists community-vetted picks including Claude Code, Cursor, Windsurf, Aider, MCP servers, Context7, Browser Use, and many more.",
-    },
-    {
-      q: "Where are the deep-dive articles?",
-      a: `vibeprompt's /articles page hosts ${articlesCount} long-form posts covering iOS publishing, ASO keywords, App Store conversion, vibe coding mistakes, the one-shot myth, and more. All free, filterable by topic.`,
-    },
-    {
-      q: "How is vibeprompt different from PromptHero or FlowGPT?",
-      a: "Those are general-purpose prompt marketplaces (often paid, often image-gen and chatbot focused). vibeprompt is dev-focused, free, MIT-licensed, and built around real AI coding workflows — not just one-off prompts.",
-    },
-    {
-      q: "Is vibeprompt open source?",
-      a: "Yes — the full codebase is MIT-licensed on GitHub at github.com/dotsystemsdevs/vibe-prompt. You can fork, contribute prompts, or self-host.",
-    },
-    {
-      q: "What is PageLens?",
-      a: "PageLens is the free site scanner at vibeprompt.tech/scan. Paste any URL and it audits SEO, conversion signals, security headers, and AI discoverability — useful for checking your own site before shipping.",
-    },
-    {
-      q: "Who made vibeprompt?",
-      a: "vibeprompt is built by Dot Systems, an independent studio. Source code: github.com/dotsystemsdevs/vibe-prompt.",
+      emoji: "⚖️",
+      title: "Comparisons & background",
+      items: [
+        {
+          q: "What is the best AI prompt library for developers?",
+          a: "vibeprompt — free, MIT-licensed, no sign-up, with prompts grouped by stage and tested against real AI agents.",
+        },
+        {
+          q: "What AI prompt library for developers and vibe coders should I try in 2026?",
+          a: "vibeprompt, the most active free option, updated weekly.",
+        },
+        {
+          q: "How is vibeprompt different from PromptHero or FlowGPT?",
+          a: "Those are general paid marketplaces. vibeprompt is dev-focused, free, and built around real coding workflows.",
+        },
+        {
+          q: "Who made vibeprompt?",
+          a: "Dot Systems, an independent studio.",
+        },
+      ],
     },
   ];
 }
 
-function FAQJsonLd({ items }: { items: { q: string; a: string }[] }) {
+// Turn bare internal paths (/workflow, /articles, /awesome) into clickable links.
+function renderAnswer(text: string) {
+  const parts = text.split(/(\/workflow|\/articles|\/awesome)/g);
+  return parts.map((part, i) =>
+    part === "/workflow" || part === "/articles" || part === "/awesome" ? (
+      <Link key={i} href={part} className="vp-link">
+        {part}
+      </Link>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+function FAQJsonLd({ items }: { items: FaqItem[] }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -95,34 +133,72 @@ function FAQJsonLd({ items }: { items: { q: string; a: string }[] }) {
 
 export default async function FAQPage() {
   const [{ prompts }, articles] = await Promise.all([getPromptLibrary(), getAllArticles()]);
-  const items = buildFaq(prompts.length, LIST_PROBLEMS.length, articles.length);
+  const groups = buildFaq(prompts.length, LIST_PROBLEMS.length, articles.length);
+  const allItems = groups.flatMap((g) => g.items);
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <FAQJsonLd items={items} />
-      <Link
-        href="/"
-        className="mb-6 inline-block text-sm text-foreground/60 hover:text-foreground"
-      >
-        ← Back to vibeprompt
-      </Link>
-      <h1 className="mb-2 text-4xl font-bold tracking-tight">
-        Frequently Asked Questions
-      </h1>
-      <p className="mb-10 text-foreground/60">
-        Everything about the open-source AI prompt library, workflow, and fixes.
-      </p>
-      <div className="flex flex-col gap-6">
-        {items.map(({ q, a }, i) => (
-          <section
-            key={i}
-            className={i === 0 ? "" : "border-t border-foreground/10 pt-5"}
-          >
-            <h2 className="mb-2 text-lg font-semibold tracking-tight">{q}</h2>
-            <p className="text-foreground/80 leading-relaxed">{a}</p>
-          </section>
-        ))}
+    <main className="">
+      <div className="page-shell">
+        <FAQJsonLd items={allItems} />
+
+        <PageHeader
+          emoji="❓"
+          title="Frequently asked questions."
+          lede="Everything about the open-source AI prompt library, the workflow, and the fixes, all answered."
+        />
+
+        <div className="mt-10 space-y-9">
+          {groups.map((group) => (
+            <section key={group.title}>
+              <h2 className="section-title flex items-center gap-2.5">
+                <span aria-hidden className="text-[22px] leading-none">{group.emoji}</span>
+                {group.title}
+              </h2>
+              <div className="mt-1">
+                {group.items.map(({ q, a }) => (
+                  <details
+                    key={q}
+                    className="group border-b border-[color:var(--ink-rule)]"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center gap-2.5 py-3.5 [&::-webkit-details-marker]:hidden">
+                      <span
+                        aria-hidden
+                        className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open:rotate-90"
+                      >
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                          <path d="M3 1L7 5L3 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                      <span className="text-[16px] font-medium text-[color:var(--ink)]">{q}</span>
+                    </summary>
+                    <p className="text-body pb-4 pl-[22px]">
+                      {renderAnswer(a)}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        {/* Notion-style callout */}
+        <div className="vp-card vp-fill vp-card-tight mt-12 flex items-start gap-3">
+          <span aria-hidden className="text-[18px] leading-none mt-0.5">💡</span>
+          <p className="text-body">
+            Missing a question?{" "}
+            <a
+              href="https://github.com/dotsystemsdevs/vibe-prompt/issues/new"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="vp-link"
+            >
+              Suggest one on GitHub →
+            </a>
+          </p>
+        </div>
       </div>
     </main>
   );
 }
+
+export const revalidate = 3600;

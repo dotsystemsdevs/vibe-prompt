@@ -36,25 +36,23 @@ function isExternalHref(href: string) {
   return /^https?:\/\//i.test(href);
 }
 
-function Action({ action, accent }: { action: HeroAction; accent: string }) {
+function Action({ action }: { action: HeroAction; accent: string }) {
   const variant = action.variant ?? "primary";
   const classes =
     variant === "primary"
-      ? "inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-[#09090b] transition-opacity hover:opacity-85"
-      : "text-xs text-muted-foreground transition-colors hover:text-foreground";
-
-  const style = variant === "primary" ? { backgroundColor: accent } : {};
+      ? "inline-flex items-center gap-1.5 rounded-md bg-[color:var(--accent)] px-3.5 py-2 text-[13.5px] font-medium text-white transition-colors hover:bg-[color:var(--accent-hover)]"
+      : "inline-flex items-center gap-1.5 text-[13px] text-[color:var(--ink-soft)] transition-colors hover:text-[color:var(--accent)]";
 
   if (isExternalHref(action.href)) {
     return (
-      <a href={action.href} target="_blank" rel="noopener noreferrer" className={classes} style={style}>
+      <a href={action.href} target="_blank" rel="noopener noreferrer" className={classes}>
         {action.label} →
       </a>
     );
   }
 
   return (
-    <Link href={action.href} className={classes} style={style}>
+    <Link href={action.href} className={classes}>
       {action.label} →
     </Link>
   );
@@ -75,19 +73,19 @@ export function Hero({
   const resolvedAccent = accent ?? "var(--lilac)";
   return (
     <section
-      className={`relative overflow-hidden px-6 py-8 sm:py-10 ${className ?? ""}`}
+      className={`relative px-6 py-8 sm:py-10 ${className ?? ""}`}
       style={{ ["--hero-accent" as never]: resolvedAccent } as React.CSSProperties}
     >
-
-
-      <div className="relative mx-auto max-w-6xl">
-        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between">
-          <div className={`${!rightSlot ? "mx-auto max-w-4xl text-center" : "max-w-2xl"}`}>
+      <div className="mx-auto max-w-4xl">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+          <div className={rightSlot ? "max-w-2xl" : "max-w-2xl"}>
             {eyebrow && (
-              <p className="hero-kicker mb-5">{eyebrow}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.10em] text-[color:var(--ink-faded)] mb-3">
+                {eyebrow}
+              </p>
             )}
 
-            <h1 className="hero-display">
+            <h1 className="text-[36px] sm:text-[42px] font-bold tracking-[-0.025em] leading-[1.1] text-[color:var(--ink)]">
               {splitLines(title).map((line, i, arr) => (
                 <span key={i}>
                   {renderLine(line)}
@@ -97,25 +95,25 @@ export function Hero({
             </h1>
 
             {description && (
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-4 max-w-xl text-[15px] leading-[1.6] text-[color:var(--ink-soft)]">
                 {description}
               </p>
             )}
             {descriptionSlot && (
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-4 max-w-xl text-[15px] leading-[1.6] text-[color:var(--ink-soft)]">
                 {descriptionSlot}
               </p>
             )}
 
             {(primaryAction || secondaryAction) && (
-              <div className="mt-8 flex flex-wrap items-center gap-5">
+              <div className="mt-6 flex flex-wrap items-center gap-3">
                 {primaryAction && <Action action={primaryAction} accent={resolvedAccent} />}
                 {secondaryAction && <Action action={secondaryAction} accent={resolvedAccent} />}
               </div>
             )}
           </div>
 
-          {rightSlot ? <div className="relative hidden lg:block">{rightSlot}</div> : null}
+          {rightSlot ? <div className="hidden lg:block">{rightSlot}</div> : null}
         </div>
       </div>
     </section>

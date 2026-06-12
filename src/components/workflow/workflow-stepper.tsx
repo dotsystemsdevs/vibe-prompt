@@ -6,16 +6,37 @@ import { StepChecklist } from "./workflow-checklist";
 import type { ArticleMeta } from "@/lib/articles";
 import type { ListProblem } from "@/lib/list-problems";
 import { LIST_CATEGORY_LABEL } from "@/lib/list-problems";
+import type { AwesomeItem } from "@/lib/awesome-data";
+
+export type StepTool = AwesomeItem & { categoryTitle: string; categoryEmoji: string };
 
 type Resource = { label: string; href: string; usage?: string[]; type?: "video" | "tool" | "article" };
 
 export type TaskLink = { label: string; href: string };
-export type TaskItem = { text: string; detail?: string; links?: TaskLink[] };
+export type TaskItem = {
+  /** Short headline / action verb. */
+  text: string;
+  /** What this thing is + why you need it (intro). */
+  detail?: string;
+  /** Platform-specific instructions for macOS users. */
+  mac?: string;
+  /** Platform-specific instructions for Windows users. */
+  windows?: string;
+  /** Build-type variant for app builders (mobile / desktop / packaged). */
+  app?: string;
+  /** Build-type variant for website / web app builders. */
+  website?: string;
+  /** How to verify the step worked (the "✓ Done when" line). */
+  verify?: string;
+  /** Inline tool links (rendered in Ingredients aside, deduped). */
+  links?: TaskLink[];
+};
 export type TaskGroup = { heading?: string; description?: string; badge?: string; items: TaskItem[]; resources?: Resource[] };
 
 export type StepRelated = {
   articles: ArticleMeta[];
   fixes: ListProblem[];
+  tools?: StepTool[];
 };
 
 export type StepData = {
@@ -65,8 +86,29 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
     return () => window.removeEventListener("vp-tasks-changed", compute);
   }, [steps]);
 
+  // Drive current step from URL hash so navbar links work.
+  useEffect(() => {
+    function syncFromHash() {
+      const hash = window.location.hash.replace(/^#/, "");
+      const match = /^step-(\d+)$/.exec(hash);
+      if (!match) return;
+      const stepId = match[1];
+      const idx = steps.findIndex((s) => s.step === stepId);
+      if (idx >= 0) setCurrent(idx);
+    }
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, [steps]);
+
   function go(i: number) {
     setCurrent(i);
+    const newHash = `#step-${steps[i].step}`;
+    if (window.location.hash !== newHash) {
+      history.replaceState(null, "", newHash);
+      // replaceState does not fire hashchange, so notify listeners (navbar active state) manually.
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    }
     window.scrollTo({ top: 0, behavior: "instant" });
   }
 
@@ -76,16 +118,17 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
   const taskCount = s.tasks.reduce((n, g) => n + g.items.filter(i => !i.text.startsWith("Watch:") && !i.text.startsWith("Read:")).length, 0);
   const learnCount = s.tasks.reduce((n, g) => n + g.items.filter(i => i.text.startsWith("Watch:") || i.text.startsWith("Read:")).length, 0);
 
-  const related = relatedByStep[s.step] ?? { articles: [], fixes: [] };
+  const related = relatedByStep[s.step] ?? { articles: [], fixes: [], tools: [] };
   const relatedArticles = related.articles;
   const relatedProblems = related.fixes;
+  const relatedTools = related.tools ?? [];
 
   return (
-    <div className="border border-foreground/20 overflow-hidden">
+    <div className="vp-card-bordered overflow-hidden">
 
       {/* Step tabs, same as category tabs in browse/awesome */}
-      <div className="relative border-b border-foreground/12">
-        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-background to-transparent" />
+      <div className="relative border-b border-[color:var(--ink-rule)]">
+        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-[color:var(--page)] to-transparent" />
         <div className="flex items-center overflow-x-auto no-scrollbar px-4">
           {steps.map((step, i) => {
             const isActive = i === current;
@@ -95,11 +138,11 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
                 key={step.step}
                 onClick={() => go(i)}
                 className={`shrink-0 flex items-center gap-1.5 border-b-2 px-3 py-3.5 text-xs transition-colors ${
-                  isActive ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground/80"
+                  isActive ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-[color:var(--ink-soft)]"
                 }`}
               >
                 {isDone && (
-                  <span className="font-mono text-[10px] tabular-nums text-foreground/40">✓</span>
+                  <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">✓</span>
                 )}
                 <span>{step.title}</span>
               </button>
@@ -109,22 +152,22 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
       </div>
 
       {/* Step header */}
-      <div className="border-b border-foreground/12 px-4 py-4 sm:px-6 sm:py-5">
+      <div className="border-b border-[color:var(--ink-rule)] px-4 py-4 sm:px-6 sm:py-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             {s.step !== ", " && (
-              <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/30">
-                Step {s.step}
+              <p className="mb-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">
+                Recipe {s.step}
               </p>
             )}
-            <h2 className="text-base font-semibold text-foreground/90 sm:text-sm">{s.title}</h2>
+            <h2 className="text-base font-semibold text-[color:var(--ink-soft)] sm:text-sm">{s.title}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{s.whatThis}</p>
           </div>
           {(taskCount > 0 || learnCount > 0 || s.timeEstimate) && (
             <div className="shrink-0 flex flex-col items-end gap-1 pt-0.5">
-              {s.timeEstimate && <span className="font-mono text-[10px] tabular-nums text-foreground/30">~{s.timeEstimate}</span>}
-              {taskCount > 0 && <span className="font-mono text-[10px] tabular-nums text-foreground/25">{taskCount} tasks</span>}
-              {learnCount > 0 && <span className="font-mono text-[10px] tabular-nums text-foreground/20">{learnCount} resources</span>}
+              {s.timeEstimate && <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">~{s.timeEstimate}</span>}
+              {taskCount > 0 && <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">{taskCount} tasks</span>}
+              {learnCount > 0 && <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">{learnCount} resources</span>}
             </div>
           )}
         </div>
@@ -133,30 +176,30 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
       {/* Intro (Before You Start) */}
       {s.intro && (
         <>
-          <div className="flex items-center gap-3 border-b border-foreground/[0.06] bg-foreground/[0.02] px-4 py-3 sm:px-6">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">This is for you if</span>
+          <div className="flex items-center gap-3 border-b border-[color:var(--ink-rule)] vp-fill px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">This is for you if</span>
           </div>
-          <div className="divide-y divide-foreground/[0.06]">
+          <div className="divide-y divide-[color:var(--ink-rule)]">
             {s.intro.forWho.map((line, i) => (
               <div key={i} className="flex items-start gap-3 px-4 py-4 sm:px-6 sm:py-3.5">
-                <span className="shrink-0 mt-1 text-foreground/20">◆</span>
-                <p className="text-sm leading-relaxed text-foreground/80">{line}</p>
+                <span className="shrink-0 mt-1 text-[color:var(--ink-faded)]">◆</span>
+                <p className="text-sm leading-relaxed text-[color:var(--ink-soft)]">{line}</p>
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-3 border-y border-foreground/[0.06] bg-foreground/[0.02] px-4 py-3 sm:px-6">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">The struggle</span>
+          <div className="flex items-center gap-3 border-y border-[color:var(--ink-rule)] vp-fill px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">The struggle</span>
           </div>
-          <div className="divide-y divide-foreground/[0.06]">
+          <div className="divide-y divide-[color:var(--ink-rule)]">
             {s.intro.struggle.map((line, i) => (
               <div key={i} className="px-4 py-4 sm:px-6 sm:py-3.5">
-                <div className="border-l-2 border-foreground/[0.08] pl-3">
+                <div className="border-l-2 border-[color:var(--ink-rule)] pl-3">
                   <p className="text-sm leading-relaxed text-muted-foreground">{line}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="border-t border-foreground/[0.06] px-4 py-4 sm:px-6">
+          <div className="border-t border-[color:var(--ink-rule)] px-4 py-4 sm:px-6">
             <p className="text-xs italic text-muted-foreground/50">,  {s.intro.origin}</p>
           </div>
         </>
@@ -172,45 +215,86 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
         />
       )}
 
+      {/* Tools for this step. Pulled from the awesome list, scoped to this stage. */}
+      {relatedTools.length > 0 && (
+        <div className="border-t border-[color:var(--ink-rule)]">
+          <div className="flex items-center justify-between gap-3 vp-fill px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">
+              Ingredients
+            </span>
+            <span className="text-[9px] font-mono tabular-nums text-[color:var(--ink-faded)]">
+              {relatedTools.length}
+            </span>
+          </div>
+          <div className="divide-y divide-[color:var(--ink-rule)]">
+            {relatedTools.map((tool) => (
+              <a
+                key={`${tool.href}-${tool.name}`}
+                href={tool.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-3 px-4 py-3.5 sm:px-6 transition-colors hover:bg-[color:var(--accent-soft)]"
+              >
+                <span className="shrink-0 mt-1 text-[color:var(--ink-faded)] text-[10px]">◆</span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-[13px] font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-foreground">
+                      {tool.name}
+                    </p>
+                    <span className="text-[10px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink-soft)]">↗</span>
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-[color:var(--ink-faded)] line-clamp-2">
+                    {tool.description}
+                  </p>
+                </div>
+                <span className="hidden sm:inline shrink-0 mt-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">
+                  {tool.categoryTitle}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Prompts CTA, as row */}
       {s.browseSlug && (
         <Link
           href={`/browse?category=${s.browseSlug}`}
-          className="group flex items-center gap-4 border-t border-foreground/12 px-4 py-4 sm:px-6 sm:py-3.5 transition-colors hover:bg-foreground/[0.03]"
+          className="group flex items-center gap-4 border-t border-[color:var(--ink-rule)] px-4 py-4 sm:px-6 sm:py-3.5 transition-colors hover:bg-[color:var(--accent-soft)]"
         >
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-foreground/60 transition-colors group-hover:text-foreground/90">Prompts for this step</p>
+            <p className="text-xs font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-foreground">Prompts for this recipe</p>
             <p className="mt-0.5 text-[11px] text-muted-foreground/40">Battle-tested prompts, ready to copy</p>
           </div>
-          <span className="text-[11px] text-foreground/25 transition-colors group-hover:text-foreground/70">Browse →</span>
+          <span className="text-[11px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink-soft)]">Browse →</span>
         </Link>
       )}
 
       {/* Related articles */}
       {relatedArticles.length > 0 && (
-        <div className="border-t border-foreground/12">
-          <div className="flex items-center gap-3 bg-foreground/[0.02] px-4 py-3 sm:px-6">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
-              Read this for depth
+        <div className="border-t border-[color:var(--ink-rule)]">
+          <div className="flex items-center gap-3 vp-fill px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">
+              Techniques
             </span>
           </div>
-          <div className="divide-y divide-foreground/[0.06]">
+          <div className="divide-y divide-[color:var(--ink-rule)]">
             {relatedArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/articles/${article.slug}`}
-                className="group flex items-start gap-3 px-4 py-3.5 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
+                className="group flex items-start gap-3 px-4 py-3.5 sm:px-6 transition-colors hover:bg-[color:var(--accent-soft)]"
               >
-                <span className="shrink-0 mt-1 text-foreground/20 text-[10px]">◆</span>
+                <span className="shrink-0 mt-1 text-[color:var(--ink-faded)] text-[10px]">◆</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-medium leading-snug text-foreground/85 transition-colors group-hover:text-foreground">
+                  <p className="text-[13px] font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-foreground">
                     {article.title}
                   </p>
-                  <p className="mt-0.5 text-[11px] leading-relaxed text-foreground/45 line-clamp-2">
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-[color:var(--ink-faded)] line-clamp-2">
                     {article.description}
                   </p>
                 </div>
-                <span className="shrink-0 mt-1 text-[9px] text-foreground/20 transition-colors group-hover:text-foreground/45">→</span>
+                <span className="shrink-0 mt-1 text-[9px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink-soft)]">→</span>
               </Link>
             ))}
           </div>
@@ -219,26 +303,26 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
 
       {/* Related fixes — when things break at this step */}
       {relatedProblems.length > 0 && (
-        <div className="border-t border-foreground/12">
-          <div className="flex items-center gap-3 bg-foreground/[0.02] px-4 py-3 sm:px-6">
-            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
-              When it breaks
+        <div className="border-t border-[color:var(--ink-rule)]">
+          <div className="flex items-center gap-3 vp-fill px-4 py-3 sm:px-6">
+            <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)]">
+              Troubleshooting
             </span>
           </div>
-          <div className="divide-y divide-foreground/[0.06]">
+          <div className="divide-y divide-[color:var(--ink-rule)]">
             {relatedProblems.map((problem) => (
               <Link
                 key={problem.id}
                 href={problem.articleSlug ? `/articles/${problem.articleSlug}#${problem.id}` : "/articles"}
-                className="group flex items-baseline gap-3 px-4 py-3 sm:px-6 transition-colors hover:bg-foreground/[0.03]"
+                className="group flex items-baseline gap-3 px-4 py-3 sm:px-6 transition-colors hover:bg-[color:var(--accent-soft)]"
               >
-                <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/30 w-12">
+                <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)] w-12">
                   {LIST_CATEGORY_LABEL[problem.category]}
                 </span>
-                <span className="flex-1 text-[12px] leading-snug text-foreground/65 transition-colors group-hover:text-foreground">
+                <span className="flex-1 text-[12px] leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-foreground">
                   {problem.title}
                 </span>
-                <span className="shrink-0 text-[9px] text-foreground/20 transition-colors group-hover:text-foreground/45">→</span>
+                <span className="shrink-0 text-[9px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink-soft)]">→</span>
               </Link>
             ))}
           </div>
@@ -246,11 +330,11 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
       )}
 
       {/* Prev / Next, as footer row */}
-      <div className="flex border-t border-foreground/12">
+      <div className="flex border-t border-[color:var(--ink-rule)]">
         <button
           onClick={() => go(current - 1)}
           disabled={isFirst}
-          className="flex flex-1 items-center gap-2 border-r border-foreground/12 px-4 py-4 sm:px-6 text-xs text-muted-foreground transition-colors hover:bg-foreground/[0.03] hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
+          className="flex flex-1 items-center gap-2 border-r border-[color:var(--ink-rule)] px-4 py-4 sm:px-6 text-xs text-muted-foreground transition-colors hover:bg-[color:var(--accent-soft)] hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
         >
           <span>←</span>
           <span>{steps[current - 1]?.title}</span>
@@ -258,7 +342,7 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
         <button
           onClick={() => go(current + 1)}
           disabled={isLast}
-          className="flex flex-1 items-center justify-end gap-2 px-4 py-4 sm:px-6 text-xs text-muted-foreground transition-colors hover:bg-foreground/[0.03] hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
+          className="flex flex-1 items-center justify-end gap-2 px-4 py-4 sm:px-6 text-xs text-muted-foreground transition-colors hover:bg-[color:var(--accent-soft)] hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
         >
           <span>{steps[current + 1]?.title}</span>
           <span>→</span>

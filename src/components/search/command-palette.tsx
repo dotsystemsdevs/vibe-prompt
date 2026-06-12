@@ -102,11 +102,11 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
       />
 
       <div
-        className="relative w-full max-w-xl mx-4 border border-foreground/20 bg-background shadow-2xl"
+        className="relative w-full max-w-xl mx-4 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 border-b border-foreground/12 px-4 py-3">
-          <svg className="h-4 w-4 shrink-0 text-foreground/40" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
+        <div className="flex items-center gap-3 border-b border-[color:var(--ink-rule)] px-4 py-3">
+          <svg className="h-4 w-4 shrink-0 text-[color:var(--ink-faded)]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.34-4.34M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
           </svg>
           <input
@@ -116,20 +116,21 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onInputKey}
             placeholder="Search articles, prompts, fixes, pages..."
-            className="flex-1 bg-transparent text-[14px] text-foreground placeholder:text-foreground/35 outline-none"
+            className="flex-1 bg-transparent text-body text-[color:var(--ink)] placeholder:text-[color:var(--ink-faded)] outline-none"
             autoComplete="off"
             aria-label="Search query"
           />
-          <kbd className="hidden sm:inline-block rounded border border-foreground/15 px-1.5 py-0.5 font-mono text-[10px] text-foreground/40">
+          <kbd className="hidden sm:inline-block rounded-sm border border-[color:var(--ink-rule)] px-1.5 py-0.5 font-mono text-[10px] text-[color:var(--ink-faded)]">
             esc
           </kbd>
         </div>
 
         <div className="max-h-[55vh] overflow-y-auto">
           {filtered.length === 0 ? (
-            <div className="px-5 py-10 text-center">
-              <p className="text-[13px] text-foreground/55 mb-2">No matches.</p>
-              <p className="text-[11px] text-foreground/35">
+            <div className="vp-empty m-4 border-0 bg-transparent">
+              <div aria-hidden className="vp-empty-emoji">🔍</div>
+              <p className="vp-empty-title">No matches.</p>
+              <p className="vp-empty-body">
                 Try shorter keywords like &ldquo;testflight&rdquo;, &ldquo;aso&rdquo;, &ldquo;refactor&rdquo;.
               </p>
             </div>
@@ -143,20 +144,20 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
                       type="button"
                       onClick={() => go(item)}
                       onMouseEnter={() => setSelectedIndex(i)}
-                      className={`w-full text-left px-4 py-3 border-b border-foreground/[0.06] last:border-b-0 transition-colors ${
-                        active ? "bg-foreground/[0.06]" : ""
+                      className={`w-full text-left px-4 py-3 border-b border-[color:var(--ink-rule)] last:border-b-0 transition-colors ${
+                        active ? "bg-[color:var(--sidebar-hover)]" : ""
                       }`}
                     >
                       <div className="flex items-baseline gap-3">
-                        <span className="shrink-0 w-12 text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35">
+                        <span className="shrink-0 w-12 text-label text-[color:var(--ink-faded)]">
                           {TYPE_LABEL[item.type]}
                         </span>
-                        <span className="flex-1 min-w-0 text-[13px] font-medium text-foreground/90 leading-snug">
+                        <span className="flex-1 min-w-0 text-body font-medium text-[color:var(--ink)] leading-snug">
                           {item.title}
                         </span>
                       </div>
                       {item.snippet && (
-                        <p className="mt-1 ml-[60px] text-[11px] leading-relaxed text-foreground/45 line-clamp-1">
+                        <p className="mt-1 ml-[60px] text-meta line-clamp-1">
                           {item.snippet}
                         </p>
                       )}
@@ -168,7 +169,7 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
           )}
         </div>
 
-        <div className="hidden sm:flex items-center justify-between border-t border-foreground/12 px-4 py-2 text-[10px] text-foreground/35">
+        <div className="hidden sm:flex items-center justify-between border-t border-[color:var(--ink-rule)] px-4 py-2 text-[10px] text-[color:var(--ink-faded)]">
           <div className="flex items-center gap-3">
             <span><kbd className="font-mono">↑↓</kbd> navigate</span>
             <span><kbd className="font-mono">↵</kbd> open</span>
@@ -189,13 +190,13 @@ export function CommandPaletteTrigger() {
       type="button"
       onClick={open}
       aria-label="Open search (Cmd+K)"
-      className="hidden md:inline-flex items-center gap-2 border border-foreground/20 px-3 py-1.5 text-xs text-foreground/55 transition-colors hover:border-foreground/40 hover:text-foreground"
+      className="hidden md:inline-flex items-center gap-2 rounded-md border border-[color:var(--ink-rule)] px-3 py-1.5 text-meta transition-colors hover:border-[color:var(--accent-line)] hover:text-[color:var(--ink)]"
     >
       <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.34-4.34M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
       </svg>
       <span>Search</span>
-      <kbd className="font-mono text-[10px] text-foreground/35">⌘K</kbd>
+      <kbd className="font-mono text-[10px] text-[color:var(--ink-faded)]">⌘K</kbd>
     </button>
   );
 }

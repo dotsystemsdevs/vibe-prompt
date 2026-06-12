@@ -1,18 +1,18 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getPromptLibrary } from "@/lib/prompt-library";
-import { getRepoContributors } from "@/lib/github-repo-contributors";
-import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 import { getAllArticles } from "@/lib/articles";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
+import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
+import { BUILT_WITH_PROJECTS } from "@/lib/built-with-data";
 
 export default async function HomePage() {
   const { prompts } = await getPromptLibrary();
-  const contributors = await getRepoContributors();
   const articles = await getAllArticles();
   const fixesCount = LIST_PROBLEMS.length;
   const articlesCount = articles.length;
   const promptsCount = prompts.length;
+  const recipeCount = WORKFLOW_STEPS.length;
+  const builtCount = BUILT_WITH_PROJECTS.length;
 
   const schemaOrg = {
     "@context": "https://schema.org",
@@ -23,243 +23,78 @@ export default async function HomePage() {
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    keywords: "vibe coding, vibe coding cookbook, vibe coding book, vibe coding guide, AI prompts, prompt library, Claude prompts, AI workflow, open source",
+    keywords: "vibe coding, vibe coding cookbook, AI prompts, prompt library, Claude prompts, AI workflow, open source",
     creator: { "@type": "Organization", name: "vibeprompt", url: "https://vibeprompt.tech" },
   };
+
+  const FEATURES = [
+    { emoji: "✍️", title: `${promptsCount} prompts`, desc: "Copy-paste for every stage, from planning to polish." },
+    { emoji: "🛡️", title: `${fixesCount} fixes`, desc: "For when AI breaks your build or your launch stalls." },
+    { emoji: "🚀", title: `${recipeCount}-step workflow`, desc: "Idea to shipped, nothing skipped." },
+  ];
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }} />
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden pt-12">
+      <div className="mx-auto flex w-full max-w-3xl flex-col justify-center px-6 py-14 sm:px-8 lg:h-full lg:overflow-hidden lg:py-0">
 
-        {/* ── Desktop: split ── */}
-        <div className="mx-auto hidden w-full max-w-6xl items-center gap-20 px-12 xl:px-16 lg:flex py-16 xl:py-20">
+        {/* Hero — Notion-style left-aligned */}
+        <div aria-hidden className="page-emoji">🍳</div>
+        <p className="page-kicker">
+          vibeprompt · the vibe coding cookbook
+        </p>
+        <h1 className="text-display mt-3">
+          Vibe code that actually ships.
+        </h1>
+        <p className="text-body-lg mt-4 max-w-xl">
+          A {recipeCount}-step playbook with {promptsCount} battle-tested prompts and {fixesCount} fixes
+          for when AI breaks your build. Free, open source, no sign-up.
+        </p>
 
-          {/* Left */}
-          <div className="flex flex-1 flex-col">
-
-            <h1
-              className="font-bold leading-[1.02] tracking-[-0.04em] text-foreground"
-              style={{ fontSize: "clamp(2.6rem, 3.8vw + 0.5rem, 4.2rem)" }}
-            >
-              The vibe coding
-              <br />
-              cookbook.
-            </h1>
-
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-foreground/55">
-              {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow. Free,{" "}
-              <a
-                href="https://github.com/dotsystemsdevs/vibe-prompt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors"
-              >
-                open source on GitHub
-              </a>.
-            </p>
-
-            <div className="mt-8 flex items-center gap-3">
-              <Link
-                href="/workflow"
-                className="cta inline-flex items-center gap-2 px-7 py-3 text-sm font-semibold text-white transition-all hover:opacity-85 active:scale-95"
-                style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
-              >
-                See the workflow →
-              </Link>
-              <Link
-                href="/toolbox#generators"
-                className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
-              >
-                Or generate your AGENTS.md →
-              </Link>
-            </div>
-
-            {contributors.length > 0 && (
-              <div className="mt-10 flex items-center gap-3">
-                <div className="flex items-center">
-                  {contributors.slice(0, 8).map((c, i) => (
-                    <a
-                      key={c.login}
-                      href={c.profileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={c.login}
-                      className="relative block transition-transform hover:z-10 hover:scale-110"
-                      style={{ marginLeft: i === 0 ? 0 : "-8px" }}
-                    >
-                      <Image
-                        src={c.avatarUrl}
-                        alt={c.login}
-                        width={26}
-                        height={26}
-                        className="rounded-full border border-background"
-                      />
-                    </a>
-                  ))}
-                </div>
-                <span className="text-[11px] text-foreground/45">
-                  Built in the open by {contributors.length} ·{" "}
-                  <a
-                    href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground/70 transition-colors hover:text-foreground"
-                  >
-                    Join us →
-                  </a>
-                </span>
-              </div>
-            )}
-
-          </div>
-
-          {/* Right, workflow card */}
-          <div className="w-[340px] shrink-0">
-            <div className="border border-foreground/20 bg-[#0a0a0a]">
-
-              <div className="flex items-center justify-between border-b border-foreground/12 px-4 py-3">
-                <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/55">
-                  Vibe coding workflow
-                </span>
-                <span className="text-[9px] text-foreground/45">{WORKFLOW_STEPS.length} steps</span>
-              </div>
-
-              <div className="divide-y divide-foreground/[0.06]">
-                {WORKFLOW_STEPS.map(({ step, title }) => (
-                  <Link
-                    key={step}
-                    href={`/workflow#step-${step}`}
-                    className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-foreground/[0.04]"
-                  >
-                    <span className="w-6 shrink-0 font-mono text-[10px] tabular-nums text-foreground/25">{step}</span>
-                    <span className="flex-1 text-[11px] text-foreground/55 transition-colors group-hover:text-foreground/80">{title}</span>
-                    <span className="text-[9px] text-foreground/20 transition-colors group-hover:text-foreground/45">→</span>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="border-t border-foreground/10 px-4 py-3">
-                <Link
-                  href="/workflow"
-                  className="text-[11px] font-medium text-foreground/30 transition-colors hover:text-foreground/65"
-                >
-                  See full workflow →
-                </Link>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        {/* ── Mobile ── */}
-        <div className="flex flex-1 flex-col px-5 py-10 lg:hidden">
-
-          <p
-            aria-hidden="true"
-            className="font-bold leading-[1.05] tracking-[-0.04em] text-foreground"
-            style={{ fontSize: "clamp(2.2rem, 8vw, 3rem)" }}
+        {/* CTAs */}
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link href="/workflow" className="btn-primary">
+            Open the cookbook
+            <span aria-hidden>→</span>
+          </Link>
+          <a
+            href="https://github.com/dotsystemsdevs/vibe-prompt"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
           >
-            The vibe coding
-            <br />cookbook.
-          </p>
-
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-foreground/55">
-            {promptsCount} prompts, {fixesCount} fixes, a 10-step workflow. Free,{" "}
-            <a
-              href="https://github.com/dotsystemsdevs/vibe-prompt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-foreground/25 hover:decoration-foreground hover:text-foreground transition-colors"
-            >
-              open source on GitHub
-            </a>.
-          </p>
-
-          <div className="mt-7 flex items-center gap-3">
-            <Link
-              href="/workflow"
-              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-85"
-              style={{ background: "linear-gradient(135deg, #3b82f6, #2563eb)" }}
-            >
-              See the workflow →
-            </Link>
-            <Link
-              href="/generator"
-              className="text-xs text-foreground/50 transition-colors hover:text-foreground/85"
-            >
-              Or generate AGENTS.md →
-            </Link>
-          </div>
-
-          {/* Workflow card */}
-          <div className="mt-8 border border-foreground/20">
-            <div className="flex items-center justify-between border-b border-foreground/12 px-4 py-2.5">
-              <span className="text-[9px] font-medium uppercase tracking-widest text-foreground/55">Vibe coding workflow</span>
-              <span className="text-[9px] text-foreground/45">{WORKFLOW_STEPS.length} steps</span>
-            </div>
-            <div className="divide-y divide-foreground/[0.06]">
-              {WORKFLOW_STEPS.map(({ step, title }) => (
-                <Link
-                  key={step}
-                  href={`/workflow#step-${step}`}
-                  className="group flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-foreground/[0.04]"
-                >
-                  <span className="w-6 shrink-0 font-mono text-[10px] tabular-nums text-foreground/25">{step}</span>
-                  <span className="flex-1 text-[11px] text-foreground/55 transition-colors group-hover:text-foreground/80">{title}</span>
-                  <span className="text-[9px] text-foreground/20">→</span>
-                </Link>
-              ))}
-            </div>
-            <div className="border-t border-foreground/10 px-4 py-3">
-              <Link href="/workflow" className="text-[11px] font-medium text-foreground/55 transition-colors hover:text-foreground">
-                See full workflow →
-              </Link>
-            </div>
-          </div>
-
-          {contributors.length > 0 && (
-            <div className="mt-8 flex items-center gap-3">
-              <div className="flex items-center">
-                {contributors.slice(0, 8).map((c, i) => (
-                  <a
-                    key={c.login}
-                    href={c.profileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={c.login}
-                    className="relative block transition-transform hover:z-10 hover:scale-110"
-                    style={{ marginLeft: i === 0 ? 0 : "-7px" }}
-                  >
-                    <Image
-                      src={c.avatarUrl}
-                      alt={c.login}
-                      width={24}
-                      height={24}
-                      className="rounded-full border border-background"
-                    />
-                  </a>
-                ))}
-              </div>
-              <span className="text-[11px] text-foreground/45">
-                Built by {contributors.length} ·{" "}
-                <a
-                  href="https://github.com/dotsystemsdevs/vibe-prompt/blob/master/CONTRIBUTING.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground/70 transition-colors hover:text-foreground"
-                >
-                  Join →
-                </a>
-              </span>
-            </div>
-          )}
-
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.337 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.688-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.025a9.28 9.28 0 0 1 2.5-.337c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.025 2.75-1.025.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.688 0 3.837-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.575.688.475A10.005 10.005 0 0 0 22 12c0-5.525-4.475-10-10-10Z" />
+            </svg>
+            Star on GitHub
+          </a>
         </div>
 
+        {/* Notion-callout feature cards */}
+        <div className="mt-12 grid gap-3 sm:grid-cols-3">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="vp-card vp-fill vp-card-tight">
+              <div className="flex items-center gap-2">
+                <span aria-hidden className="text-[18px] leading-none">{f.emoji}</span>
+                <p className="text-body font-semibold text-[color:var(--ink)]">{f.title}</p>
+              </div>
+              <p className="text-body mt-1.5">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Trust line */}
+        <p className="text-meta mt-8">
+          Proven on{" "}
+          <Link href="/built-with" className="vp-link">
+            {builtCount} real indie apps
+          </Link>{" "}
+          shipped to iOS, Android, and web. MIT licensed.
+        </p>
       </div>
     </>
   );
 }
+
+export const revalidate = 3600;

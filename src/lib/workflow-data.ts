@@ -2,6 +2,30 @@ import type { StepData } from "@/components/workflow/workflow-stepper";
 
 export const WORKFLOW_PAGE_STEPS: StepData[] = [
   {
+    step: "intro",
+    title: "Start here",
+    emoji: "🍳",
+    timeEstimate: "5 min",
+    whatThis: "How this cookbook works and what each recipe gives you. Skim this once and everything after slots into place.",
+    why: "Recipes assume you know the format. Five minutes here saves you guessing in every later stage.",
+    tasks: [
+      {
+        heading: "How to use this cookbook",
+        description: "Four things to know before you cook.",
+        items: [
+          { text: "Recipes run in order, but you can jump.", detail: "00 to 09 is the full path from raw idea to live product. Skip to 04 if you already have a stack." },
+          { text: "Check off tasks as you finish them.", detail: "Progress is saved in this browser only. No account, no sync." },
+          { text: "Copy prompts straight into your AI agent.", detail: "Every prompt is tested against Claude Code, Cursor, and Windsurf." },
+          { text: "Drop templates into your repo.", detail: "AGENTS.md, PRD, architecture, plan, MEMORY. Five files that anchor every AI session." },
+        ],
+      },
+    ],
+    commonMistakes: [],
+    resources: [],
+    output: [],
+    browseSlug: "",
+  },
+  {
     step: "00",
     title: "Environment",
     emoji: "⚙️",

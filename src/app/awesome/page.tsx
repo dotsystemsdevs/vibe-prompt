@@ -1,15 +1,20 @@
 import { AwesomeClient } from "@/components/awesome/awesome-client";
+import { PageHeader } from "@/components/layout/page-header";
 import { AWESOME_CATEGORIES } from "@/lib/awesome-data";
-import { GithubCta } from "@/components/cta/github-cta";
-import { Hero } from "@/components/hero/hero";
-import { Reveal } from "@/components/motion/reveal";
+
+const HOUSE_RULES = [
+  { label: "Battle-tested", body: "Every tool here was used to ship something in the cookbook." },
+  { label: "Free first", body: "Free or open-source ranks first. Paid tools earn a slot when no free option fills it." },
+  { label: "No deals", body: "No affiliate links, no paid placement, no SEO trades." },
+];
 
 export const metadata = {
-  title: "Awesome Vibe Coding, Tools & Resources for AI Builders | vibeprompt",
-  description: "Curated list of tools, AI coding platforms, and resources for vibe coders. No bloat, no affiliates, just what actually works.",
+  title: "Awesome Vibe Coding · 149 tools the cookbook actually uses | vibeprompt",
+  description:
+    "Curated list of tools, AI coding platforms, and resources for vibe coders. No bloat, no affiliates, no paid placement. Grouped by where you use them in the workflow.",
   alternates: { canonical: "/awesome" },
   openGraph: {
-    title: "Awesome Vibe Coding, Tools for AI Builders",
+    title: "Awesome Vibe Coding · 149 tools the cookbook actually uses",
     description: "Curated tools, platforms, and resources for vibe coders. No bloat, no affiliates.",
     url: "https://vibeprompt.tech/awesome",
   },
@@ -19,31 +24,37 @@ export default async function AwesomePage() {
   const totalItems = AWESOME_CATEGORIES.reduce((sum, cat) => sum + cat.items.length, 0);
 
   return (
-    <div className="pt-12">
-      <Reveal>
-        <Hero
-          title={"Tools that\nvibe coders actually use."}
-          description={`${totalItems} curated tools, platforms, and resources, no bloat, no affiliates.`}
-          accent="#ffffff"
-        />
-      </Reveal>
+    <div id="top">
+      <div className="page-shell">
+        <PageHeader
+          emoji="🧰"
+          title="Awesome list"
+          lede={
+            <>
+              {totalItems} curated tools, grouped by where you reach for them in the cookbook.
+              No bloat, no affiliates.
+            </>
+          }
+        >
+          {/* House rules — quiet intro line per rule */}
+          <ul className="mt-6 space-y-2">
+            {HOUSE_RULES.map((rule) => (
+              <li key={rule.label} className="text-body flex gap-2.5">
+                <span aria-hidden className="select-none text-[color:var(--ink-faded)]">·</span>
+                <span>
+                  <span className="font-semibold text-[color:var(--ink)]">{rule.label}.</span>{" "}
+                  <span className="text-[color:var(--ink-soft)]">{rule.body}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </PageHeader>
 
-      <div className="mx-auto max-w-6xl px-6 pt-6">
+        {/* Tools, as home-page-style sections */}
         <AwesomeClient categories={AWESOME_CATEGORIES} />
-        <Reveal>
-          <GithubCta
-            title={"Know a tool\nwe're missing?"}
-            description="Suggest it in two minutes. If it belongs here, it goes in."
-            accent="#ffffff"
-            primaryHref="https://github.com/dotsystemsdevs/vibeprompt/issues/new?template=suggest-tool.yml"
-            primaryLabel="Suggest a tool"
-            secondaryHref="https://github.com/dotsystemsdevs/vibeprompt"
-            secondaryLabel="Submit a PR instead"
-            borderTop={false}
-            className="mt-6"
-          />
-        </Reveal>
       </div>
     </div>
   );
 }
+
+export const revalidate = 3600;

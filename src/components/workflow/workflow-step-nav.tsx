@@ -65,7 +65,7 @@ export function WorkflowStepNav() {
         <div className="relative">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-background/90 to-transparent"
+            className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-[color:var(--page)] to-transparent"
           />
           <div className="flex items-center overflow-x-auto no-scrollbar px-6">
             {STEPS.map((s) => (
@@ -80,7 +80,7 @@ export function WorkflowStepNav() {
               >
                 <span
                   className={`font-mono text-[10px] tabular-nums transition-colors ${
-                    active === s.step ? "text-foreground/50" : "text-muted-foreground/40 group-hover:text-muted-foreground"
+                    active === s.step ? "text-[color:var(--ink-faded)]" : "text-muted-foreground/40 group-hover:text-muted-foreground"
                   }`}
                 >
                   {s.step}

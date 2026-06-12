@@ -41,9 +41,7 @@ export function AwesomeSaveButton({ href, initialSaved }: AwesomeSaveButtonProps
     <button
       onClick={handleSave}
       disabled={loading}
-      className={`shrink-0 text-[10px] uppercase tracking-widest transition-colors ${
-        saved ? "text-foreground" : "text-muted-foreground/40 hover:text-foreground"
-      }`}
+      className={`shrink-0 ${saved ? "vp-badge-accent vp-badge" : "btn-secondary"}`}
     >
       {saved ? "Saved ✓" : "Save"}
     </button>

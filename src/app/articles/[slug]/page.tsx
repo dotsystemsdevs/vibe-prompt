@@ -3,8 +3,16 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAllArticles, CATEGORY_LABEL } from "@/lib/articles";
+import { PageHeader } from "@/components/layout/page-header";
 import { ArticleToc } from "@/components/articles/article-toc";
 import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
+
+const CATEGORY_EMOJI: Record<string, string> = {
+  Method: "🧠",
+  Growth: "📈",
+  iOS: "🍎",
+  Android: "🤖",
+};
 
 function FormattedAnswer({ text }: { text: string }) {
   const parts = text.split("`");
@@ -14,7 +22,7 @@ function FormattedAnswer({ text }: { text: string }) {
         i % 2 === 1 ? (
           <code
             key={i}
-            className="rounded-sm bg-foreground/[0.08] px-1.5 py-0.5 font-mono text-[12px] text-foreground/85"
+            className="rounded-sm bg-foreground/[0.08] px-1.5 py-0.5 font-mono text-[12px] text-[color:var(--ink)]/85"
           >
             {part}
           </code>
@@ -60,13 +68,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const relatedProblems = LIST_PROBLEMS.filter((p) => p.articleSlug === article.slug);
 
   return (
-    <div className="pt-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+    <div className="">
+      <div className="page-shell-wide">
 
         {/* Back */}
         <Link
           href="/articles"
-          className="inline-flex items-center gap-1.5 text-xs text-foreground/40 transition-colors hover:text-foreground/80 mb-8"
+          className="btn-ghost mb-8"
         >
           ← Articles
         </Link>
@@ -85,23 +93,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <article className="mx-auto max-w-2xl lg:mx-0">
 
             {/* Header */}
-            <header className="mb-8">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/35 mb-3">
+            <PageHeader
+              emoji={CATEGORY_EMOJI[article.category] ?? "📄"}
+              title={article.title}
+              lede={article.description}
+            >
+              <p className="text-meta mt-3">
                 {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                 {" · "}{article.author}
                 {" · "}{article.readingMinutes} min read
               </p>
-              <h1 className="text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.03em] text-foreground">
-                {article.title}
-              </h1>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {article.description}
-              </p>
-            </header>
+            </PageHeader>
 
             {/* Hero image */}
             {article.image && (
-              <div className="relative w-full overflow-hidden mb-10 border border-foreground/10" style={{ aspectRatio: "16/9" }}>
+              <div className="relative w-full overflow-hidden mb-10 rounded-lg border border-[color:var(--ink-rule)]" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src={article.image}
                   alt={article.imageAlt}
@@ -121,14 +127,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             {/* Related section */}
             {(relatedArticles.length > 0 || relatedProblems.length > 0) && (
-              <aside className="mt-16 border-t border-foreground/12 pt-10">
-                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/45">
+              <aside className="mt-16 border-t border-[color:var(--ink-rule)] pt-8">
+                <h2 className="section-title mb-6 flex items-center gap-2.5">
+                  <span aria-hidden className="text-[22px] leading-none">📚</span>
                   Keep reading
-                </p>
+                </h2>
 
                 {relatedArticles.length > 0 && (
                   <div className="mb-8">
-                    <h3 className="mb-3 text-[13px] font-semibold text-foreground/85">
+                    <h3 className="text-meta mb-3 font-semibold text-[color:var(--ink)]/85">
                       More in {CATEGORY_LABEL[article.category]}
                     </h3>
                     <ul className="space-y-1">
@@ -136,12 +143,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <li key={a.slug}>
                           <Link
                             href={`/articles/${a.slug}`}
-                            className="group block py-2 border-b border-foreground/[0.06] last:border-b-0"
+                            className="group block py-2 border-b border-[color:var(--ink-rule)] last:border-b-0"
                           >
-                            <p className="text-[14px] font-medium leading-snug text-foreground/85 group-hover:text-foreground transition-colors">
+                            <p className="text-body font-medium leading-snug text-[color:var(--ink)]/85 group-hover:text-[color:var(--ink)] transition-colors">
                               {a.title}
                             </p>
-                            <p className="mt-1 text-[12px] leading-relaxed text-foreground/45 line-clamp-2">
+                            <p className="text-meta mt-1 line-clamp-2">
                               {a.description}
                             </p>
                           </Link>
@@ -153,35 +160,35 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                 {relatedProblems.length > 0 && (
                   <div>
-                    <h3 className="mb-4 text-[13px] font-semibold text-foreground/85">
+                    <h3 className="text-meta mb-4 font-semibold text-[color:var(--ink)]/85">
                       Common problems this covers
                     </h3>
-                    <ol className="border border-foreground/15 overflow-hidden">
+                    <ol className="overflow-hidden rounded-lg border border-[color:var(--ink-rule)] vp-fill">
                       {relatedProblems.map((p, i) => (
                         <li
                           key={p.id}
                           id={p.id}
-                          className={`px-5 sm:px-6 py-5 scroll-mt-24 ${i > 0 ? "border-t border-foreground/[0.08]" : ""}`}
+                          className={`px-5 sm:px-6 py-5 scroll-mt-24 ${i > 0 ? "border-t border-[color:var(--ink-rule)]" : ""}`}
                         >
                           <div className="mb-2 flex items-baseline gap-3">
-                            <span className="shrink-0 text-[10px] tabular-nums uppercase tracking-widest text-foreground/30 w-6 pt-0.5">
+                            <span className="text-label shrink-0 tabular-nums w-6 pt-0.5">
                               {String(i + 1).padStart(2, "0")}
                             </span>
-                            <h4 className="text-[15px] font-semibold leading-snug text-foreground">
+                            <h4 className="text-body font-semibold leading-snug text-[color:var(--ink)]">
                               {p.title}
                             </h4>
                           </div>
                           <div className="ml-9">
                             <div className="mb-2 flex items-center gap-3">
-                              <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/40">
+                              <span className="text-label">
                                 {LIST_CATEGORY_LABEL[p.category]}
                               </span>
-                              <span className="text-foreground/15">·</span>
-                              <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-foreground/55">
+                              <span className="text-[color:var(--ink-faded)]">·</span>
+                              <span className="text-label text-[color:var(--ink-soft)]">
                                 Fix
                               </span>
                             </div>
-                            <p className="text-[13px] leading-7 text-foreground/75">
+                            <p className="text-body leading-7 text-[color:var(--ink)]/75">
                               <FormattedAnswer text={p.answer} />
                             </p>
                           </div>
@@ -199,3 +206,5 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     </div>
   );
 }
+
+export const revalidate = 3600;

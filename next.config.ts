@@ -4,7 +4,10 @@ const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://avatars.githubusercontent.com https://www.google.com https://icons.duckduckgo.com https://images.unsplash.com",
+  // Images can come from anywhere over HTTPS. Loosened from a strict allowlist
+  // because /built-with references favicons from many partner domains and the
+  // attack surface for images is low (no script execution).
+  "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "connect-src 'self' https://api.github.com https://vitals.vercel-insights.com https://*.supabase.co wss://*.supabase.co",
   "frame-src 'none'",
@@ -21,6 +24,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "www.google.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
     ],
+  },
+  async redirects() {
+    return [
+      { source: "/vs-tools", destination: "/compare", permanent: true },
+      { source: "/vs-books", destination: "/compare", permanent: true },
+    ];
   },
   async headers() {
     return [
