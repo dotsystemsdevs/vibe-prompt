@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { FixActions } from "@/components/fixes/fix-actions";
-import { NewsletterCta } from "@/components/fixes/newsletter-cta";
 import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
 
 // Fixed dataset — only the known failures exist; everything else is a hard 404.
@@ -112,17 +111,20 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
-        {/* Contribute */}
-        <p className="text-meta mt-10">
-          Know a better fix, or hit one that&rsquo;s not here?{" "}
-          <Link href="/submit-fix" className="vp-link">
-            Submit a fix →
-          </Link>
-        </p>
-
-        {/* Capture — these pages are the SEO entry points, so capture matters most here */}
-        <div className="mt-8">
-          <NewsletterCta />
+        {/* Calm footer — contribute + subscribe as quiet one-liners */}
+        <div className="text-meta mt-12 space-y-1.5 border-t border-[color:var(--ink-rule)] pt-6">
+          <p>
+            Know a better fix, or hit one that&rsquo;s not here?{" "}
+            <Link href="/submit-fix" className="vp-link">
+              Submit a fix →
+            </Link>
+          </p>
+          <p>
+            Get one real fix in your inbox weekly.{" "}
+            <Link href="/weekly" className="vp-link">
+              The Weekly Fix →
+            </Link>
+          </p>
         </div>
       </div>
     </main>

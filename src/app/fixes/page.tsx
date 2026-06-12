@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
-import { StatsRow } from "@/components/site/stats-row";
 import { NewsletterCta } from "@/components/fixes/newsletter-cta";
 import { FixesClient } from "@/components/fixes/fixes-client";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
-import { getSiteStats } from "@/lib/site-stats";
 
 export const metadata: Metadata = {
   title: "AI Build Failure Database | VibePrompt",
@@ -21,8 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function FixesPage() {
-  const stats = await getSiteStats();
+export default function FixesPage() {
+  const fixCount = LIST_PROBLEMS.length;
 
   const schemaOrg = {
     "@context": "https://schema.org",
@@ -43,16 +41,11 @@ export default async function FixesPage() {
           emoji="🚑"
           kicker="The AI build failure database"
           title="AI broke your build? Search the fix."
-          lede={`${stats.fixes} field-tested failures and the exact fix for each, for the problems vibe coders hit when shipping with Claude Code, Cursor, Windsurf, Supabase, Vercel, Expo, and Stripe. Search before you ask Claude.`}
+          lede={`${fixCount} field-tested failures and the exact fix for each, for the problems vibe coders hit when shipping with Claude Code, Cursor, Windsurf, Supabase, Vercel, Expo, and Stripe. Search before you ask Claude.`}
         />
 
-        {/* Authority layer */}
-        <div className="mt-8">
-          <StatsRow stats={stats} />
-        </div>
-
         {/* Search + filters + results */}
-        <div className="mt-10">
+        <div className="mt-8">
           <FixesClient problems={LIST_PROBLEMS} />
         </div>
 

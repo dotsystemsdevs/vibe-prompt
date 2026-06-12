@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LIST_PROBLEMS, LIST_CATEGORY_LABEL, type ListProblem } from "@/lib/list-problems";
+import { LIST_PROBLEMS, type ListProblem } from "@/lib/list-problems";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 import { getSiteStats } from "@/lib/site-stats";
 import { StatsRow } from "@/components/site/stats-row";
@@ -22,12 +22,29 @@ export default async function HomePage() {
   let examples: ListProblem[] = EXAMPLE_IDS.map((id) => LIST_PROBLEMS.find((p) => p.id === id)).filter(
     (p): p is ListProblem => Boolean(p)
   );
-  if (examples.length < 6) examples = LIST_PROBLEMS.slice(0, 6);
+  if (examples.length < 4) examples = LIST_PROBLEMS.slice(0, 4);
+  examples = examples.slice(0, 4);
 
-  const FEATURES = [
-    { emoji: "🚑", title: `${stats.fixes} fixes`, desc: "For the exact failures AI hits when you ship.", href: "/fixes" },
-    { emoji: "✍️", title: `${stats.prompts} prompts`, desc: "Copy-paste for every stage, planning to polish.", href: "/workflow" },
-    { emoji: "🚀", title: `${recipeCount}-step workflow`, desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
+  // The three pillars — the whole product, in priority order.
+  const PILLARS = [
+    {
+      emoji: "🚑",
+      title: "Fixes",
+      desc: `${stats.fixes} field-tested fixes for when AI breaks your build.`,
+      href: "/fixes",
+    },
+    {
+      emoji: "🍳",
+      title: "Cookbook",
+      desc: `The ${recipeCount}-step method, from idea to shipped.`,
+      href: "/workflow",
+    },
+    {
+      emoji: "🚀",
+      title: "Built with",
+      desc: `${stats.apps} real apps shipped with the process. The receipts.`,
+      href: "/built-with",
+    },
   ];
 
   const schemaOrg = {
@@ -60,7 +77,7 @@ export default async function HomePage() {
           prompts. Free, open source, no sign-up.
         </p>
 
-        {/* CTAs — Fixes is now the primary action */}
+        {/* CTAs — one primary, one secondary */}
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link href="/fixes" className="btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -73,83 +90,61 @@ export default async function HomePage() {
             Open the cookbook
             <span aria-hidden>→</span>
           </Link>
-          <a
-            href="https://github.com/dotsystemsdevs/vibe-prompt"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost"
-          >
-            Star on GitHub ↗
-          </a>
         </div>
 
-        {/* Authority layer */}
-        <div className="mt-12">
-          <StatsRow stats={stats} />
-        </div>
+        {/* The three pillars — the whole product, calmly */}
+        <section className="mt-14 grid gap-3 sm:grid-cols-3">
+          {PILLARS.map((p) => (
+            <Link key={p.href} href={p.href} className="group block vp-card-bordered vp-card-hover vp-card-md">
+              <div className="flex items-center gap-2">
+                <span aria-hidden className="text-[18px] leading-none">{p.emoji}</span>
+                <p className="text-body font-semibold text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+                  {p.title}
+                </p>
+              </div>
+              <p className="text-body mt-1.5">{p.desc}</p>
+            </Link>
+          ))}
+        </section>
 
-        {/* AI broke your build? — the Fixes teaser */}
-        <section className="mt-16">
-          <h2 className="section-title flex items-center gap-2">
-            <span aria-hidden className="text-[20px] leading-none">🚑</span>
-            AI broke your build?
-          </h2>
-          <p className="text-body mt-2 max-w-xl">
-            Search {stats.fixes} field-tested fixes for the exact problems vibe coders hit when shipping with AI.
-            Here are a few people search for most:
-          </p>
+        {/* AI broke your build? — a concrete taste of the Fixes */}
+        <section className="mt-14">
+          <h2 className="section-title">AI broke your build?</h2>
+          <p className="text-body mt-2 max-w-xl">A few of the failures builders search for most:</p>
 
           <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
             {examples.map((p) => (
               <li key={p.id}>
                 <Link href={`/fixes/${p.id}`} className="group block vp-card-bordered vp-card-hover vp-card-tight h-full">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="text-body font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
-                      {p.title}
-                    </span>
-                    <span aria-hidden className="shrink-0 text-label text-[color:var(--ink-faded)] opacity-0 transition-opacity group-hover:opacity-100">→</span>
-                  </div>
-                  <span className="vp-badge-outline vp-badge mt-2 inline-flex">{LIST_CATEGORY_LABEL[p.category]}</span>
+                  <span className="text-body font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+                    {p.title}
+                  </span>
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="mt-6">
-            <Link href="/fixes" className="btn-primary">
-              Browse all {stats.fixes} fixes
-              <span aria-hidden>→</span>
+          <p className="text-meta mt-5">
+            <Link href="/fixes" className="vp-link">
+              Search all {stats.fixes} fixes →
             </Link>
-          </div>
-        </section>
-
-        {/* What's inside — feature cards */}
-        <section className="mt-16">
-          <div className="grid gap-3 sm:grid-cols-3">
-            {FEATURES.map((f) => (
-              <Link key={f.title} href={f.href} className="group block vp-card vp-fill vp-card-hover vp-card-tight">
-                <div className="flex items-center gap-2">
-                  <span aria-hidden className="text-[18px] leading-none">{f.emoji}</span>
-                  <p className="text-body font-semibold text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
-                    {f.title}
-                  </p>
-                </div>
-                <p className="text-body mt-1.5">{f.desc}</p>
-              </Link>
-            ))}
-          </div>
-
-          <p className="text-meta mt-6">
-            Proven on{" "}
-            <Link href="/built-with" className="vp-link">
-              {stats.apps} real indie apps
-            </Link>{" "}
-            shipped to iOS, Android, and web. MIT licensed.
           </p>
         </section>
 
-        {/* Newsletter capture */}
-        <section className="mt-16">
+        {/* Authority layer — stated once */}
+        <section className="mt-14">
+          <StatsRow stats={stats} />
+          <p className="text-meta mt-4">
+            Free, open source, MIT licensed. Proven on{" "}
+            <Link href="/built-with" className="vp-link">
+              real shipped apps
+            </Link>
+            .
+          </p>
+        </section>
+
+        {/* Newsletter — once, at the end */}
+        <section className="mt-14">
           <NewsletterCta />
         </section>
       </div>

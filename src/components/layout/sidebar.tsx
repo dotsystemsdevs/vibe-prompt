@@ -22,10 +22,13 @@ type NavGroup = {
   children?: NavLeaf[];
 };
 
-const TOP_NAV: NavGroup[] = [
+// The three pillars carry the product: fix what broke, learn the method,
+// see the proof. Home sits above them. Everything else is secondary.
+const PILLARS: NavGroup[] = [
   { href: "/", icon: "🏠", label: "Home", match: (p) => p === "/" },
   { href: "/fixes", icon: "🚑", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") },
-  { href: "/weekly", icon: "📬", label: "Weekly Fix", match: (p) => p === "/weekly" || p.startsWith("/weekly/") },
+  { href: "/workflow", icon: "🍳", label: "Cookbook", match: (p) => p === "/workflow" },
+  { href: "/built-with", icon: "🚀", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
 const COOKBOOK_CHILDREN: NavLeaf[] = WORKFLOW_PAGE_STEPS.map((s) => ({
@@ -35,16 +38,16 @@ const COOKBOOK_CHILDREN: NavLeaf[] = WORKFLOW_PAGE_STEPS.map((s) => ({
   match: (p, h) => p === "/workflow" && (h ?? "") === `#step-${s.step}`,
 }));
 
-const WORKSPACE: NavGroup[] = [
+const RESOURCES: NavGroup[] = [
+  { href: "/weekly", icon: "📬", label: "Weekly Fix", match: (p) => p === "/weekly" || p.startsWith("/weekly/") },
   { href: "/articles", icon: "📝", label: "Articles", match: (p) => p.startsWith("/articles") },
-  { href: "/awesome", icon: "🧰", label: "Awesome list", match: (p) => p.startsWith("/awesome") },
-  { href: "/built-with", icon: "🚀", label: "Built with", match: (p) => p.startsWith("/built-with") },
+  { href: "/awesome", icon: "🧰", label: "Tools", match: (p) => p.startsWith("/awesome") },
+  { href: "/compare", icon: "⚖️", label: "Compare", match: (p) => p === "/compare" || p.startsWith("/vs-") },
 ];
 
-const SHARED: NavGroup[] = [
-  { href: "/about", icon: "👋", label: "About", match: (p) => p === "/about" },
+const MORE: NavGroup[] = [
   { href: "/faq", icon: "❓", label: "FAQ", match: (p) => p === "/faq" },
-  { href: "/compare", icon: "⚖️", label: "Compare", match: (p) => p === "/compare" || p.startsWith("/vs-") },
+  { href: "/about", icon: "👋", label: "About", match: (p) => p === "/about" },
   { href: "/privacy", icon: "🔒", label: "Privacy", match: (p) => p === "/privacy" },
 ];
 
@@ -62,19 +65,19 @@ export function Sidebar() {
   return (
     <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
 
-      {/* Top-level Home */}
+      {/* Pillars — Home + the three products */}
       <div className="px-2 pt-3">
         <ol className="space-y-0.5">
-          {TOP_NAV.map((item) => (
+          {PILLARS.map((item) => (
             <RootLink key={item.href} item={item} active={item.match(pathname)} />
           ))}
         </ol>
       </div>
 
-      {/* COOKBOOK section — workflow steps listed flat under their own heading */}
+      {/* The 10 steps — the cookbook's method detail */}
       <div className="px-2 mt-6">
         <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          Cookbook
+          The 10 steps
         </p>
         <ol className="space-y-px">
           {COOKBOOK_CHILDREN.map((leaf) => {
@@ -99,25 +102,25 @@ export function Sidebar() {
         </ol>
       </div>
 
-      {/* WORKSPACE section */}
+      {/* Resources — secondary */}
       <div className="px-2 mt-6">
         <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          Workspace
+          Resources
         </p>
         <ol className="space-y-0.5">
-          {WORKSPACE.map((item) => (
+          {RESOURCES.map((item) => (
             <RootLink key={item.href} item={item} active={item.match(pathname)} />
           ))}
         </ol>
       </div>
 
-      {/* SHARED section */}
+      {/* More — utility */}
       <div className="px-2 mt-6">
         <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          Shared
+          More
         </p>
         <ol className="space-y-0.5">
-          {SHARED.map((item) => (
+          {MORE.map((item) => (
             <RootLink key={item.href} item={item} active={item.match(pathname)} />
           ))}
         </ol>
