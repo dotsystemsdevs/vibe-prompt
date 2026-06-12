@@ -60,7 +60,7 @@ html {
   --ink: #211F1C;                /* primary text — near-black, max contrast */
   --ink-soft: #2E2C28;           /* secondary — very dark for strong contrast */
   --ink-faded: #4A4843;          /* meta / muted — very dark for strong contrast */
-  --ink-rule: rgba(33, 31, 28, 0.20);
+  --ink-rule: rgba(33, 31, 28, 0.12);  /* faint hairline — Notion/Linear weight */
 
   /* Accent — monochrome: near-black for CTAs/links, soft gray for active states. */
   --accent: #211F1C;
@@ -77,7 +77,7 @@ html {
   --card-foreground: #37352F;
   --muted: rgba(55, 53, 47, 0.04);
   --muted-foreground: rgba(33, 31, 28, 0.82);
-  --border: rgba(33, 31, 28, 0.20);
+  --border: rgba(33, 31, 28, 0.12);
   --input: rgba(55, 53, 47, 0.16);
   --primary: #37352F;
   --primary-foreground: #FFFFFF;

@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { LIST_PROBLEMS, type ListProblem } from "@/lib/list-problems";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
+import { BUILT_WITH_PROJECTS, builtWithSlug } from "@/lib/built-with-data";
 import { getSiteStats } from "@/lib/site-stats";
-import { StatsRow } from "@/components/site/stats-row";
 import { NewsletterCta } from "@/components/fixes/newsletter-cta";
 
-// A punchy, recognizable spread of failures for the homepage teaser.
 const EXAMPLE_IDS = [
   "last-20-percent",
   "ai-confidently-wrong",
@@ -22,42 +21,27 @@ export default async function HomePage() {
   let examples: ListProblem[] = EXAMPLE_IDS.map((id) => LIST_PROBLEMS.find((p) => p.id === id)).filter(
     (p): p is ListProblem => Boolean(p)
   );
-  if (examples.length < 4) examples = LIST_PROBLEMS.slice(0, 4);
-  examples = examples.slice(0, 4);
+  if (examples.length < 6) examples = LIST_PROBLEMS.slice(0, 6);
+  examples = examples.slice(0, 6);
 
-  // The three pillars — the whole product, in priority order.
-  const PILLARS = [
-    {
-      emoji: "🚑",
-      title: "Fixes",
-      desc: `${stats.fixes} field-tested fixes for when AI breaks your build.`,
-      href: "/fixes",
-    },
-    {
-      emoji: "🍳",
-      title: "Cookbook",
-      desc: `The ${recipeCount}-step method, from idea to shipped.`,
-      href: "/workflow",
-    },
-    {
-      emoji: "🚀",
-      title: "Built with",
-      desc: `${stats.apps} real apps shipped with the process. The receipts.`,
-      href: "/built-with",
-    },
+  // The whole product, as three paths — not cards. Learn → Fix → Proof.
+  const PATHS = [
+    { eyebrow: "Learn", title: "The 10-step system", desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
+    { eyebrow: "Fix", title: `${stats.fixes} real failures`, desc: "The exact fix for when AI breaks your build.", href: "/fixes" },
+    { eyebrow: "Proof", title: `${stats.apps} shipped products`, desc: "Real apps built with the process. The receipts.", href: "/built-with" },
   ];
 
   const schemaOrg = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "vibeprompt",
-    description: `The AI build failure database and vibe coding cookbook: ${stats.fixes} field-tested fixes, a ${recipeCount}-step workflow, ${stats.prompts} prompts, and ${stats.articles} deep-dives. Free, open source, no sign-up.`,
+    description: `The AI build failure database, vibe coding cookbook, and real case studies: ${stats.fixes} field-tested fixes, a ${recipeCount}-step workflow, and ${stats.apps} shipped apps. Free, open source.`,
     url: "https://vibeprompt.tech",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     keywords:
-      "AI build failures, vibe coding, AI coding fixes, Claude Code, Cursor, prompt library, AI workflow, open source",
+      "AI build failures, vibe coding, AI coding fixes, Claude Code, Cursor, AI workflow, open source",
     creator: { "@type": "Organization", name: "vibeprompt", url: "https://vibeprompt.tech" },
   };
 
@@ -65,20 +49,17 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }} />
 
-      <div className="mx-auto w-full max-w-3xl px-6 py-14 sm:px-8 sm:py-16">
+      <div className="mx-auto w-full max-w-3xl px-6 py-20 sm:px-8 sm:py-24">
 
-        {/* Hero */}
-        <div aria-hidden className="page-emoji">🍳</div>
-        <p className="page-kicker">vibeprompt · the vibe coding cookbook</p>
-        <h1 className="text-display mt-3">Vibe code that actually ships.</h1>
-        <p className="text-body-lg mt-4 max-w-xl">
-          AI got you 80% of the way, then broke your build. vibeprompt is the searchable database of{" "}
-          {stats.fixes} field-tested failures and their fixes, plus a {recipeCount}-step cookbook and {stats.prompts}{" "}
-          prompts. Free, open source, no sign-up.
+        {/* Hero — big, clean, no chrome */}
+        <h1 className="font-bold tracking-[-0.03em] leading-[1.04] text-[color:var(--ink)] text-[clamp(2.6rem,5vw+1rem,4.25rem)]">
+          Vibe code that actually ships.
+        </h1>
+        <p className="mt-6 max-w-xl text-[17px] leading-[1.6] text-[color:var(--ink-soft)]">
+          The failure database, cookbook, and real-world case studies for builders shipping with AI.
+          Free, open source, no sign-up.
         </p>
-
-        {/* CTAs — one primary, one secondary */}
-        <div className="mt-8 flex flex-wrap items-center gap-3">
+        <div className="mt-9 flex flex-wrap items-center gap-3">
           <Link href="/fixes" className="btn-primary">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <circle cx="11" cy="11" r="7" />
@@ -92,59 +73,76 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {/* The three pillars — the whole product, calmly */}
-        <section className="mt-14 grid gap-3 sm:grid-cols-3">
-          {PILLARS.map((p) => (
-            <Link key={p.href} href={p.href} className="group block vp-card-bordered vp-card-hover vp-card-md">
-              <div className="flex items-center gap-2">
-                <span aria-hidden className="text-[18px] leading-none">{p.emoji}</span>
-                <p className="text-body font-semibold text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
-                  {p.title}
-                </p>
-              </div>
+        {/* Three paths — typographic blocks, not boxes */}
+        <section className="mt-20 grid gap-x-8 sm:grid-cols-3 divide-y divide-[color:var(--ink-rule)] sm:divide-y-0">
+          {PATHS.map((p) => (
+            <Link key={p.href} href={p.href} className="group block pt-7 first:pt-0 sm:pt-0">
+              <p className="text-label text-[color:var(--accent)]">{p.eyebrow}</p>
+              <p className="mt-2 text-[22px] font-semibold tracking-tight text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+                {p.title}
+                <span aria-hidden className="ml-1 inline-block opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100">
+                  →
+                </span>
+              </p>
               <p className="text-body mt-1.5">{p.desc}</p>
             </Link>
           ))}
         </section>
 
-        {/* AI broke your build? — a concrete taste of the Fixes */}
-        <section className="mt-14">
-          <h2 className="section-title">AI broke your build?</h2>
-          <p className="text-body mt-2 max-w-xl">A few of the failures builders search for most:</p>
-
-          <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
+        {/* Most searched failures — a clean list, not a grid of boxes */}
+        <section className="mt-20">
+          <h2 className="section-title">Most searched failures</h2>
+          <ul className="mt-5 divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
             {examples.map((p) => (
               <li key={p.id}>
-                <Link href={`/fixes/${p.id}`} className="group block vp-card-bordered vp-card-hover vp-card-tight h-full">
-                  <span className="text-body font-medium leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+                <Link
+                  href={`/fixes/${p.id}`}
+                  className="group flex items-center justify-between gap-4 py-3.5 transition-colors"
+                >
+                  <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
                     {p.title}
+                  </span>
+                  <span aria-hidden className="shrink-0 text-meta text-[color:var(--ink-faded)] opacity-0 transition-opacity group-hover:opacity-100">
+                    →
                   </span>
                 </Link>
               </li>
             ))}
           </ul>
-
-          <p className="text-meta mt-5">
+          <p className="text-meta mt-4">
             <Link href="/fixes" className="vp-link">
               Search all {stats.fixes} fixes →
             </Link>
           </p>
         </section>
 
-        {/* Authority layer — stated once */}
-        <section className="mt-14">
-          <StatsRow stats={stats} />
-          <p className="text-meta mt-4">
-            Free, open source, MIT licensed. Proven on{" "}
+        {/* Built with — proof, stated plainly */}
+        <section className="mt-20">
+          <h2 className="section-title">Built with vibeprompt</h2>
+          <p className="text-body mt-2 max-w-xl">
+            {stats.apps} real products shipped with the process, each with an honest postmortem of what worked and
+            what broke.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2.5">
+            {BUILT_WITH_PROJECTS.map((proj) => (
+              <Link
+                key={proj.name}
+                href={`/built-with/${builtWithSlug(proj.name)}`}
+                className="text-body font-medium text-[color:var(--ink-soft)] transition-colors hover:text-[color:var(--accent)]"
+              >
+                {proj.name}
+              </Link>
+            ))}
+          </div>
+          <p className="text-meta mt-5">
             <Link href="/built-with" className="vp-link">
-              real shipped apps
+              See all postmortems →
             </Link>
-            .
           </p>
         </section>
 
-        {/* Newsletter — once, at the end */}
-        <section className="mt-14">
+        {/* Newsletter — the single deliberate block, at the end */}
+        <section className="mt-20">
           <NewsletterCta />
         </section>
       </div>

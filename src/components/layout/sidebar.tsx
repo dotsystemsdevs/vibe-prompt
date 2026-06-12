@@ -53,6 +53,7 @@ const MORE: NavGroup[] = [
 
 export function Sidebar() {
   const pathname = usePathname() || "/";
+  const onCookbook = pathname === "/workflow";
   const [hash, setHash] = useState("");
 
   useEffect(() => {
@@ -74,33 +75,36 @@ export function Sidebar() {
         </ol>
       </div>
 
-      {/* The 10 steps — the cookbook's method detail */}
-      <div className="px-2 mt-6">
-        <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-          The 10 steps
-        </p>
-        <ol className="space-y-px">
-          {COOKBOOK_CHILDREN.map((leaf) => {
-            const active = leaf.match(pathname, hash);
-            return (
-              <li key={leaf.href}>
-                <a
-                  href={leaf.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`group flex items-center gap-2 rounded-md pl-7 pr-2 py-1 text-[13.5px] transition-colors ${
-                    active
-                      ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
-                      : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-                  }`}
-                >
-                  <span aria-hidden className="shrink-0 text-[14px] leading-none w-5 text-center opacity-80">{leaf.icon}</span>
-                  <span className="flex-1 truncate">{leaf.label}</span>
-                </a>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
+      {/* The 10 steps — only while you're in the Cookbook, so the sidebar
+          stays light everywhere else (Notion/Linear behaviour). */}
+      {onCookbook && (
+        <div className="px-2 mt-6">
+          <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
+            The 10 steps
+          </p>
+          <ol className="space-y-px">
+            {COOKBOOK_CHILDREN.map((leaf) => {
+              const active = leaf.match(pathname, hash);
+              return (
+                <li key={leaf.href}>
+                  <a
+                    href={leaf.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`group flex items-center gap-2 rounded-md pl-7 pr-2 py-1 text-[13.5px] transition-colors ${
+                      active
+                        ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
+                        : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                    }`}
+                  >
+                    <span aria-hidden className="shrink-0 text-[14px] leading-none w-5 text-center opacity-80">{leaf.icon}</span>
+                    <span className="flex-1 truncate">{leaf.label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      )}
 
       {/* Resources — secondary */}
       <div className="px-2 mt-6">
