@@ -41,32 +41,28 @@ export default function BuiltWithPage() {
               projects.
             </p>
 
-            {/* Submit-your-own callout — Notion callout block */}
-            <div className="mt-6 flex items-start gap-3 vp-card-bordered vp-card-tight">
-              <span aria-hidden className="mt-px text-[16px] leading-none">📮</span>
-              <p className="text-body">
-                Shipped something with vibeprompt?{" "}
-                <a
-                  href="https://github.com/dotsystemsdevs/vibe-prompt/issues/new?title=%5BBuilt-with%5D+My+project&body=%2A%2AProject+name%3A%2A%2A%0A%2A%2AURL%3A%2A%2A%0A%2A%2AOne-liner%3A%2A%2A%0A%2A%2AStack%3A%2A%2A%0A%2A%2AStatus%3A%2A%2A%0A%2A%2AWhat+worked%3A%2A%2A%0A%2A%2AWhat+broke%3A%2A%2A%0A%2A%2AWhich+steps+you+used%3A%2A%2A"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="vp-link"
-                >
-                  Add it to the list →
-                </a>
-              </p>
-            </div>
+            {/* Submit-your-own — a quiet line, not a box */}
+            <p className="text-meta mt-5">
+              Shipped something with vibeprompt?{" "}
+              <a
+                href="https://github.com/dotsystemsdevs/vibe-prompt/issues/new?title=%5BBuilt-with%5D+My+project&body=%2A%2AProject+name%3A%2A%2A%0A%2A%2AURL%3A%2A%2A%0A%2A%2AOne-liner%3A%2A%2A%0A%2A%2AStack%3A%2A%2A%0A%2A%2AStatus%3A%2A%2A%0A%2A%2AWhat+worked%3A%2A%2A%0A%2A%2AWhat+broke%3A%2A%2A%0A%2A%2AWhich+steps+you+used%3A%2A%2A"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vp-link"
+              >
+                Add it to the list →
+              </a>
+            </p>
           </div>
         </Reveal>
 
-        {/* Project cards — each links to its full postmortem */}
-        <div className="space-y-4">
+        {/* Projects — a clean list, not a stack of cards */}
+        <div className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
           {BUILT_WITH_PROJECTS.map((p) => {
             const slug = builtWithSlug(p.name);
             return (
               <Reveal key={p.name}>
-                <article className="vp-card-bordered vp-card-lg">
-                  {/* Card head */}
+                <article className="py-7">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="flex items-start gap-3 min-w-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -97,18 +93,13 @@ export default function BuiltWithPage() {
                     </a>
                   </div>
 
-                  {/* One-liner + status */}
                   <p className="text-body-lg mt-4 text-[color:var(--ink)]">{p.oneLine}</p>
-                  <p className="text-meta mt-2">{p.status}</p>
-
-                  {/* What-broke teaser + read more */}
-                  <div className="mt-5 border-t border-[color:var(--ink-rule)] pt-4">
-                    <p className="text-label mb-1.5">What broke</p>
-                    <p className="text-body line-clamp-2">{p.whatBroke}</p>
-                    <Link href={`/built-with/${slug}`} className="btn-ghost mt-3">
-                      Read the full postmortem →
-                    </Link>
-                  </div>
+                  <p className="text-meta mt-2 line-clamp-1">
+                    <span className="font-medium text-[color:var(--ink-soft)]">What broke:</span> {p.whatBroke}
+                  </p>
+                  <Link href={`/built-with/${slug}`} className="btn-ghost mt-3">
+                    Read the full postmortem →
+                  </Link>
                 </article>
               </Reveal>
             );

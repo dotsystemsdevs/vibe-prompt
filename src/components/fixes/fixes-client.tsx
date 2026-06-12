@@ -125,30 +125,19 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
           </button>
         </div>
       ) : (
-        <ul className="space-y-2.5">
+        <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
           {filtered.map((p) => (
             <li key={p.id}>
-              <Link href={`/fixes/${p.id}`} className="group block vp-card-bordered vp-card-hover vp-card-md">
-                <div className="flex items-start justify-between gap-3">
+              <Link href={`/fixes/${p.id}`} className="group block py-4">
+                <div className="flex items-baseline justify-between gap-4">
                   <h2 className="text-body font-semibold leading-snug text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
                     {p.title}
                   </h2>
-                  <span
-                    aria-hidden
-                    className="shrink-0 text-label text-[color:var(--ink-faded)] opacity-0 transition-opacity group-hover:opacity-100"
-                  >
-                    ↗
+                  <span className="shrink-0 text-meta text-[color:var(--ink-faded)]">
+                    {LIST_CATEGORY_LABEL[p.category]}
                   </span>
                 </div>
-                <p className="mt-1.5 text-meta line-clamp-2">{p.answer}</p>
-                <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-                  <span className="vp-badge-outline vp-badge">{LIST_CATEGORY_LABEL[p.category]}</span>
-                  {p.articleSlug && (
-                    <span className="vp-badge">
-                      <span aria-hidden>📄</span> deep-dive
-                    </span>
-                  )}
-                </div>
+                <p className="mt-1 text-meta line-clamp-1">{p.answer}</p>
               </Link>
             </li>
           ))}

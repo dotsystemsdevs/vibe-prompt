@@ -58,16 +58,16 @@ export default function WeeklyPage() {
           <h2 className="text-label mb-4">
             Past issues · {issues.length}
           </h2>
-          <ul className="space-y-3">
+          <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
             {issues.map((issue) => (
               <li key={issue.slug}>
-                <Link href={`/weekly/${issue.slug}`} className="group block vp-card-bordered vp-card-hover vp-card-md">
+                <Link href={`/weekly/${issue.slug}`} className="group block py-5">
                   <div className="flex items-center gap-2 text-meta">
                     <time dateTime={issue.date}>{formatDate(issue.date)}</time>
                     <span aria-hidden>·</span>
                     <span>{issue.readingTime} read</span>
                   </div>
-                  <h3 className="text-headline mt-1.5 transition-colors group-hover:text-[color:var(--accent)]">
+                  <h3 className="text-headline mt-1 transition-colors group-hover:text-[color:var(--accent)]">
                     {issue.title}
                   </h3>
                   <p className="text-body mt-1.5">{issue.summary}</p>

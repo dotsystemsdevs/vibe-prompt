@@ -140,11 +140,11 @@ export default async function WeeklyIssuePage({ params }: { params: Promise<{ sl
         {/* More issues */}
         {moreIssues.length > 0 && (
           <section className="mt-12">
-            <h2 className="section-title mb-4">More issues</h2>
-            <ul className="space-y-2">
+            <h2 className="section-title mb-3">More issues</h2>
+            <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
               {moreIssues.map((w) => (
                 <li key={w.slug}>
-                  <Link href={`/weekly/${w.slug}`} className="group block vp-card-bordered vp-card-hover vp-card-tight">
+                  <Link href={`/weekly/${w.slug}`} className="group block py-3">
                     <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
                       {w.title}
                     </span>

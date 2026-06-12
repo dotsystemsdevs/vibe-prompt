@@ -75,8 +75,8 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
 
         <FixActions title={p.title} answer={p.answer} path={`/fixes/${p.id}`} />
 
-        {/* The fix */}
-        <div className="vp-card vp-fill vp-card-lg mt-6">
+        {/* The fix — the content is the interface, no box */}
+        <div className="mt-8">
           <p className="text-label mb-2">The fix</p>
           <p className="text-body-lg whitespace-pre-line">{p.answer}</p>
         </div>
@@ -96,11 +96,11 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
         {/* Related failures */}
         {related.length > 0 && (
           <section className="mt-12">
-            <h2 className="section-title mb-4">More {categoryLabel} failures</h2>
-            <ul className="space-y-2">
+            <h2 className="section-title mb-3">More {categoryLabel} failures</h2>
+            <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
               {related.map((r) => (
                 <li key={r.id}>
-                  <Link href={`/fixes/${r.id}`} className="group block vp-card-bordered vp-card-hover vp-card-tight">
+                  <Link href={`/fixes/${r.id}`} className="group block py-3">
                     <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
                       {r.title}
                     </span>

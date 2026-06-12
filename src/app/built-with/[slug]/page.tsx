@@ -127,14 +127,11 @@ export default async function ProjectPostmortem({ params }: { params: Promise<{ 
         {/* More projects */}
         {others.length > 0 && (
           <section className="mt-12">
-            <h2 className="section-title mb-4">More shipped with vibeprompt</h2>
-            <ul className="space-y-2">
+            <h2 className="section-title mb-3">More shipped with vibeprompt</h2>
+            <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
               {others.map((o) => (
                 <li key={o.name}>
-                  <Link
-                    href={`/built-with/${builtWithSlug(o.name)}`}
-                    className="group block vp-card-bordered vp-card-hover vp-card-tight"
-                  >
+                  <Link href={`/built-with/${builtWithSlug(o.name)}`} className="group block py-3">
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
                         {o.name}

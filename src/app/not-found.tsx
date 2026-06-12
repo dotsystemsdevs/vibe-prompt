@@ -40,12 +40,12 @@ export default function NotFound() {
           That URL doesn&apos;t lead anywhere. The page was renamed, deleted, or never existed. Try one of these instead:
         </p>
 
-        <ul className="vp-card-bordered mt-12 overflow-hidden divide-y divide-[color:var(--ink-rule)]">
+        <ul className="mt-12 divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
           {SUGGESTIONS.map((s) => (
             <li key={s.href}>
               <Link
                 href={s.href}
-                className="group flex items-baseline justify-between gap-4 px-6 py-4 transition-colors hover:bg-[color:var(--sidebar-hover)]"
+                className="group flex items-baseline justify-between gap-4 py-4 transition-colors"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-body font-semibold text-[color:var(--ink)]">
