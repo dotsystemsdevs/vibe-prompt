@@ -17,7 +17,7 @@ export default function SubmitFixPage() {
           emoji="🛠️"
           kicker="Contribute"
           title="Submit the fix that saved your build."
-          lede="Real failures are the moat. If AI broke your build and you found the fix, submit it so the next builder does not lose three hours."
+          lede="Failures are the moat. If AI broke your build and you found the fix, submit it so the next builder does not lose three hours."
         />
 
         <div className="mt-10">

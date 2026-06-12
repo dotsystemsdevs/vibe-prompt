@@ -54,7 +54,7 @@ export function NewsletterCta() {
         Get the Weekly Fix
       </h2>
       <p className="text-body mt-2 max-w-lg">
-        One real AI-building failure, the fix, and the prompt that solves it. Sent weekly. No spam, unsubscribe anytime.{" "}
+        One AI build failure, the fix, and the prompt that solves it. Sent weekly. No spam, unsubscribe anytime.{" "}
         <Link href="/weekly" className="vp-link">
           Read past issues →
         </Link>

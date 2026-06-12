@@ -8,7 +8,7 @@ import Link from "next/link";
 export function WeeklyFixLink({ className = "text-meta" }: { className?: string }) {
   return (
     <p className={className}>
-      Get one real AI-build failure and its fix in your inbox weekly.{" "}
+      Get one AI build failure and its fix in your inbox each week.{" "}
       <Link href="/weekly" className="vp-link">
         The Weekly Fix →
       </Link>

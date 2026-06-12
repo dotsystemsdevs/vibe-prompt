@@ -99,7 +99,7 @@ export default function OGImage() {
             <span>actually ships.</span>
           </div>
           <div style={{ display: "flex", color: INK_FADED, fontSize: "25px", lineHeight: "1.35", maxWidth: "900px" }}>
-            A 10-step cookbook, copy-paste prompts, and the exact fixes for when AI breaks your build.
+            A 10-step cookbook, copy-paste prompts, and the fixes for when AI breaks your build.
           </div>
         </div>
 

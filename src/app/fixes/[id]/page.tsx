@@ -120,7 +120,7 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
             </Link>
           </p>
           <p>
-            Get one real fix in your inbox weekly.{" "}
+            Get one fix in your inbox each week.{" "}
             <Link href="/weekly" className="vp-link">
               The Weekly Fix →
             </Link>

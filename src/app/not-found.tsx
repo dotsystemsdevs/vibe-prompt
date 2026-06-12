@@ -26,7 +26,7 @@ const SUGGESTIONS = [
   {
     href: "/built-with",
     label: "Built with vibeprompt",
-    description: "Real indie apps shipped end to end with the workflow.",
+    description: "Indie apps shipped end to end with the workflow.",
   },
 ];
 

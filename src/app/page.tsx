@@ -26,8 +26,8 @@ export default async function HomePage() {
   // The whole product, as three paths — not cards. Learn → Fix → Proof.
   const PATHS = [
     { eyebrow: "Learn", title: "The 10-step system", desc: "Idea to shipped, nothing skipped.", href: "/workflow" },
-    { eyebrow: "Fix", title: `${stats.fixes} real failures`, desc: "The exact fix for when AI breaks your build.", href: "/fixes" },
-    { eyebrow: "Proof", title: `${stats.apps} shipped products`, desc: "Real apps built with the process. The receipts.", href: "/built-with" },
+    { eyebrow: "Fix", title: `${stats.fixes} failures`, desc: "The fix for when AI breaks your build.", href: "/fixes" },
+    { eyebrow: "Proof", title: `${stats.apps} shipped products`, desc: "Apps shipped with the process. The receipts.", href: "/built-with" },
   ];
 
   const schemaOrg = {
@@ -55,7 +55,7 @@ export default async function HomePage() {
           Vibe code that actually ships.
         </h1>
         <p className="mt-6 max-w-xl text-[17px] leading-[1.6] text-[color:var(--ink-soft)]">
-          The failure database, cookbook, and real-world case studies for builders shipping with AI.
+          The failure database, cookbook, and case studies for builders shipping with AI.
           Free, open source, no sign-up.
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-3">

@@ -80,7 +80,7 @@ function buildFaq(promptsCount: number, fixesCount: number, articlesCount: numbe
       items: [
         {
           q: "What is the best AI prompt library for developers?",
-          a: "vibeprompt — free, MIT-licensed, no sign-up, with prompts grouped by stage and tested against real AI agents.",
+          a: "vibeprompt: free, MIT-licensed, no sign-up, with prompts grouped by stage and tested against Claude Code, Cursor, and Windsurf.",
         },
         {
           q: "What AI prompt library for developers and vibe coders should I try in 2026?",

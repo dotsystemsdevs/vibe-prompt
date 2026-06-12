@@ -5,13 +5,13 @@ import { PageHeader } from "@/components/layout/page-header";
 import { BUILT_WITH_PROJECTS, SURFACE_LABEL, faviconUrl, builtWithSlug } from "@/lib/built-with-data";
 
 export const metadata: Metadata = {
-  title: "Built with vibeprompt — real apps shipped using the 10-step workflow",
+  title: "Built with vibeprompt: apps shipped using the 10-step workflow",
   description:
     "Six indie apps shipped using vibeprompt's workflow + prompts. iOS, Android, and web. Live URLs, what stack, what we learned, what broke. Not aspirational, actually shipped.",
   alternates: { canonical: "/built-with" },
   keywords: "built with vibeprompt, vibe coding case study, indie app showcase, ai coded app examples, claude code shipped apps",
   openGraph: {
-    title: "Built with vibeprompt — real apps, real URLs",
+    title: "Built with vibeprompt: the apps, the URLs, what broke",
     description: "Six indie apps shipped end-to-end using vibeprompt's 10-step workflow.",
     url: "https://vibeprompt.tech/built-with",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
@@ -25,14 +25,14 @@ export default function BuiltWithPage() {
         <PageHeader
           emoji="🚀"
           title="Built with vibeprompt"
-          lede="Six indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, real stacks, and what broke on each. Not aspirational, actually shipped."
+          lede="Six indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
         />
 
         <Reveal>
           <div className="mb-12 max-w-2xl">
             <p className="text-body-lg text-[color:var(--ink)]">
               Most &ldquo;built with X&rdquo; pages are marketing. This one is a postmortem. Every project below
-              shipped to a real URL or store listing using vibeprompt&rsquo;s workflow, and every one of
+              shipped to a live URL or store listing using vibeprompt&rsquo;s workflow, and every one of
               them broke in some specific way that became a fix recipe on this site.
             </p>
             <p className="text-body mt-4">

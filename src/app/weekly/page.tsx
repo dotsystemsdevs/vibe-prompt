@@ -7,11 +7,11 @@ import { getWeeklyFixesSorted } from "@/lib/weekly-fixes";
 export const metadata: Metadata = {
   title: "The Weekly Fix — archive | vibeprompt",
   description:
-    "Every issue of The Weekly Fix: one real AI-building failure, the fix, and the prompt that solves it. Read past issues or subscribe.",
+    "Every issue of The Weekly Fix: one AI build failure, the fix, and the prompt that solves it. Read past issues or subscribe.",
   alternates: { canonical: "/weekly" },
   openGraph: {
     title: "The Weekly Fix — archive",
-    description: "One real AI-building failure, the fix, and the prompt that solves it. Sent weekly.",
+    description: "One AI build failure, the fix, and the prompt that solves it. Sent weekly.",
     url: "https://vibeprompt.tech/weekly",
     type: "website",
   },
@@ -33,7 +33,7 @@ export default function WeeklyPage() {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "The Weekly Fix",
-    description: "One real AI-building failure, the fix, and the prompt that solves it. Sent weekly.",
+    description: "One AI build failure, the fix, and the prompt that solves it. Sent weekly.",
     url: "https://vibeprompt.tech/weekly",
     isPartOf: { "@type": "WebSite", name: "vibeprompt", url: "https://vibeprompt.tech" },
   };
@@ -47,7 +47,7 @@ export default function WeeklyPage() {
           emoji="📬"
           kicker="The Weekly Fix"
           title="The Weekly Fix"
-          lede="One real AI-building failure, the fix, and the prompt that solves it. Read every past issue below, or get the next one in your inbox."
+          lede="One AI build failure, the fix, and the prompt that solves it. Read every past issue below, or get the next one in your inbox."
         />
 
         <div className="mt-8">
