@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Reveal } from "@/components/motion/reveal";
 import { PageHeader } from "@/components/layout/page-header";
-import { BUILT_WITH_PROJECTS, SURFACE_LABEL, faviconUrl } from "@/lib/built-with-data";
+import { BUILT_WITH_PROJECTS, SURFACE_LABEL, faviconUrl, builtWithSlug } from "@/lib/built-with-data";
 
 export const metadata: Metadata = {
   title: "Built with vibeprompt — real apps shipped using the 10-step workflow",
@@ -58,65 +59,60 @@ export default function BuiltWithPage() {
           </div>
         </Reveal>
 
-        {/* Project cards — Notion soft-block style */}
+        {/* Project cards — each links to its full postmortem */}
         <div className="space-y-4">
-          {BUILT_WITH_PROJECTS.map((p) => (
-            <Reveal key={p.name}>
-              <article className="vp-card-bordered vp-card-lg">
-                {/* Card head */}
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="flex items-start gap-3 min-w-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={faviconUrl(p.iconDomain)}
-                      alt=""
-                      width={32}
-                      height={32}
-                      className="shrink-0 mt-0.5 h-8 w-8 rounded-md"
-                    />
-                    <div className="min-w-0">
-                      <h2 className="text-headline">{p.name}</h2>
-                      <div className="text-meta mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                        {p.surfaces.map((s) => (
-                          <span key={s}>{SURFACE_LABEL[s]}</span>
-                        ))}
-                        <span>·</span>
-                        <span className="font-mono text-[11px]">{p.stack}</span>
+          {BUILT_WITH_PROJECTS.map((p) => {
+            const slug = builtWithSlug(p.name);
+            return (
+              <Reveal key={p.name}>
+                <article className="vp-card-bordered vp-card-lg">
+                  {/* Card head */}
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="flex items-start gap-3 min-w-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={faviconUrl(p.iconDomain)}
+                        alt=""
+                        width={32}
+                        height={32}
+                        className="shrink-0 mt-0.5 h-8 w-8 rounded-md"
+                      />
+                      <div className="min-w-0">
+                        <h2 className="text-headline">
+                          <Link href={`/built-with/${slug}`} className="transition-colors hover:text-[color:var(--accent)]">
+                            {p.name}
+                          </Link>
+                        </h2>
+                        <div className="text-meta mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                          {p.surfaces.map((s) => (
+                            <span key={s}>{SURFACE_LABEL[s]}</span>
+                          ))}
+                          <span>·</span>
+                          <span className="font-mono text-[11px]">{p.stack}</span>
+                        </div>
                       </div>
                     </div>
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="btn-ghost shrink-0">
+                      Visit ↗
+                    </a>
                   </div>
-                  <a
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-ghost shrink-0"
-                  >
-                    Visit ↗
-                  </a>
-                </div>
 
-                {/* One-liner + status */}
-                <p className="text-body-lg mt-4 text-[color:var(--ink)]">{p.oneLine}</p>
-                <p className="text-meta mt-2">{p.status}</p>
+                  {/* One-liner + status */}
+                  <p className="text-body-lg mt-4 text-[color:var(--ink)]">{p.oneLine}</p>
+                  <p className="text-meta mt-2">{p.status}</p>
 
-                {/* Postmortem — faint divider, Notion property labels */}
-                <dl className="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-3 border-t border-[color:var(--ink-rule)] pt-6">
-                  <div>
-                    <dt className="text-label mb-2">What worked</dt>
-                    <dd className="text-body">{p.whatWorked}</dd>
+                  {/* What-broke teaser + read more */}
+                  <div className="mt-5 border-t border-[color:var(--ink-rule)] pt-4">
+                    <p className="text-label mb-1.5">What broke</p>
+                    <p className="text-body line-clamp-2">{p.whatBroke}</p>
+                    <Link href={`/built-with/${slug}`} className="btn-ghost mt-3">
+                      Read the full postmortem →
+                    </Link>
                   </div>
-                  <div>
-                    <dt className="text-label mb-2">What broke</dt>
-                    <dd className="text-body">{p.whatBroke}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-label mb-2">Which steps</dt>
-                    <dd className="text-body">{p.workflowSteps}</dd>
-                  </div>
-                </dl>
-              </article>
-            </Reveal>
-          ))}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
 
       </div>

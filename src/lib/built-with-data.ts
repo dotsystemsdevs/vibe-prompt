@@ -11,7 +11,21 @@ export type BuiltWithProject = {
   whatWorked: string;
   whatBroke: string;
   workflowSteps: string;
+  // Optional richer postmortem fields. Fill these per project to deepen the
+  // case study — left undefined when not yet documented (never fabricated).
+  // TODO(diana): add timeToBuild + promptsUsed per app for fuller receipts.
+  timeToBuild?: string;
+  promptsUsed?: string;
+  result?: string;
 };
+
+/** Stable URL slug for a project's deep postmortem page. */
+export function builtWithSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 export const SURFACE_LABEL: Record<Surface, string> = {
   Web: "🌐 Web",
@@ -71,6 +85,7 @@ export const BUILT_WITH_PROJECTS: BuiltWithProject[] = [
     surfaces: ["Web"],
     stack: "Next.js · OpenAI · Vercel",
     status: "Live · indexed for 'triathlon training plan' on Google",
+    timeToBuild: "Two evenings",
     whatWorked: "Tight PRD scope. 'Free forever, no signup' meant no auth, no payment, no DB. Shipped in two evenings.",
     whatBroke: "Original prompt generated 30 weeks of generic 'easy run' workouts. Step 03 (Stack) revisit added a structured-output schema and the quality jumped.",
     workflowSteps: "Stripped-down version of 02-07. Skipped Step 04 (Context) entirely — too small to need a memory-bank.",
@@ -112,3 +127,7 @@ export const BUILT_WITH_PROJECTS: BuiltWithProject[] = [
     workflowSteps: "Every step, multiple times. The articles, prompts, and fixes are the artifacts of the workflow being applied to itself.",
   },
 ];
+
+export function getBuiltWithProject(slug: string): BuiltWithProject | undefined {
+  return BUILT_WITH_PROJECTS.find((p) => builtWithSlug(p.name) === slug);
+}
