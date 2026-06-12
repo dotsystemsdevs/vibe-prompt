@@ -34,7 +34,7 @@ export default async function HomePage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "vibeprompt",
-    description: `The AI build failure database, vibe coding cookbook, and real case studies: ${stats.fixes} field-tested fixes, a ${recipeCount}-step workflow, and ${stats.apps} shipped apps. Free, open source.`,
+    description: `The AI build failure database, vibe coding cookbook, and case studies: ${stats.fixes} fixes, a ${recipeCount}-step workflow, and ${stats.apps} shipped apps. Free, open source.`,
     url: "https://vibeprompt.tech",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",

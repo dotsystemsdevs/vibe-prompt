@@ -6,12 +6,12 @@ import { LIST_PROBLEMS } from "@/lib/list-problems";
 export const metadata: Metadata = {
   title: "AI Build Failure Database | VibePrompt",
   description:
-    "Search field-tested fixes for the most common AI coding failures, broken builds, context loss, deployment issues, and vibe coding problems.",
+    "Search fixes for the most common AI coding failures: broken builds, context loss, deployment issues, and vibe coding problems.",
   alternates: { canonical: "/fixes" },
   openGraph: {
     title: "The AI Build Failure Database | vibeprompt",
     description:
-      "Field-tested fixes for the problems vibe coders hit when shipping with Claude Code, Cursor, Windsurf, Supabase, Vercel, Expo, and Stripe.",
+      "Fixes for the problems vibe coders hit when shipping with Claude Code, Cursor, Windsurf, Supabase, Vercel, Expo, and Stripe.",
     url: "https://vibeprompt.tech/fixes",
     type: "website",
   },
@@ -25,7 +25,7 @@ export default function FixesPage() {
     "@type": "CollectionPage",
     name: "The AI Build Failure Database",
     description:
-      "Field-tested fixes for the most common AI coding failures: broken builds, context loss, tech debt, deployment and shipping problems.",
+      "Fixes for the most common AI coding failures: broken builds, context loss, tech debt, deployment and shipping problems.",
     url: "https://vibeprompt.tech/fixes",
     isPartOf: { "@type": "WebSite", name: "vibeprompt", url: "https://vibeprompt.tech" },
   };
@@ -39,7 +39,7 @@ export default function FixesPage() {
           emoji="🚑"
           kicker="The AI build failure database"
           title="AI broke your build? Search the fix."
-          lede={`${fixCount} field-tested failures and the exact fix for each. Search before you ask Claude.`}
+          lede={`${fixCount} failures and the fix for each. Search before you ask Claude.`}
         />
 
         {/* The page's one job: search, filter, solve. */}

@@ -7,7 +7,7 @@ import { BUILT_WITH_PROJECTS, SURFACE_LABEL, faviconUrl, builtWithSlug } from "@
 export const metadata: Metadata = {
   title: "Built with vibeprompt — real apps shipped using the 10-step workflow",
   description:
-    "Six indie apps shipped using vibeprompt's workflow + prompts. iOS, Android, and web. Live URLs, what stack, what we learned, what broke. Not aspirational — actually shipped.",
+    "Six indie apps shipped using vibeprompt's workflow + prompts. iOS, Android, and web. Live URLs, what stack, what we learned, what broke. Not aspirational, actually shipped.",
   alternates: { canonical: "/built-with" },
   keywords: "built with vibeprompt, vibe coding case study, indie app showcase, ai coded app examples, claude code shipped apps",
   openGraph: {
@@ -25,7 +25,7 @@ export default function BuiltWithPage() {
         <PageHeader
           emoji="🚀"
           title="Built with vibeprompt"
-          lede="Six indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, real stacks, honest what-broke notes. Not aspirational, actually shipped."
+          lede="Six indie apps shipped end-to-end using the 10-step workflow. iOS, Android, web. Live URLs, real stacks, and what broke on each. Not aspirational, actually shipped."
         />
 
         <Reveal>

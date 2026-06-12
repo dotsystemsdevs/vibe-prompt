@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { AWESOME_CATEGORIES } from "@/lib/awesome-data";
 
 const HOUSE_RULES = [
-  { label: "Battle-tested", body: "Every tool here was used to ship something in the cookbook." },
+  { label: "Actually used", body: "Every tool here was used to ship something in the cookbook." },
   { label: "Free first", body: "Free or open-source ranks first. Paid tools earn a slot when no free option fills it." },
   { label: "No deals", body: "No affiliate links, no paid placement, no SEO trades." },
 ];
@@ -11,11 +11,11 @@ const HOUSE_RULES = [
 export const metadata = {
   title: "Awesome Vibe Coding · 149 tools the cookbook actually uses | vibeprompt",
   description:
-    "Curated list of tools, AI coding platforms, and resources for vibe coders. No bloat, no affiliates, no paid placement. Grouped by where you use them in the workflow.",
+    "A list of tools, AI coding platforms, and resources for vibe coders. No bloat, no affiliates, no paid placement. Grouped by where you use them in the workflow.",
   alternates: { canonical: "/awesome" },
   openGraph: {
     title: "Awesome Vibe Coding · 149 tools the cookbook actually uses",
-    description: "Curated tools, platforms, and resources for vibe coders. No bloat, no affiliates.",
+    description: "Tools, platforms, and resources for vibe coders. No bloat, no affiliates.",
     url: "https://vibeprompt.tech/awesome",
   },
 };
@@ -31,7 +31,7 @@ export default async function AwesomePage() {
           title="Awesome list"
           lede={
             <>
-              {totalItems} curated tools, grouped by where you reach for them in the cookbook.
+              {totalItems} tools, grouped by where you reach for them in the cookbook.
               No bloat, no affiliates.
             </>
           }

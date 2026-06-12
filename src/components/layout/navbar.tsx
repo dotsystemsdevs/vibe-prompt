@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { WORKFLOW_PAGE_STEPS } from "@/lib/workflow-data";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 
@@ -75,6 +76,7 @@ function pageInfo(pathname: string) {
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [cookbookOpen, setCookbookOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
   const pathname = usePathname() || "/";
   const info = pageInfo(pathname);
@@ -163,21 +165,64 @@ export function Navbar() {
           <nav aria-label="Mobile primary" className="grid gap-0.5 text-[14px]">
             {Object.entries(PAGE_TITLES)
               .filter(([href]) => href !== "/" && href !== "/privacy")
-              .map(([href, title]) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center gap-2 rounded-md px-2 py-2 transition-colors ${
-                    pathname === href || (href !== "/" && pathname.startsWith(href + "/"))
-                      ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
-                      : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-                  }`}
-                >
-                  <span aria-hidden>{PAGE_ICONS[href]}</span>
-                  <span>{title}</span>
-                </Link>
-              ))}
+              .map(([href, title]) => {
+                const active = pathname === href || (href !== "/" && pathname.startsWith(href + "/"));
+                const rowCls = active
+                  ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
+                  : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]";
+
+                // Cookbook collapses its 10 steps, same as the desktop sidebar.
+                if (href === "/workflow") {
+                  return (
+                    <div key={href}>
+                      <div className={`flex items-center rounded-md pr-1 transition-colors ${rowCls}`}>
+                        <Link href={href} onClick={() => setOpen(false)} className="flex flex-1 items-center gap-2 px-2 py-2">
+                          <span aria-hidden>{PAGE_ICONS[href]}</span>
+                          <span>{title}</span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setCookbookOpen((o) => !o)}
+                          aria-label={cookbookOpen ? "Collapse the 10 steps" : "Expand the 10 steps"}
+                          aria-expanded={cookbookOpen}
+                          className="flex h-7 w-7 items-center justify-center rounded text-[color:var(--ink-faded)]"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={`transition-transform ${cookbookOpen ? "rotate-90" : ""}`}>
+                            <path d="M9 6l6 6-6 6" />
+                          </svg>
+                        </button>
+                      </div>
+                      {cookbookOpen && (
+                        <div className="mt-0.5 grid gap-0.5">
+                          {WORKFLOW_PAGE_STEPS.map((s) => (
+                            <a
+                              key={s.step}
+                              href={`/workflow#step-${s.step}`}
+                              onClick={() => setOpen(false)}
+                              className="flex items-center gap-2 rounded-md pl-9 pr-2 py-1.5 text-[13px] text-[color:var(--ink-soft)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                            >
+                              <span aria-hidden className="w-4 text-center text-[12px] opacity-80">{s.emoji ?? "•"}</span>
+                              <span className="truncate">{s.title}</span>
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-2 rounded-md px-2 py-2 transition-colors ${rowCls}`}
+                  >
+                    <span aria-hidden>{PAGE_ICONS[href]}</span>
+                    <span>{title}</span>
+                  </Link>
+                );
+              })}
           </nav>
         </div>
       )}

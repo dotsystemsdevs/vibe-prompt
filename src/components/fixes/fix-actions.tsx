@@ -9,7 +9,7 @@ export function FixActions({ title, answer, path }: { title: string; answer: str
   const url = `https://vibeprompt.tech${path}`;
 
   async function copy() {
-    const block = `I hit this AI build failure: "${title}".\n\nThe field-tested fix:\n${answer}\n\nSource: ${url}`;
+    const block = `I hit this AI build failure: "${title}".\n\nThe fix:\n${answer}\n\nSource: ${url}`;
     try {
       await navigator.clipboard.writeText(block);
       setCopied(true);

@@ -16,12 +16,12 @@ const SUGGESTIONS = [
   {
     href: "/articles",
     label: "Deep-dive articles & fixes",
-    description: "TestFlight, ASO, conversion, vibe coding mistakes. Field-tested problems and the tactical answer for each.",
+    description: "TestFlight, ASO, conversion, vibe coding mistakes. Common problems and the tactical answer for each.",
   },
   {
     href: "/awesome",
     label: "Tools & resources",
-    description: "Curated picks. MCP servers, agents, CLIs, no affiliates.",
+    description: "MCP servers, agents, CLIs, no affiliates.",
   },
   {
     href: "/built-with",

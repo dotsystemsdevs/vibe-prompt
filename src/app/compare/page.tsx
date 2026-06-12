@@ -3,9 +3,9 @@ import { Reveal } from "@/components/motion/reveal";
 import { PageHeader } from "@/components/layout/page-header";
 
 export const metadata: Metadata = {
-  title: "Compare — vibeprompt vs the tools and the books",
+  title: "Compare: vibeprompt vs the tools and the books",
   description:
-    "One honest table comparing vibeprompt against the major vibe coding tools (Cursor, Claude Code, Replit, Lovable, Bolt, v0, Windsurf, Aider) and the published vibe coding books. No affiliate links.",
+    "A table comparing vibeprompt against the major vibe coding tools (Cursor, Claude Code, Replit, Lovable, Bolt, v0, Windsurf, Aider) and the published vibe coding books. No affiliate links.",
   alternates: { canonical: "/compare" },
   keywords:
     "vibe coding tools, replit vs cursor, lovable vs bolt, claude code, cursor alternative, ai coding tool comparison, vibe coding books, indie hacker tools 2026",

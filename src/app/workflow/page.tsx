@@ -9,13 +9,13 @@ import { LIST_PROBLEMS } from "@/lib/list-problems";
 export const metadata: Metadata = {
   title: "The Vibe Coding Workflow — 10 steps from idea to shipped, with prompts and fixes",
   description:
-    "The complete vibe code workflow for indie devs and solo founders: environment, research, PRD, stack, context, build, quality, ship, launch, iterate. Interactive checklist with prompts, AGENTS.md template, and field-tested fixes for each step. Free, no sign-up.",
+    "The complete vibe code workflow for indie devs and solo founders: environment, research, PRD, stack, context, build, quality, ship, launch, iterate. Interactive checklist with prompts, AGENTS.md template, and fixes for each step. Free, no sign-up.",
   keywords:
     "vibe code workflow, vibe coding workflow, vibecoding workflow, AI coding workflow, indie hacker workflow, prompt engineering workflow, AGENTS.md, PRD template, Claude Code workflow, Cursor workflow",
   alternates: { canonical: "/workflow" },
   openGraph: {
     title: "The Vibe Coding Workflow — 10 steps from idea to shipped",
-    description: "Interactive checklist with prompts, templates, and field-tested fixes for each step. Free, no sign-up.",
+    description: "Interactive checklist with prompts, templates, and fixes for each step. Free, no sign-up.",
     url: "https://vibeprompt.tech/workflow",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
   },

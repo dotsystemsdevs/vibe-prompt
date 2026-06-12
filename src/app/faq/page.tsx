@@ -6,9 +6,9 @@ import { getAllArticles } from "@/lib/articles";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
 
 export const metadata: Metadata = {
-  title: "FAQ — vibeprompt · AI Prompt Library for Vibe Coders",
+  title: "FAQ · vibeprompt · AI Prompt Library for Vibe Coders",
   description:
-    "Frequently asked questions about vibeprompt — the free AI prompt library, 10-step vibe coding workflow, articles, and field-tested fixes for developers using Claude Code, Cursor, Windsurf, and Aider.",
+    "Frequently asked questions about vibeprompt: the free AI prompt library, 10-step vibe coding workflow, articles, and fixes for developers using Claude Code, Cursor, Windsurf, and Aider.",
   alternates: { canonical: "https://vibeprompt.tech/faq" },
   openGraph: {
     title: "FAQ — vibeprompt",
