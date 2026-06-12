@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
-import { WeeklyFixLink } from "@/components/fixes/weekly-fix-link";
 import { FixesClient } from "@/components/fixes/fixes-client";
 import { LIST_PROBLEMS } from "@/lib/list-problems";
 
@@ -41,23 +39,12 @@ export default function FixesPage() {
           emoji="🚑"
           kicker="The AI build failure database"
           title="AI broke your build? Search the fix."
-          lede={`${fixCount} field-tested failures and the exact fix for each, for the problems vibe coders hit when shipping with Claude Code, Cursor, Windsurf, Supabase, Vercel, Expo, and Stripe. Search before you ask Claude.`}
+          lede={`${fixCount} field-tested failures and the exact fix for each. Search before you ask Claude.`}
         />
 
-        {/* Search + filters + results */}
+        {/* The page's one job: search, filter, solve. */}
         <div className="mt-8">
           <FixesClient problems={LIST_PROBLEMS} />
-        </div>
-
-        {/* Contribute + subscribe — quiet one-liners, no extra boxes */}
-        <div className="mt-12 space-y-2 border-t border-[color:var(--ink-rule)] pt-6">
-          <p className="text-meta">
-            Hit a failure that&rsquo;s not here?{" "}
-            <Link href="/submit-fix" className="vp-link">
-              Submit a fix →
-            </Link>
-          </p>
-          <WeeklyFixLink />
         </div>
       </div>
     </main>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { LIST_PROBLEMS, type ListProblem } from "@/lib/list-problems";
 import { WORKFLOW_STEPS } from "@/lib/workflow-steps";
 import { getSiteStats } from "@/lib/site-stats";
-import { NewsletterCta } from "@/components/fixes/newsletter-cta";
+import { WeeklyFixLink } from "@/components/fixes/weekly-fix-link";
 
 const EXAMPLE_IDS = [
   "last-20-percent",
@@ -115,10 +115,8 @@ export default async function HomePage() {
           </p>
         </section>
 
-        {/* Newsletter — the single deliberate block, at the end */}
-        <section className="mt-20">
-          <NewsletterCta />
-        </section>
+        {/* A quiet save prompt — the form itself lives on /weekly */}
+        <WeeklyFixLink className="text-meta mt-20" />
       </div>
     </>
   );

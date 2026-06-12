@@ -113,16 +113,22 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
         <div className="vp-empty">
           <div aria-hidden className="vp-empty-emoji">🔍</div>
           <p className="vp-empty-title">No failures match “{query}”.</p>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("");
-              setCat("all");
-            }}
-            className="vp-empty-body text-[color:var(--accent)] hover:underline"
-          >
-            Clear filters →
-          </button>
+          <p className="vp-empty-body">
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setCat("all");
+              }}
+              className="text-[color:var(--accent)] hover:underline"
+            >
+              Clear filters
+            </button>{" "}
+            or{" "}
+            <Link href="/submit-fix" className="text-[color:var(--accent)] hover:underline">
+              submit this fix →
+            </Link>
+          </p>
         </div>
       ) : (
         <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">

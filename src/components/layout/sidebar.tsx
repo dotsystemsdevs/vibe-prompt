@@ -64,48 +64,88 @@ export function Sidebar() {
     return () => window.removeEventListener("hashchange", sync);
   }, []);
 
+  // Cookbook's 10 steps stay collapsed until you open them — and auto-open
+  // when you actually enter the Cookbook. Depth hidden until needed.
+  const [cookbookOpen, setCookbookOpen] = useState(false);
+  useEffect(() => {
+    if (onCookbook) setCookbookOpen(true);
+  }, [onCookbook]);
+
   return (
     <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
 
-      {/* Pillars — Home + the three products */}
+      {/* Pillars — Home + the three products. Cookbook collapses its 10 steps. */}
       <div className="px-2 pt-3">
         <ol className="space-y-0.5">
-          {PILLARS.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} />
-          ))}
+          {PILLARS.map((item) => {
+            if (item.href !== "/workflow") {
+              return <RootLink key={item.href} item={item} active={item.match(pathname)} />;
+            }
+            return (
+              <li key={item.href}>
+                <div
+                  className={`group flex items-center rounded-md pr-1 text-[15px] transition-colors ${
+                    onCookbook
+                      ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-semibold"
+                      : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                  }`}
+                >
+                  <Link href={item.href} className="flex min-w-0 flex-1 items-center gap-2.5 pl-7 py-2">
+                    <span aria-hidden className="shrink-0 text-[17px] leading-none w-5 text-center">{item.icon}</span>
+                    <span className="flex-1 truncate">{item.label}</span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setCookbookOpen((o) => !o)}
+                    aria-label={cookbookOpen ? "Collapse the 10 steps" : "Expand the 10 steps"}
+                    aria-expanded={cookbookOpen}
+                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink)]"
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                      className={`transition-transform ${cookbookOpen ? "rotate-90" : ""}`}
+                    >
+                      <path d="M9 6l6 6-6 6" />
+                    </svg>
+                  </button>
+                </div>
+
+                {cookbookOpen && (
+                  <ol className="mt-0.5 space-y-px">
+                    {COOKBOOK_CHILDREN.map((leaf) => {
+                      const active = leaf.match(pathname, hash);
+                      return (
+                        <li key={leaf.href}>
+                          <a
+                            href={leaf.href}
+                            aria-current={active ? "page" : undefined}
+                            className={`group flex items-center gap-2 rounded-md pl-12 pr-2 py-1 text-[13.5px] transition-colors ${
+                              active
+                                ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
+                                : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                            }`}
+                          >
+                            <span aria-hidden className="shrink-0 text-[13px] leading-none w-4 text-center opacity-80">{leaf.icon}</span>
+                            <span className="flex-1 truncate">{leaf.label}</span>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                )}
+              </li>
+            );
+          })}
         </ol>
       </div>
-
-      {/* The 10 steps — only while you're in the Cookbook, so the sidebar
-          stays light everywhere else (Notion/Linear behaviour). */}
-      {onCookbook && (
-        <div className="px-2 mt-6">
-          <p className="px-2 mb-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">
-            The 10 steps
-          </p>
-          <ol className="space-y-px">
-            {COOKBOOK_CHILDREN.map((leaf) => {
-              const active = leaf.match(pathname, hash);
-              return (
-                <li key={leaf.href}>
-                  <a
-                    href={leaf.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`group flex items-center gap-2 rounded-md pl-7 pr-2 py-1 text-[13.5px] transition-colors ${
-                      active
-                        ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
-                        : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-                    }`}
-                  >
-                    <span aria-hidden className="shrink-0 text-[14px] leading-none w-5 text-center opacity-80">{leaf.icon}</span>
-                    <span className="flex-1 truncate">{leaf.label}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
-      )}
 
       {/* Resources — secondary */}
       <div className="px-2 mt-6">
