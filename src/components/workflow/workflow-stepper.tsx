@@ -313,7 +313,7 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
             {relatedProblems.map((problem) => (
               <Link
                 key={problem.id}
-                href={problem.articleSlug ? `/articles/${problem.articleSlug}#${problem.id}` : "/articles"}
+                href={`/fixes/${problem.id}`}
                 className="group flex items-baseline gap-3 px-4 py-3 sm:px-6 transition-colors hover:bg-[color:var(--accent-soft)]"
               >
                 <span className="shrink-0 text-[9px] font-semibold uppercase tracking-[0.18em] text-[color:var(--ink-faded)] w-12">

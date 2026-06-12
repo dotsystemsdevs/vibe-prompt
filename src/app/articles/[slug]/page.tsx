@@ -14,26 +14,6 @@ const CATEGORY_EMOJI: Record<string, string> = {
   Android: "🤖",
 };
 
-function FormattedAnswer({ text }: { text: string }) {
-  const parts = text.split("`");
-  return (
-    <>
-      {parts.map((part, i) =>
-        i % 2 === 1 ? (
-          <code
-            key={i}
-            className="rounded-sm bg-foreground/[0.08] px-1.5 py-0.5 font-mono text-[12px] text-[color:var(--ink)]/85"
-          >
-            {part}
-          </code>
-        ) : (
-          <span key={i}>{part}</span>
-        )
-      )}
-    </>
-  );
-}
-
 export async function generateStaticParams() {
   const articles = await getAllArticles();
   return articles.map((a) => ({ slug: a.slug }));
@@ -160,41 +140,24 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                 {relatedProblems.length > 0 && (
                   <div>
-                    <h3 className="text-meta mb-4 font-semibold text-[color:var(--ink)]/85">
-                      Common problems this covers
+                    <h3 className="text-meta mb-3 font-semibold text-[color:var(--ink)]/85">
+                      Fixes from this article
                     </h3>
-                    <ol className="overflow-hidden rounded-lg border border-[color:var(--ink-rule)] vp-fill">
-                      {relatedProblems.map((p, i) => (
-                        <li
-                          key={p.id}
-                          id={p.id}
-                          className={`px-5 sm:px-6 py-5 scroll-mt-24 ${i > 0 ? "border-t border-[color:var(--ink-rule)]" : ""}`}
-                        >
-                          <div className="mb-2 flex items-baseline gap-3">
-                            <span className="text-label shrink-0 tabular-nums w-6 pt-0.5">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
-                            <h4 className="text-body font-semibold leading-snug text-[color:var(--ink)]">
+                    {/* Each fix lives in one place, the Fixes database. Link, don't duplicate. */}
+                    <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+                      {relatedProblems.map((p) => (
+                        <li key={p.id} id={p.id} className="scroll-mt-24">
+                          <Link href={`/fixes/${p.id}`} className="group flex items-baseline justify-between gap-4 py-3.5">
+                            <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
                               {p.title}
-                            </h4>
-                          </div>
-                          <div className="ml-9">
-                            <div className="mb-2 flex items-center gap-3">
-                              <span className="text-label">
-                                {LIST_CATEGORY_LABEL[p.category]}
-                              </span>
-                              <span className="text-[color:var(--ink-faded)]">·</span>
-                              <span className="text-label text-[color:var(--ink-soft)]">
-                                Fix
-                              </span>
-                            </div>
-                            <p className="text-body leading-7 text-[color:var(--ink)]/75">
-                              <FormattedAnswer text={p.answer} />
-                            </p>
-                          </div>
+                            </span>
+                            <span className="shrink-0 text-meta text-[color:var(--ink-faded)]">
+                              {LIST_CATEGORY_LABEL[p.category]}
+                            </span>
+                          </Link>
                         </li>
                       ))}
-                    </ol>
+                    </ul>
                   </div>
                 )}
               </aside>

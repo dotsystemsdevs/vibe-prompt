@@ -534,7 +534,7 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                         {related!.fixes.map((f) => (
                           <li key={f.id}>
                             <Link
-                              href={f.articleSlug ? `/articles/${f.articleSlug}#${f.id}` : "/articles"}
+                              href={`/fixes/${f.id}`}
                               className="group flex items-start gap-2 rounded-md px-2 py-2 transition-colors hover:bg-[color:var(--accent-soft)]"
                             >
                               <span aria-hidden className="shrink-0 mt-0.5 text-[13px] leading-none">🛠️</span>
