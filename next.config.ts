@@ -18,6 +18,12 @@ const CSP = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Pin the workspace root to this folder. A stray package-lock.json in a parent
+  // directory was making Next infer the wrong root, which broke module resolution
+  // (tailwindcss) and styling. See node_modules/next/.../next-config-js/turbopack.md.
+  turbopack: {
+    root: import.meta.dirname,
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
@@ -29,6 +35,20 @@ const nextConfig: NextConfig = {
     return [
       { source: "/vs-tools", destination: "/compare", permanent: true },
       { source: "/vs-books", destination: "/compare", permanent: true },
+      // Articles folded into Fixes (content lives there now). Preserve link equity.
+      { source: "/articles/after-launch-troubleshooting", destination: "/fixes", permanent: true },
+      { source: "/articles/taking-payment-as-an-indie-dev", destination: "/fixes", permanent: true },
+      { source: "/articles/context-is-everything", destination: "/fixes", permanent: true },
+      { source: "/articles/instagram-for-indie-apps", destination: "/fixes", permanent: true },
+      { source: "/articles/testflight-and-app-store-publishing", destination: "/fixes", permanent: true },
+      { source: "/articles/store-listing-anatomy", destination: "/fixes", permanent: true },
+      { source: "/articles/launching-on-google-play", destination: "/fixes", permanent: true },
+      { source: "/articles/aso-keywords-that-actually-move-installs", destination: "/fixes", permanent: true },
+      { source: "/articles/onboarding-that-actually-converts", destination: "/fixes", permanent: true },
+      { source: "/articles/getting-your-first-app-reviews", destination: "/fixes", permanent: true },
+      { source: "/articles/closed-testing-on-google-play", destination: "/fixes", permanent: true },
+      { source: "/articles/app-store-conversion-rate-deep-dive", destination: "/fixes", permanent: true },
+      { source: "/articles/one-shot-myth", destination: "/fixes", permanent: true },
     ];
   },
   async headers() {

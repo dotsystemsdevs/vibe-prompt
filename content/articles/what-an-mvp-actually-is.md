@@ -4,8 +4,8 @@ description: "Eric Ries defined MVP fifteen years ago. Most people building one 
 date: "2026-04-25"
 image: "https://images.unsplash.com/photo-1628678172909-13a7209c7d62?w=1200&q=80"
 imageAlt: "Sketches and notes on a notebook page"
-author: "vibeprompt"
-category: method
+author: "dot.systems"
+category: guides
 ---
 
 Eric Ries defined MVP as "the version of a new product which allows a team to collect the maximum amount of validated learning about customers with the least effort." That sentence is fifteen years old and almost nobody follows it.

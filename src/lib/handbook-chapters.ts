@@ -23,7 +23,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     tagline: "What vibe coding actually is, and what kills it before you start.",
     blurb:
       "Most people fail at vibe coding for the same three reasons: wrong mental model, wrong expectations about the last 20%, wrong scope. Start here.",
-    articleCategories: ["method"],
+    articleCategories: ["guides"],
   },
   {
     number: "02",
@@ -33,7 +33,6 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     blurb:
       "AGENTS.md, CLAUDE.md, memory, file-system constraints. The difference between an agent that ships features and one that hallucinates new state every prompt.",
     promptCategorySlugs: ["agent-setup"],
-    articleSlugs: ["context-is-everything"],
   },
   {
     number: "03",
@@ -71,7 +70,7 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     blurb:
       "Feature shipping, prompting patterns, and the receipts from real builds. Includes the most common build-time problems and the fixes that actually work.",
     promptCategorySlugs: ["build-ship", "prompting-craft"],
-    articleSlugs: ["vibecoding-real-examples-with-time-data", "one-shot-myth", "vibe-coding-mistakes"],
+    articleSlugs: ["vibecoding-real-examples-with-time-data", "vibe-coding-mistakes"],
     listCategories: ["build"],
   },
   {
@@ -91,7 +90,6 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     blurb:
       "iOS and Android have different rulebooks. Closed testing needs real users, App Review is unpredictable, and the deploy that worked locally won't work in production.",
     promptCategorySlugs: ["launch-growth"],
-    articleCategories: ["android", "ios"],
     listCategories: ["ship"],
   },
   {
@@ -101,7 +99,6 @@ export const HANDBOOK_CHAPTERS: HandbookChapter[] = [
     tagline: "How people actually find your thing.",
     blurb:
       "Distribution is the #1 reason 90% of indie products fail. ASO, SEO, store listings, screenshots, reviews, the channels that work and the ones that waste your time.",
-    articleCategories: ["growth"],
     listCategories: ["grow"],
   },
   {

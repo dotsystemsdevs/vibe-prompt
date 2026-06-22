@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { FixActions } from "@/components/fixes/fix-actions";
+import { FixPrompt } from "@/components/fixes/fix-prompt";
 import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
+import { FIX_PROMPTS } from "@/lib/fix-prompts";
 
 // Fixed dataset — only the known failures exist; everything else is a hard 404.
 export const dynamicParams = false;
@@ -44,7 +46,7 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
   if (!p) notFound();
 
   const categoryLabel = LIST_CATEGORY_LABEL[p.category];
-  const related = LIST_PROBLEMS.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 5);
+  const promptToPaste = FIX_PROMPTS[p.id];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -67,22 +69,37 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="page-shell">
-        <Link href="/fixes" className="btn-ghost">
-          ← All fixes
+        <Link
+          href="/fixes"
+          className="inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[color:var(--ink-rule)] px-3.5 py-1.5 text-[13px] font-medium text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
+        >
+          <span aria-hidden>←</span> All fixes
         </Link>
 
+        {/* The problem — the failure, framed by the red category kicker */}
         <PageHeader accent="red" kicker={`${categoryLabel} failure`} title={p.title} />
 
-        <FixActions title={p.title} answer={p.answer} path={`/fixes/${p.id}`} />
-
         {/* The fix — the content is the interface, no box */}
-        <div className="mt-8">
-          <p className="text-label mb-2">The fix</p>
-          <p className="text-body-lg whitespace-pre-line">{p.answer}</p>
-        </div>
+        <section>
+          <p className="text-label mb-2.5">The fix</p>
+          <div className="whitespace-pre-line text-[17px] leading-[1.75] text-[color:var(--ink-soft)]">
+            {p.answer}
+          </div>
+
+          <div className="mt-6">
+            <FixActions title={p.title} answer={p.answer} path={`/fixes/${p.id}`} />
+          </div>
+        </section>
+
+        {/* The prompt — paste this into your AI to apply the fix */}
+        {promptToPaste && (
+          <section className="mt-10">
+            <FixPrompt prompt={promptToPaste} />
+          </section>
+        )}
 
         {p.articleSlug && (
-          <p className="text-body mt-6 flex items-center gap-2">
+          <p className="text-body mt-10 flex items-center gap-2">
             <span aria-hidden>📄</span>
             <span>
               Deeper dive:{" "}
@@ -91,24 +108,6 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
               </Link>
             </span>
           </p>
-        )}
-
-        {/* Related failures */}
-        {related.length > 0 && (
-          <section className="mt-12">
-            <h2 className="section-title mb-3">More {categoryLabel} failures</h2>
-            <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
-              {related.map((r) => (
-                <li key={r.id}>
-                  <Link href={`/fixes/${r.id}`} className="group block py-3">
-                    <span className="text-body font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
-                      {r.title}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
         )}
 
         {/* Calm footer — contribute + subscribe as quiet one-liners */}

@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
+import { Footer } from "@/components/layout/footer";
 import { Analytics } from "@vercel/analytics/next";
 import { getPromptLibrary } from "@/lib/prompt-library";
 import { getAllArticles } from "@/lib/articles";
@@ -88,6 +89,7 @@ export default async function RootLayout({
           <div className="flex min-w-0 flex-1 flex-col">
             <Navbar />
             <main id="main" className="flex min-w-0 flex-1 flex-col">{children}</main>
+            <Footer />
           </div>
         </div>
         <CommandPalette data={searchData} />

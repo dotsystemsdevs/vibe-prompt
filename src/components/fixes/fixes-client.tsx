@@ -1,13 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import {
   LIST_CATEGORIES,
   LIST_CATEGORY_LABEL,
   type ListCategory,
   type ListProblem,
 } from "@/lib/list-problems";
+
+// A muted color + its own icon per category, so the grid reads as lively and
+// varied (like the reference), not flat. Colors reuse the original page-accent
+// tones (collapsed to ink elsewhere on the site).
+const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: ReactNode }> = {
+  build: {
+    color: "#355E97",
+    soft: "rgba(53,94,151,0.10)",
+    icon: (
+      <>
+        <path d="M21 8 12 3 3 8v8l9 5 9-5z" />
+        <path d="m3 8 9 5 9-5" />
+        <path d="M12 13v8" />
+      </>
+    ),
+  },
+  ship: {
+    color: "#2C724B",
+    soft: "rgba(44,114,75,0.10)",
+    icon: (
+      <>
+        <path d="M22 2 11 13" />
+        <path d="M22 2 15 22l-4-9-9-4z" />
+      </>
+    ),
+  },
+  grow: {
+    color: "#5F4C97",
+    soft: "rgba(95,76,151,0.10)",
+    icon: (
+      <>
+        <path d="m3 17 6-6 4 4 8-8" />
+        <path d="M17 7h4v4" />
+      </>
+    ),
+  },
+  earn: {
+    color: "#946A14",
+    soft: "rgba(148,106,20,0.12)",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M14.5 9.3a2.5 2.5 0 0 0-2.5-1.3c-1.4 0-2.5.8-2.5 1.9s1.1 1.9 2.5 1.9 2.5.8 2.5 1.9-1.1 1.9-2.5 1.9A2.5 2.5 0 0 1 9.5 14.7" />
+        <path d="M12 6v12" />
+      </>
+    ),
+  },
+  stay: {
+    color: "#A23B3B",
+    soft: "rgba(162,59,59,0.10)",
+    icon: <path d="M12 3 5 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6z" />,
+  },
+};
 
 function FilterPill({
   label,
@@ -25,14 +78,14 @@ function FilterPill({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-[12.5px] font-medium transition-colors ${
+      className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-meta transition-colors ${
         active
-          ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-          : "border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
+          ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
+          : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
       }`}
     >
-      {label}
-      <span className={`tabular-nums ${active ? "text-white/70" : "text-[color:var(--ink-faded)]"}`}>{count}</span>
+      <span>{label}</span>
+      <span className="text-[color:var(--ink-faded)] tabular-nums">{count}</span>
     </button>
   );
 }
@@ -60,10 +113,24 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
 
   return (
     <div>
-      {/* Search */}
-      <div className="mb-5 flex items-center gap-2 border-b border-[color:var(--ink-rule)] pb-2">
+      {/* Category filter — same row style as Awesome / Articles */}
+      <div className="mb-3 flex flex-wrap gap-1">
+        <FilterPill label="All" count={counts.all} active={cat === "all"} onClick={() => setCat("all")} />
+        {LIST_CATEGORIES.map((c) => (
+          <FilterPill
+            key={c}
+            label={LIST_CATEGORY_LABEL[c]}
+            count={counts[c] ?? 0}
+            active={cat === c}
+            onClick={() => setCat(c)}
+          />
+        ))}
+      </div>
+
+      {/* Search — same bordered field as the Awesome page */}
+      <div className="relative mb-8">
         <svg
-          className="h-4 w-4 shrink-0 text-[color:var(--ink-faded)]"
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--ink-faded)]"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -79,33 +146,18 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Search failures and fixes"
-          className="flex-1 bg-transparent text-body text-[color:var(--ink)] placeholder:text-[color:var(--ink-faded)] focus:outline-none"
+          className="vp-input vp-input-search"
         />
-        {q && <span className="shrink-0 text-meta tabular-nums">{filtered.length}</span>}
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="shrink-0 text-meta hover:text-[color:var(--ink)]"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-meta text-[color:var(--ink-faded)] hover:text-[color:var(--ink)]"
             aria-label="Clear search"
           >
             ✕
           </button>
         )}
-      </div>
-
-      {/* Category filter */}
-      <div className="mb-7 flex flex-wrap gap-2">
-        <FilterPill label="All" count={counts.all} active={cat === "all"} onClick={() => setCat("all")} />
-        {LIST_CATEGORIES.map((c) => (
-          <FilterPill
-            key={c}
-            label={LIST_CATEGORY_LABEL[c]}
-            count={counts[c] ?? 0}
-            active={cat === c}
-            onClick={() => setCat(c)}
-          />
-        ))}
       </div>
 
       {/* Results */}
@@ -131,22 +183,63 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
           </p>
         </div>
       ) : (
-        <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
-          {filtered.map((p) => (
-            <li key={p.id}>
-              <Link href={`/fixes/${p.id}`} className="group block py-4">
-                <div className="flex items-baseline justify-between gap-4">
-                  <h2 className="text-body font-semibold leading-snug text-[color:var(--ink)] transition-colors group-hover:text-[color:var(--accent)]">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((p) => {
+            const s = CAT_STYLE[p.category];
+            return (
+              <li key={p.id}>
+                <Link
+                  href={`/fixes/${p.id}`}
+                  className="vp-card-bordered group flex h-full flex-col p-5 transition-colors hover:border-[color:var(--ink-soft)]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span
+                      aria-hidden
+                      className="flex h-10 w-10 items-center justify-center rounded-xl transition-transform duration-200 group-hover:scale-105"
+                      style={{ backgroundColor: s.soft, color: s.color }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        {s.icon}
+                      </svg>
+                    </span>
+                    <span
+                      className="inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-[10.5px] font-semibold"
+                      style={{ color: s.color, backgroundColor: s.soft }}
+                    >
+                      {LIST_CATEGORY_LABEL[p.category]}
+                    </span>
+                  </div>
+                  <h2 className="mt-4 line-clamp-3 text-[15px] font-semibold leading-snug text-[color:var(--ink)]">
                     {p.title}
                   </h2>
-                  <span className="shrink-0 text-meta text-[color:var(--ink-faded)]">
-                    {LIST_CATEGORY_LABEL[p.category]}
-                  </span>
-                </div>
-                <p className="mt-1 text-meta line-clamp-1">{p.answer}</p>
-              </Link>
-            </li>
-          ))}
+                  <div className="mt-auto flex items-center justify-between border-t border-[color:var(--ink-rule)] pt-3">
+                    <span className="text-label">Read the fix</span>
+                    <span
+                      aria-hidden
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--ink-rule)] text-[14px] text-[color:var(--ink-faded)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)]"
+                    >
+                      →
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+
+          {/* Ghost card — submit a missing fix */}
+          <li>
+            <Link
+              href="/submit-fix"
+              className="group flex h-full min-h-[160px] flex-col items-center justify-center gap-2.5 rounded-[var(--radius-lg)] border border-dashed border-[color:var(--ink-rule)] p-5 text-center transition-colors hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)]"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full border border-dashed border-[color:var(--ink-rule)] text-[18px] leading-none text-[color:var(--ink-faded)] transition-colors group-hover:border-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)]">
+                +
+              </span>
+              <span className="text-[13px] font-medium text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink)]">
+                Submit a fix
+              </span>
+            </Link>
+          </li>
         </ul>
       )}
     </div>

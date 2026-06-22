@@ -41,11 +41,17 @@ export default async function WorkflowPage() {
     }
   }
 
+  // Cover images for the articles referenced in the recipes' Learn reads.
+  const articleImages: Record<string, { src: string; alt: string }> = {};
+  for (const a of allArticles) {
+    if (a.image) articleImages[a.slug] = { src: a.image, alt: a.imageAlt };
+  }
+
   return (
+    // Full-bleed: the cookbook owns its own layout so the Course content rail
+    // can sit flush against the right edge, mirroring the left app sidebar.
     <div className="cookbook-paper">
-      <div className="page-shell">
-        <WorkflowCookbook steps={STEPS} relatedByStep={relatedByStep} />
-      </div>
+      <WorkflowCookbook steps={STEPS} relatedByStep={relatedByStep} articleImages={articleImages} />
     </div>
   );
 }

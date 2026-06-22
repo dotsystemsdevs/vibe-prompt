@@ -14,7 +14,7 @@ export default function SubmitFixPage() {
     <main>
       <div className="page-shell">
         <PageHeader
-          emoji="🛠️"
+          icon="tools"
           accent="red"
           kicker="Contribute"
           title="Submit the fix that saved your build."

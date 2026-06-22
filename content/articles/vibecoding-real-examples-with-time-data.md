@@ -4,8 +4,8 @@ description: "Seven real prompts from shipping three production apps. The exact 
 date: "2026-04-24"
 image: "https://images.unsplash.com/photo-1704265586142-db3e17d0dea0?w=1200&q=80"
 imageAlt: "Close-up of a stopwatch"
-author: "vibeprompt"
-category: method
+author: "dot.systems"
+category: guides
 ---
 
 Most posts about vibe coding show the result. Almost none show the prompt that produced it, the iterations, or the time it actually took. This one does.

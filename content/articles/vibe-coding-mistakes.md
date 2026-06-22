@@ -4,8 +4,8 @@ description: "Every project failure follows the same pattern. Here's what actual
 date: "2026-04-21"
 image: "https://images.unsplash.com/photo-1611890798517-07b0fcb4a811?w=1200&q=80"
 imageAlt: "Yellow warning sign"
-author: "vibeprompt"
-category: method
+author: "dot.systems"
+category: guides
 ---
 
 After analyzing hundreds of posts across r/vibecoding, r/ClaudeAI, r/cursor, and r/ClaudeCode, the same failures keep appearing. Different projects, different stacks, same mistakes.
@@ -26,7 +26,7 @@ Every new chat is a blank slate. If you haven't written down your stack, your co
 
 "Add authentication" sent to an AI produces a massive diff you can't review. You accept it, deploy it, and discover three sessions later that it hardcoded something, missed an edge case, or quietly replaced code that was working.
 
-**The fix:** Break your PRD into 20–30 atomic tasks before you write a single line of code. One task = one file changed, or one function added. If a task touches more than three files, split it. Small diffs get reviewed. Big diffs ship unread.
+**The fix:** Break your PRD into 20â€“30 atomic tasks before you write a single line of code. One task = one file changed, or one function added. If a task touches more than three files, split it. Small diffs get reviewed. Big diffs ship unread.
 
 ---
 

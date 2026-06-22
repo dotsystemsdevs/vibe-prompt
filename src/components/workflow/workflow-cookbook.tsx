@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { StepData, TaskItem } from "./workflow-stepper";
-import { LIST_CATEGORY_LABEL } from "@/lib/list-problems";
+import { LessonVideo, youtubeThumb, type Lesson } from "./lesson-video";
+import { CourseContentRail } from "./course-content-rail";
+import { CourseIntro } from "./course-intro";
+import { isLearnHeading, lessonsForStep } from "./cookbook-helpers";
 
 const STORAGE_KEY = "vibeprompt-tasks-v1";
 
@@ -54,41 +57,32 @@ function FavIcon({ href }: { href: string }) {
   );
 }
 
-/** "Learn" / "Watch" / "Read" groups move out of the checklist into the rail. */
-function isLearnHeading(heading?: string): boolean {
-  return /^(learn|watch|read)\b/i.test((heading ?? "").trim());
-}
-
-/** A friendly emoji for each task-group heading, so sections feel lively. */
-function headingEmoji(heading: string): string {
-  const k = heading.trim().toLowerCase();
-  if (k.includes("learn") || k.includes("read") || k.includes("watch")) return "📚";
-  if (k.includes("checklist") || k.includes("task")) return "✅";
-  if (k.includes("how") || k.includes("use")) return "📖";
-  if (k.includes("setup") || k.includes("environment") || k.includes("install")) return "🧰";
-  if (k.includes("ship") || k.includes("launch") || k.includes("deploy")) return "🚀";
-  if (k.includes("test") || k.includes("debug") || k.includes("fix")) return "🔧";
-  return "📋";
-}
-
-/** Only the fields the rail renders — keeps the page payload light. */
+/** Only the fields the rail renders,keeps the page payload light. */
 export type CookbookRelated = {
   articles: { slug: string; title: string }[];
   fixes: { id: string; title: string }[];
 };
 
+type RecipeTab = "learn" | "task" | "faq";
+const RECIPE_TABS: [RecipeTab, string][] = [
+  ["learn", "Learn"],
+  ["task", "Task"],
+  ["faq", "FAQ"],
+];
+
 interface WorkflowCookbookProps {
   steps: StepData[];
   relatedByStep?: Record<string, CookbookRelated>;
+  articleImages?: Record<string, { src: string; alt: string }>;
 }
 
-export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps) {
+export function WorkflowCookbook({ steps, relatedByStep, articleImages }: WorkflowCookbookProps) {
   const [activeStep, setActiveStep] = useState<string>(steps[0]?.step ?? "intro");
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [mounted, setMounted] = useState(false);
-  // Supporting resources stay collapsed so the recipe + tasks are the only
-  // thing competing for attention. The user opens them when they want them.
-  const [railOpen, setRailOpen] = useState(false);
+  // Which lesson plays in the top player (a per-recipe playlist).
+  const [lessonIdx, setLessonIdx] = useState(0);
+  const [recipeTab, setRecipeTab] = useState<RecipeTab>("learn");
 
   // Load progress from localStorage
   useEffect(() => {
@@ -107,13 +101,15 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
     return () => window.removeEventListener("vp-tasks-changed", onChange);
   }, []);
 
-  // Sync active step from URL hash (sidebar links + prev/next both update the hash)
+  // Sync active step from URL hash (rail links + prev/next both update the hash)
   useEffect(() => {
     function apply(scroll: boolean) {
       const hash = window.location.hash.replace(/^#/, "");
       const match = /^step-([a-z0-9-]+)$/i.exec(hash);
       if (match && steps.some((s) => s.step === match[1])) {
         setActiveStep(match[1]);
+        setLessonIdx(0);
+        setRecipeTab("learn");
         if (scroll) window.scrollTo({ top: 0, behavior: "instant" });
       }
     }
@@ -125,6 +121,8 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
 
   function goToStep(stepId: string) {
     setActiveStep(stepId);
+    setLessonIdx(0);
+    setRecipeTab("learn");
     const newHash = `#step-${stepId}`;
     if (window.location.hash !== newHash) {
       history.pushState(null, "", newHash);
@@ -144,85 +142,81 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
     });
   }
 
-  function stepComplete(stepId: string): boolean {
-    const step = steps.find((s) => s.step === stepId);
-    if (!step) return false;
-    // Mirror the checklist: Learn groups are resources, not checkable tasks.
-    const items = step.tasks.filter((g) => !isLearnHeading(g.heading)).flatMap((g) => g.items);
-    if (items.length === 0) return false;
-    return items.every((_, i) => checked[`step-${stepId}-${i}`]);
+  // Mark every task in a step done, used so "Start the course" checks off the intro.
+  function markStepDone(s: StepData) {
+    setChecked((prev) => {
+      const next = { ...prev };
+      let idx = 0;
+      for (const g of s.tasks) {
+        for (let i = 0; i < g.items.length; i++) {
+          next[`step-${s.step}-${idx}`] = true;
+          idx++;
+        }
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        window.dispatchEvent(new CustomEvent("vp-tasks-changed"));
+      } catch {}
+      return next;
+    });
   }
 
   const active = steps.find((s) => s.step === activeStep) ?? steps[0];
-  const activeIdx = steps.findIndex((s) => s.step === activeStep);
-  const prev = activeIdx > 0 ? steps[activeIdx - 1] : null;
-  const next = activeIdx < steps.length - 1 ? steps[activeIdx + 1] : null;
-  // Flatten every task with its STABLE storage index, then split the "Learn"
-  // group(s) off so videos live in the side rail instead of the checklist.
+
+  // Flatten every task with its STABLE storage index, then split the lesson
+  // group(s) off so videos play in the player instead of the checklist.
   // (Storage keys stay `step-<id>-<flatIndex>` so saved progress never shifts.)
-  let flatCursor = 0;
-  const flatGroups = active.tasks.map((g) => {
-    const items = g.items.map((item, ii) => ({ item, idx: flatCursor + ii }));
-    flatCursor += g.items.length;
-    return { heading: g.heading, description: g.description, items, learn: isLearnHeading(g.heading) };
+  // Group offsets are derived (no mutable cursor) so the math is render-safe.
+  const groupOffsets = active.tasks.reduce<number[]>((acc, g, i) => {
+    acc.push(i === 0 ? 0 : acc[i - 1] + active.tasks[i - 1].items.length);
+    return acc;
+  }, []);
+  const flatGroups = active.tasks.map((g, gi) => {
+    const base = groupOffsets[gi];
+    const items = g.items.map((item, ii) => ({ item, idx: base + ii }));
+    return { heading: g.heading, description: g.description, tier: g.tier, items, learn: isLearnHeading(g.heading) };
   });
   const actionableGroups = flatGroups.filter((g) => !g.learn);
-  const learnGroups = flatGroups.filter((g) => g.learn);
+  // Two-level task model: Must do (required, counts toward progress) vs Power up
+  // (optional). Build uses habit / troubleshoot groups, which are standing
+  // practice / reference, not one-off checkboxes, so they don't count.
+  const mustGroups = actionableGroups.filter((g) => (g.tier ?? "must") === "must");
+  const powerGroups = actionableGroups.filter((g) => g.tier === "power");
+  const habitGroups = actionableGroups.filter((g) => g.tier === "habit");
+  const troubleshootGroups = actionableGroups.filter((g) => g.tier === "troubleshoot");
 
-  const activeItems = actionableGroups.flatMap((g) => g.items);
+  const activeItems = mustGroups.flatMap((g) => g.items);
   const totalDone = mounted
     ? activeItems.filter(({ idx }) => checked[`step-${active.step}-${idx}`]).length
     : 0;
-  // The step counts as finished when every actionable task is checked.
   const stepFinished = mounted && activeItems.length > 0 && totalDone === activeItems.length;
-  // Next button stays muted (and shows no checkmark) until the step is actually
-  // finished — including before hydration and on task-less steps.
-  const needsWork = !stepFinished;
   const related = relatedByStep?.[active.step];
 
-  // Tools & links — unique links from the ACTIONABLE tasks only (no videos).
-  const stepLinks = (() => {
-    const seen = new Set<string>();
-    const out: { href: string; label: string }[] = [];
-    for (const g of actionableGroups) {
-      for (const { item } of g.items) {
-        if (!item.links) continue;
-        for (const l of item.links) {
-          if (seen.has(l.href)) continue;
-          seen.add(l.href);
-          out.push({ href: l.href, label: l.label });
-        }
-      }
-    }
-    return out;
-  })();
+  // Lessons (videos / reads) for this recipe,the player playlist.
+  const lessons = lessonsForStep(active);
+  const featured: Lesson | null = lessons.length ? lessons[Math.min(lessonIdx, lessons.length - 1)] : null;
 
-  // Learn — the watch/read videos, shown with their real titles in the rail.
-  const learnLinks = learnGroups
-    .flatMap((g) => g.items)
-    .map(({ item }) => ({
-      title: item.text.replace(/^(Watch|Read):\s*/i, ""),
-      href: item.links?.[0]?.href ?? null,
-      watch: /^watch/i.test(item.text),
-    }))
-    .filter((x): x is { title: string; href: string; watch: boolean } => !!x.href);
-
-  const hasRelated = !!related && (related.articles.length > 0 || related.fixes.length > 0);
+  const isNumericStep = /^\d+$/.test(active.step);
+  const showIntro = active.step === "intro" && !!active.courseIntro;
+  const firstRecipe = steps.find((s) => /^\d+$/.test(s.step))?.step ?? steps[1]?.step ?? active.step;
 
   return (
     <div
       className="w-full"
       style={{ "--page-accent": "var(--page-amber)", "--page-accent-soft": "var(--page-amber-soft)" } as CSSProperties}
     >
+      <div className="lg:flex lg:items-start">
 
-      {/* Step picker — horizontal scrollable strip, only on smaller screens
-          where the app sidebar isn't visible. On lg+ the app sidebar already
-          shows all steps expanded under Cookbook. */}
-      <div className="lg:hidden -mx-5 mb-6 border-y border-[color:var(--ink-rule)]">
+        {/* Main content, a centered reading column between the two sidebars. */}
+        <div className="min-w-0 flex-1">
+          <div className="mx-auto w-full max-w-3xl px-5 py-12 sm:px-8 sm:py-14">
+
+            {/* Mobile module picker, the right rail is lg-only, so on small
+                screens this strip is how you jump between recipes. */}
+            <div className="lg:hidden -mx-5 mb-6 border-y border-[color:var(--ink-rule)]">
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar px-5 py-2">
           {steps.map((s) => {
             const isActive = s.step === activeStep;
-            const isDone = mounted && !isActive && stepComplete(s.step);
             const isNumeric = /^\d+$/.test(s.step);
             return (
               <button
@@ -233,17 +227,11 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
                 className={`shrink-0 inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${
                   isActive
                     ? "bg-[color:var(--accent-soft)] text-[color:var(--accent)] font-semibold"
-                    : isDone
-                    ? "text-[color:var(--ink-faded)] hover:bg-[color:var(--sidebar-hover)]"
                     : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
                 }`}
               >
-                <span aria-hidden className="text-[12px]">
-                  {isDone ? "✓" : s.emoji ?? "•"}
-                </span>
-                <span className="font-mono tabular-nums text-[10.5px]">
-                  {isNumeric ? s.step : "·"}
-                </span>
+                <span aria-hidden className="text-[12px]">{s.emoji ?? "•"}</span>
+                <span className="font-mono tabular-nums text-[10.5px]">{isNumeric ? s.step : "·"}</span>
                 <span>{s.title}</span>
               </button>
             );
@@ -251,357 +239,546 @@ export function WorkflowCookbook({ steps, relatedByStep }: WorkflowCookbookProps
         </div>
       </div>
 
-      {/* Two-column: recipe (left) + sticky resources aside (right) */}
-      <div>
-
-        {/* Main column — active recipe */}
+            {/* The intro step renders the course-landing instead of a lesson. */}
+            {showIntro ? (
+          <CourseIntro step={active} steps={steps} onStart={() => { markStepDone(active); goToStep(firstRecipe); }} />
+        ) : (
         <div className="min-w-0">
 
-        {/* Recipe header card */}
-        <header className="mb-8 border-b border-[color:var(--ink-rule)] pb-6">
-            <div className="flex items-start gap-4">
-              {active.emoji && (
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--page-accent-soft)] text-[24px] leading-none shadow-[0_1px_2px_rgba(33,31,28,0.06)]">
-                  <span aria-hidden>{active.emoji}</span>
-                </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--page-accent)]">
-                  {/^\d+$/.test(active.step) ? `Recipe ${active.step}` : "Before you begin"}
-                </span>
-                <h2 className="mt-1.5 text-[26px] sm:text-[32px] font-bold leading-[1.1] tracking-tight text-[color:var(--ink)]">
-                  {active.title}
-                </h2>
-              </div>
+          {/* Lesson header — title first, above the video */}
+          <header className="mb-6">
+            <div className="min-w-0">
+              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--page-accent)]">
+                {isNumericStep ? `Recipe ${active.step}` : "Before you begin"}
+              </span>
+              <h1 className="mt-1.5 text-[26px] sm:text-[32px] font-bold leading-[1.1] tracking-tight text-[color:var(--ink)]">
+                {active.title}
+              </h1>
             </div>
 
-            <p className="mt-4 max-w-2xl text-body">
+            {/* Meta row,duration / lessons / tasks / progress, like a course bar */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-[color:var(--ink-faded)]">
+              {active.timeEstimate && (
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+                  </svg>
+                  ~{active.timeEstimate}
+                </span>
+              )}
+              {lessons.length > 0 && (
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+                  {lessons.length} {lessons.length === 1 ? "lesson" : "lessons"}
+                </span>
+              )}
+              {activeItems.length > 0 && (
+                <span className="inline-flex items-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                  {activeItems.length} tasks
+                </span>
+              )}
+              {mounted && activeItems.length > 0 && (
+                <span className={`inline-flex items-center gap-1.5 font-medium ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-soft)]"}`}>
+                  {stepFinished && <span aria-hidden>✓</span>}
+                  {totalDone}/{activeItems.length} done
+                </span>
+              )}
+            </div>
+
+            {/* Overview, kept to a short hook, the Learn lesson carries the depth. */}
+            <p className="mt-5 max-w-2xl text-body">
               {active.whatThis}
-              {active.why && (
-                <>
-                  {" "}
-                  <span className="text-[color:var(--ink-faded)]">{active.why}</span>
-                </>
-              )}
             </p>
+          </header>
 
-            {(active.timeEstimate || activeItems.length > 0) && (
-              <div className="mt-5 flex flex-wrap items-center gap-2">
-                {active.timeEstimate && (
-                  <span className="vp-badge vp-badge-outline">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <circle cx="12" cy="12" r="9" />
-                      <path d="M12 7v5l3 2" />
-                    </svg>
-                    ~{active.timeEstimate}
-                  </span>
-                )}
-                {activeItems.length > 0 && (
-                  <span className="vp-badge vp-badge-outline">{activeItems.length} tasks</span>
-                )}
-                {mounted && activeItems.length > 0 && totalDone > 0 && (
-                  <span className={`vp-badge ${stepFinished ? "vp-badge-accent" : ""}`}>
-                    {stepFinished ? "✓ " : ""}{totalDone}/{activeItems.length} done
-                  </span>
-                )}
-              </div>
-            )}
-
-            {activeItems.length > 0 && mounted && (
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[color:var(--accent-soft)]">
-                <div
-                  className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-500"
-                  style={{ width: `${Math.min(100, Math.round((totalDone / activeItems.length) * 100))}%` }}
-                />
-              </div>
-            )}
-        </header>
-
-        {/* Task groups — Learn is split out into the side rail */}
-        {actionableGroups.map((group, gi) => {
-          return (
-            <section key={gi} className="mb-8">
-              {group.heading && (
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
-                    <span aria-hidden className="text-[12px] leading-none">{headingEmoji(group.heading)}</span>
-                    {group.heading}
-                  </p>
-                  <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
-                    {group.items.length.toString().padStart(2, "0")}
-                  </span>
-                </div>
-              )}
-              {group.description && (
-                <p className="mb-3 text-meta">
-                  {group.description}
-                </p>
-              )}
-              <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
-                {group.items.map(({ item, idx }, ii) => {
-                  const key = `step-${active.step}-${idx}`;
-                  const done = !!checked[key];
-                  return <TaskRow key={ii} index={idx + 1} item={item} done={done} onToggle={() => toggle(key)} />;
-                })}
-              </ol>
-            </section>
-          );
-        })}
-
-        {/* Prev / Next nav — large, tactile step controls */}
-        <nav className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {prev ? (
-            <button
-              onClick={() => goToStep(prev.step)}
-              aria-label={`Previous: ${prev.title}`}
-              className="group flex items-center gap-3.5 rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] p-3.5 text-left transition-all hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)]"
-            >
-              <span
-                aria-hidden
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] text-[18px] leading-none text-[color:var(--ink-soft)] transition-transform group-hover:-translate-x-0.5 group-hover:text-[color:var(--ink)]"
-              >
-                ←
-              </span>
-              <span className="flex min-w-0 flex-col">
-                <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
-                  Previous
-                </span>
-                <span className="mt-0.5 flex items-center gap-1.5 text-[14px] font-semibold text-[color:var(--ink)]">
-                  {prev.emoji && <span aria-hidden className="shrink-0 text-[14px] leading-none">{prev.emoji}</span>}
-                  <span className="truncate">
-                    {/^\d+$/.test(prev.step) ? `${prev.step} · ${prev.title}` : prev.title}
-                  </span>
-                </span>
-              </span>
-            </button>
-          ) : (
-            <span aria-hidden className="hidden sm:block" />
-          )}
-
-          {next ? (
-            <button
-              onClick={() => goToStep(next.step)}
-              aria-label={`Next: ${next.title}${needsWork ? " (finish this step first)" : ""}`}
-              className={`group flex items-center justify-end gap-3.5 rounded-xl p-3.5 text-right transition-all ${
-                needsWork
-                  ? "border border-[color:var(--ink-rule)] bg-[color:var(--paper)] hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)]"
-                  : "border border-[color:var(--accent)] bg-[color:var(--accent)] shadow-[0_3px_14px_rgba(33,31,28,0.16)] hover:bg-[color:var(--accent-hover)]"
-              }`}
-            >
-              <span className="flex min-w-0 flex-col items-end">
-                <span
-                  className={`flex items-center gap-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] ${
-                    needsWork ? "text-[color:var(--ink-faded)]" : "text-white/70"
-                  }`}
-                >
-                  {!needsWork && <span aria-hidden>✓</span>}
-                  Next up
-                </span>
-                <span
-                  className={`mt-0.5 flex items-center gap-1.5 text-[14px] font-semibold ${
-                    needsWork ? "text-[color:var(--ink)]" : "text-white"
-                  }`}
-                >
-                  {next.emoji && <span aria-hidden className="shrink-0 text-[14px] leading-none">{next.emoji}</span>}
-                  <span className="truncate">
-                    {/^\d+$/.test(next.step) ? `${next.step} · ${next.title}` : next.title}
-                  </span>
-                </span>
-              </span>
-              <span
-                aria-hidden
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[18px] leading-none transition-transform group-hover:translate-x-0.5 ${
-                  needsWork
-                    ? "border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] text-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)]"
-                    : "bg-white/15 text-white"
-                }`}
-              >
-                →
-              </span>
-            </button>
-          ) : (
-            <span aria-hidden className="hidden sm:block" />
-          )}
-        </nav>
-        </div>
-
-        {/* Resources — collapsed by default so they don't compete with the tasks */}
-        <aside className="mt-10 border-t border-[color:var(--ink-rule)] pt-6">
-          <button
-            type="button"
-            onClick={() => setRailOpen((o) => !o)}
-            aria-expanded={railOpen}
-            className="flex items-center gap-2 rounded-md py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink-soft)]"
-          >
-            <span>Resources for this step</span>
-            <svg
-              width="11"
-              height="11"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-              className={`transition-transform ${railOpen ? "rotate-90" : ""}`}
-            >
-              <path d="M9 6l6 6-6 6" />
-            </svg>
-          </button>
-          {railOpen && (
-          <div className="mt-4 space-y-7">
-
-            {/* Tools & links pulled straight from this recipe's tasks */}
-            {stepLinks.length > 0 && (
-              <section>
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
-                    <span aria-hidden className="text-[12px] leading-none">🧰</span>
-                    Tools &amp; links
-                  </p>
-                  <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
-                    {stepLinks.length.toString().padStart(2, "0")}
-                  </span>
-                </div>
-                <ul className="space-y-0.5">
-                  {stepLinks.map((link) => (
-                    <li key={link.href}>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-[color:var(--accent-soft)]"
-                      >
-                        <FavIcon href={link.href} />
-                        <span className="flex-1 truncate text-[12.5px] text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--ink)]">
-                          {link.label}
-                        </span>
-                        <span aria-hidden className="shrink-0 text-[10px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink)]">↗</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {/* Learn — watch/read videos lifted out of the checklist */}
-            {learnLinks.length > 0 && (
-              <section>
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
-                    <span aria-hidden className="text-[12px] leading-none">🎥</span>
-                    Learn
-                  </p>
-                  <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
-                    {learnLinks.length.toString().padStart(2, "0")}
-                  </span>
-                </div>
-                <ul className="space-y-0.5">
-                  {learnLinks.map((l) => (
-                    <li key={l.href}>
-                      <a
-                        href={l.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-start gap-2 rounded-md px-2 py-2 transition-colors hover:bg-[color:var(--accent-soft)]"
-                      >
-                        <span className="mt-0.5 shrink-0">
-                          <FavIcon href={l.href} />
-                        </span>
-                        <span className="flex-1 text-[12.5px] leading-snug text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--ink)] group-hover:underline">
-                          {l.title}
-                        </span>
-                        <span aria-hidden className="mt-0.5 shrink-0 text-[10px] text-[color:var(--ink-faded)] transition-colors group-hover:text-[color:var(--ink)]">↗</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
-
-            {/* Related reading from the library */}
-            {hasRelated && (
-              <section>
-                <div className="mb-2 flex items-center gap-1.5">
-                  <span aria-hidden className="text-[12px] leading-none">📚</span>
-                  <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
-                    Related reading
-                  </p>
+          {/* TL;DR card, orient before diving in */}
+          {active.tldr && (
+            <div className="mb-6 rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-5">
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">You&apos;ll accomplish</p>
+                  <p className="mt-1 text-[13.5px] leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
                 </div>
                 <div>
-                  {related!.articles.length > 0 && (
-                    <ul className="space-y-0.5">
-                      {related!.articles.map((a) => (
-                        <li key={a.slug}>
-                          <Link
-                            href={`/articles/${a.slug}`}
-                            className="group flex items-start gap-2 rounded-md px-2 py-2 transition-colors hover:bg-[color:var(--accent-soft)]"
-                          >
-                            <span aria-hidden className="shrink-0 mt-0.5 text-[13px] leading-none">📄</span>
-                            <span className="flex-1 text-[12.5px] leading-snug text-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)] group-hover:underline">
-                              {a.title}
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {related!.fixes.length > 0 && (
-                    <>
-                      <p className="mb-1 mt-3 flex items-center gap-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.10em] text-[color:var(--ink-faded)]">
-                        <span aria-hidden className="text-[11px] leading-none">🔧</span>
-                        When it breaks
-                      </p>
-                      <ul className="space-y-0.5">
-                        {related!.fixes.map((f) => (
-                          <li key={f.id}>
-                            <Link
-                              href={`/fixes/${f.id}`}
-                              className="group flex items-start gap-2 rounded-md px-2 py-2 transition-colors hover:bg-[color:var(--accent-soft)]"
-                            >
-                              <span aria-hidden className="shrink-0 mt-0.5 text-[13px] leading-none">🛠️</span>
-                              <span className="flex-1 text-[12.5px] leading-snug text-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)] group-hover:underline">
-                                {f.title}
-                              </span>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Output</p>
+                  <p className="mt-1 font-mono text-[12.5px] text-[color:var(--ink)]">{active.tldr.deliverable}</p>
+                  {active.timeEstimate && <p className="mt-2 text-[12px] text-[color:var(--ink-faded)]">~{active.timeEstimate}</p>}
                 </div>
-              </section>
-            )}
+                <div>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Prerequisites</p>
+                  <ul className="mt-1 space-y-0.5 text-[12.5px] text-[color:var(--ink-soft)]">
+                    {active.tldr.prerequisites.map((p, i) => <li key={i}>{p}</li>)}
+                  </ul>
+                </div>
+              </div>
+              {active.tldr.feedsInto && (
+                <p className="mt-4 text-[12.5px] text-[color:var(--ink-soft)]">
+                  <span className="font-semibold text-[color:var(--ink)]">Feeds into:</span> {active.tldr.feedsInto}
+                </p>
+              )}
+            </div>
+          )}
 
-            {/* Fallback — a contents list so the rail is never empty */}
-            {stepLinks.length === 0 && learnLinks.length === 0 && !hasRelated && (
-              <section>
-                <div className="mb-2 flex items-center gap-1.5">
-                  <span aria-hidden className="text-[12px] leading-none">📋</span>
-                  <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
-                    In this recipe
+          {/* Per-recipe tabs — Learn / Task / FAQ */}
+          <div className="mb-6 flex items-center gap-1 border-b border-[color:var(--ink-rule)]">
+            {RECIPE_TABS.map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setRecipeTab(key)}
+                aria-current={recipeTab === key ? "true" : undefined}
+                className={`-mb-px border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors ${
+                  recipeTab === key
+                    ? "border-[color:var(--accent)] text-[color:var(--ink)]"
+                    : "border-transparent text-[color:var(--ink-faded)] hover:text-[color:var(--ink-soft)]"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {recipeTab === "learn" && (active.learn && active.learn.length > 0 ? (
+            <div className="relative max-w-2xl">
+              <span aria-hidden className="absolute left-2 top-3 bottom-3 w-px bg-[color:var(--ink-rule)]" />
+              <div className="relative space-y-5 pl-9">
+              {active.learn.map((b, i) => {
+                if (b.kind === "heading") {
+                  return (
+                    <h3 key={i} className="relative mt-7 text-[17px] font-semibold tracking-tight text-[color:var(--ink)]">
+                      <span aria-hidden className="absolute -left-9 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[color:var(--accent)] ring-4 ring-[color:var(--page)]" />
+                      {b.text}
+                    </h3>
+                  );
+                }
+                if (b.kind === "subheading") {
+                  return <p key={i} className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">{b.text}</p>;
+                }
+                if (b.kind === "text") {
+                  return <p key={i} className="text-body">{b.text}</p>;
+                }
+                if (b.kind === "video") {
+                  return (
+                    <figure key={i}>
+                      <LessonVideo lesson={{ title: b.title, youtubeId: b.youtubeId, href: b.href, duration: b.duration }} />
+                      <figcaption className="mt-2.5 flex items-center justify-between gap-3 text-[12px]">
+                        <span className="truncate font-medium text-[color:var(--ink-soft)]">{b.title}</span>
+                        {b.duration && <span className="shrink-0 font-mono tabular-nums text-[color:var(--ink-faded)]">{b.duration}</span>}
+                      </figcaption>
+                    </figure>
+                  );
+                }
+                if (b.kind === "check") {
+                  return (
+                    <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
+                      <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Check yourself</p>
+                      <p className="mt-1.5 text-[14px] leading-relaxed text-[color:var(--ink-soft)]">{b.text}</p>
+                    </div>
+                  );
+                }
+                if (b.kind === "bridge") {
+                  return (
+                    <div key={i} className="mt-2 flex items-start gap-2 border-t border-[color:var(--ink-rule)] pt-4 text-[13px] font-medium text-[color:var(--ink-soft)]">
+                      <span aria-hidden className="shrink-0 text-[color:var(--accent)]">→</span>
+                      <span>{b.text}</span>
+                    </div>
+                  );
+                }
+                if (b.kind === "diagram") {
+                  return (
+                    <div key={i} className="flex flex-col items-center gap-1 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
+                      {b.steps.map((s, si) => (
+                        <div key={si} className="flex flex-col items-center gap-1">
+                          <span className="rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--ink)]">{s}</span>
+                          {si < b.steps.length - 1 && <span aria-hidden className="leading-none text-[color:var(--ink-faded)]">↓</span>}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
+                if (b.kind === "example") {
+                  return (
+                    <figure key={i} className="overflow-hidden rounded-lg border border-[color:var(--ink-rule)]">
+                      {(b.filename || b.tone) && (
+                        <figcaption className="flex items-center justify-between gap-2 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-3 py-1.5">
+                          {b.filename ? <span className="font-mono text-[11px] text-[color:var(--ink-soft)]">{b.filename}</span> : <span />}
+                          {b.tone && (
+                            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em]" style={{ color: b.tone === "good" ? "var(--success)" : "var(--page-red)" }}>
+                              {b.tone === "good" ? "Good" : "Avoid"}
+                            </span>
+                          )}
+                        </figcaption>
+                      )}
+                      <pre className="overflow-x-auto whitespace-pre-wrap bg-[color:var(--paper)] p-3.5 text-[12px] leading-relaxed text-[color:var(--ink-soft)]"><code>{b.content}</code></pre>
+                    </figure>
+                  );
+                }
+                if (b.kind === "case") {
+                  return (
+                    <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] border-l-2 border-l-[color:var(--accent)] bg-[color:var(--paper-soft)] p-4">
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">Worked example{b.label ? `, ${b.label}` : ""}</p>
+                      <dl className="mt-2 space-y-1.5 text-[12.5px]">
+                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Input</dt><dd className="text-[color:var(--ink-soft)]">{b.input}</dd></div>
+                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Process</dt><dd className="text-[color:var(--ink-soft)]">{b.process}</dd></div>
+                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Output</dt><dd className="text-[color:var(--ink-soft)]">{b.output}</dd></div>
+                      </dl>
+                    </div>
+                  );
+                }
+                if (b.kind === "graduation") {
+                  return (
+                    <div key={i} className="rounded-xl border border-[color:var(--accent)] bg-[color:var(--accent-soft)] p-6">
+                      <p className="text-[22px] font-bold tracking-tight text-[color:var(--ink)]">You shipped.</p>
+                      <p className="mt-2 text-body">{b.intro}</p>
+                      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                        <div>
+                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">You accomplished</p>
+                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.accomplished.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+                        </div>
+                        <div>
+                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Skills learned</p>
+                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.skills.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+                        </div>
+                        <div>
+                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Next steps</p>
+                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.next.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                const readHref = b.slug ? `/articles/${b.slug}` : b.href ?? "#";
+                const preview = b.slug ? articleImages?.[b.slug] : undefined;
+                return (
+                  <a
+                    key={i}
+                    href={readHref}
+                    {...(b.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                    className="group flex items-start gap-3 rounded-xl border border-[color:var(--ink-rule)] p-3.5 transition-colors hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--accent-soft)]"
+                  >
+                    {preview ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={preview.src} alt="" className="h-16 w-24 shrink-0 rounded-md object-cover" />
+                    ) : b.href ? (
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
+                        <FavIcon href={b.href} />
+                      </span>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--ink-faded)]">
+                        <path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      </svg>
+                    )}
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-1.5 text-[13.5px] font-semibold text-[color:var(--ink)]">
+                        <span className="min-w-0 flex-1">{b.title}</span>
+                        <span aria-hidden className="shrink-0 text-[11px] text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5">→</span>
+                      </span>
+                      {b.blurb && <span className="mt-0.5 block text-[12.5px] leading-snug text-[color:var(--ink-faded)]">{b.blurb}</span>}
+                    </span>
+                  </a>
+                );
+              })}
+              </div>
+            </div>
+          ) : (
+            <>
+          {active.learnNote && active.learnNote.length > 0 && (
+            <div className="mb-7 max-w-2xl space-y-4">
+              {active.learnNote.map((para, i) => (
+                <p key={i} className="text-body">{para}</p>
+              ))}
+            </div>
+          )}
+
+          {/* Intro video, with its title + length captioned underneath */}
+          {featured && (
+            <figure className="mb-8">
+              <LessonVideo lesson={featured} />
+              <figcaption className="mt-2.5 flex items-center justify-between gap-3 text-[12px]">
+                <span className="truncate font-medium text-[color:var(--ink-soft)]">{featured.title}</span>
+                {featured.duration && (
+                  <span className="shrink-0 font-mono tabular-nums text-[color:var(--ink-faded)]">{featured.duration}</span>
+                )}
+              </figcaption>
+            </figure>
+          )}
+
+          {/* Learn block, the videos for this recipe */}
+          {lessons.length > 0 && (
+            <section className="mb-8">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+                  Learn
+                </p>
+                <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
+                  {lessons.length.toString().padStart(2, "0")}
+                </span>
+              </div>
+              <ul className="grid gap-2.5 sm:grid-cols-2">
+                {lessons.map((l, i) => (
+                  <li key={i}>
+                    <LessonCard
+                      lesson={l}
+                      active={!!l.youtubeId && i === Math.min(lessonIdx, lessons.length - 1)}
+                      onPlay={l.youtubeId ? () => { setLessonIdx(i); window.scrollTo({ top: 0, behavior: "smooth" }); } : undefined}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Read, articles for this recipe, inside the Learn tab */}
+          {related && related.articles.length > 0 && (
+            <section className="mb-8">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M8.5 13h7M8.5 16.5h5" />
+                  </svg>
+                  Read
+                </p>
+                <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
+                  {related.articles.length.toString().padStart(2, "0")}
+                </span>
+              </div>
+              <ul className="space-y-1">
+                {related.articles.map((a) => (
+                  <li key={a.slug}>
+                    <Link href={`/articles/${a.slug}`} className="group flex items-start gap-2.5 rounded-md px-2 py-2 transition-colors hover:bg-[color:var(--accent-soft)]">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--ink-faded)]">
+                        <path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      </svg>
+                      <span className="flex-1 text-[13px] leading-snug text-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)] group-hover:underline">{a.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+            </>
+          ))}
+
+          {recipeTab === "task" && (
+            <>
+          {/* Must do, the required tasks that keep you building */}
+          {mustGroups.length > 0 && (
+            <section className="mb-8">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                  Must do
+                </p>
+                {mounted && activeItems.length > 0 && (
+                  <span className="font-mono text-[10.5px] tabular-nums text-[color:var(--ink-faded)]">
+                    {totalDone}/{activeItems.length}
+                  </span>
+                )}
+              </div>
+              {mustGroups.map((group, gi) => (
+                <div key={gi} className="mb-6 last:mb-0">
+                  {group.heading && group.heading !== "Must do" && (
+                    <p className="mb-2 text-[12.5px] font-semibold text-[color:var(--ink-soft)]">{group.heading}</p>
+                  )}
+                  {group.description && <p className="mb-3 text-meta">{group.description}</p>}
+                  <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+                    {group.items.map(({ item, idx }, ii) => {
+                      const key = `step-${active.step}-${idx}`;
+                      return <TaskRow key={ii} index={idx + 1} item={item} done={!!checked[key]} onToggle={() => toggle(key)} />;
+                    })}
+                  </ol>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {/* Habits + troubleshooting (Build): standing practice / reference, not one-off checkboxes */}
+          {[...habitGroups, ...troubleshootGroups].map((group, gi) => (
+            <section key={gi} className="mb-8">
+              <p className="mb-1 flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-soft)]">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /><path d="M3 21v-5h5" />
+                </svg>
+                {group.heading ?? (group.tier === "troubleshoot" ? "Troubleshooting prompts" : "Habits")}
+              </p>
+              <p className="mb-3 text-meta">
+                {group.tier === "troubleshoot"
+                  ? "Ready-made prompts for when the AI drifts. Copy one when you need it."
+                  : "Standing practice, not a one-time check. The loop reinforces these every cycle."}
+              </p>
+              <ul className="space-y-2.5">
+                {group.items.map(({ item }, ii) => (
+                  <li key={ii} className="flex items-start gap-2.5">
+                    <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--accent)]" />
+                    <span className="min-w-0">
+                      <span className="block text-[14px] font-medium leading-snug text-[color:var(--ink)]"><InlineCode text={item.text} /></span>
+                      {item.detail && <span className="mt-0.5 block text-[12.5px] leading-snug text-[color:var(--ink-soft)]"><InlineCode text={item.detail} /></span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+
+          {/* Power up, optional, with an overwhelm guard */}
+          {powerGroups.length > 0 && (
+            <section className="mb-8">
+              <div className="mb-1 flex items-center gap-1.5">
+                <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M13 2 3 14h7l-1 8 10-12h-7z" /></svg>
+                  Power up
+                </p>
+                <span className="text-[11px] text-[color:var(--ink-faded)]">optional</span>
+              </div>
+              <p className="mb-3 text-[12px] text-[color:var(--ink-faded)]">First time? Complete only Must do. Come back for Power up later.</p>
+              {powerGroups.map((group, gi) => (
+                <div key={gi} className="mb-6 last:mb-0">
+                  {group.heading && group.heading !== "Power up" && (
+                    <p className="mb-2 text-[12.5px] font-semibold text-[color:var(--ink-soft)]">{group.heading}</p>
+                  )}
+                  {group.description && <p className="mb-3 text-meta">{group.description}</p>}
+                  <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+                    {group.items.map(({ item, idx }, ii) => {
+                      const key = `step-${active.step}-${idx}`;
+                      return <TaskRow key={ii} index={idx + 1} item={item} done={!!checked[key]} onToggle={() => toggle(key)} />;
+                    })}
+                  </ol>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {/* Stuck? beginner rescue */}
+          {active.stuck && (
+            <details className="group mb-8 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)]">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 [&::-webkit-details-marker]:hidden">
+                <span className="text-[14px] font-semibold text-[color:var(--ink)]">Stuck?</span>
+                <span aria-hidden className="text-[color:var(--ink-faded)] transition-transform group-open:rotate-90">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+                </span>
+              </summary>
+              <div className="space-y-3 px-4 pb-4 text-[13px]">
+                <div>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Common mistakes</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-4 text-[color:var(--ink-soft)]">
+                    {active.stuck.mistakes.map((m, i) => <li key={i}>{m}</li>)}
+                  </ul>
+                </div>
+                <p className="text-[color:var(--ink-soft)]"><span className="font-semibold text-[color:var(--ink)]">What success looks like:</span> {active.stuck.success}</p>
+              </div>
+            </details>
+          )}
+
+          {/* You can move on when, the single completion rule */}
+          {active.moveOnWhen && (
+            <div className="mb-8 rounded-lg border border-[color:var(--accent-line)] bg-[color:var(--accent-soft)] p-4">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">You can move on when</p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.moveOnWhen}</p>
+            </div>
+          )}
+            </>
+          )}
+
+          {recipeTab === "faq" && (
+            <section className="mb-8">
+              {active.faqs && active.faqs.length > 0 ? (
+                <div>
+                  {active.faqs.map(({ q, a }) => (
+                    <details key={q} className="group border-b border-[color:var(--ink-rule)]">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3.5 [&::-webkit-details-marker]:hidden">
+                        <span className="text-[15px] font-medium text-[color:var(--ink)]">{q}</span>
+                        <span aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open:rotate-90">
+                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 1L7 5L3 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </span>
+                      </summary>
+                      <p className="text-body pb-4">{a}</p>
+                    </details>
+                  ))}
+                </div>
+              ) : (
+                <div className="vp-empty">
+                  <p className="vp-empty-title">No FAQs for this recipe yet.</p>
+                  <p className="vp-empty-body">
+                    Got a question about this step?{" "}
+                    <a href="https://github.com/dotsystemsdevs/vibe-prompt/issues/new" target="_blank" rel="noopener noreferrer" className="vp-link">Ask it on GitHub →</a>
                   </p>
                 </div>
-                <ol className="space-y-1.5">
-                  {activeItems.map(({ item }, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span aria-hidden className="mt-px font-mono text-[10.5px] tabular-nums leading-snug text-[color:var(--ink-faded)]">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="flex-1 text-[12.5px] leading-snug text-[color:var(--ink-soft)]">{item.text}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-            )}
-
-          </div>
+              )}
+            </section>
           )}
+
+        </div>
+            )}
+          </div>
+        </div>
+
+        {/* Course content rail, flush to the right edge and styled like the
+            left app sidebar (same bg + a mirrored divider), full height. */}
+        <aside className="hidden lg:flex lg:flex-col w-[300px] shrink-0 sticky top-0 h-screen overflow-y-auto border-l border-[color:var(--ink-rule)] bg-[color:var(--sidebar-bg)]">
+          <CourseContentRail
+            steps={steps}
+            activeStep={activeStep}
+            checked={checked}
+            mounted={mounted}
+            onSelect={goToStep}
+          />
         </aside>
       </div>
     </div>
+  );
+}
+
+/** A lesson card in the playlist,thumbnail (when embeddable) + play/read. */
+function LessonCard({ lesson, active, onPlay }: { lesson: Lesson; active: boolean; onPlay?: () => void }) {
+  const inner = (
+    <>
+      <span className="relative flex h-[52px] w-[88px] shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)]">
+        {lesson.youtubeId ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={youtubeThumb(lesson.youtubeId)} alt="" className="h-full w-full object-cover" />
+            <span className="absolute inset-0 bg-black/15" />
+            <span className="absolute flex h-7 w-7 items-center justify-center rounded-full bg-white/95">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="ml-0.5 text-[color:var(--ink)]"><path d="M8 5v14l11-7z" /></svg>
+            </span>
+          </>
+        ) : (
+          <span aria-hidden className="text-[18px] text-[color:var(--ink-faded)]">{lesson.read ? "📄" : "▶"}</span>
+        )}
+      </span>
+      <span className="flex min-w-0 flex-1 flex-col">
+        <span className="flex items-center gap-1.5">
+          <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[color:var(--ink-faded)]">
+            {lesson.read ? "Read" : "Watch"}
+          </span>
+          {lesson.duration && <span className="font-mono text-[10px] tabular-nums text-[color:var(--ink-faded)]">{lesson.duration}</span>}
+          {active && <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[color:var(--accent)]">Now playing</span>}
+        </span>
+        <span className="mt-0.5 line-clamp-2 text-[12.5px] font-medium leading-snug text-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)]">
+          {lesson.title}
+        </span>
+      </span>
+    </>
+  );
+
+  const cls = `group flex items-center gap-3 rounded-xl border p-2.5 text-left transition-colors ${
+    active ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)]" : "border-[color:var(--ink-rule)] hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)]"
+  }`;
+
+  // Embeddable → play inline; otherwise open the link out.
+  if (onPlay) {
+    return <button type="button" onClick={onPlay} className={`${cls} w-full`}>{inner}</button>;
+  }
+  return (
+    <a href={lesson.href ?? "#"} target="_blank" rel="noopener noreferrer" className={cls}>
+      {inner}
+    </a>
   );
 }
 
@@ -627,49 +804,46 @@ function TaskRow({ item, done, onToggle, index }: { item: TaskItem; done: boolea
           done ? "opacity-55" : "hover:bg-[color:var(--accent-soft)]"
         }`}
       >
-        {/* Mono index */}
-        <span
-          aria-hidden
-          className="mt-1 w-4 shrink-0 text-right font-mono text-[11px] tabular-nums leading-none text-[color:var(--ink-faded)]"
-        >
+        <span aria-hidden className="mt-1 w-4 shrink-0 text-right font-mono text-[11px] tabular-nums leading-none text-[color:var(--ink-faded)]">
           {String(index).padStart(2, "0")}
         </span>
 
-        {/* Checkbox */}
         <span
           aria-hidden
           className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors ${
-            done
-              ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white"
-              : "border-[color:var(--ink-rule)] group-hover:border-[color:var(--accent)]"
+            done ? "border-[color:var(--accent)] bg-[color:var(--accent)] text-white" : "border-[color:var(--ink-rule)] group-hover:border-[color:var(--accent)]"
           }`}
         >
           {done && (
             <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-              <path
-                d="M1 4L4 7L9 1"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M1 4L4 7L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}
         </span>
 
-        {/* Content */}
         <div className="flex-1 min-w-0">
-          <p
-            className={`text-[14.5px] font-medium leading-[1.45] ${
-              done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink)]"
-            }`}
-          >
+          <p className={`text-[14.5px] font-medium leading-[1.45] ${done ? "text-[color:var(--ink-faded)] line-through" : "text-[color:var(--ink)]"}`}>
             <InlineCode text={item.text} />
           </p>
           {!done && item.detail && (
             <p className="mt-1 text-[13px] leading-[1.55] text-[color:var(--ink-soft)]">
               <InlineCode text={item.detail} />
             </p>
+          )}
+          {!done && item.why && (
+            <p className="mt-1 text-[12.5px] leading-snug text-[color:var(--ink-faded)]">
+              <span className="font-semibold text-[color:var(--ink-soft)]">Why it matters:</span> {item.why}
+            </p>
+          )}
+          {!done && (item.strongExample || item.weakExample) && (
+            <div className="mt-2 space-y-1 text-[12px] leading-snug">
+              {item.strongExample && (
+                <p className="text-[color:var(--ink-soft)]"><span className="font-semibold" style={{ color: "var(--success)" }}>Strong:</span> {item.strongExample}</p>
+              )}
+              {item.weakExample && (
+                <p className="text-[color:var(--ink-soft)]"><span className="font-semibold" style={{ color: "var(--page-red)" }}>Weak:</span> {item.weakExample}</p>
+              )}
+            </div>
           )}
           {!done && item.links && item.links.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">

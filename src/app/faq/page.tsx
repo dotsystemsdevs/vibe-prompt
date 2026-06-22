@@ -142,7 +142,7 @@ export default async function FAQPage() {
         <FAQJsonLd items={allItems} />
 
         <PageHeader
-          emoji="❓"
+          icon="help"
           title="Frequently asked questions."
           lede="Everything about the open-source AI prompt library, the workflow, and the fixes, all answered."
         />

@@ -40,7 +40,7 @@ export default function AboutPage() {
     <main className="">
       <div className="page-shell">
         <PageHeader
-          emoji="👋"
+          icon="info"
           title="Built for builders who ship."
           lede="vibeprompt is an open-source toolkit for vibe coders, builders who use AI to go from idea to prototype to shipped product. Use the prompts, follow the workflow, and keep momentum."
         />

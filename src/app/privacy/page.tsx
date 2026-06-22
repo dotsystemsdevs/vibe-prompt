@@ -16,7 +16,7 @@ export default function PrivacyPage() {
     <main>
       <div className="page-shell">
         <PageHeader
-          emoji="🔒"
+          icon="lock"
           title="Privacy"
           lede="Plain English, no legal padding. vibeprompt has no accounts and no tracking cookies. The only personal data it touches is the email you give the newsletter, and what you choose to put in the Submit a Fix form."
         >

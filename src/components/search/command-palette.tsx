@@ -33,8 +33,13 @@ export function CommandPalette({ data }: { data: SearchItem[] }) {
         setOpen(false);
       }
     }
+    const openEvt = () => setOpen(true);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("open-command-palette", openEvt);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("open-command-palette", openEvt);
+    };
   }, [open]);
 
   useEffect(() => {

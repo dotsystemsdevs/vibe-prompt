@@ -18,6 +18,14 @@ export type TaskItem = {
   text: string;
   /** What this thing is + why you need it (intro). */
   detail?: string;
+  /**
+   * YouTube video id (the 11-char `v=` part). When set on a "Watch:" item the
+   * cookbook embeds a real player inline instead of linking out to a search.
+   * Leave it off and the lesson falls back to the YouTube link in `links`.
+   */
+  youtubeId?: string;
+  /** Runtime shown on the lesson row, e.g. "4:12". Display only. */
+  duration?: string;
   /** Platform-specific instructions for macOS users. */
   mac?: string;
   /** Platform-specific instructions for Windows users. */
@@ -30,14 +38,47 @@ export type TaskItem = {
   verify?: string;
   /** Inline tool links (rendered in Ingredients aside, deduped). */
   links?: TaskLink[];
+  /** One-sentence "why it matters" shown under the instruction. */
+  why?: string;
+  /** Calibration for judgment tasks: a short strong vs weak example. */
+  strongExample?: string;
+  weakExample?: string;
 };
-export type TaskGroup = { heading?: string; description?: string; badge?: string; items: TaskItem[]; resources?: Resource[] };
+export type TaskGroup = { heading?: string; description?: string; badge?: string; tier?: "must" | "power" | "habit" | "troubleshoot"; items: TaskItem[]; resources?: Resource[] };
 
 export type StepRelated = {
   articles: ArticleMeta[];
   fixes: ListProblem[];
   tools?: StepTool[];
 };
+
+/** The trailer clip shown on the course-intro hero. `youtubeId` plays inline. */
+export type PreviewVideo = { youtubeId?: string; href?: string; duration?: string };
+
+/** Rich content for the course-landing view rendered on the `intro` step. */
+export type CourseIntroContent = {
+  /** A longer lead paragraph that sets up the whole cookbook. */
+  lead: string;
+  /** "What you'll walk away with" bullets. */
+  outcomes: string[];
+  /** "This is for you if" bullets. */
+  forWho: string[];
+  /** Cookbook-specific FAQ accordion. */
+  faqs: { q: string; a: string }[];
+};
+
+export type LearnBlock =
+  | { kind: "heading"; text: string }
+  | { kind: "subheading"; text: string }
+  | { kind: "text"; text: string }
+  | { kind: "video"; title: string; youtubeId?: string; href?: string; duration?: string }
+  | { kind: "check"; text: string }
+  | { kind: "bridge"; text: string }
+  | { kind: "diagram"; steps: string[] }
+  | { kind: "example"; filename?: string; tone?: "good" | "bad"; content: string }
+  | { kind: "case"; label?: string; input: string; process: string; output: string }
+  | { kind: "graduation"; intro: string; accomplished: string[]; skills: string[]; next: string[] }
+  | { kind: "read"; title: string; slug?: string; href?: string; blurb?: string };
 
 export type StepData = {
   step: string;
@@ -51,6 +92,31 @@ export type StepData = {
   resources: Resource[];
   output: string[];
   browseSlug: string;
+  /** Hero trailer for the course-intro view (the `intro` step). */
+  previewVideo?: PreviewVideo;
+  /** Course-landing copy for the `intro` step. */
+  courseIntro?: CourseIntroContent;
+  /** Optional per-recipe FAQ, shown in the recipe's FAQ tab. */
+  faqs?: { q: string; a: string }[];
+  /** Optional our-own-words explainer for the Learn tab (one entry per paragraph). */
+  learnNote?: string[];
+  /** Optional woven Learn lesson: ordered text / video / read blocks. */
+  learn?: LearnBlock[];
+  /** TL;DR card at the top of the recipe: orient before diving in. */
+  tldr?: {
+    accomplish: string;
+    deliverable: string;
+    feedsInto?: string;
+    prerequisites: string[];
+    checklist: string[];
+  };
+  /** "Stuck?" beginner-rescue panel in the Task tab. */
+  stuck?: {
+    mistakes: string[];
+    success: string;
+  };
+  /** The single completion rule, rendered at the bottom: "You can move on when ..." */
+  moveOnWhen?: string;
   intro?: {
     forWho: string[];
     struggle: string[];

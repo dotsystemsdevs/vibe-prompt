@@ -18,7 +18,7 @@ export default function CookiePolicyPage() {
     <main>
       <div className="page-shell">
         <PageHeader
-          emoji="🍪"
+          icon="cookie"
           title="Cookies"
           lede="This site does not use tracking cookies. No ad cookies, no social cookies, no cross-site tracking. There is nothing to consent to, so there is no cookie banner."
         >

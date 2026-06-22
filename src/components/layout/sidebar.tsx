@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { WORKFLOW_PAGE_STEPS } from "@/lib/workflow-data";
+import { NavIcon } from "@/components/layout/sidebar-icons";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 
@@ -22,178 +21,61 @@ type NavGroup = {
   children?: NavLeaf[];
 };
 
-// The three pillars carry the product: fix what broke, learn the method,
-// see the proof. Home sits above them. Everything else is secondary.
-const PILLARS: NavGroup[] = [
-  { href: "/", icon: "🏠", label: "Home", match: (p) => p === "/" },
-  // Learn → Fix → Proof
-  { href: "/workflow", icon: "🍳", label: "Cookbook", match: (p) => p === "/workflow" },
-  { href: "/fixes", icon: "🚑", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") },
-  { href: "/built-with", icon: "🚀", label: "Built with", match: (p) => p.startsWith("/built-with") },
+// One flat list. The brand logo links Home, so there's no separate Home row.
+// Legal/meta links (FAQ, About, Privacy, Cookies) live in the footer instead.
+const MENU: NavGroup[] = [
+  { href: "/workflow", icon: "cookbook", label: "Cookbook", match: (p) => p === "/workflow" },
+  // Fixes and Weekly Fix are the same thing, merged into one entry that stays
+  // active on either route.
+  { href: "/fixes", icon: "fixes", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") || p === "/weekly" || p.startsWith("/weekly/") },
+  { href: "/articles", icon: "article", label: "Articles", match: (p) => p.startsWith("/articles") },
+  { href: "/awesome", icon: "star", label: "Awesome", match: (p) => p.startsWith("/awesome") },
+  { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
-
-const COOKBOOK_CHILDREN: NavLeaf[] = WORKFLOW_PAGE_STEPS.map((s) => ({
-  href: `/workflow#step-${s.step}`,
-  icon: s.emoji ?? "•",
-  label: s.title,
-  match: (p, h) => p === "/workflow" && (h ?? "") === `#step-${s.step}`,
-}));
-
-const RESOURCES: NavGroup[] = [
-  { href: "/weekly", icon: "📬", label: "Weekly Fix", match: (p) => p === "/weekly" || p.startsWith("/weekly/") },
-  { href: "/articles", icon: "📝", label: "Articles", match: (p) => p.startsWith("/articles") },
-  { href: "/awesome", icon: "🧰", label: "Tools", match: (p) => p.startsWith("/awesome") },
-  { href: "/compare", icon: "⚖️", label: "Compare", match: (p) => p === "/compare" || p.startsWith("/vs-") },
-];
-
-const MORE: NavGroup[] = [
-  { href: "/faq", icon: "❓", label: "FAQ", match: (p) => p === "/faq" },
-  { href: "/about", icon: "👋", label: "About", match: (p) => p === "/about" },
-  { href: "/privacy", icon: "🔒", label: "Privacy", match: (p) => p === "/privacy" },
-  { href: "/cookie-policy", icon: "🍪", label: "Cookies", match: (p) => p === "/cookie-policy" },
-];
-
-// Everything secondary collapses behind one "Resources" disclosure.
-const SECONDARY: NavGroup[] = [...RESOURCES, ...MORE];
 
 export function Sidebar() {
   const pathname = usePathname() || "/";
-  const onCookbook = pathname === "/workflow";
-  const [hash, setHash] = useState("");
-
-  useEffect(() => {
-    const sync = () => setHash(window.location.hash || "");
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
-  }, []);
-
-  // Cookbook's 10 steps stay collapsed until you open them — and auto-open
-  // when you actually enter the Cookbook. Depth hidden until needed.
-  const [cookbookOpen, setCookbookOpen] = useState(false);
-  useEffect(() => {
-    if (onCookbook) setCookbookOpen(true);
-  }, [onCookbook]);
-
-  // Secondary nav stays collapsed until you open it, or land on one of its pages.
-  const onSecondary = SECONDARY.some((i) => i.match(pathname));
-  const [resourcesOpen, setResourcesOpen] = useState(false);
-  useEffect(() => {
-    if (onSecondary) setResourcesOpen(true);
-  }, [onSecondary]);
 
   return (
     <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
 
-      {/* Pillars — Home + the three products. Cookbook collapses its 10 steps. */}
-      <div className="px-2 pt-3">
-        <ol className="space-y-0.5">
-          {PILLARS.map((item) => {
-            if (item.href !== "/workflow") {
-              return <RootLink key={item.href} item={item} active={item.match(pathname)} />;
-            }
-            return (
-              <li key={item.href}>
-                <div
-                  className={`group flex items-center rounded-md pr-1 text-[15px] transition-colors ${
-                    onCookbook
-                      ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-semibold"
-                      : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-                  }`}
-                >
-                  <Link href={item.href} className="flex min-w-0 flex-1 items-center gap-2.5 pl-7 py-2">
-                    <span aria-hidden className="shrink-0 text-[17px] leading-none w-5 text-center">{item.icon}</span>
-                    <span className="flex-1 truncate">{item.label}</span>
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => setCookbookOpen((o) => !o)}
-                    aria-label={cookbookOpen ? "Collapse the 10 steps" : "Expand the 10 steps"}
-                    aria-expanded={cookbookOpen}
-                    className="flex h-6 w-6 shrink-0 items-center justify-center rounded text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink)]"
-                  >
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden
-                      className={`transition-transform ${cookbookOpen ? "rotate-90" : ""}`}
-                    >
-                      <path d="M9 6l6 6-6 6" />
-                    </svg>
-                  </button>
-                </div>
-
-                {cookbookOpen && (
-                  <ol className="mt-0.5 space-y-px">
-                    {COOKBOOK_CHILDREN.map((leaf) => {
-                      const active = leaf.match(pathname, hash);
-                      return (
-                        <li key={leaf.href}>
-                          <a
-                            href={leaf.href}
-                            aria-current={active ? "page" : undefined}
-                            className={`group flex items-center gap-2 rounded-md pl-12 pr-2 py-1 text-[13.5px] transition-colors ${
-                              active
-                                ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
-                                : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-                            }`}
-                          >
-                            <span aria-hidden className="shrink-0 text-[13px] leading-none w-4 text-center opacity-80">{leaf.icon}</span>
-                            <span className="flex-1 truncate">{leaf.label}</span>
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                )}
-              </li>
-            );
-          })}
-        </ol>
+      {/* Brand — also the Home link, so there's no separate Home row. */}
+      <div className="px-3 pt-4 pb-3">
+        <Link href="/" className="flex items-center gap-2.5">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] text-[17px] leading-none">🍳</span>
+          <span className="truncate text-[15px] font-semibold tracking-tight text-[color:var(--ink)]">vibeprompt</span>
+        </Link>
       </div>
 
-      {/* Resources — collapsed by default; everything secondary lives here */}
-      <div className="px-2 mt-6">
+      {/* Search — opens the command palette. */}
+      <div className="px-3 pb-1">
         <button
           type="button"
-          onClick={() => setResourcesOpen((o) => !o)}
-          aria-expanded={resourcesOpen}
-          className="flex w-full items-center justify-between rounded-md px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)] transition-colors hover:text-[color:var(--ink-soft)]"
+          onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
+          className="flex w-full items-center gap-2 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-2.5 py-2 text-[13px] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink-soft)]"
         >
-          <span>Resources</span>
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-            className={`transition-transform ${resourcesOpen ? "rotate-90" : ""}`}
-          >
-            <path d="M9 6l6 6-6 6" />
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.5" y2="16.5" />
           </svg>
+          <span className="flex-1 text-left">Search</span>
+          <kbd className="rounded border border-[color:var(--ink-rule)] px-1.5 py-0.5 text-[10px] font-mono leading-none">⌘K</kbd>
         </button>
-        {resourcesOpen && (
-          <ol className="mt-1 space-y-0.5">
-            {SECONDARY.map((item) => (
-              <RootLink key={item.href} item={item} active={item.match(pathname)} />
-            ))}
-          </ol>
-        )}
+      </div>
+
+      {/* One flat nav list. */}
+      <div className="px-2 pt-3">
+        <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">Explore</p>
+        <ol className="space-y-0.5">
+          {MENU.map((item) => (
+            <RootLink key={item.href} item={item} active={item.match(pathname)} />
+          ))}
+        </ol>
       </div>
 
       <div className="flex-1" />
 
-      {/* Bottom utilities */}
+      {/* Bottom utilities — plain links, no card. */}
       <div className="px-2 pb-3 pt-2 mt-2 border-t border-[color:var(--ink-rule)] space-y-0.5">
         <UtilityRow
           icon={
@@ -206,9 +88,15 @@ export function Sidebar() {
           external
         />
         <UtilityRow
-          icon={<span aria-hidden className="text-[14px] leading-none">💡</span>}
+          icon={<NavIcon name="lightbulb" className="h-3.5 w-3.5" />}
           label="Suggest a change"
           href={`${GITHUB_URL}/issues/new`}
+          external
+        />
+        <UtilityRow
+          icon={<NavIcon name="coffee" className="h-3.5 w-3.5" />}
+          label="Buy me a coffee"
+          href="https://buymeacoffee.com/dotdevs"
           external
         />
       </div>
@@ -275,7 +163,7 @@ function RootLink({ item, active }: { item: { href: string; icon: string; label:
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className="shrink-0 text-[17px] leading-none w-5 text-center">{item.icon}</span>
+        <span aria-hidden className="flex shrink-0 w-5 items-center justify-center"><NavIcon name={item.icon} /></span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>

@@ -9,22 +9,21 @@ import { marked } from "marked";
 
 const ARTICLES_DIR = path.join(process.cwd(), "content/articles");
 
-export const CATEGORIES = ["method", "android", "ios", "web", "growth"] as const;
+export const CATEGORIES = ["news", "models", "tools", "guides"] as const;
 export type Category = (typeof CATEGORIES)[number];
 
 export const CATEGORY_LABEL: Record<Category, string> = {
-  method: "Method",
-  android: "Android",
-  ios: "iOS",
-  web: "Web",
-  growth: "Growth",
+  news: "News",
+  models: "Models",
+  tools: "Tools",
+  guides: "Guides",
 };
 
 function normalizeCategory(raw: unknown): Category {
   if (typeof raw === "string" && (CATEGORIES as readonly string[]).includes(raw)) {
     return raw as Category;
   }
-  return "method";
+  return "guides";
 }
 
 export type TocItem = {
@@ -82,7 +81,7 @@ const _getAllArticlesUncached = async (): Promise<ArticleMeta[]> => {
           date: data.date ?? "",
           image: data.image ?? "",
           imageAlt: data.imageAlt ?? "",
-          author: data.author ?? "vibeprompt",
+          author: data.author ?? "dot.systems",
           category: normalizeCategory(data.category),
           readingMinutes: estimateReadingMinutes(content),
         } satisfies ArticleMeta;
@@ -148,7 +147,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
     date: data.date ?? "",
     image: data.image ?? "",
     imageAlt: data.imageAlt ?? "",
-    author: data.author ?? "vibeprompt",
+    author: data.author ?? "dot.systems",
     category: normalizeCategory(data.category),
     readingMinutes: estimateReadingMinutes(content),
     html,

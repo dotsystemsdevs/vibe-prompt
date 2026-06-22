@@ -16,7 +16,7 @@ export type SearchItem = {
 const STATIC_PAGES: SearchItem[] = [
   { type: "page", id: "fixes", title: "The AI Build Failure Database", href: "/fixes", snippet: "Search field-tested fixes for when AI breaks your build." },
   { type: "page", id: "workflow", title: "The 10-step workflow", href: "/workflow", snippet: "Interactive build loop from idea to shipped." },
-  { type: "page", id: "articles", title: "Articles", href: "/articles", snippet: "Deep-dives with real receipts from shipped apps." },
+  { type: "page", id: "articles", title: "Articles", href: "/articles", snippet: "The latest in vibe coding: new apps, model drops, new tools, and deep-dive guides." },
   { type: "page", id: "awesome", title: "Awesome tools", href: "/awesome", snippet: "Curated tools, platforms, and resources." },
   { type: "page", id: "compare", title: "Compare", href: "/compare", snippet: "vibeprompt vs the vibe coding tools and books, on the same axes." },
   { type: "page", id: "built-with", title: "Built with vibeprompt", href: "/built-with", snippet: "Real indie apps shipped using the 10-step workflow. What worked, what broke." },

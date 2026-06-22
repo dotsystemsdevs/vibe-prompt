@@ -8,14 +8,6 @@ import Image from "next/image";
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 const CURRENT_YEAR = new Date().getFullYear();
 
-const SISTER_PROJECTS: { name: string; url: string; icon: string }[] = [
-  { name: "Slothy", url: "https://slothy.app", icon: "🦥" },
-  { name: "Commitment Issues", url: "https://commitmentissues.dev", icon: "⚰️" },
-  { name: "Build2Race", url: "https://build2race.com", icon: "🏃" },
-  { name: "Excuse Caddie", url: "https://excusecaddie.xyz", icon: "⛳" },
-  { name: "Indexia", url: "https://indexia.se", icon: "🔍" },
-];
-
 type FooterContributor = {
   login: string;
   avatarUrl: string;
@@ -65,35 +57,23 @@ export function Footer() {
     return () => { cancelled = true; };
   }, [pathname]);
 
+  // Home is a one-screen no-scroll layout, and the cookbook (/workflow) owns its
+  // own full-height app layout with a sticky right rail, so neither gets a footer.
+  if (pathname === "/" || pathname === "/workflow") return null;
+
   return (
     <footer className="shrink-0 border-t border-[color:var(--ink-rule)] bg-[color:var(--page)] text-[color:var(--ink)]">
       <div className="mx-auto w-full max-w-4xl px-6 py-10 sm:px-8 sm:py-12">
 
-        {/* Sister apps row */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-8">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.10em] text-[color:var(--ink-faded)] mr-2">
-            More from dot.systems
-          </p>
-          {SISTER_PROJECTS.map((p) => (
-            <a
-              key={p.name}
-              href={p.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[13px] text-[color:var(--ink-soft)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
-            >
-              <span aria-hidden>{p.icon}</span>
-              {p.name}
-            </a>
-          ))}
-        </div>
-
         {/* Bottom strip — copyright + contributors + small links */}
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-[color:var(--ink-rule)] pt-5">
+        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-[color:var(--ink-faded)]">
             <span>© {CURRENT_YEAR} dot.systems</span>
+            <Link href="/faq" className="hover:text-[color:var(--ink)] transition-colors">FAQ</Link>
+            <Link href="/about" className="hover:text-[color:var(--ink)] transition-colors">About</Link>
             <Link href="/privacy" className="hover:text-[color:var(--ink)] transition-colors">Privacy</Link>
-            <a href="/rss.xml" className="hover:text-[color:var(--ink)] transition-colors">RSS</a>
+            <Link href="/cookie-policy" className="hover:text-[color:var(--ink)] transition-colors">Cookies</Link>
+            <Link href="/compare" className="hover:text-[color:var(--ink)] transition-colors">Compare</Link>
             <a
               href={GITHUB_URL}
               target="_blank"
@@ -101,6 +81,22 @@ export function Footer() {
               className="hover:text-[color:var(--ink)] transition-colors"
             >
               GitHub ↗
+            </a>
+            <a
+              href={`${GITHUB_URL}/issues/new`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[color:var(--ink)] transition-colors"
+            >
+              Suggest a change ↗
+            </a>
+            <a
+              href="https://buymeacoffee.com/dotdevs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-[color:var(--accent)] hover:text-[color:var(--accent-hover)] transition-colors"
+            >
+              Buy me a coffee ↗
             </a>
           </div>
 

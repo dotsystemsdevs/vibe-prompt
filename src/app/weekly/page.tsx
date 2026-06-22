@@ -44,7 +44,7 @@ export default function WeeklyPage() {
 
       <div className="page-shell">
         <PageHeader
-          emoji="📬"
+          icon="mail"
           accent="purple"
           kicker="The Weekly Fix"
           title="The Weekly Fix"

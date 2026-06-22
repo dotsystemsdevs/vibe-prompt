@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { WORKFLOW_PAGE_STEPS } from "@/lib/workflow-data";
+import { WORKFLOW_NAV } from "@/lib/workflow-nav";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 
@@ -20,7 +20,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/built-with": "Built with",
   "/weekly": "Weekly Fix",
   "/articles": "Articles",
-  "/awesome": "Tools",
+  "/awesome": "Awesome",
   "/compare": "Compare",
   "/about": "About",
   "/faq": "FAQ",
@@ -196,7 +196,7 @@ export function Navbar() {
                       </div>
                       {cookbookOpen && (
                         <div className="mt-0.5 grid gap-0.5">
-                          {WORKFLOW_PAGE_STEPS.map((s) => (
+                          {WORKFLOW_NAV.map((s) => (
                             <a
                               key={s.step}
                               href={`/workflow#step-${s.step}`}

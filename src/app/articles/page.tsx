@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { PageHeader } from "@/components/layout/page-header";
 import { getAllArticles, CATEGORIES, CATEGORY_LABEL, type Category } from "@/lib/articles";
 
 export const metadata: Metadata = {
   title: "Articles | vibeprompt",
-  description: "Practical guides and insights for vibe coders, what actually works when building with AI.",
+  description: "The latest in vibe coding: new apps, model releases, new tools, and a few deep-dive guides for building with AI.",
   alternates: { canonical: "/articles" },
   openGraph: {
     title: "Articles, vibeprompt",
-    description: "Practical guides and insights for vibe coders, what actually works when building with AI.",
+    description: "The latest in vibe coding: new apps, model releases, new tools, and a few deep-dive guides for building with AI.",
     url: "https://vibeprompt.tech/articles",
     images: [{ url: "https://vibeprompt.tech/opengraph-image", width: 1200, height: 630 }],
   },
@@ -37,20 +38,19 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
 
   return (
     <div>
-      <div className="page-shell">
+      <div className="page-shell-wide">
         <PageHeader
-          emoji="📝"
+          icon="article"
           title="Articles"
-          lede="Practical guides for building with AI. No fluff, no theory, just what actually works once you start shipping."
+          lede="The latest in vibe coding: new apps worth copying, model drops, new tools, and the occasional deep-dive guide. The how-to fixes now live in Fixes."
         />
 
-        {/* Category chip filter — Notion database filter row */}
+        {/* Category chip filter — no "All"; clicking the active chip clears it */}
         <div className="mb-3 flex flex-wrap gap-1">
-          <CategoryChip href="/articles" active={activeCategory === null} label="All" count={allArticles.length} />
           {CATEGORIES.filter((c) => counts[c] > 0).map((c) => (
             <CategoryChip
               key={c}
-              href={`/articles?cat=${c}`}
+              href={activeCategory === c ? "/articles" : `/articles?cat=${c}`}
               active={activeCategory === c}
               label={CATEGORY_LABEL[c]}
               count={counts[c]}
@@ -68,30 +68,44 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             )}
           </div>
         ) : (
-          <ul className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {articles.map((article) => (
               <li key={article.slug}>
                 <Link
                   href={`/articles/${article.slug}`}
-                  className="group grid grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1fr)_84px_104px_48px] items-center gap-x-3 -mx-3 rounded-md px-3 py-2.5 transition-colors hover:bg-[color:var(--sidebar-hover)]"
+                  className="vp-card-bordered group flex h-full flex-col overflow-hidden hover:border-[color:var(--ink-soft)]"
                 >
-                  <span className="flex min-w-0 items-center gap-2">
-                    <span aria-hidden className="shrink-0 text-[14px] leading-none">📄</span>
-                    <span className="truncate text-body font-medium text-[color:var(--ink)] group-hover:underline">
+                  <div
+                    className="relative w-full overflow-hidden bg-[color:var(--sidebar-hover)]"
+                    style={{ aspectRatio: "16/9" }}
+                  >
+                    {article.image ? (
+                      <Image
+                        src={article.image}
+                        alt={article.imageAlt}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[28px]" aria-hidden>
+                        📄
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-4">
+                    <span className="vp-badge self-start">{CATEGORY_LABEL[article.category]}</span>
+                    <h2 className="text-body mt-2.5 font-medium leading-snug text-[color:var(--ink)] group-hover:underline">
                       {article.title}
-                    </span>
-                  </span>
-                  <span className="hidden sm:block">
-                    <span className="vp-badge">
-                      {CATEGORY_LABEL[article.category]}
-                    </span>
-                  </span>
-                  <span className="hidden sm:block text-meta tabular-nums">
-                    {new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                  </span>
-                  <span className="text-meta text-right tabular-nums">
-                    {article.readingMinutes} min
-                  </span>
+                    </h2>
+                    <p className="text-meta mt-auto flex items-center gap-2 pt-3 tabular-nums">
+                      <span>
+                        {new Date(article.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </span>
+                      <span aria-hidden>·</span>
+                      <span>{article.readingMinutes} min</span>
+                    </p>
+                  </div>
                 </Link>
               </li>
             ))}

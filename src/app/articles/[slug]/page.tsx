@@ -3,16 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getArticle, getAllArticles, CATEGORY_LABEL } from "@/lib/articles";
-import { PageHeader } from "@/components/layout/page-header";
-import { ArticleToc } from "@/components/articles/article-toc";
 import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
-
-const CATEGORY_EMOJI: Record<string, string> = {
-  Method: "🧠",
-  Growth: "📈",
-  iOS: "🍎",
-  Android: "🤖",
-};
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
@@ -47,67 +38,62 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     .slice(0, 3);
   const relatedProblems = LIST_PROBLEMS.filter((p) => p.articleSlug === article.slug);
 
+  const formattedDate = new Date(article.date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
-    <div className="">
-      <div className="page-shell-wide">
+    <div className="page-shell">
+      <article className="mx-auto max-w-2xl">
 
         {/* Back */}
         <Link
           href="/articles"
-          className="btn-ghost mb-8"
+          className="inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-[color:var(--ink-rule)] px-3.5 py-1.5 text-[13px] font-medium text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
         >
-          ← Articles
+          <span aria-hidden>←</span> Articles
         </Link>
 
-        <div className="lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12 xl:gap-16">
-          {/* TOC sidebar (desktop only) */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-8">
-              <ArticleToc
-                items={article.toc}
-                problems={relatedProblems.map((p) => ({ id: p.id, title: p.title }))}
-              />
-            </div>
-          </aside>
+        {/* Header */}
+        <header className="mt-8 mb-9">
+          <h1 className="font-sans font-bold tracking-[-0.025em] leading-[1.08] text-[color:var(--ink)] text-[clamp(2rem,4vw+0.5rem,3rem)]">
+            {article.title}
+          </h1>
 
-          <article className="mx-auto max-w-2xl lg:mx-0">
+          <div className="mt-5 flex items-center gap-2 text-meta">
+            <span className="font-medium text-[color:var(--ink)]">{article.author}</span>
+            <span aria-hidden>·</span>
+            <span>{formattedDate}</span>
+            <span aria-hidden>·</span>
+            <span>{article.readingMinutes} min read</span>
+          </div>
+        </header>
 
-            {/* Header */}
-            <PageHeader
-              emoji={CATEGORY_EMOJI[article.category] ?? "📄"}
-              title={article.title}
-              lede={article.description}
-            >
-              <p className="text-meta mt-3">
-                {new Date(article.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-                {" · "}{article.author}
-                {" · "}{article.readingMinutes} min read
-              </p>
-            </PageHeader>
-
-            {/* Hero image */}
-            {article.image && (
-              <div className="relative w-full overflow-hidden mb-10 rounded-lg border border-[color:var(--ink-rule)]" style={{ aspectRatio: "16/9" }}>
-                <Image
-                  src={article.image}
-                  alt={article.imageAlt}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 672px) 100vw, 672px"
-                />
-              </div>
-            )}
-
-            {/* Body */}
-            <div
-              className="prose-article"
-              dangerouslySetInnerHTML={{ __html: article.html }}
+        {/* Hero image */}
+        {article.image && (
+          <div className="relative w-full overflow-hidden mb-10 rounded-xl border border-[color:var(--ink-rule)]" style={{ aspectRatio: "16/9" }}>
+            <Image
+              src={article.image}
+              alt={article.imageAlt}
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 672px) 100vw, 672px"
             />
+          </div>
+        )}
 
-            {/* Related section */}
-            {(relatedArticles.length > 0 || relatedProblems.length > 0) && (
-              <aside className="mt-16 border-t border-[color:var(--ink-rule)] pt-8">
+        {/* Body */}
+        <div
+          className="prose-article"
+          dangerouslySetInnerHTML={{ __html: article.html }}
+        />
+
+        {/* Related section */}
+        {(relatedArticles.length > 0 || relatedProblems.length > 0) && (
+          <aside className="mt-16 border-t border-[color:var(--ink-rule)] pt-8">
                 <h2 className="section-title mb-6 flex items-center gap-2.5">
                   <span aria-hidden className="text-[22px] leading-none">📚</span>
                   Keep reading
@@ -160,12 +146,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     </ul>
                   </div>
                 )}
-              </aside>
-            )}
+          </aside>
+        )}
 
-          </article>
-        </div>
-      </div>
+      </article>
     </div>
   );
 }

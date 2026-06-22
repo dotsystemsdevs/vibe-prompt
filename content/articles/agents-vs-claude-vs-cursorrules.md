@@ -4,13 +4,13 @@ description: "Three context-file formats, one job. Why AGENTS.md is winning, wha
 date: "2026-05-20"
 image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&q=80"
 imageAlt: "Stack of paper documents"
-author: "vibeprompt"
-category: method
+author: "dot.systems"
+category: tools
 ---
 
 If you've used more than one AI coding tool in the past year, you've hit this: Claude Code wants `CLAUDE.md`. Cursor reads `.cursorrules` (or the newer `.cursor/rules`). Codex CLI looks for `AGENTS.md`. Aider has its own conventions. Now you've got four files in your repo, all saying mostly the same thing, all slightly out of sync.
 
-This article explains what each file actually does, why **AGENTS.md is winning**, and the exact setup that lets one file drive every tool — without maintaining four copies.
+This article explains what each file actually does, why **AGENTS.md is winning**, and the exact setup that lets one file drive every tool â€” without maintaining four copies.
 
 ## The three formats, side by side
 
@@ -30,7 +30,7 @@ The differences are mostly cosmetic:
 
 - **`CLAUDE.md`** is plain markdown. Claude Code loads it at session start and treats it as authoritative.
 - **`AGENTS.md`** is the same idea, formalized. The Linux Foundation spec defines section conventions (Project, Stack, Conventions, etc.) so tools can predict structure.
-- **`.cursorrules`** was Cursor's original format — single-file rules with optional path globs. The newer `.cursor/rules/` directory splits rules into files with frontmatter for scoping (`description`, `globs`, `alwaysApply`).
+- **`.cursorrules`** was Cursor's original format â€” single-file rules with optional path globs. The newer `.cursor/rules/` directory splits rules into files with frontmatter for scoping (`description`, `globs`, `alwaysApply`).
 
 There's no functional difference for 95% of users. They all end up in the model's system prompt.
 
@@ -46,7 +46,7 @@ If you're starting a project today, write `AGENTS.md` and stop there.
 
 ## The "one file, all tools" setup
 
-If you already have `CLAUDE.md` (or `.cursorrules`), don't migrate everything to AGENTS.md — that's a recipe for drift. Use one of these three patterns:
+If you already have `CLAUDE.md` (or `.cursorrules`), don't migrate everything to AGENTS.md â€” that's a recipe for drift. Use one of these three patterns:
 
 ### Pattern 1: Symlink
 
@@ -128,22 +128,22 @@ A full [AGENTS.md template](/templates/AGENTS.md) is on this site under template
 
 **Don't add things "just in case."** Every rule you write is a constraint the model has to track. Be specific about what matters, vague about what doesn't.
 
-**Don't forget to update it.** Stale rules are worse than no rules — they tell the model to do things you no longer want. Touch AGENTS.md in the same commit as breaking convention changes.
+**Don't forget to update it.** Stale rules are worse than no rules â€” they tell the model to do things you no longer want. Touch AGENTS.md in the same commit as breaking convention changes.
 
 ## Tooling-specific quirks
 
 A few footguns worth knowing:
 
 - **Cursor** still reads `.cursorrules` for backward compatibility, but the newer `.cursor/rules/` directory is preferred. If both exist, `.cursor/rules/` wins.
-- **Claude Code** has a hierarchy: `~/.claude/CLAUDE.md` (global) → `./CLAUDE.md` (project). Both get loaded. Use the global one for personal preferences, the project one for project-specific.
-- **Codex CLI** supports monorepo `AGENTS.md` files — drop one in each package, Codex picks the closest one to your working directory.
+- **Claude Code** has a hierarchy: `~/.claude/CLAUDE.md` (global) â†’ `./CLAUDE.md` (project). Both get loaded. Use the global one for personal preferences, the project one for project-specific.
+- **Codex CLI** supports monorepo `AGENTS.md` files â€” drop one in each package, Codex picks the closest one to your working directory.
 - **Aider** reads `CONVENTIONS.md` by default. Symlink that to `AGENTS.md` too if you use Aider.
 
 ## TL;DR
 
 - Write **AGENTS.md** as your source of truth.
 - Symlink or pointer the others (`CLAUDE.md`, `.cursorrules`) to AGENTS.md.
-- Keep it under 100 lines, rules-only — not scope.
+- Keep it under 100 lines, rules-only â€” not scope.
 - Update it in the same commit as breaking convention changes.
 
 This stops the four-files-out-of-sync problem cold. Every tool reads the same content, you edit one place.

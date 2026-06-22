@@ -61,7 +61,7 @@ export default function ComparePage() {
 
         {/* Page header */}
         <PageHeader
-          emoji="⚖️"
+          icon="compare"
           accent="orange"
           title="Compare"
           lede={

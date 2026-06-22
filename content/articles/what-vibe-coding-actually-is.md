@@ -4,8 +4,8 @@ description: "Karpathy coined the term in February 2025. Since then it's been tw
 date: "2026-04-26"
 image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80"
 imageAlt: "Abstract AI brain visualization"
-author: "vibeprompt"
-category: method
+author: "dot.systems"
+category: guides
 ---
 
 Andrej Karpathy coined "vibe coding" in February 2025. He described it as a new kind of coding where you "fully give in to the vibes, embrace exponentials, and forget that the code even exists."
