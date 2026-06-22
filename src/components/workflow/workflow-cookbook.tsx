@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
-import type { StepData, TaskItem } from "./workflow-stepper";
+import type { StepData, TaskItem, LearnBlock } from "./workflow-stepper";
 import { LessonVideo, youtubeThumb, type Lesson } from "./lesson-video";
 import { CourseContentRail } from "./course-content-rail";
 import { CourseIntro } from "./course-intro";
@@ -69,6 +69,26 @@ const RECIPE_TABS: [RecipeTab, string][] = [
   ["task", "Task"],
   ["faq", "FAQ"],
 ];
+
+// A line icon per Learn section, matched on the heading's wording (icons, not emojis).
+function sectionIcon(heading: string) {
+  const k = heading.toLowerCase();
+  if (k.includes("aim")) return <><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4.5" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /></>;
+  if (k.includes("no idea") || k.includes("find")) return <><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.5" y2="16.5" /></>;
+  if (k.includes("what")) return <><path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z" /></>;
+  if (k.includes("how") || k.includes("set it up") || k.includes("run it") || k.includes("choose") || k.includes("write it")) return <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.7 2.7-2-2 2.7-2.7z" />;
+  if (k.includes("wrong") || k.includes("trap") || k.includes("avoid") || k.includes("mistake")) return <><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></>;
+  if (k.includes("start from") || k.includes("prd")) return <><path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /></>;
+  if (k.includes("deeper") || k.includes("prompt") || k.includes("diff") || k.includes("session")) return <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></>;
+  return <><circle cx="12" cy="12" r="9" /><path d="M12 8v4l2.5 2.5" /></>;
+}
+
+// A line icon per recipe tab.
+function tabIcon(key: RecipeTab) {
+  if (key === "learn") return <><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></>;
+  if (key === "task") return <><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></>;
+  return <><circle cx="12" cy="12" r="9" /><path d="M9.6 9.5a2.5 2.5 0 0 1 4.9.7c0 1.7-2.5 2-2.5 2.3" /><path d="M12 16.5h.01" /></>;
+}
 
 interface WorkflowCookbookProps {
   steps: StepData[];
@@ -205,6 +225,140 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
   const prevStep = stepIndex > 0 ? steps[stepIndex - 1] : null;
   const nextStep = stepIndex >= 0 && stepIndex < steps.length - 1 ? steps[stepIndex + 1] : null;
 
+  // One Learn block, rendered by kind. Headings are consumed by the section
+  // grouping below, so this only renders the content inside a section card.
+  function renderLearnBlock(b: LearnBlock, i: number) {
+    if (b.kind === "heading") {
+      return <h3 key={i} className="text-[15px] font-semibold tracking-tight text-[color:var(--ink)]">{b.text}</h3>;
+    }
+    if (b.kind === "subheading") {
+      return <p key={i} className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">{b.text}</p>;
+    }
+    if (b.kind === "text") {
+      return <p key={i} className="text-body">{b.text}</p>;
+    }
+    if (b.kind === "video") {
+      return (
+        <figure key={i}>
+          <LessonVideo lesson={{ title: b.title, youtubeId: b.youtubeId, href: b.href, duration: b.duration }} />
+          <figcaption className="mt-2.5 flex items-center justify-between gap-3 text-[12px]">
+            <span className="truncate font-medium text-[color:var(--ink-soft)]">{b.title}</span>
+            {b.duration && <span className="shrink-0 font-mono tabular-nums text-[color:var(--ink-faded)]">{b.duration}</span>}
+          </figcaption>
+        </figure>
+      );
+    }
+    if (b.kind === "check") {
+      return (
+        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
+          <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Check yourself</p>
+          <p className="mt-1.5 text-[14px] leading-relaxed text-[color:var(--ink-soft)]">{b.text}</p>
+        </div>
+      );
+    }
+    if (b.kind === "bridge") {
+      return (
+        <div key={i} className="mt-2 flex items-start gap-2 border-t border-[color:var(--ink-rule)] pt-4 text-[13px] font-medium text-[color:var(--ink-soft)]">
+          <span aria-hidden className="shrink-0 text-[color:var(--accent)]">→</span>
+          <span>{b.text}</span>
+        </div>
+      );
+    }
+    if (b.kind === "diagram") {
+      return (
+        <div key={i} className="flex flex-col items-center gap-1 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
+          {b.steps.map((s, si) => (
+            <div key={si} className="flex flex-col items-center gap-1">
+              <span className="rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--ink)]">{s}</span>
+              {si < b.steps.length - 1 && <span aria-hidden className="leading-none text-[color:var(--ink-faded)]">↓</span>}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    if (b.kind === "example") {
+      return (
+        <figure key={i} className="overflow-hidden rounded-lg border border-[color:var(--ink-rule)]">
+          {(b.filename || b.tone) && (
+            <figcaption className="flex items-center justify-between gap-2 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-3 py-1.5">
+              {b.filename ? <span className="font-mono text-[11px] text-[color:var(--ink-soft)]">{b.filename}</span> : <span />}
+              {b.tone && (
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em]" style={{ color: b.tone === "good" ? "var(--success)" : "var(--page-red)" }}>
+                  {b.tone === "good" ? "Good" : "Avoid"}
+                </span>
+              )}
+            </figcaption>
+          )}
+          <pre className="overflow-x-auto whitespace-pre-wrap bg-[color:var(--paper)] p-3.5 text-[12px] leading-relaxed text-[color:var(--ink-soft)]"><code>{b.content}</code></pre>
+        </figure>
+      );
+    }
+    if (b.kind === "case") {
+      return (
+        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] border-l-2 border-l-[color:var(--accent)] bg-[color:var(--paper-soft)] p-4">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">Worked example{b.label ? `, ${b.label}` : ""}</p>
+          <dl className="mt-2 space-y-1.5 text-[12.5px]">
+            <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Input</dt><dd className="text-[color:var(--ink-soft)]">{b.input}</dd></div>
+            <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Process</dt><dd className="text-[color:var(--ink-soft)]">{b.process}</dd></div>
+            <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Output</dt><dd className="text-[color:var(--ink-soft)]">{b.output}</dd></div>
+          </dl>
+        </div>
+      );
+    }
+    if (b.kind === "graduation") {
+      return (
+        <div key={i} className="rounded-xl border border-[color:var(--accent)] bg-[color:var(--accent-soft)] p-6">
+          <p className="text-[22px] font-bold tracking-tight text-[color:var(--ink)]">You shipped.</p>
+          <p className="mt-2 text-body">{b.intro}</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            <div>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">You accomplished</p>
+              <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.accomplished.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Skills learned</p>
+              <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.skills.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+            </div>
+            <div>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Next steps</p>
+              <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.next.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    const readHref = b.slug ? `/articles/${b.slug}` : b.href ?? "#";
+    const preview = b.slug ? articleImages?.[b.slug] : undefined;
+    return (
+      <a
+        key={i}
+        href={readHref}
+        {...(b.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+        className="group flex items-start gap-3 rounded-xl border border-[color:var(--ink-rule)] p-3.5 transition-colors hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--accent-soft)]"
+      >
+        {preview ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={preview.src} alt="" className="h-16 w-24 shrink-0 rounded-md object-cover" />
+        ) : b.href ? (
+          <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
+            <FavIcon href={b.href} />
+          </span>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--ink-faded)]">
+            <path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          </svg>
+        )}
+        <span className="min-w-0 flex-1">
+          <span className="flex items-center gap-1.5 text-[13.5px] font-semibold text-[color:var(--ink)]">
+            <span className="min-w-0 flex-1">{b.title}</span>
+            <span aria-hidden className="shrink-0 text-[11px] text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5">→</span>
+          </span>
+          {b.blurb && <span className="mt-0.5 block text-[12.5px] leading-snug text-[color:var(--ink-faded)]">{b.blurb}</span>}
+        </span>
+      </a>
+    );
+  }
+
   return (
     <div
       className="w-full"
@@ -292,6 +446,13 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                 </span>
               )}
             </div>
+
+            {/* Slim per-step progress, momentum at a glance */}
+            {mounted && activeItems.length > 0 && (
+              <div className="mt-4 h-1 w-full max-w-2xl overflow-hidden rounded-full bg-[color:var(--accent-soft)]">
+                <div className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-500" style={{ width: `${Math.round((totalDone / activeItems.length) * 100)}%` }} />
+              </div>
+            )}
 
             {/* Overview, kept to a short hook, the Learn lesson carries the depth. */}
             <p className="mt-5 max-w-2xl text-body">
@@ -389,159 +550,46 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                 type="button"
                 onClick={() => setRecipeTab(key)}
                 aria-current={recipeTab === key ? "true" : undefined}
-                className={`-mb-px border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors ${
+                className={`-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors ${
                   recipeTab === key
                     ? "border-[color:var(--accent)] text-[color:var(--ink)]"
                     : "border-transparent text-[color:var(--ink-faded)] hover:text-[color:var(--ink-soft)]"
                 }`}
               >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{tabIcon(key)}</svg>
                 {label}
               </button>
             ))}
           </div>
 
           {recipeTab === "learn" && (active.learn && active.learn.length > 0 ? (
-            <div className="relative max-w-2xl">
-              <span aria-hidden className="absolute left-2 top-3 bottom-3 w-px bg-[color:var(--ink-rule)]" />
-              <div className="relative space-y-5 pl-9">
-              {active.learn.map((b, i) => {
-                if (b.kind === "heading") {
-                  return (
-                    <h3 key={i} className="relative mt-7 text-[17px] font-semibold tracking-tight text-[color:var(--ink)]">
-                      <span aria-hidden className="absolute -left-9 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-[color:var(--accent)] ring-4 ring-[color:var(--page)]" />
-                      {b.text}
-                    </h3>
-                  );
-                }
-                if (b.kind === "subheading") {
-                  return <p key={i} className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">{b.text}</p>;
-                }
-                if (b.kind === "text") {
-                  return <p key={i} className="text-body">{b.text}</p>;
-                }
-                if (b.kind === "video") {
-                  return (
-                    <figure key={i}>
-                      <LessonVideo lesson={{ title: b.title, youtubeId: b.youtubeId, href: b.href, duration: b.duration }} />
-                      <figcaption className="mt-2.5 flex items-center justify-between gap-3 text-[12px]">
-                        <span className="truncate font-medium text-[color:var(--ink-soft)]">{b.title}</span>
-                        {b.duration && <span className="shrink-0 font-mono tabular-nums text-[color:var(--ink-faded)]">{b.duration}</span>}
-                      </figcaption>
-                    </figure>
-                  );
-                }
-                if (b.kind === "check") {
-                  return (
-                    <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
-                      <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Check yourself</p>
-                      <p className="mt-1.5 text-[14px] leading-relaxed text-[color:var(--ink-soft)]">{b.text}</p>
-                    </div>
-                  );
-                }
-                if (b.kind === "bridge") {
-                  return (
-                    <div key={i} className="mt-2 flex items-start gap-2 border-t border-[color:var(--ink-rule)] pt-4 text-[13px] font-medium text-[color:var(--ink-soft)]">
-                      <span aria-hidden className="shrink-0 text-[color:var(--accent)]">→</span>
-                      <span>{b.text}</span>
-                    </div>
-                  );
-                }
-                if (b.kind === "diagram") {
-                  return (
-                    <div key={i} className="flex flex-col items-center gap-1 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
-                      {b.steps.map((s, si) => (
-                        <div key={si} className="flex flex-col items-center gap-1">
-                          <span className="rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--ink)]">{s}</span>
-                          {si < b.steps.length - 1 && <span aria-hidden className="leading-none text-[color:var(--ink-faded)]">↓</span>}
-                        </div>
-                      ))}
-                    </div>
-                  );
-                }
-                if (b.kind === "example") {
-                  return (
-                    <figure key={i} className="overflow-hidden rounded-lg border border-[color:var(--ink-rule)]">
-                      {(b.filename || b.tone) && (
-                        <figcaption className="flex items-center justify-between gap-2 border-b border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-3 py-1.5">
-                          {b.filename ? <span className="font-mono text-[11px] text-[color:var(--ink-soft)]">{b.filename}</span> : <span />}
-                          {b.tone && (
-                            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.1em]" style={{ color: b.tone === "good" ? "var(--success)" : "var(--page-red)" }}>
-                              {b.tone === "good" ? "Good" : "Avoid"}
-                            </span>
-                          )}
-                        </figcaption>
-                      )}
-                      <pre className="overflow-x-auto whitespace-pre-wrap bg-[color:var(--paper)] p-3.5 text-[12px] leading-relaxed text-[color:var(--ink-soft)]"><code>{b.content}</code></pre>
-                    </figure>
-                  );
-                }
-                if (b.kind === "case") {
-                  return (
-                    <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] border-l-2 border-l-[color:var(--accent)] bg-[color:var(--paper-soft)] p-4">
-                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">Worked example{b.label ? `, ${b.label}` : ""}</p>
-                      <dl className="mt-2 space-y-1.5 text-[12.5px]">
-                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Input</dt><dd className="text-[color:var(--ink-soft)]">{b.input}</dd></div>
-                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Process</dt><dd className="text-[color:var(--ink-soft)]">{b.process}</dd></div>
-                        <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Output</dt><dd className="text-[color:var(--ink-soft)]">{b.output}</dd></div>
-                      </dl>
-                    </div>
-                  );
-                }
-                if (b.kind === "graduation") {
-                  return (
-                    <div key={i} className="rounded-xl border border-[color:var(--accent)] bg-[color:var(--accent-soft)] p-6">
-                      <p className="text-[22px] font-bold tracking-tight text-[color:var(--ink)]">You shipped.</p>
-                      <p className="mt-2 text-body">{b.intro}</p>
-                      <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                        <div>
-                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">You accomplished</p>
-                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.accomplished.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
-                        </div>
-                        <div>
-                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Skills learned</p>
-                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.skills.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
-                        </div>
-                        <div>
-                          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Next steps</p>
-                          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12.5px] text-[color:var(--ink-soft)]">{b.next.map((x, xi) => <li key={xi}>{x}</li>)}</ul>
-                        </div>
+            (() => {
+              const all = active.learn ?? [];
+              const lead: LearnBlock[] = [];
+              const sections: { heading: string; blocks: LearnBlock[] }[] = [];
+              let cur: { heading: string; blocks: LearnBlock[] } | null = null;
+              for (const blk of all) {
+                if (blk.kind === "heading") { cur = { heading: blk.text, blocks: [] }; sections.push(cur); }
+                else if (cur) cur.blocks.push(blk);
+                else lead.push(blk);
+              }
+              return (
+                <div className="max-w-2xl space-y-5">
+                  {lead.length > 0 && <div className="space-y-4">{lead.map((blk, i) => renderLearnBlock(blk, i))}</div>}
+                  {sections.map((sec, si) => (
+                    <section key={si} className="rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                      <div className="mb-3.5 flex items-center gap-2.5">
+                        <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[color:var(--accent-soft)] text-[color:var(--accent)]">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">{sectionIcon(sec.heading)}</svg>
+                        </span>
+                        <h3 className="text-[16px] font-semibold tracking-tight text-[color:var(--ink)]">{sec.heading}</h3>
                       </div>
-                    </div>
-                  );
-                }
-                const readHref = b.slug ? `/articles/${b.slug}` : b.href ?? "#";
-                const preview = b.slug ? articleImages?.[b.slug] : undefined;
-                return (
-                  <a
-                    key={i}
-                    href={readHref}
-                    {...(b.slug ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                    className="group flex items-start gap-3 rounded-xl border border-[color:var(--ink-rule)] p-3.5 transition-colors hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--accent-soft)]"
-                  >
-                    {preview ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={preview.src} alt="" className="h-16 w-24 shrink-0 rounded-md object-cover" />
-                    ) : b.href ? (
-                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                        <FavIcon href={b.href} />
-                      </span>
-                    ) : (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--ink-faded)]">
-                        <path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                      </svg>
-                    )}
-                    <span className="min-w-0 flex-1">
-                      <span className="flex items-center gap-1.5 text-[13.5px] font-semibold text-[color:var(--ink)]">
-                        <span className="min-w-0 flex-1">{b.title}</span>
-                        <span aria-hidden className="shrink-0 text-[11px] text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5">→</span>
-                      </span>
-                      {b.blurb && <span className="mt-0.5 block text-[12.5px] leading-snug text-[color:var(--ink-faded)]">{b.blurb}</span>}
-                    </span>
-                  </a>
-                );
-              })}
-              </div>
-            </div>
+                      <div className="space-y-4">{sec.blocks.map((blk, i) => renderLearnBlock(blk, i))}</div>
+                    </section>
+                  ))}
+                </div>
+              );
+            })()
           ) : (
             <>
           {active.learnNote && active.learnNote.length > 0 && (
