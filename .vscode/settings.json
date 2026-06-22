@@ -1,0 +1,16 @@
+{
+  "// note": "Keep the editor's file watcher and search out of heavy build/dependency folders. Without this, Cursor/VS Code indexes all of node_modules and .next, which eats gigabytes of RAM and can crash the editor.",
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/.git/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/package-lock.json": true
+  },
+  "files.exclude": {
+    "**/.next": true
+  }
+}
