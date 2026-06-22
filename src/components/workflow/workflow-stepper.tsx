@@ -117,6 +117,10 @@ export type StepData = {
   };
   /** The single completion rule, rendered at the bottom: "You can move on when ..." */
   moveOnWhen?: string;
+  /** Optional "Already set up? You can skip this step" self-check, shown near the top. */
+  skipIf?: string;
+  /** Optional callout at the top of the Task tab (e.g. "No idea yet? Start in Learn"). */
+  taskIntro?: string;
   intro?: {
     forWho: string[];
     struggle: string[];

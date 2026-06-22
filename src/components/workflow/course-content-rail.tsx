@@ -24,7 +24,10 @@ interface CourseContentRailProps {
 }
 
 export function CourseContentRail({ steps, activeStep, checked, mounted, onSelect }: CourseContentRailProps) {
-  const withTasks = steps.filter((s) => stepTaskStats(s, checked).total > 0);
+  // "Start here" (intro) is the on-ramp, not a recipe, so it is excluded from
+  // the recipe count and the overall progress, those track the 10 recipes only.
+  const recipeSteps = steps.filter((s) => /^\d+$/.test(s.step));
+  const withTasks = recipeSteps.filter((s) => stepTaskStats(s, checked).total > 0);
   const finished = mounted
     ? withTasks.filter((s) => {
         const { total, done } = stepTaskStats(s, checked);
@@ -39,7 +42,7 @@ export function CourseContentRail({ steps, activeStep, checked, mounted, onSelec
       <div className="sticky top-0 z-10 border-b border-[color:var(--ink-rule)] bg-[color:var(--sidebar-bg)] px-4 pt-5 pb-4">
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="text-[14px] font-semibold tracking-tight text-[color:var(--ink)]">Course content</h2>
-          <span className="text-[11px] tabular-nums text-[color:var(--ink-faded)]">{steps.length} recipes</span>
+          <span className="text-[11px] tabular-nums text-[color:var(--ink-faded)]">{recipeSteps.length} recipes</span>
         </div>
         {mounted && withTasks.length > 0 && (
           <div className="mt-2.5">

@@ -58,10 +58,13 @@ export function stepTaskStats(
   let total = 0;
   let done = 0;
   for (const group of step.tasks) {
-    const learn = isLearnHeading(group.heading);
+    // Only required Must-do items count toward completion, matching the recipe
+    // view. Power up is optional, and habit / troubleshoot are standing practice
+    // with no checkboxes, so neither should keep a step from reaching 100%.
+    const counts = !isLearnHeading(group.heading) && (group.tier ?? "must") === "must";
     group.items.forEach((_, i) => {
       const idx = flatCursor + i;
-      if (!learn) {
+      if (counts) {
         total += 1;
         if (checked[`step-${step.step}-${idx}`]) done += 1;
       }

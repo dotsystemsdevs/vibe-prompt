@@ -296,29 +296,83 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {/* TL;DR card, orient before diving in */}
           {active.tldr && (
-            <div className="mb-6 rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-5">
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div>
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">You&apos;ll accomplish</p>
-                  <p className="mt-1 text-[13.5px] leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
+            <div className="mb-6 overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_30px_-20px_rgba(0,0,0,0.18)]">
+              {/* Outcome, the hero line */}
+              <div className="p-5">
+                <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /><line x1="4" y1="22" x2="4" y2="15" />
+                  </svg>
+                  What you&apos;ll accomplish
+                </p>
+                <p className="mt-2 text-[15.5px] font-medium leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
+              </div>
+
+              {/* Meta strip, divided cells */}
+              <div className="grid gap-px border-t border-[color:var(--ink-rule)] bg-[color:var(--ink-rule)] sm:grid-cols-3">
+                <div className="bg-[color:var(--paper-soft)] p-4">
+                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /></svg>
+                    Output
+                  </p>
+                  <p className="mt-1.5 font-mono text-[12.5px] text-[color:var(--ink)]">{active.tldr.deliverable}</p>
                 </div>
-                <div>
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Output</p>
-                  <p className="mt-1 font-mono text-[12.5px] text-[color:var(--ink)]">{active.tldr.deliverable}</p>
-                  {active.timeEstimate && <p className="mt-2 text-[12px] text-[color:var(--ink-faded)]">~{active.timeEstimate}</p>}
+                <div className="bg-[color:var(--paper-soft)] p-4">
+                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+                    Time
+                  </p>
+                  <p className="mt-1.5 text-[12.5px] text-[color:var(--ink)]">{active.timeEstimate ? `~${active.timeEstimate}` : "Self-paced"}</p>
                 </div>
-                <div>
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Prerequisites</p>
-                  <ul className="mt-1 space-y-0.5 text-[12.5px] text-[color:var(--ink-soft)]">
+                <div className="bg-[color:var(--paper-soft)] p-4">
+                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><path d="M3 6h.01M3 12h.01M3 18h.01" /></svg>
+                    Prerequisites
+                  </p>
+                  <ul className="mt-1.5 space-y-0.5 text-[12.5px] text-[color:var(--ink-soft)]">
                     {active.tldr.prerequisites.map((p, i) => <li key={i}>{p}</li>)}
                   </ul>
                 </div>
               </div>
+
+              {/* Feeds into, footer */}
               {active.tldr.feedsInto && (
-                <p className="mt-4 text-[12.5px] text-[color:var(--ink-soft)]">
-                  <span className="font-semibold text-[color:var(--ink)]">Feeds into:</span> {active.tldr.feedsInto}
-                </p>
+                <div className="flex items-start gap-2 border-t border-[color:var(--ink-rule)] px-5 py-3.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--accent)]"><path d="M5 12h14" /><path d="M13 6l6 6-6 6" /></svg>
+                  <p className="text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">
+                    <span className="font-semibold text-[color:var(--ink)]">Feeds into:</span> {active.tldr.feedsInto}
+                  </p>
+                </div>
               )}
+            </div>
+          )}
+
+          {/* "Already set up?" skip hint, lets experienced devs move past a step */}
+          {active.skipIf && (
+            <div className="mb-6 flex flex-col gap-3 rounded-lg border border-dashed border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-2.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--accent)]">
+                  <polygon points="13 19 22 12 13 5 13 19" /><polygon points="2 19 11 12 2 5 2 19" />
+                </svg>
+                <p className="text-[13px] leading-relaxed text-[color:var(--ink-soft)]">
+                  <span className="font-semibold text-[color:var(--ink)]">Already set up?</span> {active.skipIf}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  markStepDone(active);
+                  const i = steps.findIndex((s) => s.step === active.step);
+                  const next = steps[i + 1];
+                  if (next) goToStep(next.step);
+                }}
+                className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-3 py-2 text-[12.5px] font-semibold text-[color:var(--ink)] transition-colors hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] sm:self-center"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+                Mark done &amp; skip
+              </button>
             </div>
           )}
 
@@ -565,6 +619,18 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {recipeTab === "task" && (
             <>
+          {/* Optional lead-in (e.g. "No idea yet? Start in the Learn tab") */}
+          {active.taskIntro && (
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-[color:var(--accent)] bg-[color:var(--accent-soft)] px-4 py-3.5">
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[color:var(--paper)] text-[color:var(--accent)]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z" />
+                </svg>
+              </span>
+              <p className="text-[13px] leading-relaxed text-[color:var(--ink)]">{active.taskIntro}</p>
+            </div>
+          )}
+
           {/* Must do, the required tasks that keep you building */}
           {mustGroups.length > 0 && (
             <section className="mb-8">
@@ -587,7 +653,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                     <p className="mb-2 text-[12.5px] font-semibold text-[color:var(--ink-soft)]">{group.heading}</p>
                   )}
                   {group.description && <p className="mb-3 text-meta">{group.description}</p>}
-                  <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+                  <ol className="space-y-2.5">
                     {group.items.map(({ item, idx }, ii) => {
                       const key = `step-${active.step}-${idx}`;
                       return <TaskRow key={ii} index={idx + 1} item={item} done={!!checked[key]} onToggle={() => toggle(key)} />;
@@ -643,7 +709,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                     <p className="mb-2 text-[12.5px] font-semibold text-[color:var(--ink-soft)]">{group.heading}</p>
                   )}
                   {group.description && <p className="mb-3 text-meta">{group.description}</p>}
-                  <ol className="divide-y divide-[color:var(--ink-rule)] border-y border-[color:var(--ink-rule)]">
+                  <ol className="space-y-2.5">
                     {group.items.map(({ item, idx }, ii) => {
                       const key = `step-${active.step}-${idx}`;
                       return <TaskRow key={ii} index={idx + 1} item={item} done={!!checked[key]} onToggle={() => toggle(key)} />;
@@ -656,7 +722,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {/* Stuck? beginner rescue */}
           {active.stuck && (
-            <details className="group mb-8 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)]">
+            <details className="group mb-8 rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)]">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-4 [&::-webkit-details-marker]:hidden">
                 <span className="text-[14px] font-semibold text-[color:var(--ink)]">Stuck?</span>
                 <span aria-hidden className="text-[color:var(--ink-faded)] transition-transform group-open:rotate-90">
@@ -677,7 +743,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {/* You can move on when, the single completion rule */}
           {active.moveOnWhen && (
-            <div className="mb-8 rounded-lg border border-[color:var(--accent-line)] bg-[color:var(--accent-soft)] p-4">
+            <div className="mb-8 rounded-xl border border-[color:var(--accent-line)] bg-[color:var(--accent-soft)] p-4">
               <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">You can move on when</p>
               <p className="mt-1.5 text-[13.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.moveOnWhen}</p>
             </div>
@@ -688,9 +754,9 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
           {recipeTab === "faq" && (
             <section className="mb-8">
               {active.faqs && active.faqs.length > 0 ? (
-                <div>
+                <div className="space-y-2.5">
                   {active.faqs.map(({ q, a }) => (
-                    <details key={q} className="group border-b border-[color:var(--ink-rule)]">
+                    <details key={q} name="recipe-faq" className="group rounded-xl border border-[color:var(--ink-rule)] px-4 transition-colors hover:border-[color:var(--ink-soft)]">
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-3.5 [&::-webkit-details-marker]:hidden">
                         <span className="text-[15px] font-medium text-[color:var(--ink)]">{q}</span>
                         <span aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open:rotate-90">
@@ -800,8 +866,8 @@ function TaskRow({ item, done, onToggle, index }: { item: TaskItem; done: boolea
           }
         }}
         aria-pressed={done}
-        className={`group flex items-start gap-3 cursor-pointer rounded-lg px-3 py-4 transition-colors ${
-          done ? "opacity-55" : "hover:bg-[color:var(--accent-soft)]"
+        className={`group flex items-start gap-3 cursor-pointer rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-4 py-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all ${
+          done ? "opacity-60" : "hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.18)]"
         }`}
       >
         <span aria-hidden className="mt-1 w-4 shrink-0 text-right font-mono text-[11px] tabular-nums leading-none text-[color:var(--ink-faded)]">

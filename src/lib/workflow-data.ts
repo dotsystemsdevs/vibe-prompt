@@ -84,6 +84,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
       success: "Every tool opens, every check command answers cleanly, and you have one AI agent talking to a real repo.",
     },
     moveOnWhen: "your app opens on localhost and your repo is pushed to GitHub.",
+    skipIf: "Already have a terminal, Git, Node.js LTS, and one AI tool wired to a repo? You can skip straight to Research.",
     faqs: [
       { q: "Do I have to learn the terminal?", a: "Only enough to open it and run a command like ls. The videos in this step get you comfortable, and the AI handles the rest from there." },
       { q: "Why pick just one AI tool instead of trying both?", a: "Running Claude Code and an IDE at once is how you stall in setup chaos. Commit to one now, you can always switch later." },
@@ -183,7 +184,7 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
     step: "01",
     title: "Deep Research",
     emoji: "🔍",
-    timeEstimate: "60-90 min",
+    timeEstimate: "2-3 h",
     whatThis: "Confirm the problem is real, the market exists, and the wedge is yours, before writing any code. Use a chat AI with web search, not your IDE.",
     why: "Most projects fail before the build starts. One hour of real market validation saves weeks of building the wrong thing. Skipping this is the single most expensive mistake in vibe coding.",
     tldr: {
@@ -209,13 +210,14 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
       success: "You can point to real complaints, real competitors, and a named gap that is yours to fill.",
     },
     moveOnWhen: "you can say in one sentence who has this problem and why they'd care.",
+    taskIntro: "No idea yet? Open the Learn tab first, it walks you through finding a problem worth building. Already have one? Run the checks below to validate it.",
       faqs: [
         { q: "Can't I just ask the AI if my idea is good?", a: "No, it will hallucinate demand to be agreeable. Gather real complaints from strangers first, then let AI summarize what you found." },
         { q: "What if I find ten competitors already doing this?", a: "That's a good sign, not a bad one. It means people want this, and three competitors sharing one gap is your opening to fill." },
         { q: "Do I have to talk to real users?", a: "Skip it if the idea is purely for yourself, but for anything else five real conversations beat any AI summary at finding your wedge." },
       ],
     learn: [
-      { kind: "text", text: "This is the step almost everyone wants to skip, and it's the most expensive one to skip. Before you write a single line of code, your job is to prove that the problem is real, the market exists, and the wedge is yours. We do all of this in a chat AI with web search, not in your IDE." },
+      { kind: "text", text: "This is the step almost everyone wants to skip, and it's the most expensive one to skip. Before you write a single line of code, your job is to prove that the problem is real, the market exists, and the wedge is yours. We do all of this in a chat AI with web search, not in your IDE. The only thing that crosses into your project is one file, docs/research.md, which you save into your repo at the end." },
       { kind: "case", label: "RunStreak", input: "An empty Next.js repo for RunStreak", process: "Check r/running + existing streak apps", output: "docs/research.md: real demand, wedge is 'dead simple, one tap'" },
       { kind: "heading", text: "The aim of this lesson" },
       { kind: "text", text: "By the end of this step you'll be able to look at your own idea and say, with evidence rather than hope, whether real people have this problem and whether there's an opening for you. One hour spent here can save you weeks of building something nobody wants." },
@@ -223,9 +225,12 @@ export const WORKFLOW_PAGE_STEPS: StepData[] = [
       { kind: "text", text: "Validation is the search for signal, not reassurance. It's easy to ask friends if they like your idea and hear a polite yes, but that tells you nothing. Real validation means finding evidence that strangers already feel this pain: complaints they post, tools they pay for, searches they run. Start with this so you collect the right kind of evidence." },
       { kind: "video", title: "How to validate a startup idea", youtubeId: "mNTsaclFl_E" },
       { kind: "text", text: "The lesson to carry from that: you're hunting for proof of existing demand, not for permission to build." },
-      { kind: "heading", text: "How you find and test an idea" },
-      { kind: "text", text: "Before you can validate an idea, you need one worth validating. This sharpens how good ideas actually surface, usually from problems you've noticed yourself rather than ones you invented to sound clever." },
+      { kind: "text", text: "Two things beginners get backwards here. Your wedge is the one specific thing you do better than anyone else, sharp enough that a competitor couldn't copy it in an afternoon: 'simpler UI' is not a wedge, 'one tap to log a run, nothing else' is. And finding ten competitors already doing this is good news, not a stop sign, it proves people want this. Your job is to find the one gap they all share and make that your wedge." },
+      { kind: "text", text: "One alternative worth knowing: experienced builders sometimes validate with a quick throwaway prototype instead of a research doc. If you're new, stay research-first, it's cheaper to be wrong on paper than in code." },
+      { kind: "heading", text: "No idea yet? Find one first" },
+      { kind: "text", text: "If you don't have an idea, don't invent one to sound clever, go find a problem that already annoys people. The strongest starting points: something that irritates you every week, a complaint you keep seeing in a community you're part of, a tool everyone uses but quietly hates, or a manual task people still do by hand. Jot down three real problems before you pick one." },
       { kind: "video", title: "Finding startup ideas that work", youtubeId: "FlCWg-KkUN4" },
+      { kind: "text", text: "Pick the one problem you understand best, then run it through the validation below. The same searches that validate an idea also surface new ones, so this step doubles as idea-hunting if you arrive empty-handed." },
       { kind: "text", text: "When you save the output, it should read like real signal you can act on. Here is what RunStreak's came out looking like:" },
       { kind: "example", filename: "docs/research.md", content: `# Research: RunStreak
 
@@ -259,6 +264,10 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
         description: "Manual signal first, AI will hallucinate demand if you skip this.",
         items: [
           {
+            text: "Create `docs/research.md` now, drop each finding into it as you go.",
+            why: "Capturing evidence as you find it beats trying to remember it when you write the summary.",
+          },
+          {
             text: "Google your idea exactly as a user would search for it.",
             why: "No results is a red flag, ten existing tools is a sign people want this.",
           },
@@ -270,6 +279,7 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
           {
             text: "Search Reddit and X for real complaints, like '[topic] annoying' or '[tool] broken'.",
             why: "No complaints in two years means the pain isn't strong enough to build on.",
+            detail: "Do this yourself in the browser, logged in. X needs an account to search, and neither site lets a tool scrape it for you, so read the threads with your own eyes.",
             links: [
               { label: "Reddit", href: "https://reddit.com/search" },
               { label: "X", href: "https://x.com/search" },
@@ -286,7 +296,7 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
             ],
           },
           {
-            text: "Run an AI market research pass with web search on and save it to `docs/research.md`.",
+            text: "Run an AI market research pass with web search on and append its summary to `docs/research.md`.",
             why: "A chat AI with search is the right tool for this phase, not your coding IDE.",
             detail: "Paste: 'Research this market: [your idea]. Who are the competitors? What are users complaining about? What gaps exist?'",
             links: [
@@ -298,19 +308,19 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
             text: "Write kill criteria before any code, like 'if I can't find 10 real complaints in 1 hour, I stop.'",
             why: "Written down now, you'll actually enforce it, decided later you never will.",
           },
+          {
+            text: "Talk to 5 potential users about the problem, not your solution.",
+            why: "Real user contact is the strongest signal there is: the same complaint three times is your wedge, and five real talks beat any AI summary.",
+            strongExample: "'I lose my run streak whenever I forget to open the GPS app first' said by 4 of 5 runners, unprompted.",
+            weakExample: "A friend saying 'cool idea, I'd use it' when you describe the app.",
+            detail: "Skip only if the idea is purely for yourself.",
+          },
         ],
       },
       {
         heading: "Power up",
         tier: "power",
         items: [
-          {
-            text: "Talk to 5 potential users about the problem, not your solution.",
-            why: "The same complaint three times is your wedge, and five real talks beat any AI summary.",
-            strongExample: "'I lose my run streak whenever I forget to open the GPS app first' said by 4 of 5 runners, unprompted.",
-            weakExample: "A friend saying 'cool idea, I'd use it' when you describe the app.",
-            detail: "Skip if the idea is purely for yourself.",
-          },
           {
             text: "Quantify the wedge: what do users pay now in money, time, or annoyance to solve this?",
             why: "An answer of 'nothing' means demand is weaker than it looks.",
@@ -355,7 +365,7 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
     },
     moveOnWhen: "a fresh AI chat can read your PRD and explain exactly what to build.",
       faqs: [
-        { q: "How many features should my MVP have?", a: "Five at most. A list of twelve is a roadmap pretending to be a product, and every extra feature is a week spent building the wrong thing." },
+        { q: "How many features should my MVP have?", a: "Five at most is a good target, but the count isn't the real test. If every feature feels essential, you haven't found the core yet: ask which single one delivers value on its own, ship that first, and sequence the rest as build order instead of deleting them." },
         { q: "Do I really need an out-of-scope list?", a: "Yes. Without it, every feature you didn't mention becomes a maybe the AI builds on its own. Name at least three things you're not building." },
         { q: "What makes a success criterion good enough?", a: "It has to be testable by a stranger. 'Auth works' isn't checkable, 'signs in and sees streak = 1 in under 30 seconds' is." },
       ],
@@ -371,6 +381,7 @@ If I can't find 10 real complaints about existing apps in 1 hour, stop.` },
       { kind: "text", text: "The hardest and most important part of a good PRD is cutting your feature list down to the few that actually matter. Beginners want to list everything, but a long list isn't ambition, it's a roadmap pretending to be a product. This explains why that restraint is the entire point." },
       { kind: "video", title: "What is an MVP, and why cutting features is the point", youtubeId: "MHqz8oNSraI" },
       { kind: "text", text: "Take this from it: every feature you cut now is a week you don't spend building the wrong thing." },
+      { kind: "text", text: "But what if every feature genuinely feels essential? Then don't force a cut, sequence instead. Ask one question: which single feature delivers value on its own? That one is your real MVP. The rest aren't deleted, they become build order, shipped one at a time once the core works. Treat 'five' as a forcing function that makes you find the core, not a law that makes you delete things you need." },
       { kind: "text", text: "Notice how short RunStreak's stays once the list is cut to what actually matters:" },
       { kind: "example", filename: "docs/PRD.md", content: `# PRD: RunStreak
 
@@ -408,6 +419,11 @@ A new user signs in, logs a run, and sees streak = 1 in under 30 seconds.` },
         description: "Write this yourself. A vague PRD produces a vague product.",
         items: [
           {
+            text: "Create `docs/PRD.md` now (or start from the template), you'll fill each section below straight into it.",
+            why: "You paste this file into every AI session and load it into AGENTS.md, so build it as you go.",
+            links: [{ label: "Download vibeprompt's PRD template", href: "/templates/PRD.md" }],
+          },
+          {
             text: "Name one target user: one real person in one real situation.",
             why: "A named user makes every later scope decision obvious.",
             detail: "Not 'developers'. Example: 'a freelance designer with 3 to 5 clients who loses track of feedback threads'.",
@@ -418,34 +434,25 @@ A new user signs in, logs a run, and sees streak = 1 in under 30 seconds.` },
             detail: "Example: 'A minimal client portal where freelancers collect and track feedback in one place.'",
           },
           {
-            text: "List max 5 MVP features under What, and cut anything beyond that.",
+            text: "Write the Why: the problem it solves and who benefits.",
+            why: "It's the quality check on your feature set, it keeps you honest about whether each feature earns its place.",
+            detail: "Who benefits? What metric improves? Why does this matter enough to ship?",
+          },
+          {
+            text: "List the MVP features, aiming for 5 or fewer.",
             why: "A list of 12 is a roadmap pretending to be a product.",
+            detail: "If every feature feels essential, don't force a cut, sequence instead: pick the one feature that delivers value alone as your MVP, and make the rest build order.",
             links: [{ label: "Shape Up", href: "https://basecamp.com/shapeup" }],
-          },
-          {
-            text: "Write Success Criteria as testable conditions a stranger could check.",
-            why: "'Auth works' isn't checkable, 'signs up and reaches the dashboard in under 60 seconds' is.",
-          },
-          {
-            text: "Save as `docs/PRD.md` in the repo root.",
-            why: "You paste this into every AI session and load it into AGENTS.md.",
-            links: [{ label: "Download vibeprompt's PRD template", href: "/templates/PRD.md" }],
-          },
-        ],
-      },
-      {
-        heading: "Power up",
-        tier: "power",
-        items: [
-          {
-            text: "Write the Why: the business value this creates and the problem it solves.",
-            why: "It keeps you honest about whether the feature set actually earns its place.",
-            detail: "Who benefits? What metric improves? Why does this matter to ship?",
           },
           {
             text: "Write the out-of-scope list with at least 3 explicit exclusions.",
             why: "Without it, every feature you didn't mention becomes a maybe the AI builds anyway.",
             detail: "'No user profiles', 'no notifications', 'no admin dashboard'.",
+          },
+          {
+            text: "Write Success Criteria as testable conditions, each with how you'll measure it.",
+            why: "A number without a method is as vague as 'auth works': '±10% vs Google Maps' means nothing until you say how you check it.",
+            detail: "Good: 'a new user signs up and reaches the dashboard in under 60 seconds, timed by hand on a phone.'",
           },
         ],
       },
@@ -463,7 +470,7 @@ A new user signs in, logs a run, and sees streak = 1 in under 30 seconds.` },
     whatThis: "Lock every technology decision in one file before writing any code. The AI picks whatever it was trained on most, not what fits your project.",
     why: "Mid-build stack changes cost ten times more than upfront decisions. No open choices past this step.",
     tldr: {
-      accomplish: "You'll be able to lock every technology decision, framework, UI, database, auth, and deploy, in one file with a reason for each.",
+      accomplish: "You'll be able to lock every technology decision for your app, your core engine, framework, UI, and only the data and auth you actually need, each with a reason.",
       deliverable: "docs/TechDesign.md",
       feedsInto: "Context writes these stack decisions into AGENTS.md so the AI stops picking random tech.",
       prerequisites: ["Recipe 02 done (a sharp PRD)"],
@@ -489,20 +496,22 @@ A new user signs in, logs a run, and sees streak = 1 in under 30 seconds.` },
         { q: "Can't I just let the AI choose the stack?", a: "No. Left to itself it reaches for whatever it saw most in training, not what fits your app. Every open choice is one it makes for you." },
         { q: "Why connect a deploy host now instead of at launch?", a: "Wire it today so every push deploys and shipping never blocks you later. Waiting until launch turns deploy into its own chore." },
         { q: "What if I'm not sure a layer is the right pick?", a: "Pick one, write the one-line reason, and move on. This step is short on purpose, changing the stack mid-build costs far more than deciding now." },
+        { q: "What if I'm building a mobile app, or don't need accounts?", a: "Then the defaults change: use Expo or React Native instead of Next.js, NativeWind instead of shadcn, and skip the database and auth entirely if your wedge is 'no login', on-device storage is simpler. The method is the same, choose for your PRD." },
       ],
     learn: [
       { kind: "text", text: "With your PRD in hand, the next job is to decide what you'll build it with, and to write those decisions down before any code exists. This step is short but it has outsized consequences, because the choices you lock in now shape every session after it." },
       { kind: "case", label: "RunStreak", input: "docs/PRD.md with the MVP scoped", process: "Pick each layer to fit the app, connect a deploy host", output: "docs/TechDesign.md: Next.js, Supabase (auth + runs table), Vercel" },
       { kind: "heading", text: "The aim of this lesson" },
-      { kind: "text", text: "By the end of this step you'll have every technology decision made and recorded in one file: framework, UI, database, auth, and deploy, each with the reason you chose it. After this, there are no open choices for the AI to make on your behalf." },
+      { kind: "text", text: "By the end of this step you'll have every technology decision made and recorded in one file, each with a reason: your core engine first, then a framework that fits how you ship, and only the data and auth layers you actually need. The goal is to choose for your app, not to copy a default." },
       { kind: "heading", text: "What a stack is and why you lock it" },
       { kind: "text", text: "Your stack is simply the set of technologies your app runs on. Here's why locking it matters: left to itself, an AI reaches for whatever it saw most during training, not what fits your project. And changing the stack halfway through a build costs far more than deciding up front, because half the code has already been written against the old choice. So we choose deliberately, layer by layer." },
-      { kind: "text", text: "Start with the framework most indie projects default to. Watch this to get a feel for how the app is structured." },
+      { kind: "heading", text: "Start from your PRD, not from a default" },
+      { kind: "text", text: "The single most useful move here is to start from your own PRD. Paste it into the AI and ask one question: 'What is the simplest yet most robust stack for this PRD?' Read its reasoning, then decide, don't just accept the first names it gives you. The defaults below are a great starting point for a typical web CRUD app, but treat them as 'use this unless your PRD says otherwise'." },
+      { kind: "text", text: "Decide in this order. First, your core engine or the one key API the app is really built around: maps, payments, ML, search, realtime. Most real apps have one, it's usually the most consequential choice, and it fits none of the usual slots, so name it first. Then pick a framework for how you ship: a web app defaults to Next.js, but a mobile app means Expo or React Native, and that changes every layer below it. Then question the rest instead of assuming it, if your wedge is 'no login', on-device storage beats a cloud database, and you only reach for Supabase when users truly need accounts and shared data." },
+      { kind: "subheading", text: "What the default web stack looks like" },
+      { kind: "text", text: "If a web app is what your PRD points to, these three videos show the layers you'd commit to: the framework, the UI, and the database with built-in auth." },
       { kind: "video", title: "Next.js App Router crash course", youtubeId: "I1V9YWqRIeI" },
-      { kind: "heading", text: "How you choose each layer" },
-      { kind: "text", text: "Next comes the UI layer, the part you'll actually build screens with. Watch how components are added and customized so you know what you're committing to." },
       { kind: "video", title: "shadcn/ui, add and customize components", youtubeId: "wcTzlJi2Oz4" },
-      { kind: "text", text: "Then the database and auth layer that covers most indie needs out of the box, so you're not stitching three services together on day one." },
       { kind: "video", title: "Supabase crash course for beginners", youtubeId: "dU7GwCOgvNY" },
       { kind: "text", text: "Written down, each choice carries the reason it was made. Here is RunStreak's:" },
       { kind: "example", filename: "docs/TechDesign.md", content: `# Tech Design: RunStreak
@@ -533,42 +542,51 @@ Vercel, connected today so every push to main deploys.` },
       {
         heading: "Must do",
         tier: "must",
-        description: "Make every decision now. Ask AI: 'What is the simplest yet most robust stack for this PRD?'",
+        description: "Decide each layer for your app, not the AI's default, and record a one-line reason for each.",
         items: [
           {
-            text: "Pick a frontend framework: Next.js is the default, Remix if your app is form-heavy.",
-            why: "Left open, the AI picks whatever it saw most in training, not what fits your app.",
+            text: "Create `docs/TechDesign.md` now, you'll record each decision in it as you lock it below.",
+            why: "It loads into every AI session alongside your PRD, so writing decisions down as you make them leaves no open choice.",
+          },
+          {
+            text: "Ask the AI: 'What is the simplest yet most robust stack for THIS PRD?' Paste your PRD, then decide.",
+            why: "The right stack falls out of your PRD, not out of someone else's repo. Read its reasoning, don't just accept the defaults.",
+          },
+          {
+            text: "Name your core engine or key API, if your app has one: maps, payments, ML, search, realtime.",
+            why: "It's usually the most consequential choice and fits none of the standard slots, so it's the one most likely to be missed.",
+            detail: "RunStreak had none. A routing app would pick a maps or routing API here first, and everything else follows from it.",
+          },
+          {
+            text: "Pick a framework for how you ship: Next.js for a web app, Expo or React Native for mobile.",
+            why: "Left open, the AI picks whatever it saw most in training, not what fits your app. Web vs mobile changes every layer below.",
             links: [
               { label: "Next.js", href: "https://nextjs.org" },
-              { label: "Remix", href: "https://remix.run" },
+              { label: "Expo", href: "https://expo.dev" },
             ],
           },
           {
-            text: "Pick a UI system: Tailwind CSS + shadcn/ui is the indie standard.",
+            text: "Pick a UI system that matches your framework: Tailwind + shadcn/ui for web, NativeWind for Expo.",
             why: "Components you copy and own mean no dependency lock-in later.",
             links: [
-              { label: "Tailwind CSS", href: "https://tailwindcss.com" },
               { label: "shadcn/ui", href: "https://ui.shadcn.com" },
+              { label: "NativeWind", href: "https://nativewind.dev" },
             ],
           },
           {
-            text: "Pick a database and auth: Supabase bundles Postgres, auth, and storage.",
-            why: "One service covers most indie needs so you're not stitching three together on day one.",
+            text: "Decide if you even need a database and accounts before reaching for one.",
+            why: "If your wedge is 'no login', on-device storage is simpler. Only add Supabase when users truly need accounts and shared data.",
             links: [
               { label: "Supabase", href: "https://supabase.com" },
             ],
           },
           {
-            text: "Connect your repo to a deploy host today, not at launch.",
-            why: "Every push deploys and every PR gets a preview, so shipping never blocks you later.",
+            text: "Connect a deploy host today, not at launch: Vercel for web, EAS for an Expo app.",
+            why: "Every push deploys and every preview is shareable, so shipping never blocks you later.",
             links: [
               { label: "Vercel", href: "https://vercel.com" },
-              { label: "Railway", href: "https://railway.app" },
+              { label: "EAS", href: "https://expo.dev/eas" },
             ],
-          },
-          {
-            text: "Write every decision and its reason into `docs/TechDesign.md`.",
-            why: "It loads into every AI session alongside your PRD, leaving no open choice.",
           },
         ],
       },
@@ -651,7 +669,10 @@ The streak is computed from the runs table, never stored as a column.
 .env, package-lock.json.
 
 ## Start of session
-Read this file, docs/PRD.md, and memory-bank/@architecture.md, then summarize.` },
+Read this file, docs/PRD.md, and the memory-bank, then summarize.` },
+      { kind: "heading", text: "A few traps to avoid" },
+      { kind: "text", text: "Keep the bank lean by scaling it to your project's phase: an empty repo only needs AGENTS.md, implementation-plan.md, and MEMORY.md. Don't document architecture that doesn't exist yet, add a file map once there's real code to map. And reference docs/PRD.md from your context, never copy it in, or you'll end up maintaining two PRDs that quietly drift apart." },
+      { kind: "text", text: "Three smaller gotchas. The @ in names like @architecture.md is just a convention borrowed from popular templates to flag 'always-read' files, it isn't magic. If your tool reads CLAUDE.md (Claude Code) but you wrote AGENTS.md, don't keep both in sync by hand, put a single line, @AGENTS.md, inside CLAUDE.md to import it. And remember progress.md and MEMORY.md are updated by hand, nothing does it for you, so make 'append what you learned' the last move of every session or they go stale fast." },
       { kind: "subheading", text: "Keep these open while you write your context files" },
       { kind: "text", text: "These are the reference docs and ready-made scaffolds the checklist points to. Lean on the scaffolds rather than writing everything from a blank page." },
       { kind: "read", title: "Claude Code memory docs", href: "https://docs.anthropic.com/en/docs/claude-code/memory", blurb: "How Claude Code loads AGENTS.md and memory files at session start." },
@@ -671,6 +692,7 @@ Read this file, docs/PRD.md, and memory-bank/@architecture.md, then summarize.` 
           {
             text: "Create `AGENTS.md` (or `CLAUDE.md`) in the repo root.",
             why: "Claude Code reads it automatically at the start of every session.",
+            detail: "Using Claude Code with a CLAUDE.md already there? Keep one source of truth: put a single line, `@AGENTS.md`, inside CLAUDE.md to import it.",
             links: [
               { label: "Download vibeprompt's AGENTS.md template", href: "/templates/AGENTS.md" },
               { label: "Claude Code memory docs", href: "https://docs.anthropic.com/en/docs/claude-code/memory" },
@@ -685,7 +707,7 @@ Read this file, docs/PRD.md, and memory-bank/@architecture.md, then summarize.` 
           {
             text: "Create a `memory-bank/` folder with its files.",
             why: "The AI reads these before every session so the codebase stops drifting.",
-            detail: "`@architecture.md` (file map, always read), `@design-doc.md` (your PRD, always read), `progress.md` (completed steps), `implementation-plan.md` (ordered task list), `MEMORY.md` (each agent appends what it learned so the next session continues).",
+            detail: "Empty project? Start with just `implementation-plan.md` (ordered task list) and `MEMORY.md` (each agent appends what it learned for the next one). Add `@architecture.md` (a file map) once real code exists, and reference `docs/PRD.md` from AGENTS.md instead of copying it in, so the two never drift.",
             links: [
               { label: "Download @architecture.md template", href: "/templates/architecture.md" },
               { label: "Download implementation-plan.md template", href: "/templates/implementation-plan.md" },
@@ -700,8 +722,9 @@ Read this file, docs/PRD.md, and memory-bank/@architecture.md, then summarize.` 
         ],
       },
       {
-        heading: "Power up",
-        tier: "power",
+        heading: "The rules that prevent disasters",
+        tier: "must",
+        description: "Write these four into AGENTS.md. They stop the failures that actually wreck vibe-coded projects.",
         items: [
           {
             text: "Add the 500-line rule: never create a file longer than 500 lines, refactor into modules first.",
@@ -822,32 +845,27 @@ Files I'll touch:
       { kind: "text", text: "Five traps catch almost everyone at this stage, and each has a one-line fix. Letting the agent plan and run autonomously, make it list the steps and files first, then approve. Giant prompts, cut the task down until it touches at most three files. Not starting a fresh chat per task, open a new one so a noisy context doesn't degrade the output. Accepting code without reading it, review every changed line before you commit, you are the one steering. Not committing between tasks, commit each clean slice so you always have a rollback point." },    ],
     tasks: [
       {
-        heading: "Core habits",
-        tier: "habit",
-        description: "Plan first, always. The AI builds what it understands, you define what that is.",
+        heading: "Must do",
+        tier: "must",
+        description: "Go slow at the start, the first week sets the patterns every future session inherits. Run this loop once on your project, then repeat it for every task.",
         items: [
-          {
-            text: "Go slow at the start, because the first week sets the patterns every future session inherits.",
-            why: "The foundation compounds, slow at the start is fast overall.",
-            detail: "Rushing naming, file structure, and component shape produces a codebase that's hard to reason about by week three.",
-          },
-          {
-            text: "Build vertical slices, one complete feature at a time, UI plus API plus test together.",
-            why: "Disconnected layers accumulate mismatched assumptions that cost more to reconcile later.",
-            detail: "The classic failure is 'I built the whole UI, now I need to wire it to the API', by then the data shapes and auth don't align. One slice at a time prevents it.",
-          },
           {
             text: "Break your PRD into 20 to 30 atomic tasks in `TASK.md`, splitting anything over 3 files.",
             why: "'Add /login route with email sign-in and a session callback' is atomic, 'add auth' is not.",
           },
           {
-            text: "Use Plan Mode before every task and approve the plan before any code.",
-            why: "Never let the AI make architectural decisions unsupervised.",
+            text: "Use Plan Mode and approve the plan, with the exact files it will touch, before any code.",
+            why: "Never let the AI make architectural decisions unsupervised, it's the one habit that keeps every diff readable.",
             detail: "Claude Code: press `shift+tab` before executing. Cursor: start with 'DO NOT code yet, just plan.'",
           },
           {
-            text: "Give the AI one task per session, review every changed line, commit, then start a fresh chat.",
-            why: "A fresh context window produces better output than a long, noisy one.",
+            text: "Build one vertical slice at a time, UI plus API plus test together.",
+            why: "Disconnected layers accumulate mismatched assumptions that cost more to reconcile later.",
+            detail: "The classic failure is 'I built the whole UI, now I need to wire it to the API', by then the data shapes and auth don't align. One slice at a time prevents it.",
+          },
+          {
+            text: "Review every changed line, commit the slice, then start a fresh chat for the next task.",
+            why: "Big diffs get rubber-stamped, and a clean context window beats a long, noisy one. You stay the one steering.",
             links: [{ label: "Conventional Commits", href: "https://conventionalcommits.org" }],
           },
         ],
