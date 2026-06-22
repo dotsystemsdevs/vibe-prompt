@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-// AI/LLM crawlers — explicit allow improves GEO discoverability.
+// AI/LLM crawlers, explicit allow improves GEO discoverability.
 const AI_BOTS = [
   "GPTBot",
   "ChatGPT-User",

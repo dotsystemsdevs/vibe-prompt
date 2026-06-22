@@ -371,7 +371,7 @@ export function WorkflowStepper({ steps, relatedByStep = {} }: WorkflowStepperPr
         </div>
       )}
 
-      {/* Related fixes — when things break at this step */}
+      {/* Related fixes, when things break at this step */}
       {relatedProblems.length > 0 && (
         <div className="border-t border-[color:var(--ink-rule)]">
           <div className="flex items-center gap-3 vp-fill px-4 py-3 sm:px-6">

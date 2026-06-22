@@ -1,5 +1,5 @@
 /**
- * Root loading boundary — shown instantly when navigating between routes
+ * Root loading boundary, shown instantly when navigating between routes
  * while the next server component is being rendered. Keeps the sidebar +
  * topbar in place (those live in layout) so only the main area shows the
  * skeleton.

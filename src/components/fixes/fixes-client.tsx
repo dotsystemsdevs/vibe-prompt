@@ -113,7 +113,7 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
 
   return (
     <div>
-      {/* Category filter — same row style as Awesome / Articles */}
+      {/* Category filter, same row style as Awesome / Articles */}
       <div className="mb-3 flex flex-wrap gap-1">
         <FilterPill label="All" count={counts.all} active={cat === "all"} onClick={() => setCat("all")} />
         {LIST_CATEGORIES.map((c) => (
@@ -127,7 +127,7 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
         ))}
       </div>
 
-      {/* Search — same bordered field as the Awesome page */}
+      {/* Search, same bordered field as the Awesome page */}
       <div className="relative mb-8">
         <svg
           className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--ink-faded)]"
@@ -226,7 +226,7 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
             );
           })}
 
-          {/* Ghost card — submit a missing fix */}
+          {/* Ghost card, submit a missing fix */}
           <li>
             <Link
               href="/submit-fix"

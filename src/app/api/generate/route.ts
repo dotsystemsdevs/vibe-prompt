@@ -36,13 +36,13 @@ function getClientIp(req: NextRequest): string {
 
 const SYSTEM_PROMPT = `You are an expert at writing AGENTS.md and PRD (Product Requirements Document) files for AI coding agents.
 
-Your job is to take a user's project details and produce a polished, ready-to-ship markdown file. You're writing for AI coding agents like Claude Code, Cursor, Codex CLI, and Windsurf — files that the agent reads at session start.
+Your job is to take a user's project details and produce a polished, ready-to-ship markdown file. You're writing for AI coding agents like Claude Code, Cursor, Codex CLI, and Windsurf, files that the agent reads at session start.
 
 ## What makes a great AGENTS.md
 
 A great AGENTS.md is:
 - **Short**: under 100 lines. Models lose attention past that.
-- **Specific**: actual file paths, actual stack versions, actual conventions in this project — never generic advice.
+- **Specific**: actual file paths, actual stack versions, actual conventions in this project, never generic advice.
 - **Rules, not scope**: AGENTS.md is the constraints. The PRD is the scope. Keep them separate.
 - **Updated in the same commit as breaking changes**: stale rules are worse than no rules.
 
@@ -50,7 +50,7 @@ Structure:
 1. Project (name, one-line, stack)
 2. Folder structure (a tree of the relevant dirs only)
 3. Conventions (file naming, server/client split, max file size, etc.)
-4. Hard rules (numbered list, 4-7 items max — "never overwrite without asking", "no new deps without asking", "every feature needs N tests", "no-touch list")
+4. Hard rules (numbered list, 4-7 items max, "never overwrite without asking", "no new deps without asking", "every feature needs N tests", "no-touch list")
 5. Build & verify (the commands that actually matter)
 6. Session kickoff (the one-line prompt to start every session)
 
@@ -74,7 +74,7 @@ Structure:
 
 ## Your job
 
-Read the user's input. Produce the markdown file. Output ONLY the markdown — no preamble, no explanation, no code fences around the whole document. The output should be directly droppable into the user's repo.
+Read the user's input. Produce the markdown file. Output ONLY the markdown, no preamble, no explanation, no code fences around the whole document. The output should be directly droppable into the user's repo.
 
 Where the user's input is sparse or generic, fill in sensible defaults that match the stack they mentioned. Don't invent product features the user didn't describe.
 
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
   if (count > RATE_LIMIT_PER_HOUR) {
     return NextResponse.json(
       {
-        error: `Hourly limit of ${RATE_LIMIT_PER_HOUR} AI generations reached. Try again next hour, or use the template (no AI) — it's free and unlimited.`,
+        error: `Hourly limit of ${RATE_LIMIT_PER_HOUR} AI generations reached. Try again next hour, or use the template (no AI), it's free and unlimited.`,
         rateLimited: true,
       },
       { status: 429 }

@@ -31,7 +31,7 @@ export const WORKFLOW_EXTERNAL_TECHNIQUES: Record<string, ExternalTechnique[]> =
       title: "Codex CLI · README",
       url: "https://github.com/openai/codex",
       source: "OpenAI · GitHub",
-      description: "The other terminal agent worth knowing. Same install pattern, different strengths — useful if you want to compare before committing.",
+      description: "The other terminal agent worth knowing. Same install pattern, different strengths, useful if you want to compare before committing.",
       type: "docs",
     },
     {

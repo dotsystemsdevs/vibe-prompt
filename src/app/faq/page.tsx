@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Frequently asked questions about vibeprompt: the free AI prompt library, 10-step vibe coding workflow, articles, and fixes for developers using Claude Code, Cursor, Windsurf, and Aider.",
   alternates: { canonical: "https://vibeprompt.tech/faq" },
   openGraph: {
-    title: "FAQ — vibeprompt",
+    title: "FAQ, vibeprompt",
     description:
       "Everything about the open-source AI prompt library, workflow, and fixes for developers.",
     url: "https://vibeprompt.tech/faq",

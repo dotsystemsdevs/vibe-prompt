@@ -42,7 +42,7 @@ html {
   --color-lilac: var(--lilac);
   --color-lilac-dim: var(--lilac-dim);
 
-  /* Radius scale — single source of truth. Overriding Tailwind's defaults so
+  /* Radius scale, single source of truth. Overriding Tailwind's defaults so
      every rounded-{sm,md,lg,xl} maps to the system's values and rounded-lg
      lines up with .vp-card (0.625rem). Bumped one notch for a softer feel. */
   --radius: 0.625rem;
@@ -54,7 +54,7 @@ html {
 }
 
 :root {
-  /* Notion-style palette — white page, very light gray sidebar, black text,
+  /* Notion-style palette, white page, very light gray sidebar, black text,
      blue accent reserved for CTAs and active states. */
   --paper: #FFFFFF;              /* card surfaces, clean lift on the warm page */
   --paper-soft: #EDE8DF;         /* soft stone, inset surfaces */
@@ -65,7 +65,7 @@ html {
   --ink-faded: #5E584F;          /* meta / muted, warm gray */
   --ink-rule: rgba(0, 0, 0, 0.12);  /* faint hairline */
 
-  /* Accent — Coral. The one chromatic pop: CTAs, links, active states. */
+  /* Accent, Coral. The one chromatic pop: CTAs, links, active states. */
   --accent: #F95C4B;
   --accent-hover: #E84A39;
   --accent-soft: rgba(249, 92, 75, 0.12);
@@ -90,7 +90,7 @@ html {
   --radius: 0.625rem;
   --lilac: #1A1815;
 
-  /* Spacing rhythm — the vertical gaps the page is built on. Reach for these
+  /* Spacing rhythm, the vertical gaps the page is built on. Reach for these
      (via the .page-* / .stack-* helpers below) instead of ad-hoc margins so
      every section breathes the same. */
   --space-section: 3.5rem;   /* gap between major page sections */
@@ -100,7 +100,7 @@ html {
   --accent-blue: #F95C4B;
   --accent-blue-hover: #E84A39;
 
-  /* Sidebar — Stone, warm and distinct from the Paper page */
+  /* Sidebar, Stone, warm and distinct from the Paper page */
   --sidebar-bg: #E4DED2;
   --sidebar-hover: rgba(0, 0, 0, 0.05);
   --sidebar-active: rgba(0, 0, 0, 0.08);
@@ -130,7 +130,7 @@ html {
     font-weight: 600;
     letter-spacing: -0.015em;
   }
-  /* Visible focus for keyboard users — mouse clicks won't show it */
+  /* Visible focus for keyboard users, mouse clicks won't show it */
   :focus-visible {
     outline: 2px solid var(--foreground);
     outline-offset: 2px;
@@ -164,7 +164,7 @@ html {
     display: none;
   }
 
-  /* Reveal — disabled. Used to fade content in on scroll, but the effect
+  /* Reveal, disabled. Used to fade content in on scroll, but the effect
      fires on every page navigation in App Router and flashes content.
      Kept as a no-op so existing <Reveal> wrappers stay valid markup. */
   .vp-reveal {
@@ -176,7 +176,7 @@ html {
     transform: none;
   }
 
-  /* Article prose — Notion-style clean reading (sans, no drop-cap) */
+  /* Article prose, Notion-style clean reading (sans, no drop-cap) */
   .prose-article {
     font-family: var(--font-sans), ui-sans-serif, sans-serif;
     color: var(--ink);
@@ -322,7 +322,7 @@ html {
   .prose-article th + th,
   .prose-article td + td { border-left: 1px solid var(--ink-rule); }
 
-  /* Blockquote — chef's note callout */
+  /* Blockquote, chef's note callout */
   .prose-article blockquote {
     border-left: 3px solid var(--ink);
     padding: 0.25rem 0 0.25rem 1.25rem;
@@ -330,14 +330,14 @@ html {
     color: var(--ink-soft);
       }
 
-  /* cookbook-paper — historical class. Now site-wide light is the default,
+  /* cookbook-paper, historical class. Now site-wide light is the default,
      so this is just a passthrough kept for backwards-compatibility. */
   .cookbook-paper {
     background-color: var(--background);
     color: var(--foreground);
   }
 
-  /* Card utility — Notion-style: flat block, no border, soft gray fill, no shadow. */
+  /* Card utility, Notion-style: flat block, no border, soft gray fill, no shadow. */
   .vp-card {
     background-color: var(--paper-soft);
     border: 1px solid transparent;
@@ -350,7 +350,7 @@ html {
   .cookbook-paper .cookbook-serif { font-family: var(--font-serif), Georgia, "Times New Roman", serif; }
   .cookbook-paper .cookbook-rule { border-color: var(--ink-rule); }
 
-  /* Big recipe title — clean sans display */
+  /* Big recipe title, clean sans display */
   .recipe-title {
     font-family: var(--font-sans), ui-sans-serif, sans-serif;
     font-weight: 700;
@@ -359,7 +359,7 @@ html {
     color: var(--ink);
   }
 
-  /* Chapter label "Recipe No. 01" — small uppercase, sans */
+  /* Chapter label "Recipe No. 01", small uppercase, sans */
   .recipe-no {
     font-family: var(--font-sans), ui-sans-serif, sans-serif;
     text-transform: uppercase;
@@ -428,7 +428,7 @@ html {
     line-height: 1.4;
   }
 
-  /* Inline code in the cookbook recipes — phosphor-on-dark */
+  /* Inline code in the cookbook recipes, phosphor-on-dark */
   .cookbook-paper code {
     background: rgba(255, 255, 255, 0.06);
     color: var(--accent);
@@ -439,7 +439,7 @@ html {
   }
 
   /* ─────────────────────────────────────────────────────────────────────
-     Design system v2 — typography scale + accent application.
+     Design system v2, typography scale + accent application.
      Use these classes instead of ad-hoc text-[Npx] values so every page
      uses the same five sizes and the burgundy accent shows up where it
      should (active states, link hovers, key emphasis).
@@ -483,7 +483,7 @@ html {
     color: var(--ink-faded);
   }
 
-  /* Accent utilities — burgundy lives here so it shows up where it counts */
+  /* Accent utilities, burgundy lives here so it shows up where it counts */
   .vp-accent { color: var(--accent); }
   .vp-accent-bg { background-color: var(--accent); color: #FFF; }
   .vp-accent-soft-bg { background-color: var(--accent-soft); color: var(--accent); }
@@ -492,7 +492,7 @@ html {
     padding-left: 0.85rem;
   }
 
-  /* Link with burgundy hover — for inline text links inside prose */
+  /* Link with burgundy hover, for inline text links inside prose */
   .vp-link {
     color: var(--ink);
     text-decoration: underline;
@@ -505,7 +505,7 @@ html {
     text-decoration-color: var(--accent-line);
   }
 
-  /* Active state — tabs, sidebar items, current step.
+  /* Active state, tabs, sidebar items, current step.
      Replace the solid black pill with a burgundy underline + dot. */
   .vp-active {
     color: var(--accent);
@@ -524,7 +524,7 @@ html {
     background: var(--accent);
   }
 
-  /* Card density override — keep the existing vp-card shadow but tighten
+  /* Card density override, keep the existing vp-card shadow but tighten
      padding so content gets more breathing room inside, not outside. */
   .vp-card { border-radius: 0.625rem; }
   .vp-card-tight { padding: 0.875rem 1rem; }
@@ -537,7 +537,7 @@ html {
     text-decoration-color: var(--accent-line);
   }
 
-  /* Section divider with a centered burgundy mark — replaces the old all-grey
+  /* Section divider with a centered burgundy mark, replaces the old all-grey
      "recipe-ornament". Use this between major sections to give the page a
      visual heartbeat instead of plain horizontal rules. */
   .vp-section-mark {
@@ -559,12 +559,12 @@ html {
   }
 
   /* ─────────────────────────────────────────────────────────────────────
-     Button system — three variants, used site-wide.
+     Button system, three variants, used site-wide.
      btn-primary  : solid ink, burgundy hover (the page's main CTA)
      btn-secondary: outlined ink, burgundy hover (sits next to a primary)
      btn-ghost    : text-only link with underline, burgundy hover
      ───────────────────────────────────────────────────────────────────── */
-  /* Primary CTA — Apple-style: solid accent, white text, soft radius. */
+  /* Primary CTA, Apple-style: solid accent, white text, soft radius. */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -586,7 +586,7 @@ html {
   }
   .btn-primary:active { transform: translateY(1px); }
 
-  /* Secondary CTA — outlined, sits next to a primary. */
+  /* Secondary CTA, outlined, sits next to a primary. */
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -627,7 +627,7 @@ html {
   }
 
   /* ─────────────────────────────────────────────────────────────────────
-     Page-header pattern — every secondary page (/about, /faq, /awesome…)
+     Page-header pattern, every secondary page (/about, /faq, /awesome…)
      should use the same shape so the site feels like one product.
      ───────────────────────────────────────────────────────────────────── */
   .page-header {
@@ -670,7 +670,7 @@ html {
     margin-top: 0.85rem;
     max-width: 38rem;
   }
-  /* Emoji landmark — a tinted tile (the page's one accent), like a Notion
+  /* Emoji landmark, a tinted tile (the page's one accent), like a Notion
      page icon. Falls back to the neutral ink tint when no accent is set. */
   .page-header .page-emoji {
     display: inline-flex;
@@ -684,7 +684,7 @@ html {
     line-height: 1;
     margin-bottom: 1rem;
   }
-  /* Icon variant of the header tile — line icon tinted with the page accent. */
+  /* Icon variant of the header tile, line icon tinted with the page accent. */
   .page-header .page-emoji--icon {
     color: var(--page-accent, var(--accent));
   }
@@ -700,7 +700,7 @@ html {
   }
 
   /* ═════════════════════════════════════════════════════════════════════
-     Design system v3 — consolidation layer.
+     Design system v3, consolidation layer.
      One set of helpers for page scaffolding, surfaces, inputs, badges and
      empty states so every page is built from the same parts. Prefer these
      over ad-hoc text-[Npx] / rounded-* / hand-rolled headers.
@@ -734,7 +734,7 @@ html {
     }
   }
 
-  /* Consistent vertical gaps — use instead of stacking ad-hoc mt-* values. */
+  /* Consistent vertical gaps, use instead of stacking ad-hoc mt-* values. */
   .stack-section > * + * { margin-top: var(--space-section); }
   .stack-block > * + * { margin-top: var(--space-block); }
   .stack-tight > * + * { margin-top: var(--space-tight); }
@@ -789,7 +789,7 @@ html {
     border-color: var(--accent-line);
     background-color: var(--accent-soft);
   }
-  /* Subtle hairline divider — same weight everywhere. */
+  /* Subtle hairline divider, same weight everywhere. */
   .vp-divider {
     border: none;
     border-top: 1px solid var(--ink-rule);
@@ -817,7 +817,7 @@ html {
   }
   textarea.vp-input { resize: vertical; min-height: 6rem; }
 
-  /* Search variant — leaves room for a leading icon and a trailing clear
+  /* Search variant, leaves room for a leading icon and a trailing clear
      button. Defined after .vp-input so its longhand padding wins over
      .vp-input's `padding` shorthand (Tailwind's pl-/pr- utilities lose that
      race because the generated utilities are ordered before .vp-input). */
@@ -898,7 +898,7 @@ html {
 }
 
 /* ═════════════════════════════════════════════════════════════════════
-   Design system v4 — semantic state colors + interaction states.
+   Design system v4, semantic state colors + interaction states.
    The palette is deliberately monochrome, so these stay muted and are
    reserved for genuine state signalling (validation, alerts, status).
    ═════════════════════════════════════════════════════════════════════ */
@@ -912,7 +912,7 @@ html {
   --info: var(--accent);
   --info-soft: var(--accent-soft);
 
-  /* Per-page accents — the palette is deliberately monochrome, so every page
+  /* Per-page accents, the palette is deliberately monochrome, so every page
      landmark (emoji tile + kicker) resolves to the same muted ink tone. The
      six names are kept so existing accent="red|blue|…" props stay valid; they
      simply no longer paint the page a different colour. */
@@ -931,7 +931,7 @@ html {
 }
 
 @layer utilities {
-  /* Disabled — one look for every button. */
+  /* Disabled, one look for every button. */
   .btn-primary:disabled,
   .btn-secondary:disabled,
   .btn-ghost:disabled,
@@ -958,7 +958,7 @@ html {
   .vp-badge-warning { color: var(--warning); background-color: var(--warning-soft); border-color: transparent; }
   .vp-badge-error   { color: var(--error);   background-color: var(--error-soft);   border-color: transparent; }
 
-  /* Alerts — info / success / warning / error, one shape site-wide. */
+  /* Alerts, info / success / warning / error, one shape site-wide. */
   .vp-alert {
     display: flex;
     align-items: flex-start;

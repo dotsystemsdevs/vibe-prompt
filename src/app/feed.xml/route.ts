@@ -34,7 +34,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>vibeprompt — articles</title>
+    <title>vibeprompt, articles</title>
     <link>${SITE}/articles</link>
     <description>Practical guides for vibe coders, what actually works when building with AI.</description>
     <language>en</language>

@@ -39,7 +39,7 @@ export function Sidebar() {
   return (
     <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
 
-      {/* Brand — also the Home link, so there's no separate Home row. */}
+      {/* Brand, also the Home link, so there's no separate Home row. */}
       <div className="px-3 pt-4 pb-3">
         <Link href="/" className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] text-[17px] leading-none">🍳</span>
@@ -47,7 +47,7 @@ export function Sidebar() {
         </Link>
       </div>
 
-      {/* Search — opens the command palette. */}
+      {/* Search, opens the command palette. */}
       <div className="px-3 pb-1">
         <button
           type="button"
@@ -75,7 +75,7 @@ export function Sidebar() {
 
       <div className="flex-1" />
 
-      {/* Bottom utilities — plain links, no card. */}
+      {/* Bottom utilities, plain links, no card. */}
       <div className="px-2 pb-3 pt-2 mt-2 border-t border-[color:var(--ink-rule)] space-y-0.5">
         <UtilityRow
           icon={

@@ -7,7 +7,7 @@ import { FixPrompt } from "@/components/fixes/fix-prompt";
 import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
 import { FIX_PROMPTS } from "@/lib/fix-prompts";
 
-// Fixed dataset — only the known failures exist; everything else is a hard 404.
+// Fixed dataset, only the known failures exist; everything else is a hard 404.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -32,7 +32,7 @@ export async function generateMetadata({
     description: desc,
     alternates: { canonical: `/fixes/${p.id}` },
     openGraph: {
-      title: `${p.title} — the fix`,
+      title: `${p.title}, the fix`,
       description: desc,
       url: `https://vibeprompt.tech/fixes/${p.id}`,
       type: "article",
@@ -76,10 +76,10 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           <span aria-hidden>←</span> All fixes
         </Link>
 
-        {/* The problem — the failure, framed by the red category kicker */}
+        {/* The problem, the failure, framed by the red category kicker */}
         <PageHeader accent="red" kicker={`${categoryLabel} failure`} title={p.title} />
 
-        {/* The fix — the content is the interface, no box */}
+        {/* The fix, the content is the interface, no box */}
         <section>
           <p className="text-label mb-2.5">The fix</p>
           <div className="whitespace-pre-line text-[17px] leading-[1.75] text-[color:var(--ink-soft)]">
@@ -91,7 +91,7 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           </div>
         </section>
 
-        {/* The prompt — paste this into your AI to apply the fix */}
+        {/* The prompt, paste this into your AI to apply the fix */}
         {promptToPaste && (
           <section className="mt-10">
             <FixPrompt prompt={promptToPaste} />
@@ -110,7 +110,7 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           </p>
         )}
 
-        {/* Calm footer — contribute + subscribe as quiet one-liners */}
+        {/* Calm footer, contribute + subscribe as quiet one-liners */}
         <div className="text-meta mt-12 space-y-1.5 border-t border-[color:var(--ink-rule)] pt-6">
           <p>
             Know a better fix, or hit one that&rsquo;s not here?{" "}

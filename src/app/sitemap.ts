@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
-  // One indexable URL per failure — the long-tail SEO surface.
+  // One indexable URL per failure, the long-tail SEO surface.
   const fixRoutes: MetadataRoute.Sitemap = LIST_PROBLEMS.map((p) => ({
     url: `${BASE}/fixes/${p.id}`,
     lastModified: new Date(),
@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // One indexable URL per Weekly Fix issue — freshness signal + long-tail.
+  // One indexable URL per Weekly Fix issue, freshness signal + long-tail.
   const weeklyRoutes: MetadataRoute.Sitemap = WEEKLY_FIXES.map((w) => ({
     url: `${BASE}/weekly/${w.slug}`,
     lastModified: new Date(`${w.date}T00:00:00Z`),
@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.65,
   }));
 
-  // One indexable postmortem per shipped app — the proof surface.
+  // One indexable postmortem per shipped app, the proof surface.
   const builtWithRoutes: MetadataRoute.Sitemap = BUILT_WITH_PROJECTS.map((p) => ({
     url: `${BASE}/built-with/${builtWithSlug(p.name)}`,
     lastModified: new Date(),

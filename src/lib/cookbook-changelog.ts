@@ -1,7 +1,7 @@
 export type ChangelogEntry = {
   /** ISO date YYYY-MM-DD when the change shipped. */
   date: string;
-  /** Short tag — "Recipe 02", "Landing", "Awesome list", "Articles". */
+  /** Short tag, "Recipe 02", "Landing", "Awesome list", "Articles". */
   scope: string;
   /** One-line headline of what changed. */
   title: string;
@@ -13,7 +13,7 @@ export type ChangelogEntry = {
 
 /**
  * Manually curated changelog for the cookbook.
- * Newest entry first. Keep entries short — readers skim.
+ * Newest entry first. Keep entries short, readers skim.
  */
 export const COOKBOOK_CHANGELOG: ChangelogEntry[] = [
   {

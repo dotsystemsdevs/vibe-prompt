@@ -26,11 +26,11 @@ export async function generateMetadata({
   if (!p) return { title: "Project not found | vibeprompt" };
   const desc = `${p.oneLine} Stack: ${p.stack}. What worked, what broke, and the workflow steps used to ship it.`;
   return {
-    title: `${p.name} — built with vibeprompt`,
+    title: `${p.name}, built with vibeprompt`,
     description: desc.length > 160 ? `${desc.slice(0, 157)}...` : desc,
     alternates: { canonical: `/built-with/${slug}` },
     openGraph: {
-      title: `${p.name} — built with vibeprompt`,
+      title: `${p.name}, built with vibeprompt`,
       description: p.oneLine,
       url: `https://vibeprompt.tech/built-with/${slug}`,
       type: "article",

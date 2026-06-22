@@ -8,11 +8,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  * Weekly Fix newsletter signup.
  *
  * Capture strategy, in priority order:
- *   1. Buttondown  — if BUTTONDOWN_API_KEY is set. Buttondown both collects AND
+ *   1. Buttondown , if BUTTONDOWN_API_KEY is set. Buttondown both collects AND
  *      sends the newsletter, so this is the recommended setup.
- *   2. Vercel KV   — if KV is provisioned. A safety net so addresses are never
+ *   2. Vercel KV  , if KV is provisioned. A safety net so addresses are never
  *      lost before Buttondown is wired up. Export later with `SMEMBERS`.
- *   3. Not configured — return 503 so the UI shows a graceful "not live yet".
+ *   3. Not configured, return 503 so the UI shows a graceful "not live yet".
  *
  * Setup (one of):
  *   Vercel → Project → Settings → Environment Variables

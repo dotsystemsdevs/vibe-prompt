@@ -33,7 +33,7 @@ const PLACEHOLDERS: Record<keyof PRD, string> = {
   outOfScope:
     "No user profiles or avatars\nNo notifications beyond the daily email digest\nNo admin dashboard\nNo billing / Stripe integration in v1\nNo mobile app",
   successCriteria:
-    "1. A new freelancer signs up, creates a project, uploads a file, invites a client, and the client leaves a comment — all in under 5 minutes without support.\n2. Email digest delivers within 2 minutes of trigger.\n3. Zero unhandled exceptions in Sentry for the first 50 production sessions.",
+    "1. A new freelancer signs up, creates a project, uploads a file, invites a client, and the client leaves a comment, all in under 5 minutes without support.\n2. Email digest delivers within 2 minutes of trigger.\n3. Zero unhandled exceptions in Sentry for the first 50 production sessions.",
 };
 
 function buildMarkdown(prd: PRD, productName: string): string {
@@ -142,7 +142,7 @@ export function InlinePRDBuilder({ methodItems = [] }: { methodItems?: TaskItem[
 
   return (
     <section>
-      {/* Product name + filled counter — full-bleed, no card chrome */}
+      {/* Product name + filled counter, full-bleed, no card chrome */}
       <div className="flex flex-wrap items-baseline gap-3 mb-7">
         <p className="recipe-no shrink-0 text-[11px]">PRD ·</p>
         <input
@@ -158,7 +158,7 @@ export function InlinePRDBuilder({ methodItems = [] }: { methodItems?: TaskItem[
         </p>
       </div>
 
-      {/* Fields — flat list, no card chrome */}
+      {/* Fields, flat list, no card chrome */}
       <div className="space-y-7">
         <div>
           <Field
@@ -340,7 +340,7 @@ function Field({
         </p>
       )}
 
-      {/* Example — clearly labeled, visually distinct */}
+      {/* Example, clearly labeled, visually distinct */}
       {placeholder && (
         <div className="ml-10 mt-3 inline-flex items-start gap-2 bg-[color:var(--page)] border border-[color:var(--ink-rule)] rounded-md px-3 py-2 max-w-full">
           <span className="shrink-0 text-[10px] uppercase tracking-wider font-bold text-[color:var(--ink-faded)] mt-0.5">
@@ -352,7 +352,7 @@ function Field({
         </div>
       )}
 
-      {/* Typing area — clearly empty, clearly clickable */}
+      {/* Typing area, clearly empty, clearly clickable */}
       <div className="ml-10 mt-3">
         {rows === 1 ? (
           <input

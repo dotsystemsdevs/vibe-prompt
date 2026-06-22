@@ -67,7 +67,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Built in the open — the real people behind it, not just one. */}
+          {/* Built in the open, the real people behind it, not just one. */}
           {shown.length > 0 && (
             <div className="mt-14 flex flex-col items-center gap-3.5 animate-in fade-in-0 duration-700 [animation-delay:200ms] [animation-fill-mode:both]">
               <span className="text-label">Built in the open</span>

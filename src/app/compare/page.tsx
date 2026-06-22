@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   keywords:
     "vibe coding tools, replit vs cursor, lovable vs bolt, claude code, cursor alternative, ai coding tool comparison, vibe coding books, indie hacker tools 2026",
   openGraph: {
-    title: "Compare — vibeprompt vs the tools and the books",
+    title: "Compare, vibeprompt vs the tools and the books",
     description: "One table: how vibeprompt fits alongside the major tools and the published books. No affiliate links.",
     url: "https://vibeprompt.tech/compare",
   },
@@ -37,7 +37,7 @@ function faviconFor(url: string): string {
 }
 
 const ROWS: Row[] = [
-  { name: "vibeprompt", favicon: "/favicon.svg", type: "Methodology", pricing: "Free, MIT", bestFor: "What to prompt, in what order, how to fix it", caveat: "Doesn't write code — makes other tools write better", you: true },
+  { name: "vibeprompt", favicon: "/favicon.svg", type: "Methodology", pricing: "Free, MIT", bestFor: "What to prompt, in what order, how to fix it", caveat: "Doesn't write code, makes other tools write better", you: true },
   { name: "Claude Code", url: "https://www.anthropic.com/claude-code", type: "CLI agent", pricing: "Pay per use", bestFor: "Existing repos, real engineering, multi-step tasks", caveat: "Terminal scares non-devs; loves AGENTS.md context" },
   { name: "Cursor", url: "https://cursor.com", type: "IDE", pricing: "$20/mo", bestFor: "VS Code devs who want AI inline", caveat: "Easy to overuse inline edits → messy code" },
   { name: "Windsurf", url: "https://windsurf.com", type: "IDE", pricing: "$15/mo", bestFor: "Cursor alt with a different agent loop", caveat: "Similar trade-offs; pick on UX" },
@@ -73,8 +73,8 @@ export default function ComparePage() {
         />
 
         <Reveal>
-          <div className="mt-10">
-            <table className="w-full table-fixed border-collapse text-left">
+          <div className="mt-10 overflow-x-auto">
+            <table className="w-full min-w-[640px] table-fixed border-collapse text-left">
               <thead>
                 <tr>
                   {([["Name", "w-[20%]"], ["Type", "w-[13%]"], ["Pricing", "w-[14%]"], ["Best for", "w-[28%]"], ["Caveat", "w-[25%]"]] as const).map(([h, w]) => (

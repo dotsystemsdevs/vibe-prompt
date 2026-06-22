@@ -1,4 +1,4 @@
-// Templates relevant per recipe — surfaces in the aside of each step.
+// Templates relevant per recipe, surfaces in the aside of each step.
 
 export type TemplateRef = { filename: string; description: string };
 

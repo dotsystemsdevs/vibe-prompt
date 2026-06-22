@@ -5,12 +5,12 @@ import { NewsletterCta } from "@/components/fixes/newsletter-cta";
 import { getWeeklyFixesSorted } from "@/lib/weekly-fixes";
 
 export const metadata: Metadata = {
-  title: "The Weekly Fix — archive | vibeprompt",
+  title: "The Weekly Fix, archive | vibeprompt",
   description:
     "Every issue of The Weekly Fix: one AI build failure, the fix, and the prompt that solves it. Read past issues or subscribe.",
   alternates: { canonical: "/weekly" },
   openGraph: {
-    title: "The Weekly Fix — archive",
+    title: "The Weekly Fix, archive",
     description: "One AI build failure, the fix, and the prompt that solves it. Sent weekly.",
     url: "https://vibeprompt.tech/weekly",
     type: "website",

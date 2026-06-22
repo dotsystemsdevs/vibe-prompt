@@ -6,7 +6,7 @@ import type { AwesomeCategory, AwesomeItem } from "@/lib/awesome-data";
 
 // The 149 tools carry 14 fine-grained categories in the data. That's too many
 // filter chips, so we collapse them into 5 broad workflow phases here. The
-// underlying data stays untouched — only the filter UI groups them.
+// underlying data stays untouched, only the filter UI groups them.
 type GroupKey = "plan" | "setup" | "build" | "ship" | "grow";
 
 const GROUPS: { key: GroupKey; emoji: string; title: string }[] = [
@@ -105,7 +105,7 @@ function ToolCard({
       rel="noopener noreferrer"
       className="vp-card-bordered vp-card-hover group flex flex-col gap-3 p-4"
     >
-      {/* Category pill — shown on the flat "All" view so each card says where it belongs */}
+      {/* Category pill, shown on the flat "All" view so each card says where it belongs */}
       {showCategory && (
         <span className="vp-badge self-start">
           <span aria-hidden>{categoryEmoji}</span>
@@ -131,7 +131,7 @@ function ToolCard({
         )}
       </div>
 
-      {/* Description — clamped to keep the grid even */}
+      {/* Description, clamped to keep the grid even */}
       <p className="line-clamp-2 text-body text-[color:var(--ink-soft)]">{item.description}</p>
 
       {/* Footer: tags + the view action */}
@@ -147,7 +147,7 @@ function ToolCard({
   );
 }
 
-/* Notion-style database filter chip — mirrors the Articles page so the two
+/* Notion-style database filter chip, mirrors the Articles page so the two
    pages read as one product. */
 function CategoryChip({
   active,
@@ -213,7 +213,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
 
   return (
     <div>
-      {/* Category chip filter — 5 broad workflow phases, same row style as Articles */}
+      {/* Category chip filter, 5 broad workflow phases, same row style as Articles */}
       <div className="mb-3 flex flex-wrap gap-1">
         <CategoryChip
           active={activeGroup === null}
@@ -232,7 +232,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
         ))}
       </div>
 
-      {/* Search — a real bordered field with a leading magnifier */}
+      {/* Search, a real bordered field with a leading magnifier */}
       <div className="relative mb-8">
         <svg
           className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--ink-faded)]"
@@ -279,7 +279,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
           </button>
         </div>
       ) : (
-        // Flat grid — no category sections. Each card carries its own phase pill.
+        // Flat grid, no category sections. Each card carries its own phase pill.
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.flatMap((cat) => {
             const group = GROUP_META[groupOf(cat.slug)];

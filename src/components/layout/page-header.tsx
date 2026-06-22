@@ -7,9 +7,9 @@ import { NavIcon } from "@/components/layout/sidebar-icons";
  *
  * Renders the shared .page-header pattern from globals.css so the icon,
  * kicker, title and lede line up identically site-wide. Keep page-specific
- * markup OUT of here — pass it as `children` to sit below the lede.
+ * markup OUT of here, pass it as `children` to sit below the lede.
  *
- * Prefer `icon` (a monoline NavIcon name) over `emoji` — the site is moving
+ * Prefer `icon` (a monoline NavIcon name) over `emoji`, the site is moving
  * to line icons. `emoji` stays supported as a fallback.
  *
  * `accent` gives the page one muted colour landmark (the icon tile + kicker).

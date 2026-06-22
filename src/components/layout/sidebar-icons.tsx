@@ -87,14 +87,14 @@ const PATHS: Record<string, ReactNode> = {
   star: (
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26" />
   ),
-  // Brand mark — a line-icon skillet, the monoline take on the 🍳 logo.
+  // Brand mark, a line-icon skillet, the monoline take on the 🍳 logo.
   pan: (
     <>
       <circle cx="10" cy="14" r="6.5" />
       <path d="m15 9 6-5" />
     </>
   ),
-  // Built-with — a shipped product / package.
+  // Built-with, a shipped product / package.
   box: (
     <>
       <path d="M21 7.5 12 2.5 3 7.5v9L12 21.5l9-5z" />
@@ -102,7 +102,7 @@ const PATHS: Record<string, ReactNode> = {
       <path d="M12 12.5v9" />
     </>
   ),
-  // Suggest a change — an idea / lightbulb.
+  // Suggest a change, an idea / lightbulb.
   lightbulb: (
     <>
       <path d="M9.5 18h5" />
@@ -110,7 +110,7 @@ const PATHS: Record<string, ReactNode> = {
       <path d="M12 3a6 6 0 0 0-3.8 10.6c.6.5 1 1.3 1 2.1v.3h5.6v-.3c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3z" />
     </>
   ),
-  // Buy me a coffee — a cup.
+  // Buy me a coffee, a cup.
   coffee: (
     <>
       <path d="M5 8h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z" />

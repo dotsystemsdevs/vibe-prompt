@@ -22,12 +22,12 @@ const ALLOWED_TOOLS = [
  * Community "Submit a Fix" intake.
  *
  * Stores submissions in Vercel KV (list `vibeprompt:fix-submissions`) as a
- * review queue — nothing is published automatically. If a GitHub token is
+ * review queue, nothing is published automatically. If a GitHub token is
  * configured it also opens an issue. No auth, no accounts.
  *
  * Env (optional):
- *   GITHUB_TOKEN  — opens an issue per submission
- *   GITHUB_REPO   — "owner/repo" (defaults to dotsystemsdevs/vibe-prompt)
+ *   GITHUB_TOKEN , opens an issue per submission
+ *   GITHUB_REPO  , "owner/repo" (defaults to dotsystemsdevs/vibe-prompt)
  */
 export async function POST(req: NextRequest) {
   let body: Record<string, unknown>;
@@ -147,11 +147,11 @@ export async function POST(req: NextRequest) {
       });
       if (res.ok) issueOpened = true;
     } catch {
-      /* non-fatal — KV is the source of truth */
+      /* non-fatal, KV is the source of truth */
     }
   }
 
-  // Nothing persisted anywhere — don't pretend it worked.
+  // Nothing persisted anywhere, don't pretend it worked.
   if (!stored && !issueOpened) {
     return NextResponse.json(
       { error: "Submissions aren’t live yet. Please try again later." },

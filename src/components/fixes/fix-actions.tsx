@@ -15,14 +15,14 @@ export function FixActions({ title, answer, path }: { title: string; answer: str
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      /* clipboard blocked — no-op */
+      /* clipboard blocked, no-op */
     }
   }
 
   async function share() {
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
-        await navigator.share({ title: `${title} — vibeprompt`, url });
+        await navigator.share({ title: `${title}, vibeprompt`, url });
       } catch {
         /* user cancelled */
       }

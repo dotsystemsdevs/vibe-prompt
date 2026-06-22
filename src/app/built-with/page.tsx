@@ -28,7 +28,7 @@ export default function BuiltWithPage() {
           lede="Five indie apps shipped end-to-end with the 10-step workflow. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
         />
 
-        {/* Projects — card grid, same feel as Articles */}
+        {/* Projects, card grid, same feel as Articles */}
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {BUILT_WITH_PROJECTS.map((p) => {
             const slug = builtWithSlug(p.name);
@@ -36,7 +36,7 @@ export default function BuiltWithPage() {
               <li key={p.name}>
                 <Reveal>
                   <article className="vp-card-bordered group flex h-full flex-col overflow-hidden hover:border-[color:var(--ink-soft)]">
-                    {/* Cover — project logo on a soft tinted tile */}
+                    {/* Cover, project logo on a soft tinted tile */}
                     <Link
                       href={`/built-with/${slug}`}
                       aria-label={`${p.name} postmortem`}
@@ -86,7 +86,7 @@ export default function BuiltWithPage() {
           })}
         </ul>
 
-        {/* Submit-your-own — a quiet line below the grid */}
+        {/* Submit-your-own, a quiet line below the grid */}
         <p className="text-meta mt-8">
           Shipped something with vibeprompt?{" "}
           <a

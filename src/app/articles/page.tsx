@@ -45,7 +45,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
           lede="The latest in vibe coding: new apps worth copying, model drops, new tools, and the occasional deep-dive guide. The how-to fixes now live in Fixes."
         />
 
-        {/* Category chip filter — no "All"; clicking the active chip clears it */}
+        {/* Category chip filter, no "All"; clicking the active chip clears it */}
         <div className="mb-3 flex flex-wrap gap-1">
           {CATEGORIES.filter((c) => counts[c] > 0).map((c) => (
             <CategoryChip

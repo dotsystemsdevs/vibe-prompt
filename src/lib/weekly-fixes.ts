@@ -2,7 +2,7 @@
  * The Weekly Fix archive.
  *
  * Each issue of the newsletter is also a public, indexable page. This is the
- * content layer only — sending is not wired up here. Issues are authored by
+ * content layer only, sending is not wired up here. Issues are authored by
  * hand (no CMS) and reference a real failure in LIST_PROBLEMS via relatedFixId.
  */
 export type WeeklyFix = {
@@ -73,7 +73,7 @@ export const WEEKLY_FIXES: WeeklyFix[] = [
     fix:
       "Two habits. First, keep a CLAUDE.md or AGENTS.md listing your utilities and where to find them, and feed it at session start. Second, after every feature ask the agent: did this duplicate logic from anywhere? Show me the closest existing helper. Even imperfect dedup beats the default.",
     prompt:
-      "Here is my utils/helpers index: [paste AGENTS.md or file list]. For the feature I am about to build — [describe] — tell me which existing helpers I should reuse instead of writing new ones. If something genuinely does not exist yet, say so.",
+      "Here is my utils/helpers index: [paste AGENTS.md or file list]. For the feature I am about to build, [describe], tell me which existing helpers I should reuse instead of writing new ones. If something genuinely does not exist yet, say so.",
     relatedFixId: "code-duplication-pile",
     tools: ["Claude Code", "Cursor"],
     readingTime: "3 min",

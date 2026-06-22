@@ -245,7 +245,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
         ) : (
         <div className="min-w-0">
 
-          {/* Lesson header — title first, above the video */}
+          {/* Lesson header, title first, above the video */}
           <header className="mb-6">
             <div className="min-w-0">
               <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--page-accent)]">
@@ -376,7 +376,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
             </div>
           )}
 
-          {/* Per-recipe tabs — Learn / Task / FAQ */}
+          {/* Per-recipe tabs, Learn / Task / FAQ */}
           <div className="mb-6 flex items-center gap-1 border-b border-[color:var(--ink-rule)]">
             {RECIPE_TABS.map(([key, label]) => (
               <button

@@ -65,7 +65,7 @@ export function Footer() {
     <footer className="shrink-0 border-t border-[color:var(--ink-rule)] bg-[color:var(--page)] text-[color:var(--ink)]">
       <div className="mx-auto w-full max-w-4xl px-6 py-10 sm:px-8 sm:py-12">
 
-        {/* Bottom strip — copyright + contributors + small links */}
+        {/* Bottom strip, copyright + contributors + small links */}
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-[color:var(--ink-faded)]">
             <span>© {CURRENT_YEAR} dot.systems</span>

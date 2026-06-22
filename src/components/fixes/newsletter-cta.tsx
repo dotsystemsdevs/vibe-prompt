@@ -10,7 +10,7 @@ type Status = "idle" | "loading" | "done" | "error";
  *
  * Posts to /api/subscribe, which routes to Buttondown (preferred) or Vercel KV.
  * Until one of those is configured the API returns 503 and we show a graceful
- * "not live yet" message — the form never crashes.
+ * "not live yet" message, the form never crashes.
  */
 export function NewsletterCta() {
   const [email, setEmail] = useState("");

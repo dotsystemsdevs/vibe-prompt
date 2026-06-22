@@ -1,6 +1,6 @@
 import type { SiteStats } from "@/lib/site-stats";
 
-/** Authority layer — the "battle-tested" proof numbers, one consistent row. */
+/** Authority layer, the "battle-tested" proof numbers, one consistent row. */
 export function StatsRow({ stats }: { stats: SiteStats }) {
   const items = [
     { n: stats.fixes, label: "field-tested fixes" },

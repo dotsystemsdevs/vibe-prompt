@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       icon: "/favicon.svg",
       shortcut: "/favicon.svg",
     },
-    title: "vibeprompt — The vibe coding cookbook",
+    title: "vibeprompt, The vibe coding cookbook",
     description: longDesc,
     keywords:
       "vibe coding, vibe coding cookbook, vibe coding playbook, vibe coding book, vibe coding guide, vibe coding handbook, AI coding workflow, Claude Code prompts, Cursor prompts, prompt library, AI development methodology, indie hacker, solo developer",
@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
       types: { "application/rss+xml": "https://vibeprompt.tech/feed.xml" },
     },
     openGraph: {
-      title: "vibeprompt — The vibe coding cookbook",
+      title: "vibeprompt, The vibe coding cookbook",
       description: ogDesc,
       siteName: "vibeprompt",
       type: "website",
@@ -53,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "vibeprompt — The vibe coding cookbook",
+      title: "vibeprompt, The vibe coding cookbook",
       description: twDesc,
     },
   };

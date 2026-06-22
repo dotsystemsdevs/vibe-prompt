@@ -132,7 +132,7 @@ export default async function WeeklyIssuePage({ params }: { params: Promise<{ sl
           </p>
         )}
 
-        {/* Subscribe — quiet link, the form lives on /weekly */}
+        {/* Subscribe, quiet link, the form lives on /weekly */}
         <div className="mt-10 border-t border-[color:var(--ink-rule)] pt-6">
           <WeeklyFixLink />
         </div>

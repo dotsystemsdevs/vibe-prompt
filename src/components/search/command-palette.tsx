@@ -11,7 +11,7 @@ const TYPE_LABEL: Record<SearchItem["type"], string> = {
   page: "Page",
 };
 
-// Fixes rank right after pages — searching a failure ("cursor lost context")
+// Fixes rank right after pages, searching a failure ("cursor lost context")
 // should surface the fix first, ahead of articles and prompts.
 const TYPE_ORDER: SearchItem["type"][] = ["page", "problem", "article", "prompt"];
 
