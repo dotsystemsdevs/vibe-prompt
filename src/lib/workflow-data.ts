@@ -997,6 +997,12 @@ Files I'll touch:
             detail: "Click through landing, sign up, core action, success.",
             links: [{ label: "Playwright", href: "https://playwright.dev" }],
           },
+          {
+            text: "Send the diff to a second AI with a fresh context window for review.",
+            why: "The model that wrote the code is primed to defend it. Fresh eyes catch what the author, human or AI, can't, this is the whole point of the gate.",
+            strongExample: "'What's wrong with this code? What security risks do you see?' on a clean chat with no prior context.",
+            weakExample: "Asking the same chat that wrote the code 'does this look good?'",
+          },
         ],
       },
       {
@@ -1010,12 +1016,6 @@ Files I'll touch:
           {
             text: "Verify the test triangle per feature: 1 expected-use, 1 edge-case, 1 failure-case test.",
             why: "The three together catch the failure modes a single happy-path test misses.",
-          },
-          {
-            text: "Send the diff to a second AI with a fresh context window for review.",
-            why: "Fresh eyes catch what the author, human or AI, can't.",
-            strongExample: "'What's wrong with this code? What security risks do you see?' on a clean chat with no prior context.",
-            weakExample: "Asking the same chat that wrote the code 'does this look good?'",
           },
         ],
       },
@@ -1059,6 +1059,7 @@ Files I'll touch:
         { q: "Can I share the link first and add analytics later?", a: "No, set up watching before you share. Early sessions are the most revealing and you can't recover ones you didn't record." },
         { q: "Should I polish the app before showing anyone?", a: "No. Rough is fine, and people who try rough versions give the most honest feedback. Localhost is fiction until a stranger touches it." },
         { q: "Dashboard or recordings first?", a: "Watch one full session recording before you open any dashboard. One recording teaches more than a thousand pageviews." },
+        { q: "What if I built a mobile app, not a web app?", a: "Same rule, different host: ship to TestFlight (iOS) or Play Console internal testing (Android) instead of a URL, and wire analytics and crash reporting before you invite anyone. Set up watching before you share." },
       ],
     learn: [
       { kind: "text", text: "Your code passed the quality gate, so now it's time to put a real URL in front of real people and watch what they actually do. Localhost is fiction. The moment a stranger touches your app, they break assumptions you never knew you were making." },
@@ -1102,20 +1103,14 @@ Files I'll touch:
             links: [{ label: "Sentry Next.js setup", href: "https://docs.sentry.io/platforms/javascript/guides/nextjs/" }],
           },
           {
+            text: "Share the URL the moment observability is live, rough and all.",
+            why: "Shipping means deploying with eyes on, this is the actual point of the step. Rough versions get the most honest feedback.",
+            detail: "Post in relevant subreddits, Discord servers, and X. Localhost is fiction until a stranger touches it.",
+          },
+          {
             text: "Watch one full session recording before changing a thing.",
             why: "One recording teaches more than a thousand pageviews on a dashboard.",
             detail: "Watch the recording first, not the dashboard.",
-          },
-        ],
-      },
-      {
-        heading: "Power up",
-        tier: "power",
-        items: [
-          {
-            text: "Share the URL the moment it works, rough and all.",
-            why: "People who try rough versions give the most honest feedback.",
-            detail: "Post in relevant subreddits, Discord servers, and X.",
           },
         ],
       },
@@ -1408,16 +1403,10 @@ Expected outcome: Signup-step drop-off falls from ~70% to under 40%.` },
             why: "Without a before-number you can't tell whether the change helped.",
             detail: "Re-check in 48 to 72 hours. If it didn't move, your root-cause theory was wrong.",
           },
-        ],
-      },
-      {
-        heading: "Power up",
-        tier: "power",
-        items: [
           {
-            text: "Update your PRD before re-entering the build loop.",
-            why: "Keeps the spec honest so the AI builds the current plan, not the v0.1 you started with.",
-            detail: "Refresh the done conditions and out-of-scope before any AI session.",
+            text: "Update your PRD, then re-enter the build loop (recipe 05) and ship your top fix, one change at a time.",
+            why: "Analysis only counts once a fix ships and the metric actually moves. This is the loop closing, not a bonus.",
+            detail: "Refresh the done conditions and out-of-scope first, so the AI builds the current plan, not the v0.1 you started with.",
           },
         ],
       },
