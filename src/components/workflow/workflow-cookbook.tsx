@@ -425,12 +425,6 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                   ~{active.timeEstimate}
                 </span>
               )}
-              {lessons.length > 0 && (
-                <span className="inline-flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
-                  {lessons.length} {lessons.length === 1 ? "lesson" : "lessons"}
-                </span>
-              )}
               {activeItems.length > 0 && (
                 <span className="inline-flex items-center gap-1.5">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

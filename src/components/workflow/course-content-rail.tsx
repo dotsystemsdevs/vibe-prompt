@@ -1,7 +1,7 @@
 "use client";
 
 import type { StepData } from "./workflow-stepper";
-import { lessonsForStep, stepTaskStats } from "./cookbook-helpers";
+import { stepTaskStats } from "./cookbook-helpers";
 
 /** Empty / complete status dot, mirrors the clean look of the left sidebar. */
 function StatusDot({ done }: { done: boolean }) {
@@ -61,7 +61,6 @@ export function CourseContentRail({ steps, activeStep, checked, mounted, onSelec
       <ol className="px-2 py-3 space-y-0.5">
         {steps.map((step) => {
           const isActive = step.step === activeStep;
-          const lessons = lessonsForStep(step).length;
           const { total, done } = stepTaskStats(step, checked);
           const isDone = mounted && total > 0 && done === total;
           const isNumeric = /^\d+$/.test(step.step);
@@ -87,9 +86,7 @@ export function CourseContentRail({ steps, activeStep, checked, mounted, onSelec
                     </span>
                   </span>
                   <span className="mt-0.5 block truncate text-[11px] text-[color:var(--ink-faded)]">
-                    {lessons > 0 && `${lessons} lessons`}
-                    {lessons > 0 && total > 0 && " · "}
-                    {total > 0 ? `${done}/${total} tasks` : lessons === 0 && step.timeEstimate ? `~${step.timeEstimate}` : ""}
+                    {total > 0 ? `${done}/${total} tasks` : step.timeEstimate ? `~${step.timeEstimate}` : ""}
                   </span>
                 </span>
                 <svg
