@@ -200,6 +200,11 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
   const showIntro = active.step === "intro" && !!active.courseIntro;
   const firstRecipe = steps.find((s) => /^\d+$/.test(s.step))?.step ?? steps[1]?.step ?? active.step;
 
+  // Adjacent steps, so each recipe has a clear path backward and forward.
+  const stepIndex = steps.findIndex((s) => s.step === active.step);
+  const prevStep = stepIndex > 0 ? steps[stepIndex - 1] : null;
+  const nextStep = stepIndex >= 0 && stepIndex < steps.length - 1 ? steps[stepIndex + 1] : null;
+
   return (
     <div
       className="w-full"
@@ -694,15 +699,16 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {/* Power up, optional, with an overwhelm guard */}
           {powerGroups.length > 0 && (
-            <section className="mb-8">
-              <div className="mb-1 flex items-center gap-1.5">
-                <p className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
+            <details className="group mb-8">
+              <summary className="flex cursor-pointer list-none items-center gap-2 [&::-webkit-details-marker]:hidden">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open:rotate-90"><path d="M9 6l6 6-6 6" /></svg>
+                <span className="flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M13 2 3 14h7l-1 8 10-12h-7z" /></svg>
                   Power up
-                </p>
-                <span className="text-[11px] text-[color:var(--ink-faded)]">optional</span>
-              </div>
-              <p className="mb-3 text-[12px] text-[color:var(--ink-faded)]">First time? Complete only Must do. Come back for Power up later.</p>
+                </span>
+                <span className="rounded-full bg-[color:var(--paper-soft)] px-2 py-0.5 text-[10px] text-[color:var(--ink-faded)]">optional</span>
+              </summary>
+              <p className="mb-3 mt-2 text-[12px] text-[color:var(--ink-faded)]">First time? Complete only Must do. Come back for Power up later.</p>
               {powerGroups.map((group, gi) => (
                 <div key={gi} className="mb-6 last:mb-0">
                   {group.heading && group.heading !== "Power up" && (
@@ -717,7 +723,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                   </ol>
                 </div>
               ))}
-            </section>
+            </details>
           )}
 
           {/* Stuck? beginner rescue */}
@@ -778,6 +784,28 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
               )}
             </section>
           )}
+
+          {/* Step navigation, a clear path forward that also works on mobile where the rail is hidden */}
+          <nav className="mt-14 grid grid-cols-2 gap-3 border-t border-[color:var(--ink-rule)] pt-6">
+            {prevStep ? (
+              <button type="button" onClick={() => goToStep(prevStep.step)} className="group flex items-center gap-3 rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-4 py-3 text-left transition-all hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.18)]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-hover:-translate-x-0.5"><path d="M19 12H5" /><path d="M11 18l-6-6 6-6" /></svg>
+                <span className="min-w-0">
+                  <span className="block font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--ink-faded)]">Previous</span>
+                  <span className="block truncate text-[13.5px] font-semibold text-[color:var(--ink)]">{prevStep.title}</span>
+                </span>
+              </button>
+            ) : <span aria-hidden />}
+            {nextStep ? (
+              <button type="button" onClick={() => goToStep(nextStep.step)} className={`group flex items-center justify-end gap-3 rounded-xl border px-4 py-3 text-right transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-14px_rgba(0,0,0,0.2)] ${stepFinished ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)]" : "border-[color:var(--ink-rule)] bg-[color:var(--paper)] hover:border-[color:var(--ink-soft)]"}`}>
+                <span className="min-w-0">
+                  <span className={`block font-mono text-[10px] font-semibold uppercase tracking-[0.14em] ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-faded)]"}`}>{stepFinished ? "Done, next up" : "Next"}</span>
+                  <span className="block truncate text-[13.5px] font-semibold text-[color:var(--ink)]">{nextStep.title}</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={`shrink-0 transition-transform group-hover:translate-x-0.5 ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-faded)]"}`}><path d="M5 12h14" /><path d="M13 6l6 6-6 6" /></svg>
+              </button>
+            ) : <span aria-hidden />}
+          </nav>
 
         </div>
             )}
