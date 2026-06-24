@@ -2,8 +2,8 @@
 title: "Claude Opus 4.8 Ships: The Coding Default Got Stricter With Itself"
 description: "Anthropic's Opus 4.8 is the new default across most paid tiers. The headline for vibe coders is self-review: Anthropic says it is far less likely to let its own code flaws slide."
 date: "2026-06-15"
-image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80"
-imageAlt: "Circuit board with neural network paths"
+image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=1200&q=80"
+imageAlt: "AI chip on a circuit board"
 author: "dot.systems"
 category: models
 ---

@@ -2,8 +2,8 @@
 title: "Apple Is Restricting Vibe-Coded Apps: What the Replit and Vibecode Block Means"
 description: "Apple has blocked App Store updates for several vibe coding platforms, including Replit and Vibecode, until they change how their apps work. Here's what's happening and how to ship anyway."
 date: "2026-06-24"
-image: "https://images.unsplash.com/photo-1611890798517-07b0fcb4a811?w=1200&q=80"
-imageAlt: "Yellow warning sign"
+image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&q=80"
+imageAlt: "A padlock on a laptop keyboard"
 author: "dot.systems"
 category: news
 ---

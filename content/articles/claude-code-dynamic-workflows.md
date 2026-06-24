@@ -2,8 +2,8 @@
 title: "Claude Code's Dynamic Workflows: One Script, Hundreds of Agents"
 description: "Anthropic shipped dynamic workflows in Claude Code, JavaScript that orchestrates up to a thousand subagents in the background. The trick is moving the plan out of context and into code."
 date: "2026-06-14"
-image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80"
-imageAlt: "Terminal window showing code"
+image: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=1200&q=80"
+imageAlt: "Code on a dark screen"
 author: "dot.systems"
 category: news
 ---

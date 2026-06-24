@@ -2,8 +2,8 @@
 title: "Vibe Coding's Security Bill Comes Due"
 description: "A scam crew vibe-coded a credit-card-checking server and leaked 345,000 card details. Meanwhile CISOs are scrambling to contain AI code sprawl. The security cost of shipping fast is getting concrete."
 date: "2026-06-17"
-image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80"
-imageAlt: "Terminal window showing code"
+image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=1200&q=80"
+imageAlt: "Digital padlock and circuitry"
 author: "dot.systems"
 category: news
 ---

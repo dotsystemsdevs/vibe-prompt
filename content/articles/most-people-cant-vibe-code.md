@@ -2,8 +2,8 @@
 title: "Most People Still Can't Vibe Code, and That's the Opening"
 description: "A16z's Justine Moore argues vibe coding created a new class of power users, not mainstream builders. The gap is real, and for indie devs it points straight at where the next products get built."
 date: "2026-06-23"
-image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80"
-imageAlt: "Growth chart on a laptop screen"
+image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1200&q=80"
+imageAlt: "Person working on a laptop"
 author: "dot.systems"
 category: news
 ---

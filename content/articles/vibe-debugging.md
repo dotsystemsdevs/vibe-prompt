@@ -2,8 +2,8 @@
 title: "Vibe Debugging: How to Fix AI Code That Breaks"
 description: "Your app worked in the demo and breaks in production. Vibe debugging is the discipline of fixing code you didn't write: the failure patterns, a workflow that works, and when to rewrite instead."
 date: "2026-06-21"
-image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&q=80"
-imageAlt: "Terminal window showing code"
+image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80"
+imageAlt: "Lines of code on a screen"
 author: "dot.systems"
 category: guides
 ---

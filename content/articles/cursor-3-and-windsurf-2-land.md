@@ -2,8 +2,8 @@
 title: "Cursor 3 and Windsurf 2.0: The AI IDE War Moved to Parallel Agents"
 description: "Both flagship AI editors shipped major versions in April 2026. Cursor 3 added a multi-agent workspace and its own Composer 2 model; Windsurf 2.0 baked Devin Cloud into the IDE."
 date: "2026-06-12"
-image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&q=80"
-imageAlt: "Two computer monitors side by side"
+image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&q=80"
+imageAlt: "Developer workspace with code"
 author: "dot.systems"
 category: tools
 ---

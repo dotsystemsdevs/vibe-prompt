@@ -2,8 +2,8 @@
 title: "Keep Your Agent on Current Docs: MCP and Context7"
 description: "AI tools confidently write code for last year's API. The fix isn't a better prompt, it's feeding the agent the current docs through MCP. Here's why it happens and how to set it up."
 date: "2026-06-19"
-image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1200&q=80"
-imageAlt: "Stack of paper documents"
+image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80"
+imageAlt: "Laptop showing code"
 author: "dot.systems"
 category: tools
 ---

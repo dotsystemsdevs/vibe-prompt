@@ -2,8 +2,8 @@
 title: "Claude Fable 5 Lands, Then Pauses: Anthropic's Most Powerful Public Model"
 description: "Anthropic released Fable 5, the guardrailed public sibling of its Mythos model, on June 9, 2026, then briefly pulled it. What it is, and whether it changes anything for vibe coders."
 date: "2026-06-16"
-image: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1200&q=80"
-imageAlt: "Abstract AI brain visualization"
+image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1200&q=80"
+imageAlt: "Abstract AI visualization"
 author: "dot.systems"
 category: models
 ---

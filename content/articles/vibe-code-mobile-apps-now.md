@@ -2,8 +2,8 @@
 title: "You Can Vibe-Code Mobile Apps Now, and the Catch"
 description: "Replit and others now turn natural-language prompts into publishable mobile apps. The capability is real; the catch is what happens when you try to ship it to the App Store."
 date: "2026-06-13"
-image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&q=80"
-imageAlt: "Two computer monitors side by side"
+image: "https://images.unsplash.com/photo-1591453089816-0fbb971b454c?w=1200&q=80"
+imageAlt: "Smartphone on a desk"
 author: "dot.systems"
 category: tools
 ---
