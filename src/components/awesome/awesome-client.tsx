@@ -180,28 +180,21 @@ function ToolCard({
 
 /* Notion-style database filter chip, mirrors the Articles page so the two
    pages read as one product. */
-// Small, alternating tilts so the outlined chips scatter playfully in different
-// directions. Deterministic per index so they don't jump on re-render.
-const TILTS = [-2.5, 1.5, -1.5, 2, -1, 2.5, -2, 1];
-
 function CategoryChip({
   active,
   label,
   count,
   onClick,
-  tilt = 0,
 }: {
   active: boolean;
   label: string;
   count: number;
   onClick: () => void;
-  tilt?: number;
 }) {
   return (
     <button
       onClick={onClick}
       aria-current={active ? "true" : undefined}
-      style={{ transform: `rotate(${tilt}deg)` }}
       className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-meta transition-colors ${
         active
           ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)] font-medium"
@@ -264,16 +257,14 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
           label="All"
           count={total}
           onClick={() => setActiveTag(null)}
-          tilt={TILTS[0]}
         />
-        {topTags.map((tag, i) => (
+        {topTags.map((tag) => (
           <CategoryChip
             key={tag}
             active={activeTag === tag}
             label={tag}
             count={tagCounts[tag] ?? 0}
             onClick={() => setActiveTag(tag)}
-            tilt={TILTS[(i + 1) % TILTS.length]}
           />
         ))}
       </div>
