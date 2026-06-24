@@ -40,7 +40,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
     <div>
       <div className="page-shell-wide">
         <PageHeader
-          icon="article"
+          emoji="📰"
           title="Articles"
           lede="The latest in vibe coding: new apps worth copying, model drops, new tools, and the occasional deep-dive guide. The how-to fixes now live in Fixes."
         />

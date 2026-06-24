@@ -36,7 +36,7 @@ export default function FixesPage() {
 
       <div className="page-shell-wide">
         <PageHeader
-          icon="fixes"
+          emoji="🔧"
           title="Fixes"
           lede={`${fixCount} things that break when you ship solo with AI, and the fix for each. Search before you ask Claude.`}
         />

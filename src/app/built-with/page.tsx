@@ -23,7 +23,7 @@ export default function BuiltWithPage() {
     <div>
       <div className="page-shell-wide">
         <PageHeader
-          icon="box"
+          emoji="🚀"
           title="Built with vibeprompt"
           lede="Five indie apps shipped end-to-end with the 10-step workflow. Live URLs, the stacks, and what broke on each. Not aspirational, actually shipped."
         />
