@@ -39,7 +39,7 @@ export default async function HomePage() {
             <span className="text-[12px] text-[color:var(--ink-faded)]">free &amp; open source</span>
           </span>
 
-          <h1 className="mx-auto mt-8 max-w-[15ch] text-balance font-semibold tracking-[-0.04em] leading-[1.04] text-[clamp(2.3rem,4.2vw+0.7rem,3.9rem)]">
+          <h1 className="mx-auto mt-8 max-w-[14ch] text-balance font-bold tracking-[-0.045em] leading-[1.0] text-[clamp(2.6rem,5vw+0.8rem,4.4rem)]">
             <span className="text-[color:var(--ink-faded)]">AI gets you 80% there.</span>{" "}
             <span className="text-[color:var(--ink)]">We get you shipped.</span>
           </h1>
@@ -51,7 +51,7 @@ export default async function HomePage() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/workflow"
-              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-[14px] font-medium text-white shadow-[0_4px_14px_-4px_rgba(0,122,255,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--accent-hover)] hover:shadow-[0_6px_20px_-4px_rgba(0,122,255,0.6)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--ink)] px-6 py-3 text-[14px] font-medium text-[color:var(--paper)] shadow-[0_4px_14px_-6px_rgba(0,0,0,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
             >
               Open the cookbook
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">
