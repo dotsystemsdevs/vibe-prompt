@@ -59,7 +59,7 @@ html {
   --paper: #FFFFFF;              /* card surfaces, clean white */
   --paper-soft: #F1F2F5;         /* cool inset surface */
   --paper-edge: #E6E8EC;         /* cool divider */
-  --page: #F6F7F9;               /* cool light-grey main background */
+  --page: #FBFBFC;               /* near-white content canvas, lighter than the chrome */
   --ink: #16181D;                /* charcoal, primary text */
   --ink-soft: #353A44;           /* secondary text, cool slate */
   --ink-faded: #6B7280;          /* meta / muted, cool gray */
@@ -72,7 +72,7 @@ html {
   --accent-line: rgba(249, 92, 75, 0.32);
   --accent-ring: rgba(249, 92, 75, 0.28);
 
-  --background: #F6F7F9;
+  --background: #FBFBFC;
   --foreground: #16181D;
   --font-geist-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-geist-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -100,8 +100,8 @@ html {
   --accent-blue: #F95C4B;
   --accent-blue-hover: #E84A39;
 
-  /* Sidebar, a clean cool-grey panel distinct from white cards */
-  --sidebar-bg: #F4F5F7;
+  /* Sidebar, a cool-grey panel, greyer than the lighter content canvas */
+  --sidebar-bg: #F1F2F5;
   --sidebar-hover: rgba(0, 0, 0, 0.05);
   --sidebar-active: rgba(0, 0, 0, 0.08);
 }
