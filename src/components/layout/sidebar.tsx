@@ -42,8 +42,8 @@ export function Sidebar() {
       {/* Brand, also the Home link, so there's no separate Home row. */}
       <div className="px-3 pt-4 pb-3">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-[color:var(--paper-soft)] text-[17px] leading-none">🍳</span>
-          <span className="truncate text-[15px] font-semibold tracking-tight text-[color:var(--ink)]">vibeprompt</span>
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center text-[20px] leading-none">🍳</span>
+          <span className="truncate text-[13px] font-bold uppercase tracking-[0.14em] text-[color:var(--ink)]">vibeprompt</span>
         </Link>
       </div>
 
