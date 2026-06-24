@@ -1,13 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   LIST_CATEGORIES,
   LIST_CATEGORY_LABEL,
   type ListCategory,
   type ListProblem,
 } from "@/lib/list-problems";
+
+// Recently added fixes get a NEW badge. Edit this set to curate what's flagged.
+const NEW_FIXES = new Set<string>([
+  "ai-code-security-holes",
+  "cold-start-slow",
+  "five-stars-three-reviews",
+]);
+
+const FAVS_KEY = "vibeprompt-fix-favs";
 
 // A muted color + its own icon per category, so the grid reads as lively and
 // varied (like the reference), not flat. Colors reuse the original page-accent
@@ -67,11 +76,13 @@ function FilterPill({
   count,
   active,
   onClick,
+  icon,
 }: {
   label: string;
   count: number;
   active: boolean;
   onClick: () => void;
+  icon?: ReactNode;
 }) {
   return (
     <button
@@ -84,6 +95,7 @@ function FilterPill({
           : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
       }`}
     >
+      {icon}
       <span>{label}</span>
       <span className="text-[color:var(--ink-faded)] tabular-nums">{count}</span>
     </button>
@@ -93,7 +105,30 @@ function FilterPill({
 export function FixesClient({ problems }: { problems: ListProblem[] }) {
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState<ListCategory | "all">("all");
+  const [savedOnly, setSavedOnly] = useState(false);
+  const [favs, setFavs] = useState<Record<string, boolean>>({});
+  const [mounted, setMounted] = useState(false);
   const q = query.toLowerCase().trim();
+
+  useEffect(() => {
+    setMounted(true);
+    try {
+      const raw = localStorage.getItem(FAVS_KEY);
+      if (raw) setFavs(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  function toggleFav(id: string) {
+    setFavs((prev) => {
+      const next = { ...prev, [id]: !prev[id] };
+      try {
+        localStorage.setItem(FAVS_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }
+
+  const favCount = mounted ? Object.values(favs).filter(Boolean).length : 0;
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: problems.length };
@@ -104,25 +139,37 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
   const filtered = useMemo(() => {
     const terms = q ? q.split(/\s+/) : [];
     return problems.filter((p) => {
+      if (savedOnly && !favs[p.id]) return false;
       if (cat !== "all" && p.category !== cat) return false;
       if (terms.length === 0) return true;
       const hay = `${p.title} ${p.answer} ${LIST_CATEGORY_LABEL[p.category]}`.toLowerCase();
       return terms.every((t) => hay.includes(t));
     });
-  }, [problems, q, cat]);
+  }, [problems, q, cat, savedOnly, favs]);
 
   return (
     <div>
       {/* Category filter, same row style as Awesome / Articles */}
       <div className="mb-3 flex flex-wrap gap-1">
-        <FilterPill label="All" count={counts.all} active={cat === "all"} onClick={() => setCat("all")} />
+        <FilterPill label="All" count={counts.all} active={cat === "all" && !savedOnly} onClick={() => { setCat("all"); setSavedOnly(false); }} />
+        <FilterPill
+          label="Saved"
+          count={favCount}
+          active={savedOnly}
+          onClick={() => setSavedOnly((v) => !v)}
+          icon={
+            <svg width="12" height="12" viewBox="0 0 24 24" fill={savedOnly ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" />
+            </svg>
+          }
+        />
         {LIST_CATEGORIES.map((c) => (
           <FilterPill
             key={c}
             label={LIST_CATEGORY_LABEL[c]}
             count={counts[c] ?? 0}
-            active={cat === c}
-            onClick={() => setCat(c)}
+            active={cat === c && !savedOnly}
+            onClick={() => { setCat(c); setSavedOnly(false); }}
           />
         ))}
       </div>
@@ -163,35 +210,49 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
       {/* Results */}
       {filtered.length === 0 ? (
         <div className="vp-empty">
-          <div aria-hidden className="vp-empty-emoji">🔍</div>
-          <p className="vp-empty-title">No failures match “{query}”.</p>
-          <p className="vp-empty-body">
-            <button
-              type="button"
-              onClick={() => {
-                setQuery("");
-                setCat("all");
-              }}
-              className="text-[color:var(--accent)] hover:underline"
-            >
-              Clear filters
-            </button>{" "}
-            or{" "}
-            <Link href="/submit-fix" className="text-[color:var(--accent)] hover:underline">
-              submit this fix →
-            </Link>
-          </p>
+          <div aria-hidden className="vp-empty-emoji">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="mx-auto text-[color:var(--ink-faded)]">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+            </svg>
+          </div>
+          {savedOnly && favCount === 0 ? (
+            <>
+              <p className="vp-empty-title">No saved fixes yet.</p>
+              <p className="vp-empty-body">Tap the star on any card to save it for later.</p>
+            </>
+          ) : (
+            <>
+              <p className="vp-empty-title">No failures match “{query}”.</p>
+              <p className="vp-empty-body">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    setCat("all");
+                    setSavedOnly(false);
+                  }}
+                  className="text-[color:var(--accent)] hover:underline"
+                >
+                  Clear filters
+                </button>{" "}
+                or{" "}
+                <Link href="/submit-fix" className="text-[color:var(--accent)] hover:underline">
+                  submit this fix →
+                </Link>
+              </p>
+            </>
+          )}
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((p) => {
             const s = CAT_STYLE[p.category];
+            const isFav = mounted && !!favs[p.id];
+            const isNewFix = NEW_FIXES.has(p.id);
             return (
               <li key={p.id}>
-                <Link
-                  href={`/fixes/${p.id}`}
-                  className="vp-card-bordered group flex h-full flex-col p-5 transition-colors hover:border-[color:var(--ink-soft)]"
-                >
+                <div className="vp-card-bordered group relative flex h-full flex-col p-5 transition-colors hover:border-[color:var(--ink-soft)]">
                   <div className="flex items-start justify-between gap-3">
                     <span
                       aria-hidden
@@ -202,18 +263,41 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
                         {s.icon}
                       </svg>
                     </span>
+                    <div className="relative z-10 flex items-center gap-1.5">
+                      {isNewFix && (
+                        <span className="rounded-md bg-[color:var(--accent)] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-white">
+                          New
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleFav(p.id);
+                        }}
+                        aria-label={isFav ? "Remove from saved" : "Save this fix"}
+                        aria-pressed={isFav}
+                        className="flex h-7 w-7 items-center justify-center rounded-full text-[color:var(--ink-faded)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill={isFav ? "#E5A100" : "none"} stroke={isFav ? "#E5A100" : "currentColor"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                          <path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <h2 className="mt-4 line-clamp-3 text-[15px] font-semibold leading-snug text-[color:var(--ink)]">
+                    {p.title}
+                  </h2>
+
+                  <div className="mt-auto flex items-center justify-between border-t border-[color:var(--ink-rule)] pt-3">
                     <span
-                      className="inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-[10.5px] font-semibold"
+                      className="inline-flex items-center rounded-full px-2 py-0.5 text-[10.5px] font-semibold"
                       style={{ color: s.color, backgroundColor: s.soft }}
                     >
                       {LIST_CATEGORY_LABEL[p.category]}
                     </span>
-                  </div>
-                  <h2 className="mt-4 line-clamp-3 text-[15px] font-semibold leading-snug text-[color:var(--ink)]">
-                    {p.title}
-                  </h2>
-                  <div className="mt-auto flex items-center justify-between border-t border-[color:var(--ink-rule)] pt-3">
-                    <span className="text-label">Read the fix</span>
                     <span
                       aria-hidden
                       className="flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--ink-rule)] text-[14px] text-[color:var(--ink-faded)] transition-all duration-200 group-hover:translate-x-0.5 group-hover:border-[color:var(--ink-soft)] group-hover:text-[color:var(--ink)]"
@@ -221,7 +305,14 @@ export function FixesClient({ problems }: { problems: ListProblem[] }) {
                       →
                     </span>
                   </div>
-                </Link>
+
+                  {/* Whole-card link, sits under the star button (which is z-10) */}
+                  <Link
+                    href={`/fixes/${p.id}`}
+                    aria-label={`Read the fix: ${p.title}`}
+                    className="absolute inset-0 rounded-[inherit]"
+                  />
+                </div>
               </li>
             );
           })}
