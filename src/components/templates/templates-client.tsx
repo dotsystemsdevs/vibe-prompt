@@ -76,8 +76,8 @@ export function TemplatesClient({
                   </span>
 
                   <a
-                    href={`/templates/${t.filename}`}
-                    download
+                    href={`/templates/${t.served ?? t.filename}`}
+                    download={t.filename}
                     onClick={() => onDownload(t.filename)}
                     className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[color:var(--ink)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--paper)] transition-opacity hover:opacity-90"
                   >
