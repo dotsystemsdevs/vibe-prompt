@@ -65,13 +65,13 @@ html {
   --ink-faded: #878787;          /* Gunsmoke, muted */
   --ink-rule: rgba(0, 0, 0, 0.11);  /* hairline, a touch stronger for card edges */
 
-  /* Monochrome accent. No chromatic pop: CTAs, links, and active states render
-     in ink, with light-grey soft fills. Grey / white / black only. */
-  --accent: #1F2126;
-  --accent-hover: #000000;
-  --accent-soft: rgba(0, 0, 0, 0.06);
-  --accent-line: rgba(0, 0, 0, 0.22);
-  --accent-ring: rgba(0, 0, 0, 0.18);
+  /* Vibrant accent, electric indigo. The chromatic pop: CTAs, links, active
+     states, progress, and badges, against white/grey surfaces. */
+  --accent: #5B5BF5;
+  --accent-hover: #4B4EE8;
+  --accent-soft: rgba(91, 91, 245, 0.12);
+  --accent-line: rgba(91, 91, 245, 0.34);
+  --accent-ring: rgba(91, 91, 245, 0.30);
 
   --background: #F1F2F4;
   --foreground: #2F3138;
@@ -87,7 +87,7 @@ html {
   --primary-foreground: #FFFFFF;
   --secondary: rgba(0, 0, 0, 0.04);
   --secondary-foreground: #2F3138;
-  --ring: #1F2126;
+  --ring: #5B5BF5;
   --radius: 0.1875rem;
   --lilac: #2F3138;
 
@@ -98,8 +98,8 @@ html {
   --space-block: 1.5rem;     /* gap between blocks within a section */
   --space-tight: 0.75rem;    /* gap between tightly-related items */
   --lilac-dim: rgba(55, 53, 47, 0.04);
-  --accent-blue: #1F2126;
-  --accent-blue-hover: #000000;
+  --accent-blue: #5B5BF5;
+  --accent-blue-hover: #4B4EE8;
 
   /* Sidebar, near-white and clean (Clarity style), separated by a hairline */
   --sidebar-bg: #FFFFFF;

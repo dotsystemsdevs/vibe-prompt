@@ -23,8 +23,8 @@ const FAVS_KEY = "vibeprompt-fix-favs";
 // tones (collapsed to ink elsewhere on the site).
 const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: ReactNode }> = {
   build: {
-    color: "#3A3D45",
-    soft: "rgba(0,0,0,0.06)",
+    color: "#3B6FE0",
+    soft: "rgba(59,111,224,0.12)",
     icon: (
       <>
         <path d="M21 8 12 3 3 8v8l9 5 9-5z" />
@@ -34,8 +34,8 @@ const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: React
     ),
   },
   ship: {
-    color: "#3A3D45",
-    soft: "rgba(0,0,0,0.06)",
+    color: "#12A150",
+    soft: "rgba(18,161,80,0.12)",
     icon: (
       <>
         <path d="M22 2 11 13" />
@@ -44,8 +44,8 @@ const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: React
     ),
   },
   grow: {
-    color: "#3A3D45",
-    soft: "rgba(0,0,0,0.06)",
+    color: "#7C5CFC",
+    soft: "rgba(124,92,252,0.12)",
     icon: (
       <>
         <path d="m3 17 6-6 4 4 8-8" />
@@ -54,8 +54,8 @@ const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: React
     ),
   },
   earn: {
-    color: "#3A3D45",
-    soft: "rgba(0,0,0,0.06)",
+    color: "#C2810C",
+    soft: "rgba(194,129,12,0.12)",
     icon: (
       <>
         <circle cx="12" cy="12" r="9" />
@@ -65,8 +65,8 @@ const CAT_STYLE: Record<ListCategory, { color: string; soft: string; icon: React
     ),
   },
   stay: {
-    color: "#3A3D45",
-    soft: "rgba(0,0,0,0.06)",
+    color: "#DC4040",
+    soft: "rgba(220,64,64,0.12)",
     icon: <path d="M12 3 5 6v5c0 4 3 7 7 8 4-1 7-4 7-8V6z" />,
   },
 };
