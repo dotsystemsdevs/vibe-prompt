@@ -29,7 +29,7 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }} />
 
       {/* One screen, no scroll. Hero, then the people who build it in the open. */}
-      <div className="flex w-full flex-col justify-center px-4 py-10 sm:px-6 lg:h-full lg:py-8">
+      <div className="flex w-full flex-col justify-center px-4 py-12 sm:px-6 lg:min-h-full lg:py-16">
         <div className="mx-auto w-full max-w-3xl text-center animate-in fade-in-0 slide-in-from-bottom-3 duration-700">
 
           <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--paper)] py-1 pl-1 pr-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
@@ -65,6 +65,22 @@ export default async function HomePage() {
             >
               Browse the fixes
             </Link>
+          </div>
+
+          {/* Proof in numbers, moxa-style square stat boxes */}
+          <div className="mx-auto mt-12 grid w-full max-w-2xl grid-cols-3 divide-x divide-[color:var(--ink-rule)] border border-[color:var(--ink-rule)] text-center">
+            <div className="px-3 py-6">
+              <div className="font-bold tracking-tight text-[color:var(--ink)] text-[clamp(1.6rem,3vw,2.2rem)]">{recipeCount}</div>
+              <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Recipes in the cookbook</div>
+            </div>
+            <div className="bg-[color:var(--ink)] px-3 py-6">
+              <div className="font-bold tracking-tight text-[color:var(--paper)] text-[clamp(1.6rem,3vw,2.2rem)]">{stats.fixes}</div>
+              <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/60">Fixes, and counting</div>
+            </div>
+            <div className="px-3 py-6">
+              <div className="font-bold tracking-tight text-[color:var(--ink)] text-[clamp(1.6rem,3vw,2.2rem)]">{stats.apps}</div>
+              <div className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Real apps shipped</div>
+            </div>
           </div>
 
           {/* Built in the open, the real people behind it, not just one. */}
