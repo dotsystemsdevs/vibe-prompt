@@ -33,6 +33,15 @@ const MENU: NavGroup[] = [
   { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
+// A soft colour per nav icon, the Finder-sidebar touch: a coloured glyph, no tile.
+const NAV_TINT: Record<string, string> = {
+  "/workflow": "#007AFF",   // blue
+  "/fixes": "#FF3B30",      // red
+  "/articles": "#FF9500",   // orange
+  "/awesome": "#AF52DE",    // purple
+  "/built-with": "#34C759", // green
+};
+
 export function Sidebar() {
   const pathname = usePathname() || "/";
 
@@ -52,7 +61,7 @@ export function Sidebar() {
         <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">Explore</p>
         <ol className="space-y-0.5">
           {MENU.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} />
+            <RootLink key={item.href} item={item} active={item.match(pathname)} tint={NAV_TINT[item.href]} />
           ))}
         </ol>
       </div>
@@ -84,6 +93,20 @@ export function Sidebar() {
           external
         />
       </div>
+
+      {/* Personal maker signature, a human touch at the foot of the rail. */}
+      <a
+        href="https://github.com/dotsystemsdevs"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mx-2 mb-3 flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition-colors hover:bg-[color:var(--sidebar-hover)]"
+      >
+        <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent)] text-[9px] font-bold text-white">dot</span>
+        <span className="min-w-0 leading-tight">
+          <span className="block text-[12.5px] font-medium text-[color:var(--ink)]">Built by dot</span>
+          <span className="block text-[11px] text-[color:var(--ink-faded)]">for indie devs, in the open</span>
+        </span>
+      </a>
     </aside>
   );
 }
@@ -135,7 +158,7 @@ function UtilityRow({
   );
 }
 
-function RootLink({ item, active }: { item: { href: string; icon: string; label: string }; active: boolean }) {
+function RootLink({ item, active, tint }: { item: { href: string; icon: string; label: string }; active: boolean; tint: string }) {
   return (
     <li>
       <Link
@@ -147,7 +170,7 @@ function RootLink({ item, active }: { item: { href: string; icon: string; label:
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className={`flex shrink-0 w-[18px] items-center justify-center ${active ? "text-[color:var(--ink)]" : "text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]"}`}><NavIcon name={item.icon} className="h-[16px] w-[16px]" /></span>
+        <span aria-hidden className="flex shrink-0 w-[18px] items-center justify-center" style={{ color: tint }}><NavIcon name={item.icon} className="h-[16px] w-[16px]" /></span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>
