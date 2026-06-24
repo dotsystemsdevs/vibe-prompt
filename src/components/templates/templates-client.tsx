@@ -65,28 +65,21 @@ export function TemplatesClient({
                     {t.description}
                   </span>
 
-                  {/* Download count, shared, visible to everyone */}
-                  <span className="flex shrink-0 items-center gap-1 text-[12px] tabular-nums text-[color:var(--ink-faded)]" title={`${n} downloads`}>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  {/* One light control: download arrow + shared count, click to download */}
+                  <a
+                    href={`/templates/${t.served ?? t.filename}`}
+                    download={t.filename}
+                    onClick={() => onDownload(t.filename)}
+                    title="Download"
+                    aria-label={`Download ${t.filename}, ${n} downloads so far`}
+                    className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] tabular-nums text-[color:var(--ink-faded)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="M12 3v12" />
                       <path d="m7 11 5 5 5-5" />
                       <path d="M5 21h14" />
                     </svg>
                     {fmt(n)}
-                  </span>
-
-                  <a
-                    href={`/templates/${t.served ?? t.filename}`}
-                    download={t.filename}
-                    onClick={() => onDownload(t.filename)}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[color:var(--ink)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--paper)] transition-opacity hover:opacity-90"
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M12 3v12" />
-                      <path d="m7 11 5 5 5-5" />
-                      <path d="M5 21h14" />
-                    </svg>
-                    Download
                   </a>
                 </li>
               );
