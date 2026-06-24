@@ -31,7 +31,9 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open/f:rotate-90">
               <path d="M9 6l6 6-6 6" />
             </svg>
-            <span aria-hidden className="shrink-0 text-[16px] leading-none">📁</span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="shrink-0 text-[color:var(--accent)]">
+              <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18z" />
+            </svg>
             <span className="text-[14px] font-semibold text-[color:var(--ink)]">{folder.name}</span>
             <span className="ml-auto text-[12px] tabular-nums text-[color:var(--ink-faded)]">
               {folder.templates.length} {folder.templates.length === 1 ? "file" : "files"}
@@ -49,15 +51,15 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
                 <span className="w-[190px] shrink-0 truncate font-mono text-[13px] font-medium text-[color:var(--ink)]">
                   {t.filename}
                 </span>
-                <span className="hidden flex-1 truncate text-[12.5px] text-[color:var(--ink-faded)] sm:block">
+                <span className="hidden flex-1 truncate text-[12.5px] text-[color:var(--ink-soft)] sm:block">
                   {t.description}
                 </span>
-                <div className="ml-auto flex shrink-0 items-center gap-1 opacity-100 transition-opacity sm:opacity-0 sm:group-hover/r:opacity-100 sm:focus-within:opacity-100">
+                <div className="ml-auto flex shrink-0 items-center gap-1">
                   <button
                     type="button"
                     onClick={() => copy(t.filename)}
                     aria-label={copied === t.filename ? "Copied" : `Copy ${t.filename}`}
-                    className="flex h-8 w-8 items-center justify-center rounded-md text-[color:var(--ink-faded)] transition-colors hover:bg-[color:var(--paper)] hover:text-[color:var(--ink)]"
+                    className="flex h-8 w-8 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied === t.filename ? "text-[color:var(--accent)]" : ""}>
                       {copied === t.filename ? (
@@ -74,7 +76,7 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
                     href={`/templates/${t.filename}`}
                     download
                     aria-label={`Download ${t.filename}`}
-                    className="flex h-8 w-8 items-center justify-center rounded-md text-[color:var(--ink-faded)] transition-colors hover:bg-[color:var(--paper)] hover:text-[color:var(--ink)]"
+                    className="flex h-8 w-8 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="M12 3v12" />
