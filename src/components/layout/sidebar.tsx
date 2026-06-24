@@ -37,7 +37,7 @@ export function Sidebar() {
   const pathname = usePathname() || "/";
 
   return (
-    <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)] border-r border-[color:var(--ink-rule)] overflow-y-auto">
+    <aside className="hidden lg:flex w-[240px] shrink-0 flex-col sticky top-0 h-screen bg-[color:var(--sidebar-bg)]/80 backdrop-blur-xl border-r border-[color:var(--ink-rule)] overflow-y-auto">
 
       {/* Brand, also the Home link, so there's no separate Home row. */}
       <div className="px-3 pt-4 pb-3">
