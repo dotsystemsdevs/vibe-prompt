@@ -43,6 +43,12 @@ const PATHS: Record<string, ReactNode> = {
       <path d="M8.5 13h7M8.5 16.5h7" />
     </>
   ),
+  templates: (
+    <>
+      <rect x="8.5" y="8.5" width="11" height="12" rx="1.5" />
+      <path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v11A1.5 1.5 0 0 0 6 18.5h2.5" />
+    </>
+  ),
   tools: (
     <>
       <path d="M4 7h9M19 7h1M4 12h1M11 12h9M4 17h7M17 17h3" />

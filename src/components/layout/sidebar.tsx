@@ -30,6 +30,7 @@ const MENU: NavGroup[] = [
   { href: "/fixes", icon: "fixes", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") || p === "/weekly" || p.startsWith("/weekly/") },
   { href: "/articles", icon: "article", label: "Articles", match: (p) => p.startsWith("/articles") },
   { href: "/awesome", icon: "star", label: "Awesome", match: (p) => p.startsWith("/awesome") },
+  { href: "/templates", icon: "templates", label: "Templates", match: (p) => p.startsWith("/templates") },
   { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
