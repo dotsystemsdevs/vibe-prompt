@@ -235,6 +235,8 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
     : 0;
   const stepFinished = mounted && activeItems.length > 0 && totalDone === activeItems.length;
   const related = relatedByStep?.[active.step];
+  // Phase color for this recipe, shared by the hero and the Learn sections.
+  const tint = PHASE_TINT[active.step] ?? { color: "var(--accent)", soft: "var(--accent-soft)" };
 
   // Lessons (videos / reads) for this recipe,the player playlist.
   const lessons = lessonsForStep(active);
@@ -430,7 +432,6 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
           {/* Recipe hero: a phase-tinted band with a big number, kicker, title, lead. */}
           {(() => {
-            const tint = PHASE_TINT[active.step] ?? { color: "var(--accent)", soft: "var(--accent-soft)" };
             const pct = mounted && activeItems.length > 0 ? Math.round((totalDone / activeItems.length) * 100) : 0;
             return (
               <header
@@ -566,9 +567,9 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                 <div className="max-w-2xl space-y-5">
                   {lead.length > 0 && <div className="space-y-4">{lead.map((blk, i) => renderLearnBlock(blk, i))}</div>}
                   {sections.map((sec, si) => (
-                    <section key={si} className="rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+                    <section key={si} className="overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper)] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)]" style={{ borderLeft: `3px solid ${tint.color}` }}>
                       <div className="mb-3.5 flex items-center gap-2.5">
-                        <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[color:var(--accent-soft)] text-[color:var(--accent)]">
+                        <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg" style={{ backgroundColor: tint.soft, color: tint.color }}>
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">{sectionIcon(sec.heading)}</svg>
                         </span>
                         <h3 className="text-[16px] font-semibold tracking-tight text-[color:var(--ink)]">{sec.heading}</h3>
