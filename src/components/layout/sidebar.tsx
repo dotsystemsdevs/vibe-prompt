@@ -120,10 +120,10 @@ function UtilityRow({
   shortcut?: string;
 }) {
   const className =
-    "w-full flex items-center gap-2.5 rounded-md pl-7 pr-2 py-2 text-[15px] text-[color:var(--ink-soft)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]";
+    "w-full flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] text-[color:var(--ink-soft)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]";
   const content = (
     <>
-      <span aria-hidden className="shrink-0 w-5 flex items-center justify-center text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]">
+      <span aria-hidden className="shrink-0 w-[18px] flex items-center justify-center text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]">
         {icon}
       </span>
       <span className="flex-1 text-left truncate">{label}</span>
@@ -157,13 +157,13 @@ function RootLink({ item, active }: { item: { href: string; icon: string; label:
       <Link
         href={item.href}
         aria-current={active ? "page" : undefined}
-        className={`group flex items-center gap-2.5 rounded-md pl-7 pr-2 py-2 text-[15px] transition-colors ${
+        className={`group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] transition-colors ${
           active
-            ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-semibold"
+            ? "bg-[color:var(--accent-soft)] text-[color:var(--ink)] font-medium"
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className="flex shrink-0 w-5 items-center justify-center"><NavIcon name={item.icon} /></span>
+        <span aria-hidden className={`flex shrink-0 w-[18px] items-center justify-center ${active ? "text-[color:var(--accent)]" : "text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]"}`}><NavIcon name={item.icon} className="h-[17px] w-[17px]" /></span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>
