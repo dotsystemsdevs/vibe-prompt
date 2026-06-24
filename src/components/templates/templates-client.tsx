@@ -31,9 +31,7 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open/f:rotate-90">
               <path d="M9 6l6 6-6 6" />
             </svg>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--accent)]">
-              <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18z" />
-            </svg>
+            <span aria-hidden className="shrink-0 text-[16px] leading-none">📁</span>
             <span className="text-[14px] font-semibold text-[color:var(--ink)]">{folder.name}</span>
             <span className="ml-auto text-[12px] tabular-nums text-[color:var(--ink-faded)]">
               {folder.templates.length} {folder.templates.length === 1 ? "file" : "files"}
@@ -47,17 +45,14 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
                 key={t.filename}
                 className="group/r flex items-center gap-3 border-t border-[color:var(--ink-rule)] px-4 py-2.5 transition-colors hover:bg-[color:var(--sidebar-hover)]"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)]">
-                  <path d="M14 3v5h5" />
-                  <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                </svg>
+                <span aria-hidden className="shrink-0 text-[15px] leading-none">📄</span>
                 <span className="w-[190px] shrink-0 truncate font-mono text-[13px] font-medium text-[color:var(--ink)]">
                   {t.filename}
                 </span>
                 <span className="hidden flex-1 truncate text-[12.5px] text-[color:var(--ink-faded)] sm:block">
                   {t.description}
                 </span>
-                <div className="ml-auto flex shrink-0 items-center gap-1">
+                <div className="ml-auto flex shrink-0 items-center gap-1 opacity-100 transition-opacity sm:opacity-0 sm:group-hover/r:opacity-100 sm:focus-within:opacity-100">
                   <button
                     type="button"
                     onClick={() => copy(t.filename)}

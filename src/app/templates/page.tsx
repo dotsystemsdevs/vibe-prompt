@@ -12,13 +12,15 @@ export const metadata: Metadata = {
 
 export default function TemplatesPage() {
   return (
-    <main className="page-shell">
-      <PageHeader
-        icon="templates"
-        title="Templates"
-        lede={`${TEMPLATE_COUNT} drop-in files for your repo and your AI sessions. Copy or download, then fill in the blanks.`}
-      />
-      <TemplatesClient folders={TEMPLATE_FOLDERS} />
+    <main>
+      <div className="page-shell-wide">
+        <PageHeader
+          icon="templates"
+          title="Templates"
+          lede={`${TEMPLATE_COUNT} drop-in files for your repo and your AI sessions. Copy or download, then fill in the blanks.`}
+        />
+        <TemplatesClient folders={TEMPLATE_FOLDERS} />
+      </div>
     </main>
   );
 }
