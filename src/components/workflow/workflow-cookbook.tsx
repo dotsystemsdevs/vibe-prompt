@@ -276,8 +276,8 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
     }
     if (b.kind === "check") {
       return (
-        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
-          <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Check yourself</p>
+        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4" style={{ borderLeft: `2px solid ${tint.color}` }}>
+          <p className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em]" style={{ color: tint.color }}>Check yourself</p>
           <p className="mt-1.5 text-[14px] leading-relaxed text-[color:var(--ink-soft)]">{b.text}</p>
         </div>
       );
@@ -292,12 +292,12 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
     }
     if (b.kind === "diagram") {
       return (
-        <div key={i} className="flex flex-col items-center gap-1 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
+        <div key={i} className="flex flex-wrap items-center gap-x-1.5 gap-y-2 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4">
           {b.steps.map((s, si) => (
-            <div key={si} className="flex flex-col items-center gap-1">
-              <span className="rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--ink)]">{s}</span>
-              {si < b.steps.length - 1 && <span aria-hidden className="leading-none text-[color:var(--ink-faded)]">↓</span>}
-            </div>
+            <span key={si} className="flex items-center gap-1.5">
+              <span className="rounded-full px-3 py-1 text-[12px] font-semibold" style={{ backgroundColor: tint.soft, color: tint.color }}>{s}</span>
+              {si < b.steps.length - 1 && <span aria-hidden className="text-[13px] font-semibold leading-none" style={{ color: tint.color }}>→</span>}
+            </span>
           ))}
         </div>
       );
@@ -321,8 +321,8 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
     }
     if (b.kind === "case") {
       return (
-        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] border-l-2 border-l-[color:var(--accent)] bg-[color:var(--paper-soft)] p-4">
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">Worked example{b.label ? `, ${b.label}` : ""}</p>
+        <div key={i} className="rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-4" style={{ borderLeft: `2px solid ${tint.color}` }}>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em]" style={{ color: tint.color }}>Worked example{b.label ? `, ${b.label}` : ""}</p>
           <dl className="mt-2 space-y-1.5 text-[12.5px]">
             <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Input</dt><dd className="text-[color:var(--ink-soft)]">{b.input}</dd></div>
             <div className="flex gap-2"><dt className="w-16 shrink-0 font-semibold text-[color:var(--ink-faded)]">Process</dt><dd className="text-[color:var(--ink-soft)]">{b.process}</dd></div>
