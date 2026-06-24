@@ -91,6 +91,7 @@ function ToolCard({
   showCategory: boolean;
 }) {
   const status = pricing(item.tags);
+  const [copied, setCopied] = useState(false);
   let domain = "";
   try {
     domain = new URL(item.href).hostname.replace(/^www\./, "");
@@ -98,13 +99,16 @@ function ToolCard({
     domain = "";
   }
 
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(item.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {}
+  }
+
   return (
-    <a
-      href={item.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="vp-card-bordered vp-card-hover group flex flex-col gap-3 p-4"
-    >
+    <div className="vp-card-bordered vp-card-hover group relative flex flex-col gap-3 p-4">
       {/* Category pill, shown on the flat "All" view so each card says where it belongs */}
       {showCategory && (
         <span className="vp-badge self-start">
@@ -113,7 +117,7 @@ function ToolCard({
         </span>
       )}
 
-      {/* Header: logo + name/domain, status chip pinned right */}
+      {/* Header: logo + name/domain */}
       <div className="flex items-start gap-3">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
           <Favicon href={item.href} emoji={categoryEmoji} size={20} />
@@ -126,24 +130,51 @@ function ToolCard({
             <div className="truncate text-meta text-[color:var(--ink-faded)]">{domain}</div>
           )}
         </div>
-        {status && (
-          <span className={`${status.tone} vp-badge shrink-0`}>{status.label}</span>
-        )}
       </div>
 
       {/* Description, clamped to keep the grid even */}
       <p className="line-clamp-2 text-body text-[color:var(--ink-soft)]">{item.description}</p>
 
-      {/* Footer: tags + the view action */}
-      <div className="mt-auto flex items-center gap-1.5 border-t border-[color:var(--ink-rule)] pt-3">
-        {item.tags.slice(0, 2).map((tag) => (
-          <span key={tag} className="vp-badge-outline vp-badge">{tag}</span>
-        ))}
-        <span className="ml-auto shrink-0 text-label font-medium text-[color:var(--ink-soft)] group-hover:text-[color:var(--accent)]">
-          Visit ↗
-        </span>
+      {/* Footer: price chip + copy link + visit */}
+      <div className="mt-auto flex items-center gap-2 border-t border-[color:var(--ink-rule)] pt-3">
+        {status && <span className={`${status.tone} vp-badge`}>{status.label}</span>}
+        <div className="relative z-10 ml-auto flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              void copyLink();
+            }}
+            aria-label={copied ? "Copied" : `Copy ${item.name} link`}
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied ? "text-[color:var(--accent)]" : ""}>
+              {copied ? (
+                <path d="M20 6 9 17l-5-5" />
+              ) : (
+                <>
+                  <rect x="9" y="9" width="11" height="11" rx="1.5" />
+                  <path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" />
+                </>
+              )}
+            </svg>
+          </button>
+          <span className="text-label font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+            Visit ↗
+          </span>
+        </div>
       </div>
-    </a>
+
+      {/* Whole-card link, sits under the copy button (z-10) */}
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Visit ${item.name}`}
+        className="absolute inset-0"
+      />
+    </div>
   );
 }
 
