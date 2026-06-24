@@ -89,20 +89,11 @@ function ToolRow({
   categoryTitle: string;
 }) {
   const status = pricing(item.tags);
-  const [copied, setCopied] = useState(false);
   let domain = "";
   try {
     domain = new URL(item.href).hostname.replace(/^www\./, "");
   } catch {
     domain = "";
-  }
-
-  async function copyLink() {
-    try {
-      await navigator.clipboard.writeText(item.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {}
   }
 
   return (
@@ -131,33 +122,10 @@ function ToolRow({
       {/* Price */}
       {status && <span className={`${status.tone} vp-badge shrink-0`}>{status.label}</span>}
 
-      {/* Copy + visit */}
-      <div className="relative z-10 flex shrink-0 items-center gap-1.5">
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            void copyLink();
-          }}
-          aria-label={copied ? "Copied" : `Copy ${item.name} link`}
-          className="flex h-7 w-7 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied ? "text-[color:var(--accent)]" : ""}>
-            {copied ? (
-              <path d="M20 6 9 17l-5-5" />
-            ) : (
-              <>
-                <rect x="9" y="9" width="11" height="11" rx="1.5" />
-                <path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" />
-              </>
-            )}
-          </svg>
-        </button>
-        <span className="text-label font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
-          Visit ↗
-        </span>
-      </div>
+      {/* Visit */}
+      <span className="shrink-0 text-label font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+        Visit ↗
+      </span>
 
       {/* Whole-row link, sits under the copy button (z-10) */}
       <a
