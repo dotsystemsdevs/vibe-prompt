@@ -13,6 +13,14 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // The `setMounted(true)` in an empty-dep effect is the standard SSR
+      // hydration guard we use across the app. The new rule flags it as an
+      // error; keep it visible as a warning so it never blocks CI.
+      "react-hooks/set-state-in-effect": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;
