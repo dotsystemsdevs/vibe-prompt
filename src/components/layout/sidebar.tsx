@@ -33,6 +33,15 @@ const MENU: NavGroup[] = [
   { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
+// iOS Settings-style coloured icon tiles, one Apple system colour per item.
+const NAV_TINT: Record<string, string> = {
+  "/workflow": "#007AFF",   // blue
+  "/fixes": "#FF3B30",      // red
+  "/articles": "#FF9500",   // orange
+  "/awesome": "#AF52DE",    // purple
+  "/built-with": "#34C759", // green
+};
+
 export function Sidebar() {
   const pathname = usePathname() || "/";
 
@@ -42,7 +51,7 @@ export function Sidebar() {
       {/* Brand, also the Home link, so there's no separate Home row. */}
       <div className="px-3 pt-4 pb-3">
         <Link href="/" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] text-[17px] leading-none">🍳</span>
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[9px] bg-[color:var(--paper-soft)] text-[17px] leading-none">🍳</span>
           <span className="truncate text-[15px] font-semibold tracking-tight text-[color:var(--ink)]">vibeprompt</span>
         </Link>
       </div>
@@ -52,7 +61,7 @@ export function Sidebar() {
         <button
           type="button"
           onClick={() => window.dispatchEvent(new Event("open-command-palette"))}
-          className="flex w-full items-center gap-2 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-2.5 py-2 text-[13px] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink-soft)]"
+          className="flex w-full items-center gap-2 rounded-[10px] bg-[color:var(--paper-soft)] px-2.5 py-2 text-[13px] text-[color:var(--ink-faded)] transition-colors hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink-soft)]"
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <circle cx="11" cy="11" r="7" />
@@ -68,7 +77,7 @@ export function Sidebar() {
         <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">Explore</p>
         <ol className="space-y-0.5">
           {MENU.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} />
+            <RootLink key={item.href} item={item} active={item.match(pathname)} tint={NAV_TINT[item.href]} />
           ))}
         </ol>
       </div>
@@ -151,19 +160,21 @@ function UtilityRow({
   );
 }
 
-function RootLink({ item, active }: { item: { href: string; icon: string; label: string }; active: boolean }) {
+function RootLink({ item, active, tint }: { item: { href: string; icon: string; label: string }; active: boolean; tint: string }) {
   return (
     <li>
       <Link
         href={item.href}
         aria-current={active ? "page" : undefined}
-        className={`group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] transition-colors ${
+        className={`group flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13.5px] transition-colors ${
           active
-            ? "bg-[color:var(--accent-soft)] text-[color:var(--ink)] font-medium"
+            ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className={`flex shrink-0 w-[18px] items-center justify-center ${active ? "text-[color:var(--accent)]" : "text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]"}`}><NavIcon name={item.icon} className="h-[17px] w-[17px]" /></span>
+        <span aria-hidden className="flex h-[24px] w-[24px] shrink-0 items-center justify-center rounded-[7px] text-white shadow-[0_1px_2px_rgba(0,0,0,0.18)]" style={{ backgroundColor: tint }}>
+          <NavIcon name={item.icon} className="h-[15px] w-[15px]" />
+        </span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>
