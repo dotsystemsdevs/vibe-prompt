@@ -21,7 +21,7 @@ export default async function AwesomePage() {
     <div id="top">
       <div className="page-shell-wide">
         <PageHeader
-          icon="star"
+          emoji="🧰"
           title="Awesome list"
           lede={
             <>

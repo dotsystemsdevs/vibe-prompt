@@ -59,11 +59,11 @@ html {
   --paper: #FFFFFF;              /* White, card surfaces */
   --paper-soft: #F2F2F3;         /* light grey inset surface */
   --paper-edge: #E6E8EC;         /* divider */
-  --page: #FAFAFA;               /* Alabaster, content canvas */
+  --page: #F1F2F4;               /* light grey canvas, so white cards lift */
   --ink: #2F3138;                /* Gunmetal, primary text */
   --ink-soft: #565963;           /* slate, secondary text */
   --ink-faded: #878787;          /* Gunsmoke, muted */
-  --ink-rule: rgba(0, 0, 0, 0.09);  /* faint hairline, iOS-light */
+  --ink-rule: rgba(0, 0, 0, 0.11);  /* hairline, a touch stronger for card edges */
 
   /* Accent, Light Slate Blue. The one chromatic pop: CTAs, links, active states. */
   --accent: #6D70FF;
@@ -72,7 +72,7 @@ html {
   --accent-line: rgba(109, 112, 255, 0.32);
   --accent-ring: rgba(109, 112, 255, 0.28);
 
-  --background: #FAFAFA;
+  --background: #F1F2F4;
   --foreground: #2F3138;
   --font-geist-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-geist-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
