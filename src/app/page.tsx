@@ -51,7 +51,7 @@ export default async function HomePage() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/workflow"
-              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--ink)] px-6 py-3 text-[14px] font-medium text-[color:var(--paper)] shadow-[0_4px_14px_-6px_rgba(0,0,0,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+              className="group inline-flex items-center gap-2 rounded-md bg-[color:var(--ink)] px-6 py-3 text-[14px] font-medium text-[color:var(--paper)] shadow-[0_4px_14px_-6px_rgba(0,0,0,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
             >
               Open the cookbook
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -61,7 +61,7 @@ export default async function HomePage() {
             </Link>
             <Link
               href="/fixes"
-              className="inline-flex items-center rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-6 py-3 text-[14px] font-medium text-[color:var(--ink)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+              className="inline-flex items-center rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-6 py-3 text-[14px] font-medium text-[color:var(--ink)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
             >
               Browse the fixes
             </Link>

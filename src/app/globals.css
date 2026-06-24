@@ -45,12 +45,12 @@ html {
   /* Radius scale, single source of truth. Overriding Tailwind's defaults so
      every rounded-{sm,md,lg,xl} maps to the system's values and rounded-lg
      lines up with .vp-card (0.625rem). Bumped one notch for a softer feel. */
-  --radius: 0.625rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.625rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.375rem;
+  --radius: 0.1875rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.125rem;
+  --radius-lg: 0.1875rem;
+  --radius-xl: 0.25rem;
+  --radius-2xl: 0.375rem;
 }
 
 :root {
@@ -87,7 +87,7 @@ html {
   --secondary: rgba(0, 0, 0, 0.04);
   --secondary-foreground: #1A1815;
   --ring: #007AFF;
-  --radius: 0.625rem;
+  --radius: 0.1875rem;
   --lilac: #1A1815;
 
   /* Spacing rhythm, the vertical gaps the page is built on. Reach for these
