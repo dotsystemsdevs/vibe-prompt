@@ -85,20 +85,6 @@ export function Sidebar() {
           external
         />
       </div>
-
-      {/* Personal maker signature, a human touch at the foot of the rail. */}
-      <a
-        href="https://github.com/dotsystemsdevs"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mx-2 mb-3 flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition-colors hover:bg-[color:var(--sidebar-hover)]"
-      >
-        <span aria-hidden className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--accent)] text-[9px] font-bold text-white">dot</span>
-        <span className="min-w-0 leading-tight">
-          <span className="block text-[12.5px] font-medium text-[color:var(--ink)]">Built by dot</span>
-          <span className="block text-[11px] text-[color:var(--ink-faded)]">for indie devs, in the open</span>
-        </span>
-      </a>
     </aside>
   );
 }
