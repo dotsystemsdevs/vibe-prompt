@@ -323,3 +323,46 @@ export const LIST_PROBLEMS: ListProblem[] = [
     articleSlug: "what-an-mvp-actually-is",
   },
 ];
+
+// The cookbook recipe each fix relates to, so Fixes reads as the troubleshooting
+// layer of the course. Pricing (earn) and most mindset (stay) fixes have no
+// matching recipe, so they're intentionally left out.
+export const FIX_RECIPE: Record<string, string> = {
+  // Build
+  "ai-code-security-holes": "06",
+  "last-20-percent": "05",
+  "code-duplication-pile": "04",
+  "dont-know-codebase": "04",
+  "ai-confidently-wrong": "05",
+  "tests-pass-feature-broken": "06",
+  "type-errors-cascade": "05",
+  "every-prompt-new-state": "05",
+  "deprecated-apis": "03",
+  "give-up-refactor": "05",
+  // Ship
+  "play-closed-testing-12": "07",
+  "app-review-rejected-vague": "07",
+  "testflight-90-days": "07",
+  "vercel-prod-breaks": "07",
+  "build-size-doubled": "07",
+  "env-vars-broken": "07",
+  "ci-fails-new-rule": "06",
+  "migration-skipped-prod": "07",
+  "ssl-custom-domain": "07",
+  "cold-start-slow": "07",
+  // Grow
+  "60-visitors-zero-conv": "08",
+  "rank-brand-only": "08",
+  "reddit-removed-post": "08",
+  "ph-launch-8-upvotes": "08",
+  "show-hn-sunk": "08",
+  "store-impressions-no-clicks": "08",
+  "keywords-full-flat": "08",
+  "five-stars-three-reviews": "08",
+  "twitter-12-impressions": "08",
+  "screenshot-1-unclear": "08",
+  "instagram-no-installs": "08",
+  // Stay, only the two that map cleanly to a recipe
+  "havent-talked-to-user": "01",
+  "mvp-not-mvp": "02",
+};

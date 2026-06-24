@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { FixActions } from "@/components/fixes/fix-actions";
 import { FixPrompt } from "@/components/fixes/fix-prompt";
-import { LIST_PROBLEMS, LIST_CATEGORY_LABEL } from "@/lib/list-problems";
+import { LIST_PROBLEMS, LIST_CATEGORY_LABEL, FIX_RECIPE } from "@/lib/list-problems";
 import { FIX_PROMPTS } from "@/lib/fix-prompts";
+import { WORKFLOW_NAV } from "@/lib/workflow-nav";
 
 // Fixed dataset, only the known failures exist; everything else is a hard 404.
 export const dynamicParams = false;
@@ -47,6 +48,8 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
 
   const categoryLabel = LIST_CATEGORY_LABEL[p.category];
   const promptToPaste = FIX_PROMPTS[p.id];
+  const recipeStep = FIX_RECIPE[p.id];
+  const recipe = recipeStep ? WORKFLOW_NAV.find((s) => s.step === recipeStep) : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -98,16 +101,31 @@ export default async function FixPage({ params }: { params: Promise<{ id: string
           </section>
         )}
 
-        {p.articleSlug && (
-          <p className="text-body mt-10 flex items-center gap-2">
-            <span aria-hidden>📄</span>
-            <span>
-              Deeper dive:{" "}
-              <Link href={`/articles/${p.articleSlug}`} className="vp-link">
-                read the full article →
-              </Link>
-            </span>
-          </p>
+        {(recipe || p.articleSlug) && (
+          <div className="text-body mt-10 space-y-2.5">
+            {recipe && (
+              <p className="flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)]"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>
+                <span>
+                  Learn it properly:{" "}
+                  <Link href={`/workflow#step-${recipe.step}`} className="vp-link">
+                    Recipe {recipe.step}, {recipe.title} →
+                  </Link>
+                </span>
+              </p>
+            )}
+            {p.articleSlug && (
+              <p className="flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)]"><path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /></svg>
+                <span>
+                  Deeper dive:{" "}
+                  <Link href={`/articles/${p.articleSlug}`} className="vp-link">
+                    read the full article →
+                  </Link>
+                </span>
+              </p>
+            )}
+          </div>
         )}
 
         {/* Calm footer, contribute + subscribe as quiet one-liners */}

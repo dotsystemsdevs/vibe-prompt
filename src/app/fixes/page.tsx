@@ -38,7 +38,7 @@ export default function FixesPage() {
         <PageHeader
           icon="fixes"
           title="Fixes"
-          lede={`${fixCount} AI build failures, and the fix for each. Search before you ask Claude.`}
+          lede={`${fixCount} things that break when you ship solo with AI, and the fix for each. Search before you ask Claude.`}
         />
 
         {/* The page's one job: search, filter, solve. */}
