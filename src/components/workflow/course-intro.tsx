@@ -11,6 +11,16 @@ const TABS: [TabKey, string][] = [
   ["faq", "FAQ"],
 ];
 
+// Phase folders for the curriculum, contiguous ranges so the cookbook's ordered
+// path is preserved. Rendered like the Templates file-manager (folder + rows).
+const PHASES: { name: string; steps: string[] }[] = [
+  { name: "Set up", steps: ["00"] },
+  { name: "Plan & design", steps: ["01", "02", "03", "04"] },
+  { name: "Build", steps: ["05", "06"] },
+  { name: "Ship", steps: ["07", "08"] },
+  { name: "Grow", steps: ["09"] },
+];
+
 // A symbol that fits each FAQ, matched on the question's wording.
 function faqIcon(q: string): ReactNode {
   const k = q.toLowerCase();
@@ -141,40 +151,64 @@ export function CourseIntro({ step, steps, onStart, onPick }: { step: StepData; 
               </section>
             )}
 
-            {/* The 10 recipes, a Templates-style list. Each row jumps into that recipe. */}
+            {/* Curriculum as a Templates-style file manager: phase folders you can
+                collapse, recipes as rows under each. Each row jumps into that recipe. */}
             <section>
               <h2 className="mb-3 text-[15px] font-semibold text-[color:var(--ink)]">The {recipes} recipes</h2>
               <div className="overflow-hidden rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-                {recipeSteps.map((s) => {
-                  const n = lessonsForStep(s).length;
+                {PHASES.map((phase, pi) => {
+                  const items = recipeSteps.filter((s) => phase.steps.includes(s.step));
+                  if (items.length === 0) return null;
                   return (
-                    <button
-                      key={s.step}
-                      type="button"
-                      onClick={() => onPick?.(s.step)}
-                      className="group flex w-full items-center gap-3 border-t border-[color:var(--ink-rule)] px-3.5 py-3 text-left transition-colors first:border-t-0 hover:bg-[color:var(--sidebar-hover)]"
-                    >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[color:var(--paper-soft)] font-mono text-[12px] font-semibold text-[color:var(--ink-soft)]">
-                        {s.step}
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[14px] font-medium text-[color:var(--ink)]">
-                          <span aria-hidden className="mr-1.5">{s.emoji}</span>
-                          {s.title}
+                    <details key={phase.name} open className={`group/f ${pi > 0 ? "border-t border-[color:var(--ink-rule)]" : ""}`}>
+                      {/* Folder row */}
+                      <summary className="flex cursor-pointer list-none items-center gap-2.5 bg-[color:var(--paper-soft)] px-4 py-2.5 transition-colors hover:bg-[color:var(--sidebar-hover)] [&::-webkit-details-marker]:hidden">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-open/f:rotate-90">
+                          <path d="M9 6l6 6-6 6" />
+                        </svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="shrink-0 text-[color:var(--accent)]">
+                          <path d="M3 7.5A1.5 1.5 0 0 1 4.5 6H9l2 2h8.5A1.5 1.5 0 0 1 21 9.5V18a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18z" />
+                        </svg>
+                        <span className="text-[13px] font-semibold text-[color:var(--ink)]">{phase.name}</span>
+                        <span className="ml-auto text-[12px] tabular-nums text-[color:var(--ink-faded)]">
+                          {items.length} {items.length === 1 ? "recipe" : "recipes"}
                         </span>
-                        {s.whatThis && (
-                          <span className="mt-0.5 block truncate text-[12.5px] text-[color:var(--ink-faded)]">{s.whatThis}</span>
-                        )}
-                      </span>
-                      {n > 0 && (
-                        <span className="hidden shrink-0 text-[11.5px] tabular-nums text-[color:var(--ink-faded)] sm:block">
-                          {n} {n === 1 ? "lesson" : "lessons"}
-                        </span>
-                      )}
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--ink-soft)]">
-                        <path d="M9 6l6 6-6 6" />
-                      </svg>
-                    </button>
+                      </summary>
+
+                      {/* Recipe rows */}
+                      {items.map((s) => {
+                        const n = lessonsForStep(s).length;
+                        return (
+                          <button
+                            key={s.step}
+                            type="button"
+                            onClick={() => onPick?.(s.step)}
+                            className="group flex w-full items-center gap-3 border-t border-[color:var(--ink-rule)] px-4 py-2.5 text-left transition-colors hover:bg-[color:var(--sidebar-hover)]"
+                          >
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-[color:var(--paper-soft)] font-mono text-[11px] font-semibold text-[color:var(--ink-soft)]">
+                              {s.step}
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-[13.5px] font-medium text-[color:var(--ink)]">
+                                <span aria-hidden className="mr-1.5">{s.emoji}</span>
+                                {s.title}
+                              </span>
+                              {s.whatThis && (
+                                <span className="mt-0.5 block truncate text-[12px] text-[color:var(--ink-faded)]">{s.whatThis}</span>
+                              )}
+                            </span>
+                            {n > 0 && (
+                              <span className="hidden shrink-0 text-[11px] tabular-nums text-[color:var(--ink-faded)] sm:block">
+                                {n} {n === 1 ? "lesson" : "lessons"}
+                              </span>
+                            )}
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--ink-soft)]">
+                              <path d="M9 6l6 6-6 6" />
+                            </svg>
+                          </button>
+                        );
+                      })}
+                    </details>
                   );
                 })}
               </div>
