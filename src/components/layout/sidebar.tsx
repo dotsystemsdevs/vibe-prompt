@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavIcon } from "@/components/layout/sidebar-icons";
 
 const GITHUB_URL = "https://github.com/dotsystemsdevs/vibe-prompt";
 
@@ -23,15 +22,17 @@ type NavGroup = {
 
 // One flat list. The brand logo links Home, so there's no separate Home row.
 // Legal/meta links (FAQ, About, Privacy, Cookies) live in the footer instead.
+// Each nav icon is the same emoji as that page's header, so the rail and the
+// page read as one.
 const MENU: NavGroup[] = [
-  { href: "/workflow", icon: "cookbook", label: "Cookbook", match: (p) => p === "/workflow" },
+  { href: "/workflow", icon: "📖", label: "Cookbook", match: (p) => p === "/workflow" },
   // Fixes and Weekly Fix are the same thing, merged into one entry that stays
   // active on either route.
-  { href: "/fixes", icon: "fixes", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") || p === "/weekly" || p.startsWith("/weekly/") },
-  { href: "/articles", icon: "article", label: "Articles", match: (p) => p.startsWith("/articles") },
-  { href: "/awesome", icon: "star", label: "Awesome", match: (p) => p.startsWith("/awesome") },
-  { href: "/templates", icon: "templates", label: "Templates", match: (p) => p.startsWith("/templates") },
-  { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
+  { href: "/fixes", icon: "🔧", label: "Fixes", match: (p) => p === "/fixes" || p.startsWith("/fixes/") || p === "/weekly" || p.startsWith("/weekly/") },
+  { href: "/articles", icon: "📰", label: "Articles", match: (p) => p.startsWith("/articles") },
+  { href: "/awesome", icon: "🧰", label: "Awesome", match: (p) => p.startsWith("/awesome") },
+  { href: "/templates", icon: "🗂️", label: "Templates", match: (p) => p.startsWith("/templates") },
+  { href: "/built-with", icon: "🚀", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
 export function Sidebar() {
@@ -63,23 +64,19 @@ export function Sidebar() {
       {/* Bottom utilities, plain links, no card. */}
       <div className="px-2 pb-3 pt-2 mt-2 border-t border-[color:var(--ink-rule)] space-y-0.5">
         <UtilityRow
-          icon={
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.475 2 2 6.475 2 12a9.994 9.994 0 0 0 6.838 9.488c.5.087.687-.213.687-.476 0-.237-.013-1.024-.013-1.862-2.512.463-3.162-.612-3.362-1.175-.113-.288-.6-1.175-1.025-1.413-.35-.187-.85-.65-.013-.662.788-.013 1.35.725 1.538 1.025.9 1.512 2.337 1.087 2.912.825.088-.65.35-1.087.638-1.337-2.225-.25-4.55-1.113-4.55-4.938 0-1.088.387-1.987 1.025-2.688-.1-.25-.45-1.275.1-2.65 0 0 .837-.262 2.75 1.025a9.28 9.28 0 0 1 2.5-.337c.85 0 1.7.112 2.5.337 1.912-1.3 2.75-1.025 2.75-1.025.55 1.375.2 2.4.1 2.65.637.7 1.025 1.587 1.025 2.688 0 3.837-2.337 4.688-4.562 4.938.362.312.675.912.675 1.85 0 1.337-.013 2.412-.013 2.75 0 .262.188.575.688.475A10.005 10.005 0 0 0 22 12c0-5.525-4.475-10-10-10Z" />
-            </svg>
-          }
+          icon={<span className="text-[16px] leading-none">🐙</span>}
           label="GitHub"
           href={GITHUB_URL}
           external
         />
         <UtilityRow
-          icon={<NavIcon name="lightbulb" className="h-[18px] w-[18px]" />}
+          icon={<span className="text-[16px] leading-none">💡</span>}
           label="Suggest a change"
           href={`${GITHUB_URL}/issues/new`}
           external
         />
         <UtilityRow
-          icon={<NavIcon name="coffee" className="h-[18px] w-[18px]" />}
+          icon={<span className="text-[16px] leading-none">☕</span>}
           label="Buy me a coffee"
           href="https://buymeacoffee.com/dotdevs"
           external
@@ -148,7 +145,7 @@ function RootLink({ item, active }: { item: { href: string; icon: string; label:
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className={`flex shrink-0 w-[20px] items-center justify-center ${active ? "text-[color:var(--ink)]" : "text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]"}`}><NavIcon name={item.icon} className="h-[19px] w-[19px]" /></span>
+        <span aria-hidden className="flex shrink-0 w-[20px] items-center justify-center text-[16px] leading-none">{item.icon}</span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>
