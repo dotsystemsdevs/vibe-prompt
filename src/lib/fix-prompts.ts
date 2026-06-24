@@ -25,6 +25,14 @@ export const FIX_PROMPTS: Record<string, string> = {
     "I'm using [library] version [X]. Before writing any code, tell me the current, non-deprecated API for [task] in that version. If you're not confident your training is current, say so and ask me to paste the relevant docs. Don't use any API that's deprecated or removed in [X].",
   "give-up-refactor":
     "Don't refactor. I have a specific bug: [describe it]. Help me debug it in place: suggest log points to add, a way to reproduce it in isolation, and which recent change to bisect first. Find the root cause before proposing any code change, and keep the fix as small as possible.",
+  "error-handling-theater":
+    "Find every try/catch in this change. For each, tell me whether it recovers from the error, surfaces it to the user, or just swallows it. Flag every silent catch (empty, a bare console.log, or a re-throw with no context) and rewrite it to either handle the error meaningfully or fail loudly with the inputs and stack trace. Don't add any new catch blocks.",
+  "hallucinated-apis":
+    "I'm on [library] version [X]. Before I trust this code, verify that every method, field, and option it uses actually exists in that version, not a hallucinated or renamed API. If you're not confident your training is current, say so and ask me to paste the docs. Then run the type checker and fix anything that doesn't resolve.",
+  "dependency-bloat":
+    "Audit this project's dependencies. Run npm audit (or pip-audit), then list every direct dependency with: is it still maintained, does it overlap with another one, and could it be replaced by the standard library or a few lines of code? Recommend which to remove, remove them, and run the tests. From now on, don't add a dependency without asking me first.",
+  "breaks-under-load":
+    "This works for one user but I'm worried about concurrency. Walk the code for shared or global state, caches, and any resource two users could touch at once. List the race conditions and stale-state risks, explain what breaks under load, and propose a fix for each. Then write a load test that reproduces the worst one.",
 
   // ── Ship ──────────────────────────────────────────────────────────────────
   "play-closed-testing-12":

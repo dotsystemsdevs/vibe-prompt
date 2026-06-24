@@ -91,6 +91,34 @@ export const LIST_PROBLEMS: ListProblem[] = [
     category: "build",
     answer: "The refactor instinct is escape, not strategy. Spend 45 minutes with the actual bug: add logging, bisect the change history (`git bisect`), reproduce in isolation. 9 times out of 10 the bug is a 3-line fix once you understand it. Refactoring while you don't understand the bug just moves it somewhere harder to find.",
   },
+  {
+    id: "error-handling-theater",
+    title: "Try/catch everywhere, but errors vanish silently",
+    category: "build",
+    answer: "AI loves to wrap everything in try/catch, then swallow the error with an empty block, a generic console.log, or a re-throw with no context. The app looks robust and is actually blind. Make every catch do one of three things: recover meaningfully, surface the error to the user, or log it with enough context to debug (what failed, the inputs, the stack). Never an empty catch. This and silently-wrong business logic are the most common and most dangerous AI failures, because nothing tells you they happened.",
+    articleSlug: "vibe-coding-mistakes",
+  },
+  {
+    id: "hallucinated-apis",
+    title: "AI calls methods and fields that don't exist",
+    category: "build",
+    answer: "The model references functions, response fields, or options that aren't in the version you're on: `response.data.items` when it's `response.body.results`, a renamed hook, an option removed two majors ago. It's silent until that path runs. Two defenses: turn on a type checker (`tsc --noEmit`, mypy) so hallucinated APIs fail at build time, and feed the agent the real, current docs through an MCP like Context7 instead of trusting its training. When something looks off, paste the actual API reference and have it rewrite against that.",
+    articleSlug: "vibe-coding-mistakes",
+  },
+  {
+    id: "dependency-bloat",
+    title: "AI pulled in 12 packages where 3 would do",
+    category: "build",
+    answer: "Agents reach for a new dependency instead of a few lines of code, and you end up with overlapping, unmaintained, or vulnerable packages you never chose. Audit it: run `npm audit` (or `pip-audit`), list every direct dependency and ask which are redundant or replaceable with the standard library, then drop the unmaintained ones. Before accepting new code, tell the agent not to add a dependency without asking. A lean tree is fewer things that break and fewer security holes.",
+    articleSlug: "vibe-coding-mistakes",
+  },
+  {
+    id: "breaks-under-load",
+    title: "Works for one user, falls apart at a hundred",
+    category: "build",
+    answer: "AI-generated code assumes a single-user demo: a cache that's never invalidated, two users editing the same row, a socket that reconnects but never re-syncs, state that's fine until it's concurrent. It passes your manual test and breaks under real traffic. Name the shared state and the concurrent paths explicitly, add a load test (k6, Locust, or Playwright) that simulates the real pattern, and wire up error tracking so the race conditions that only surface in production actually reach you.",
+    articleSlug: "vibe-coding-mistakes",
+  },
 
   // ── Ship ──────────────────────────────────────────────────────────────────
   {
@@ -339,6 +367,10 @@ export const FIX_RECIPE: Record<string, string> = {
   "every-prompt-new-state": "05",
   "deprecated-apis": "03",
   "give-up-refactor": "05",
+  "error-handling-theater": "06",
+  "hallucinated-apis": "06",
+  "dependency-bloat": "06",
+  "breaks-under-load": "07",
   // Ship
   "play-closed-testing-12": "07",
   "app-review-rejected-vague": "07",
