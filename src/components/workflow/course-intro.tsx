@@ -38,11 +38,12 @@ function MetaItem({ icon, children }: { icon: ReactNode; children: ReactNode }) 
   );
 }
 
-export function CourseIntro({ step, steps, onStart }: { step: StepData; steps: StepData[]; onStart: () => void }) {
+export function CourseIntro({ step, steps, onStart, onPick }: { step: StepData; steps: StepData[]; onStart: () => void; onPick?: (stepId: string) => void }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const intro = step.courseIntro;
-  const recipes = steps.filter((s) => /^\d+$/.test(s.step)).length;
+  const recipeSteps = steps.filter((s) => /^\d+$/.test(s.step));
+  const recipes = recipeSteps.length;
   const lessons = steps.reduce((n, s) => n + lessonsForStep(s).length, 0);
 
   const preview: Lesson | null = step.previewVideo
@@ -139,6 +140,45 @@ export function CourseIntro({ step, steps, onStart }: { step: StepData; steps: S
                 </ul>
               </section>
             )}
+
+            {/* The 10 recipes, a Templates-style list. Each row jumps into that recipe. */}
+            <section>
+              <h2 className="mb-3 text-[15px] font-semibold text-[color:var(--ink)]">The {recipes} recipes</h2>
+              <div className="overflow-hidden rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
+                {recipeSteps.map((s) => {
+                  const n = lessonsForStep(s).length;
+                  return (
+                    <button
+                      key={s.step}
+                      type="button"
+                      onClick={() => onPick?.(s.step)}
+                      className="group flex w-full items-center gap-3 border-t border-[color:var(--ink-rule)] px-3.5 py-3 text-left transition-colors first:border-t-0 hover:bg-[color:var(--sidebar-hover)]"
+                    >
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[color:var(--paper-soft)] font-mono text-[12px] font-semibold text-[color:var(--ink-soft)]">
+                        {s.step}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-[14px] font-medium text-[color:var(--ink)]">
+                          <span aria-hidden className="mr-1.5">{s.emoji}</span>
+                          {s.title}
+                        </span>
+                        {s.whatThis && (
+                          <span className="mt-0.5 block truncate text-[12.5px] text-[color:var(--ink-faded)]">{s.whatThis}</span>
+                        )}
+                      </span>
+                      {n > 0 && (
+                        <span className="hidden shrink-0 text-[11.5px] tabular-nums text-[color:var(--ink-faded)] sm:block">
+                          {n} {n === 1 ? "lesson" : "lessons"}
+                        </span>
+                      )}
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0 text-[color:var(--ink-faded)] transition-transform group-hover:translate-x-0.5 group-hover:text-[color:var(--ink-soft)]">
+                        <path d="M9 6l6 6-6 6" />
+                      </svg>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
           </div>
         )}
 

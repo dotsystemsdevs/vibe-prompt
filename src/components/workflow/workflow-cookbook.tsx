@@ -400,7 +400,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
             {/* The intro step renders the course-landing instead of a lesson. */}
             {showIntro ? (
-          <CourseIntro step={active} steps={steps} onStart={() => { markStepDone(active); goToStep(firstRecipe); }} />
+          <CourseIntro step={active} steps={steps} onStart={() => { markStepDone(active); goToStep(firstRecipe); }} onPick={(s) => { markStepDone(active); goToStep(s); }} />
         ) : (
         <div className="min-w-0">
 
