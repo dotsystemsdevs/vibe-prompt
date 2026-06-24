@@ -1,21 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { incrementDownloadCount } from "@/lib/actions/downloads";
 import type { TemplateFolder } from "@/lib/templates-catalog";
 
-export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
-  const [copied, setCopied] = useState<string | null>(null);
+function fmt(n: number): string {
+  if (n >= 10000) return `${Math.round(n / 1000)}k`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+  return `${n}`;
+}
 
-  async function copy(filename: string) {
-    try {
-      const res = await fetch(`/templates/${filename}`);
-      const text = await res.text();
-      await navigator.clipboard.writeText(text);
-      setCopied(filename);
-      setTimeout(() => setCopied((c) => (c === filename ? null : c)), 1800);
-    } catch {
-      // Clipboard can be blocked; the Download action is the fallback.
-    }
+export function TemplatesClient({
+  folders,
+  counts,
+}: {
+  folders: TemplateFolder[];
+  counts: Record<string, number>;
+}) {
+  // Optimistic bump on top of the server-rendered counts, so the number ticks
+  // up the moment you download without waiting for a reload.
+  const [bumps, setBumps] = useState<Record<string, number>>({});
+
+  function onDownload(filename: string) {
+    setBumps((b) => ({ ...b, [filename]: (b[filename] ?? 0) + 1 }));
+    void incrementDownloadCount(filename);
   }
 
   return (
@@ -42,51 +50,47 @@ export function TemplatesClient({ folders }: { folders: TemplateFolder[] }) {
 
           {/* Files under the folder, one row each */}
           <ul>
-            {folder.templates.map((t) => (
-              <li
-                key={t.filename}
-                className="group/r flex items-center gap-3 border-t border-[color:var(--ink-rule)] px-4 py-2.5 transition-colors hover:bg-[color:var(--sidebar-hover)]"
-              >
-                <span aria-hidden className="shrink-0 text-[15px] leading-none">📄</span>
-                <span className="w-[190px] shrink-0 truncate font-mono text-[13px] font-medium text-[color:var(--ink)]">
-                  {t.filename}
-                </span>
-                <span className="hidden flex-1 truncate text-[12.5px] text-[color:var(--ink-soft)] sm:block">
-                  {t.description}
-                </span>
-                <div className="ml-auto flex shrink-0 items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => copy(t.filename)}
-                    aria-label={copied === t.filename ? "Copied" : `Copy ${t.filename}`}
-                    className="flex h-8 w-8 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
-                  >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied === t.filename ? "text-[color:var(--accent)]" : ""}>
-                      {copied === t.filename ? (
-                        <path d="M20 6 9 17l-5-5" />
-                      ) : (
-                        <>
-                          <rect x="9" y="9" width="11" height="11" rx="1.5" />
-                          <path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" />
-                        </>
-                      )}
-                    </svg>
-                  </button>
-                  <a
-                    href={`/templates/${t.filename}`}
-                    download
-                    aria-label={`Download ${t.filename}`}
-                    className="flex h-8 w-8 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
-                  >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            {folder.templates.map((t) => {
+              const n = (counts[t.filename] ?? 0) + (bumps[t.filename] ?? 0);
+              return (
+                <li
+                  key={t.filename}
+                  className="flex items-center gap-3 border-t border-[color:var(--ink-rule)] px-4 py-2.5 transition-colors hover:bg-[color:var(--sidebar-hover)]"
+                >
+                  <span aria-hidden className="shrink-0 text-[15px] leading-none">📄</span>
+                  <span className="w-[180px] shrink-0 truncate font-mono text-[13px] font-medium text-[color:var(--ink)]">
+                    {t.filename}
+                  </span>
+                  <span className="hidden flex-1 truncate text-[12.5px] text-[color:var(--ink-soft)] sm:block">
+                    {t.description}
+                  </span>
+
+                  {/* Download count, shared, visible to everyone */}
+                  <span className="flex shrink-0 items-center gap-1 text-[12px] tabular-nums text-[color:var(--ink-faded)]" title={`${n} downloads`}>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="M12 3v12" />
                       <path d="m7 11 5 5 5-5" />
                       <path d="M5 21h14" />
                     </svg>
+                    {fmt(n)}
+                  </span>
+
+                  <a
+                    href={`/templates/${t.filename}`}
+                    download
+                    onClick={() => onDownload(t.filename)}
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[color:var(--ink)] px-3 py-1.5 text-[12.5px] font-medium text-[color:var(--paper)] transition-opacity hover:opacity-90"
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M12 3v12" />
+                      <path d="m7 11 5 5 5-5" />
+                      <path d="M5 21h14" />
+                    </svg>
+                    Download
                   </a>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </details>
       ))}
