@@ -32,38 +32,38 @@ export default async function HomePage() {
       <div className="flex w-full flex-col justify-center px-4 py-10 sm:px-6 lg:h-full lg:py-8">
         <div className="mx-auto w-full max-w-3xl text-center animate-in fade-in-0 slide-in-from-bottom-3 duration-700">
 
-          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] py-1 pl-1 pr-3 shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--paper)] py-1 pl-1 pr-3 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[color:var(--accent)] text-[9px] font-bold tracking-tight text-white">vp</span>
             <span className="text-[13px] font-medium text-[color:var(--ink)]">vibeprompt</span>
             <span aria-hidden className="h-3 w-px bg-[color:var(--ink-rule)]" />
             <span className="text-[12px] text-[color:var(--ink-faded)]">free &amp; open source</span>
           </span>
 
-          <h1 className="mx-auto mt-7 max-w-[19ch] text-balance font-bold tracking-[-0.035em] leading-[1.03] text-[clamp(2.1rem,3.8vw+0.6rem,3.5rem)]">
-            <span className="text-[color:var(--ink)]">AI got you 80% of the way.</span>{" "}
-            <span className="text-[color:var(--ink-faded)]">The last 20% is why projects die.</span>
+          <h1 className="mx-auto mt-8 max-w-[15ch] text-balance font-semibold tracking-[-0.04em] leading-[1.04] text-[clamp(2.3rem,4.2vw+0.7rem,3.9rem)]">
+            <span className="text-[color:var(--ink-faded)]">AI gets you 80% there.</span>{" "}
+            <span className="text-[color:var(--ink)]">We get you shipped.</span>
           </h1>
 
-          <p className="text-body-lg mx-auto mt-5 max-w-md text-pretty">
-            Everything that broke shipping {stats.apps} real apps, and the fix for each.
+          <p className="text-body-lg mx-auto mt-5 max-w-lg text-pretty text-[color:var(--ink-soft)]">
+            The cookbook to take an app from idea to live, plus the fix for everything that broke shipping {stats.apps} real apps.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/fixes"
-              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-[14px] font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--accent-hover)] hover:shadow-md active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+              href="/workflow"
+              className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--accent)] px-6 py-3 text-[14px] font-medium text-white shadow-[0_4px_14px_-4px_rgba(0,122,255,0.5)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--accent-hover)] hover:shadow-[0_6px_20px_-4px_rgba(0,122,255,0.6)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
             >
-              Search the fixes
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <path d="M7 17 17 7" />
-                <path d="M8 7h9v9" />
+              Open the cookbook
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
               </svg>
             </Link>
             <Link
-              href="/workflow"
-              className="inline-flex items-center rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--background)] px-6 py-3 text-[14px] font-medium text-[color:var(--ink)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
+              href="/fixes"
+              className="inline-flex items-center rounded-full border border-[color:var(--ink-rule)] bg-[color:var(--paper)] px-6 py-3 text-[14px] font-medium text-[color:var(--ink)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[color:var(--ink-soft)] hover:bg-[color:var(--paper-soft)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--background)]"
             >
-              See the method
+              Browse the fixes
             </Link>
           </div>
 
