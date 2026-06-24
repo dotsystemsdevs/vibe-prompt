@@ -454,56 +454,27 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
             </p>
           </header>
 
-          {/* TL;DR card, orient before diving in */}
+          {/* Outcome block, calm and light. The accomplish line leads, then a
+              quiet definition list. Time lives in the meta row, not repeated here. */}
           {active.tldr && (
-            <div className="mb-6 overflow-hidden rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_30px_-20px_rgba(0,0,0,0.18)]">
-              {/* Outcome, the hero line */}
-              <div className="p-5">
-                <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--accent)]">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" /><line x1="4" y1="22" x2="4" y2="15" />
-                  </svg>
-                  What you&apos;ll accomplish
-                </p>
-                <p className="mt-2 text-[15.5px] font-medium leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
-              </div>
-
-              {/* Meta strip, divided cells */}
-              <div className="grid gap-px border-t border-[color:var(--ink-rule)] bg-[color:var(--ink-rule)] sm:grid-cols-3">
-                <div className="bg-[color:var(--paper-soft)] p-4">
-                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M14 3v5h5" /><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /></svg>
-                    Output
-                  </p>
-                  <p className="mt-1.5 font-mono text-[12.5px] text-[color:var(--ink)]">{active.tldr.deliverable}</p>
+            <div className="mb-7 max-w-2xl rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-5">
+              <p className="text-[15px] font-medium leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
+              <dl className="mt-4 grid gap-x-8 gap-y-4 border-t border-[color:var(--ink-rule)] pt-4 sm:grid-cols-2">
+                <div>
+                  <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Output</dt>
+                  <dd className="mt-1.5 font-mono text-[12.5px] leading-relaxed text-[color:var(--ink)]">{active.tldr.deliverable}</dd>
                 </div>
-                <div className="bg-[color:var(--paper-soft)] p-4">
-                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
-                    Time
-                  </p>
-                  <p className="mt-1.5 text-[12.5px] text-[color:var(--ink)]">{active.timeEstimate ? `~${active.timeEstimate}` : "Self-paced"}</p>
+                <div>
+                  <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Prerequisites</dt>
+                  <dd className="mt-1.5 text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.tldr.prerequisites.join(", ")}</dd>
                 </div>
-                <div className="bg-[color:var(--paper-soft)] p-4">
-                  <p className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><path d="M3 6h.01M3 12h.01M3 18h.01" /></svg>
-                    Prerequisites
-                  </p>
-                  <ul className="mt-1.5 space-y-0.5 text-[12.5px] text-[color:var(--ink-soft)]">
-                    {active.tldr.prerequisites.map((p, i) => <li key={i}>{p}</li>)}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Feeds into, footer */}
-              {active.tldr.feedsInto && (
-                <div className="flex items-start gap-2 border-t border-[color:var(--ink-rule)] px-5 py-3.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="mt-0.5 shrink-0 text-[color:var(--accent)]"><path d="M5 12h14" /><path d="M13 6l6 6-6 6" /></svg>
-                  <p className="text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">
-                    <span className="font-semibold text-[color:var(--ink)]">Feeds into:</span> {active.tldr.feedsInto}
-                  </p>
-                </div>
-              )}
+                {active.tldr.feedsInto && (
+                  <div className="sm:col-span-2">
+                    <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Feeds into</dt>
+                    <dd className="mt-1.5 text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.tldr.feedsInto}</dd>
+                  </div>
+                )}
+              </dl>
             </div>
           )}
 
