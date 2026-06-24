@@ -80,6 +80,20 @@ const PHASE_NAME: Record<string, string> = {
   "09": "Grow",
 };
 
+// A color per phase, so each recipe's hero band gets its own identity.
+const PHASE_TINT: Record<string, { color: string; soft: string }> = {
+  "00": { color: "#3B6FE0", soft: "rgba(59,111,224,0.12)" },
+  "01": { color: "#7C5CFC", soft: "rgba(124,92,252,0.12)" },
+  "02": { color: "#7C5CFC", soft: "rgba(124,92,252,0.12)" },
+  "03": { color: "#7C5CFC", soft: "rgba(124,92,252,0.12)" },
+  "04": { color: "#7C5CFC", soft: "rgba(124,92,252,0.12)" },
+  "05": { color: "#5B5BF5", soft: "rgba(91,91,245,0.12)" },
+  "06": { color: "#5B5BF5", soft: "rgba(91,91,245,0.12)" },
+  "07": { color: "#12A150", soft: "rgba(18,161,80,0.12)" },
+  "08": { color: "#12A150", soft: "rgba(18,161,80,0.12)" },
+  "09": { color: "#F97316", soft: "rgba(249,115,22,0.12)" },
+};
+
 // A line icon per Learn section, matched on the heading's wording (icons, not emojis).
 function sectionIcon(heading: string) {
   const k = heading.toLowerCase();
@@ -414,50 +428,58 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
         ) : (
         <div className="min-w-0">
 
-          {/* Editorial recipe hero: big ghost number, phase kicker, title, lead. */}
-          <header className="mb-8">
-            <div className="flex items-center justify-between gap-4">
-              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ink-faded)]">
-                {isNumericStep ? `${PHASE_NAME[active.step] ?? "Cookbook"} · Recipe ${active.step}` : "Before you begin"}
-              </span>
-              {active.timeEstimate && (
-                <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-[color:var(--ink-faded)]">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
-                  </svg>
-                  ~{active.timeEstimate}
-                </span>
-              )}
-            </div>
-
-            <div className="mt-3 flex items-start gap-4 sm:gap-6">
-              {isNumericStep && (
-                <span aria-hidden className="hidden font-mono text-[64px] font-bold leading-[0.85] tracking-tight text-[color:var(--ink-rule)] sm:block">
-                  {active.step}
-                </span>
-              )}
-              <div className="min-w-0">
-                <h1 className="text-[30px] sm:text-[40px] font-bold leading-[1.04] tracking-tight text-[color:var(--ink)]">
-                  {active.title}
-                </h1>
-                <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-[color:var(--ink-soft)]">
-                  {active.whatThis}
-                </p>
-              </div>
-            </div>
-
-            {/* Progress, momentum at a glance */}
-            {mounted && activeItems.length > 0 && (
-              <div className="mt-6 flex max-w-2xl items-center gap-3">
-                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--paper-soft)]">
-                  <div className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-500" style={{ width: `${Math.round((totalDone / activeItems.length) * 100)}%` }} />
+          {/* Recipe hero: a phase-tinted band with a big number, kicker, title, lead. */}
+          {(() => {
+            const tint = PHASE_TINT[active.step] ?? { color: "var(--accent)", soft: "var(--accent-soft)" };
+            const pct = mounted && activeItems.length > 0 ? Math.round((totalDone / activeItems.length) * 100) : 0;
+            return (
+              <header
+                className="mb-8 overflow-hidden rounded-2xl border border-[color:var(--ink-rule)] p-6 sm:p-8"
+                style={{ background: `linear-gradient(135deg, ${tint.soft}, transparent 62%)` }}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em]" style={{ color: tint.color }}>
+                    {isNumericStep ? `${PHASE_NAME[active.step] ?? "Cookbook"} · Recipe ${active.step}` : "Before you begin"}
+                  </span>
+                  {active.timeEstimate && (
+                    <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-[color:var(--ink-faded)]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+                      </svg>
+                      ~{active.timeEstimate}
+                    </span>
+                  )}
                 </div>
-                <span className={`shrink-0 text-[12px] font-medium tabular-nums ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-soft)]"}`}>
-                  {stepFinished && <span aria-hidden>✓ </span>}{totalDone}/{activeItems.length}
-                </span>
-              </div>
-            )}
-          </header>
+
+                <div className="mt-3 flex items-start gap-4 sm:gap-6">
+                  {isNumericStep && (
+                    <span aria-hidden className="hidden font-mono text-[68px] font-bold leading-[0.8] tracking-tight sm:block" style={{ color: tint.color, opacity: 0.22 }}>
+                      {active.step}
+                    </span>
+                  )}
+                  <div className="min-w-0">
+                    <h1 className="text-[30px] sm:text-[40px] font-bold leading-[1.04] tracking-tight text-[color:var(--ink)]">
+                      {active.title}
+                    </h1>
+                    <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-[color:var(--ink-soft)]">
+                      {active.whatThis}
+                    </p>
+                  </div>
+                </div>
+
+                {mounted && activeItems.length > 0 && (
+                  <div className="mt-6 flex max-w-2xl items-center gap-3">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--paper)]">
+                      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: tint.color }} />
+                    </div>
+                    <span className="shrink-0 text-[12px] font-medium tabular-nums" style={{ color: stepFinished ? tint.color : "var(--ink-soft)" }}>
+                      {stepFinished && <span aria-hidden>✓ </span>}{totalDone}/{activeItems.length}
+                    </span>
+                  </div>
+                )}
+              </header>
+            );
+          })()}
 
           {/* Outcome, a quiet inline rail, no boxed card. */}
           {active.tldr && (
