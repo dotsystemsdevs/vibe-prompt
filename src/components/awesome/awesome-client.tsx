@@ -149,25 +149,32 @@ function ToolCard({
 
 /* Notion-style database filter chip, mirrors the Articles page so the two
    pages read as one product. */
+// Small, alternating tilts so the outlined chips scatter playfully in different
+// directions. Deterministic per index so they don't jump on re-render.
+const TILTS = [-2.5, 1.5, -1.5, 2, -1, 2.5, -2, 1];
+
 function CategoryChip({
   active,
   label,
   count,
   onClick,
+  tilt = 0,
 }: {
   active: boolean;
   label: string;
   count: number;
   onClick: () => void;
+  tilt?: number;
 }) {
   return (
     <button
       onClick={onClick}
       aria-current={active ? "true" : undefined}
-      className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-meta transition-colors ${
+      style={{ transform: `rotate(${tilt}deg)` }}
+      className={`inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-meta transition-colors ${
         active
-          ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
-          : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
+          ? "border-[color:var(--accent)] bg-[color:var(--accent-soft)] text-[color:var(--accent)] font-medium"
+          : "border-[color:var(--ink-rule)] text-[color:var(--ink-soft)] hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
       }`}
     >
       <span>{label}</span>
@@ -220,20 +227,22 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
   return (
     <div>
       {/* Tag filter, the most common tags across all tools */}
-      <div className="mb-3 flex flex-wrap gap-1">
+      <div className="mb-3 flex flex-wrap gap-2">
         <CategoryChip
           active={activeTag === null}
           label="All"
           count={total}
           onClick={() => setActiveTag(null)}
+          tilt={TILTS[0]}
         />
-        {topTags.map((tag) => (
+        {topTags.map((tag, i) => (
           <CategoryChip
             key={tag}
             active={activeTag === tag}
             label={tag}
             count={tagCounts[tag] ?? 0}
             onClick={() => setActiveTag(tag)}
+            tilt={TILTS[(i + 1) % TILTS.length]}
           />
         ))}
       </div>
