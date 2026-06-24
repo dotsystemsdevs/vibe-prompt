@@ -435,15 +435,22 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
             const pct = mounted && activeItems.length > 0 ? Math.round((totalDone / activeItems.length) * 100) : 0;
             return (
               <header
-                className="mb-8 overflow-hidden rounded-2xl border border-[color:var(--ink-rule)] p-6 sm:p-8"
-                style={{ background: `linear-gradient(135deg, ${tint.soft}, transparent 62%)` }}
+                className="relative mb-8 overflow-hidden rounded-2xl p-6 sm:p-8"
+                style={{ background: `linear-gradient(135deg, ${tint.color}, ${tint.color} 55%, rgba(0,0,0,0.18))` }}
               >
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em]" style={{ color: tint.color }}>
+                {/* Oversized ghost number, bleeding off the right edge */}
+                {isNumericStep && (
+                  <span aria-hidden className="pointer-events-none absolute -right-3 -top-6 font-mono text-[140px] font-bold leading-none tracking-tighter text-white/15 select-none">
+                    {active.step}
+                  </span>
+                )}
+
+                <div className="relative flex items-center justify-between gap-4">
+                  <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-white/80">
                     {isNumericStep ? `${PHASE_NAME[active.step] ?? "Cookbook"} · Recipe ${active.step}` : "Before you begin"}
                   </span>
                   {active.timeEstimate && (
-                    <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-[color:var(--ink-faded)]">
+                    <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-white/80">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                         <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
                       </svg>
@@ -452,28 +459,19 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
                   )}
                 </div>
 
-                <div className="mt-3 flex items-start gap-4 sm:gap-6">
-                  {isNumericStep && (
-                    <span aria-hidden className="hidden font-mono text-[68px] font-bold leading-[0.8] tracking-tight sm:block" style={{ color: tint.color, opacity: 0.22 }}>
-                      {active.step}
-                    </span>
-                  )}
-                  <div className="min-w-0">
-                    <h1 className="text-[30px] sm:text-[40px] font-bold leading-[1.04] tracking-tight text-[color:var(--ink)]">
-                      {active.title}
-                    </h1>
-                    <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-[color:var(--ink-soft)]">
-                      {active.whatThis}
-                    </p>
-                  </div>
-                </div>
+                <h1 className="relative mt-4 max-w-2xl text-[32px] sm:text-[44px] font-bold leading-[1.02] tracking-tight text-white">
+                  {active.title}
+                </h1>
+                <p className="relative mt-3 max-w-2xl text-[16px] leading-relaxed text-white/85">
+                  {active.whatThis}
+                </p>
 
                 {mounted && activeItems.length > 0 && (
-                  <div className="mt-6 flex max-w-2xl items-center gap-3">
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--paper)]">
-                      <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: tint.color }} />
+                  <div className="relative mt-6 flex max-w-2xl items-center gap-3">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/25">
+                      <div className="h-full rounded-full bg-white transition-all duration-500" style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="shrink-0 text-[12px] font-medium tabular-nums" style={{ color: stepFinished ? tint.color : "var(--ink-soft)" }}>
+                    <span className="shrink-0 text-[12px] font-semibold tabular-nums text-white">
                       {stepFinished && <span aria-hidden>✓ </span>}{totalDone}/{activeItems.length}
                     </span>
                   </div>
