@@ -79,16 +79,14 @@ function pricing(tags: readonly string[]): { label: string; tone: string } | nul
   return null;
 }
 
-function ToolCard({
+function ToolRow({
   item,
   categoryEmoji,
   categoryTitle,
-  showCategory,
 }: {
   item: AwesomeItem;
   categoryEmoji: string;
   categoryTitle: string;
-  showCategory: boolean;
 }) {
   const status = pricing(item.tags);
   const [copied, setCopied] = useState(false);
@@ -108,65 +106,60 @@ function ToolCard({
   }
 
   return (
-    <div className="vp-card-bordered vp-card-hover group relative flex flex-col gap-3 p-4">
-      {/* Category pill, shown on the flat "All" view so each card says where it belongs */}
-      {showCategory && (
-        <span className="vp-badge self-start">
-          <span aria-hidden>{categoryEmoji}</span>
-          {categoryTitle}
-        </span>
-      )}
+    <div className="group relative flex items-center gap-3 border-t border-[color:var(--ink-rule)] px-4 py-3 transition-colors first:border-t-0 hover:bg-[color:var(--sidebar-hover)]">
+      {/* Phase emoji, keeps the where-in-the-workflow context */}
+      <span aria-hidden title={categoryTitle} className="hidden w-5 shrink-0 text-center text-[14px] leading-none sm:block">
+        {categoryEmoji}
+      </span>
 
-      {/* Header: logo + name/domain */}
-      <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
-          <Favicon href={item.href} emoji={categoryEmoji} size={20} />
-        </span>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-body font-semibold text-[color:var(--ink)]">
-            {item.name}
-          </div>
-          {domain && (
-            <div className="truncate text-meta text-[color:var(--ink-faded)]">{domain}</div>
-          )}
-        </div>
+      {/* Logo */}
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
+        <Favicon href={item.href} emoji={categoryEmoji} size={18} />
+      </span>
+
+      {/* Name + domain */}
+      <div className="min-w-0 flex-1 md:w-48 md:flex-none">
+        <div className="truncate text-body font-semibold text-[color:var(--ink)]">{item.name}</div>
+        {domain && <div className="truncate text-meta text-[color:var(--ink-faded)]">{domain}</div>}
       </div>
 
-      {/* Description, clamped to keep the grid even */}
-      <p className="line-clamp-2 text-body text-[color:var(--ink-soft)]">{item.description}</p>
+      {/* Description, fills the middle on wider screens */}
+      <p className="hidden min-w-0 flex-1 truncate text-body text-[color:var(--ink-soft)] md:block">
+        {item.description}
+      </p>
 
-      {/* Footer: price chip + copy link + visit */}
-      <div className="mt-auto flex items-center gap-2 border-t border-[color:var(--ink-rule)] pt-3">
-        {status && <span className={`${status.tone} vp-badge`}>{status.label}</span>}
-        <div className="relative z-10 ml-auto flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              void copyLink();
-            }}
-            aria-label={copied ? "Copied" : `Copy ${item.name} link`}
-            className="flex h-7 w-7 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied ? "text-[color:var(--accent)]" : ""}>
-              {copied ? (
-                <path d="M20 6 9 17l-5-5" />
-              ) : (
-                <>
-                  <rect x="9" y="9" width="11" height="11" rx="1.5" />
-                  <path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" />
-                </>
-              )}
-            </svg>
-          </button>
-          <span className="text-label font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
-            Visit ↗
-          </span>
-        </div>
+      {/* Price */}
+      {status && <span className={`${status.tone} vp-badge shrink-0`}>{status.label}</span>}
+
+      {/* Copy + visit */}
+      <div className="relative z-10 flex shrink-0 items-center gap-1.5">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            void copyLink();
+          }}
+          aria-label={copied ? "Copied" : `Copy ${item.name} link`}
+          className="flex h-7 w-7 items-center justify-center rounded-md border border-[color:var(--ink-rule)] text-[color:var(--ink-faded)] transition-colors hover:border-[color:var(--ink-soft)] hover:text-[color:var(--ink)]"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className={copied ? "text-[color:var(--accent)]" : ""}>
+            {copied ? (
+              <path d="M20 6 9 17l-5-5" />
+            ) : (
+              <>
+                <rect x="9" y="9" width="11" height="11" rx="1.5" />
+                <path d="M5 15V5.5A1.5 1.5 0 0 1 6.5 4H15" />
+              </>
+            )}
+          </svg>
+        </button>
+        <span className="text-label font-medium text-[color:var(--ink-soft)] transition-colors group-hover:text-[color:var(--accent)]">
+          Visit ↗
+        </span>
       </div>
 
-      {/* Whole-card link, sits under the copy button (z-10) */}
+      {/* Whole-row link, sits under the copy button (z-10) */}
       <a
         href={item.href}
         target="_blank"
@@ -316,17 +309,16 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
           </button>
         </div>
       ) : (
-        // Flat grid, no category sections. Each card carries its own phase pill.
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        // Flat list, one row per tool. The phase emoji keeps the workflow context.
+        <div className="overflow-hidden rounded-md border border-[color:var(--ink-rule)] bg-[color:var(--paper)]">
           {filtered.flatMap((cat) => {
             const group = GROUP_META[groupOf(cat.slug)];
             return cat.items.map((item) => (
-              <ToolCard
+              <ToolRow
                 key={`${cat.slug}-${item.href}`}
                 item={item}
                 categoryEmoji={group.emoji}
                 categoryTitle={group.title}
-                showCategory
               />
             ));
           })}
