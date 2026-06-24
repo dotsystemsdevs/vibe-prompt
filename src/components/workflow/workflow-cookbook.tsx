@@ -70,6 +70,16 @@ const RECIPE_TABS: [RecipeTab, string][] = [
   ["faq", "FAQ"],
 ];
 
+// Phase label per recipe number, for the hero kicker. Matches the curriculum
+// folders (Set up / Plan & design / Build / Ship / Grow).
+const PHASE_NAME: Record<string, string> = {
+  "00": "Set up",
+  "01": "Plan & design", "02": "Plan & design", "03": "Plan & design", "04": "Plan & design",
+  "05": "Build", "06": "Build",
+  "07": "Ship", "08": "Ship",
+  "09": "Grow",
+};
+
 // A line icon per Learn section, matched on the heading's wording (icons, not emojis).
 function sectionIcon(heading: string) {
   const k = heading.toLowerCase();
@@ -404,77 +414,69 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
         ) : (
         <div className="min-w-0">
 
-          {/* Lesson header, title first, above the video */}
-          <header className="mb-6">
-            <div className="min-w-0">
-              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[color:var(--page-accent)]">
-                {isNumericStep ? `Recipe ${active.step}` : "Before you begin"}
+          {/* Editorial recipe hero: big ghost number, phase kicker, title, lead. */}
+          <header className="mb-8">
+            <div className="flex items-center justify-between gap-4">
+              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-[color:var(--ink-faded)]">
+                {isNumericStep ? `${PHASE_NAME[active.step] ?? "Cookbook"} · Recipe ${active.step}` : "Before you begin"}
               </span>
-              <h1 className="mt-1.5 text-[26px] sm:text-[32px] font-bold leading-[1.1] tracking-tight text-[color:var(--ink)]">
-                {active.title}
-              </h1>
-            </div>
-
-            {/* Meta row,duration / lessons / tasks / progress, like a course bar */}
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-[color:var(--ink-faded)]">
               {active.timeEstimate && (
-                <span className="inline-flex items-center gap-1.5">
+                <span className="inline-flex shrink-0 items-center gap-1.5 text-[12px] text-[color:var(--ink-faded)]">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
                   </svg>
                   ~{active.timeEstimate}
                 </span>
               )}
-              {activeItems.length > 0 && (
-                <span className="inline-flex items-center gap-1.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                  </svg>
-                  {activeItems.length} tasks
-                </span>
-              )}
-              {mounted && activeItems.length > 0 && (
-                <span className={`inline-flex items-center gap-1.5 font-medium ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-soft)]"}`}>
-                  {stepFinished && <span aria-hidden>✓</span>}
-                  {totalDone}/{activeItems.length} done
-                </span>
-              )}
             </div>
 
-            {/* Slim per-step progress, momentum at a glance */}
+            <div className="mt-3 flex items-start gap-4 sm:gap-6">
+              {isNumericStep && (
+                <span aria-hidden className="hidden font-mono text-[64px] font-bold leading-[0.85] tracking-tight text-[color:var(--ink-rule)] sm:block">
+                  {active.step}
+                </span>
+              )}
+              <div className="min-w-0">
+                <h1 className="text-[30px] sm:text-[40px] font-bold leading-[1.04] tracking-tight text-[color:var(--ink)]">
+                  {active.title}
+                </h1>
+                <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-[color:var(--ink-soft)]">
+                  {active.whatThis}
+                </p>
+              </div>
+            </div>
+
+            {/* Progress, momentum at a glance */}
             {mounted && activeItems.length > 0 && (
-              <div className="mt-4 h-1 w-full max-w-2xl overflow-hidden rounded-full bg-[color:var(--accent-soft)]">
-                <div className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-500" style={{ width: `${Math.round((totalDone / activeItems.length) * 100)}%` }} />
+              <div className="mt-6 flex max-w-2xl items-center gap-3">
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--paper-soft)]">
+                  <div className="h-full rounded-full bg-[color:var(--accent)] transition-all duration-500" style={{ width: `${Math.round((totalDone / activeItems.length) * 100)}%` }} />
+                </div>
+                <span className={`shrink-0 text-[12px] font-medium tabular-nums ${stepFinished ? "text-[color:var(--accent)]" : "text-[color:var(--ink-soft)]"}`}>
+                  {stepFinished && <span aria-hidden>✓ </span>}{totalDone}/{activeItems.length}
+                </span>
               </div>
             )}
-
-            {/* Overview, kept to a short hook, the Learn lesson carries the depth. */}
-            <p className="mt-5 max-w-2xl text-body">
-              {active.whatThis}
-            </p>
           </header>
 
-          {/* Outcome block, calm and light. The accomplish line leads, then a
-              quiet definition list. Time lives in the meta row, not repeated here. */}
+          {/* Outcome, a quiet inline rail, no boxed card. */}
           {active.tldr && (
-            <div className="mb-7 max-w-2xl rounded-xl border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-5">
-              <p className="text-[15px] font-medium leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
-              <dl className="mt-4 grid gap-x-8 gap-y-4 border-t border-[color:var(--ink-rule)] pt-4 sm:grid-cols-2">
-                <div>
-                  <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Output</dt>
-                  <dd className="mt-1.5 font-mono text-[12.5px] leading-relaxed text-[color:var(--ink)]">{active.tldr.deliverable}</dd>
-                </div>
-                <div>
-                  <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Prerequisites</dt>
-                  <dd className="mt-1.5 text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.tldr.prerequisites.join(", ")}</dd>
-                </div>
-                {active.tldr.feedsInto && (
-                  <div className="sm:col-span-2">
-                    <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.13em] text-[color:var(--ink-faded)]">Feeds into</dt>
-                    <dd className="mt-1.5 text-[12.5px] leading-relaxed text-[color:var(--ink-soft)]">{active.tldr.feedsInto}</dd>
-                  </div>
-                )}
-              </dl>
+            <div className="mb-8 max-w-2xl space-y-2.5 border-l-2 border-[color:var(--ink-rule)] pl-4">
+              <p className="text-[14.5px] font-medium leading-snug text-[color:var(--ink)]">{active.tldr.accomplish}</p>
+              <p className="text-[13px] leading-relaxed text-[color:var(--ink-soft)]">
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Output</span>{" "}
+                {active.tldr.deliverable}
+              </p>
+              <p className="text-[13px] leading-relaxed text-[color:var(--ink-soft)]">
+                <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Needs</span>{" "}
+                {active.tldr.prerequisites.join(", ")}
+              </p>
+              {active.tldr.feedsInto && (
+                <p className="text-[13px] leading-relaxed text-[color:var(--ink-soft)]">
+                  <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--ink-faded)]">Feeds into</span>{" "}
+                  {active.tldr.feedsInto}
+                </p>
+              )}
             </div>
           )}
 
@@ -507,18 +509,18 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
             </div>
           )}
 
-          {/* Per-recipe tabs, Learn / Task / FAQ */}
-          <div className="mb-6 flex items-center gap-1 border-b border-[color:var(--ink-rule)]">
+          {/* Per-recipe tabs, segmented control */}
+          <div className="mb-7 inline-flex items-center gap-1 rounded-lg border border-[color:var(--ink-rule)] bg-[color:var(--paper-soft)] p-1">
             {RECIPE_TABS.map(([key, label]) => (
               <button
                 key={key}
                 type="button"
                 onClick={() => setRecipeTab(key)}
                 aria-current={recipeTab === key ? "true" : undefined}
-                className={`-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2.5 text-[13px] font-medium transition-colors ${
+                className={`flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                   recipeTab === key
-                    ? "border-[color:var(--accent)] text-[color:var(--ink)]"
-                    : "border-transparent text-[color:var(--ink-faded)] hover:text-[color:var(--ink-soft)]"
+                    ? "bg-[color:var(--paper)] text-[color:var(--ink)] shadow-[0_1px_2px_rgba(0,0,0,0.07)]"
+                    : "text-[color:var(--ink-faded)] hover:text-[color:var(--ink-soft)]"
                 }`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{tabIcon(key)}</svg>
