@@ -856,7 +856,7 @@ export function WorkflowCookbook({ steps, relatedByStep, articleImages }: Workfl
 
         {/* Course content rail, flush to the right edge and styled like the
             left app sidebar (same bg + a mirrored divider), full height. */}
-        <aside className="hidden lg:flex lg:flex-col w-[300px] shrink-0 sticky top-0 h-screen overflow-y-auto border-l border-[color:var(--ink-rule)] bg-[color:var(--sidebar-bg)]/80 backdrop-blur-xl">
+        <aside className="hidden lg:flex lg:flex-col w-[300px] shrink-0 sticky top-0 h-screen overflow-y-auto border-l border-[color:var(--ink-rule)] bg-[color:var(--sidebar-bg)]">
           <CourseContentRail
             steps={steps}
             activeStep={activeStep}

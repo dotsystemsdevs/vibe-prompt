@@ -9,10 +9,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Warm iOS / macOS-style wash: a soft peach glow at the top fading into the
-     page colour, fixed so it stays put while the content scrolls over it. */
-  background: radial-gradient(135% 115% at 50% -8%, #FBE8D9 0%, #F7F1EA 42%, var(--background) 76%);
-  background-attachment: fixed;
+  background-color: var(--background);
   color: var(--foreground);
   font-feature-settings: "ss01", "cv11";
 }
@@ -59,13 +56,13 @@ html {
 :root {
   /* Notion-style palette, white page, very light gray sidebar, black text,
      blue accent reserved for CTAs and active states. */
-  --paper: #FFFFFF;              /* card surfaces, clean lift on the warm page */
-  --paper-soft: #EDE8DF;         /* soft stone, inset surfaces */
-  --paper-edge: #E4DED2;         /* Stone, dividers */
-  --page: #F7F3ED;               /* warm Paper, main background */
-  --ink: #000000;                /* Black, primary text */
-  --ink-soft: #2A2722;           /* secondary text, warm near-black */
-  --ink-faded: #5E584F;          /* meta / muted, warm gray */
+  --paper: #FFFFFF;              /* card surfaces, clean white */
+  --paper-soft: #F1F2F5;         /* cool inset surface */
+  --paper-edge: #E6E8EC;         /* cool divider */
+  --page: #F6F7F9;               /* cool light-grey main background */
+  --ink: #16181D;                /* charcoal, primary text */
+  --ink-soft: #353A44;           /* secondary text, cool slate */
+  --ink-faded: #6B7280;          /* meta / muted, cool gray */
   --ink-rule: rgba(0, 0, 0, 0.09);  /* faint hairline, iOS-light */
 
   /* Accent, Coral. The one chromatic pop: CTAs, links, active states. */
@@ -75,8 +72,8 @@ html {
   --accent-line: rgba(249, 92, 75, 0.32);
   --accent-ring: rgba(249, 92, 75, 0.28);
 
-  --background: #F7F3ED;
-  --foreground: #1A1815;
+  --background: #F6F7F9;
+  --foreground: #16181D;
   --font-geist-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-geist-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --card: rgba(0, 0, 0, 0.02);
@@ -103,8 +100,8 @@ html {
   --accent-blue: #F95C4B;
   --accent-blue-hover: #E84A39;
 
-  /* Sidebar, Stone, warm and distinct from the Paper page */
-  --sidebar-bg: #E4DED2;
+  /* Sidebar, a clean cool-grey panel distinct from white cards */
+  --sidebar-bg: #F4F5F7;
   --sidebar-hover: rgba(0, 0, 0, 0.05);
   --sidebar-active: rgba(0, 0, 0, 0.08);
 }
