@@ -9,7 +9,10 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--background);
+  /* Warm iOS / macOS-style wash: a soft peach glow at the top fading into the
+     page colour, fixed so it stays put while the content scrolls over it. */
+  background: radial-gradient(135% 115% at 50% -8%, #FBE8D9 0%, #F7F1EA 42%, var(--background) 76%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-feature-settings: "ss01", "cv11";
 }

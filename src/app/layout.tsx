@@ -72,7 +72,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://api.github.com" />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col text-foreground">
         <Script
           src="https://tracker-mauve-sigma.vercel.app/t.js"
           data-project="vibeprompt"
