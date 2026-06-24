@@ -58,6 +58,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {/* Header */}
         <header className="mt-8 mb-9">
+          <span className="vp-badge mb-4 inline-flex">{CATEGORY_LABEL[article.category]}</span>
           <h1 className="font-sans font-bold tracking-[-0.025em] leading-[1.08] text-[color:var(--ink)] text-[clamp(2rem,4vw+0.5rem,3rem)]">
             {article.title}
           </h1>
