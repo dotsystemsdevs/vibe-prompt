@@ -33,15 +33,6 @@ const MENU: NavGroup[] = [
   { href: "/built-with", icon: "box", label: "Built with", match: (p) => p.startsWith("/built-with") },
 ];
 
-// A soft colour per nav icon, the Finder-sidebar touch: a coloured glyph, no tile.
-const NAV_TINT: Record<string, string> = {
-  "/workflow": "#007AFF",   // blue
-  "/fixes": "#FF3B30",      // red
-  "/articles": "#FF9500",   // orange
-  "/awesome": "#AF52DE",    // purple
-  "/built-with": "#34C759", // green
-};
-
 export function Sidebar() {
   const pathname = usePathname() || "/";
 
@@ -61,7 +52,7 @@ export function Sidebar() {
         <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[color:var(--ink-faded)]">Explore</p>
         <ol className="space-y-0.5">
           {MENU.map((item) => (
-            <RootLink key={item.href} item={item} active={item.match(pathname)} tint={NAV_TINT[item.href]} />
+            <RootLink key={item.href} item={item} active={item.match(pathname)} />
           ))}
         </ol>
       </div>
@@ -158,19 +149,19 @@ function UtilityRow({
   );
 }
 
-function RootLink({ item, active, tint }: { item: { href: string; icon: string; label: string }; active: boolean; tint: string }) {
+function RootLink({ item, active }: { item: { href: string; icon: string; label: string }; active: boolean }) {
   return (
     <li>
       <Link
         href={item.href}
         aria-current={active ? "page" : undefined}
-        className={`group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] transition-colors ${
+        className={`group flex items-center gap-3 rounded-lg px-2.5 py-2 text-[15px] transition-colors ${
           active
             ? "bg-[color:var(--sidebar-active)] text-[color:var(--ink)] font-medium"
             : "text-[color:var(--ink-soft)] hover:bg-[color:var(--sidebar-hover)] hover:text-[color:var(--ink)]"
         }`}
       >
-        <span aria-hidden className="flex shrink-0 w-[18px] items-center justify-center" style={{ color: tint }}><NavIcon name={item.icon} className="h-[16px] w-[16px]" /></span>
+        <span aria-hidden className={`flex shrink-0 w-[20px] items-center justify-center ${active ? "text-[color:var(--ink)]" : "text-[color:var(--ink-faded)] group-hover:text-[color:var(--ink-soft)]"}`}><NavIcon name={item.icon} className="h-[19px] w-[19px]" /></span>
         <span className="flex-1 truncate">{item.label}</span>
       </Link>
     </li>
