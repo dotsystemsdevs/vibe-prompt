@@ -60,20 +60,20 @@ html {
   --paper-soft: #F1F2F5;         /* cool inset surface */
   --paper-edge: #E6E8EC;         /* cool divider */
   --page: #FBFBFC;               /* near-white content canvas, lighter than the chrome */
-  --ink: #16181D;                /* charcoal, primary text */
-  --ink-soft: #353A44;           /* secondary text, cool slate */
-  --ink-faded: #6B7280;          /* meta / muted, cool gray */
+  --ink: #1D1D1F;                /* Apple label, primary text */
+  --ink-soft: #424245;           /* Apple secondary label */
+  --ink-faded: #6E6E73;          /* Apple tertiary label, muted */
   --ink-rule: rgba(0, 0, 0, 0.09);  /* faint hairline, iOS-light */
 
-  /* Accent, Coral. The one chromatic pop: CTAs, links, active states. */
-  --accent: #F95C4B;
-  --accent-hover: #E84A39;
-  --accent-soft: rgba(249, 92, 75, 0.12);
-  --accent-line: rgba(249, 92, 75, 0.32);
-  --accent-ring: rgba(249, 92, 75, 0.28);
+  /* Accent, Apple system blue. The one chromatic pop: CTAs, links, active states. */
+  --accent: #007AFF;
+  --accent-hover: #0066D6;
+  --accent-soft: rgba(0, 122, 255, 0.12);
+  --accent-line: rgba(0, 122, 255, 0.32);
+  --accent-ring: rgba(0, 122, 255, 0.28);
 
   --background: #FBFBFC;
-  --foreground: #16181D;
+  --foreground: #1D1D1F;
   --font-geist-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-geist-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --card: rgba(0, 0, 0, 0.02);
@@ -86,7 +86,7 @@ html {
   --primary-foreground: #FFFFFF;
   --secondary: rgba(0, 0, 0, 0.04);
   --secondary-foreground: #1A1815;
-  --ring: #F95C4B;
+  --ring: #007AFF;
   --radius: 0.625rem;
   --lilac: #1A1815;
 
@@ -97,8 +97,8 @@ html {
   --space-block: 1.5rem;     /* gap between blocks within a section */
   --space-tight: 0.75rem;    /* gap between tightly-related items */
   --lilac-dim: rgba(55, 53, 47, 0.04);
-  --accent-blue: #F95C4B;
-  --accent-blue-hover: #E84A39;
+  --accent-blue: #007AFF;
+  --accent-blue-hover: #0066D6;
 
   /* Sidebar, a cool-grey panel, greyer than the lighter content canvas */
   --sidebar-bg: #F1F2F5;
