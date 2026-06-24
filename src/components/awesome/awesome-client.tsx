@@ -178,7 +178,7 @@ function CategoryChip({
 
 export function AwesomeClient({ categories }: { categories: readonly AwesomeCategory[] }) {
   const [query, setQuery] = useState("");
-  const [activeGroup, setActiveGroup] = useState<GroupKey | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const q = query.toLowerCase().trim();
 
   const total = useMemo(
@@ -186,22 +186,28 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
     [categories]
   );
 
-  const groupCounts = useMemo(() => {
+  // Filter by tag instead of cookbook phase. Count every tag and surface the
+  // most common ones as chips (free, open-source, ai, paid, ...).
+  const tagCounts = useMemo(() => {
     const c: Record<string, number> = {};
-    for (const cat of categories) {
-      const g = groupOf(cat.slug);
-      c[g] = (c[g] ?? 0) + cat.items.length;
-    }
+    for (const cat of categories)
+      for (const item of cat.items)
+        for (const tag of item.tags) c[tag] = (c[tag] ?? 0) + 1;
     return c;
   }, [categories]);
+
+  const topTags = useMemo(
+    () => Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 16).map(([tag]) => tag),
+    [tagCounts]
+  );
 
   const filtered = useMemo(() => {
     const terms = q ? q.split(/\s+/) : [];
     return categories
-      .filter((cat) => !activeGroup || groupOf(cat.slug) === activeGroup)
       .map((cat) => ({
         ...cat,
         items: cat.items.filter((item) => {
+          if (activeTag && !item.tags.includes(activeTag)) return false;
           if (!terms.length) return true;
           const searchable =
             `${item.name} ${item.description} ${item.tags.join(" ")} ${cat.title}`.toLowerCase();
@@ -209,25 +215,25 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
         }),
       }))
       .filter((cat) => cat.items.length > 0);
-  }, [categories, q, activeGroup]);
+  }, [categories, q, activeTag]);
 
   return (
     <div>
-      {/* Category chip filter, 5 broad workflow phases, same row style as Articles */}
+      {/* Tag filter, the most common tags across all tools */}
       <div className="mb-3 flex flex-wrap gap-1">
         <CategoryChip
-          active={activeGroup === null}
+          active={activeTag === null}
           label="All"
           count={total}
-          onClick={() => setActiveGroup(null)}
+          onClick={() => setActiveTag(null)}
         />
-        {GROUPS.map((g) => (
+        {topTags.map((tag) => (
           <CategoryChip
-            key={g.key}
-            active={activeGroup === g.key}
-            label={g.title}
-            count={groupCounts[g.key] ?? 0}
-            onClick={() => setActiveGroup(g.key)}
+            key={tag}
+            active={activeTag === tag}
+            label={tag}
+            count={tagCounts[tag] ?? 0}
+            onClick={() => setActiveTag(tag)}
           />
         ))}
       </div>
@@ -271,7 +277,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
           <button
             onClick={() => {
               setQuery("");
-              setActiveGroup(null);
+              setActiveTag(null);
             }}
             className="vp-empty-body text-[color:var(--accent)] hover:underline"
           >
@@ -289,7 +295,7 @@ export function AwesomeClient({ categories }: { categories: readonly AwesomeCate
                 item={item}
                 categoryEmoji={group.emoji}
                 categoryTitle={group.title}
-                showCategory={activeGroup === null}
+                showCategory
               />
             ));
           })}
