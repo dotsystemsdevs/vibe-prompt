@@ -19,7 +19,7 @@ export default async function TemplatesPage() {
     <main>
       <div className="page-shell-wide">
         <PageHeader
-          icon="templates"
+          emoji="🗂️"
           title="Templates"
           lede={`${TEMPLATE_COUNT} drop-in files for your repo and your AI sessions. Download, then fill in the blanks.`}
         />
