@@ -100,8 +100,8 @@ html {
   --accent-blue: #007AFF;
   --accent-blue-hover: #0066D6;
 
-  /* Sidebar, a cool-grey panel, greyer than the lighter content canvas */
-  --sidebar-bg: #F1F2F5;
+  /* Sidebar, near-white and clean (Clarity style), separated by a hairline */
+  --sidebar-bg: #FFFFFF;
   --sidebar-hover: rgba(0, 0, 0, 0.05);
   --sidebar-active: rgba(0, 0, 0, 0.08);
 }
